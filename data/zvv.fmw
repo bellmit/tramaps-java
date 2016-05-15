@@ -1,0 +1,128 @@
+#! <?xml version="1.0" encoding="UTF-8" ?>
+#! <WORKSPACE
+#    
+#    
+#    Command-line to run this workspace:
+#    
+#    
+#    "C:\Program Files\FME\fme.exe" Z:\tramaps\data\zvv.fmw
+#    
+#    
+#!   HISTORY=""
+#!   FME_REPROJECTION_ENGINE="FME"
+#!   LEGAL_TERMS_CONDITIONS=""
+#!   MULTI_WRITER_DATASET_ORDER="BY_ID"
+#!   DESCRIPTION=""
+#!   DOC_EXTENTS="0 0"
+#!   VIEW_POSITION="0 0"
+#!   CATEGORY=""
+#!   FME_IMPLICIT_CSMAP_REPROJECTION_MODE="Auto"
+#!   ZOOM_SCALE="100"
+#!   BEGIN_TCL=""
+#!   PYTHON_COMPATIBILITY="27"
+#!   SHOW_ANNOTATIONS="true"
+#!   LOG_MAX_RECORDED_FEATURES="200"
+#!   IGNORE_READER_FAILURE="No"
+#!   ATTR_TYPE_ENCODING="SDF"
+#!   SHOW_INFO_NODES="true"
+#!   PASSWORD=""
+#!   REDIRECT_TERMINATORS="NONE"
+#!   FME_DOCUMENT_PRIORGUID=""
+#!   DOC_TOP_LEFT="0 0"
+#!   FME_DOCUMENT_GUID="92133fcf-76ca-4802-a3b8-b45f590bae1d"
+#!   REQUIREMENTS=""
+#!   USAGE=""
+#!   FME_BUILD_NUM="16492"
+#!   END_PYTHON=""
+#!   LAST_SAVE_BUILD="FME(R) 2016.1.0.0 (20160419 - Build 16492 - WIN64)"
+#!   WORKSPACE_VERSION="1"
+#!   LOG_FILE=""
+#!   TITLE=""
+#!   SOURCE="NONE"
+#!   FME_STROKE_MAX_DEVIATION="0"
+#!   EXPLICIT_BOOKMARK_ORDER="false"
+#!   REQUIREMENTS_KEYWORD=""
+#!   LAST_SAVE_DATE="2016-05-15T15:37:43"
+#!   FME_SERVER_SERVICES=""
+#!   SOURCE_ROUTING_FILE=""
+#!   DESTINATION_ROUTING_FILE=""
+#!   DESTINATION="NONE"
+#!   MAX_LOG_FEATURES="200"
+#!   WARN_INVALID_XFORM_PARAM="Yes"
+#!   BEGIN_PYTHON=""
+#!   END_TCL=""
+#!   FME_GEOMETRY_HANDLING="Enhanced"
+#! >
+#! <DATASETS>
+#! </DATASETS>
+#! <DATA_TYPES>
+#! </DATA_TYPES>
+#! <GEOM_TYPES>
+#! </GEOM_TYPES>
+#! <FEATURE_TYPES>
+#! </FEATURE_TYPES>
+#! <FMESERVER>
+#! </FMESERVER>
+#! <GLOBAL_PARAMETERS>
+#! </GLOBAL_PARAMETERS>
+#! <COMMENTS>
+#! </COMMENTS>
+#! <CONSTANTS>
+#! </CONSTANTS>
+#! <BOOKMARKS>
+#! </BOOKMARKS>
+#! <TRANSFORMERS>
+#! </TRANSFORMERS>
+#! <FEAT_LINKS>
+#! </FEAT_LINKS>
+#! <BREAKPOINTS>
+#! </BREAKPOINTS>
+#! <ATTR_LINKS>
+#! </ATTR_LINKS>
+#! <SUBDOCUMENTS>
+#! </SUBDOCUMENTS>
+#! <LOOKUP_TABLES>
+#! </LOOKUP_TABLES>
+#! </WORKSPACE>
+FME_PYTHON_VERSION 27
+#! START_HEADER
+#! START_WB_HEADER
+READER_TYPE NULL
+READER_KEYWORD NULL_SOURCE
+NULL_SOURCE_DATASET null
+
+WRITER_TYPE NULL
+WRITER_KEYWORD NULL_DEST
+NULL_DEST_DATASET null
+#! END_WB_HEADER
+
+#! START_WB_HEADER
+#! END_WB_HEADER
+
+#! END_HEADER
+
+LOG_FILENAME "$(FME_MF_DIR)zvv.log"
+LOG_APPEND NO
+LOG_MAX_FEATURES 200
+LOG_MAX_RECORDED_FEATURES 200
+FME_REPROJECTION_ENGINE FME
+FME_IMPLICIT_CSMAP_REPROJECTION_MODE Auto
+FME_GEOMETRY_HANDLING Enhanced
+FME_STROKE_MAX_DEVIATION 0
+LOG_FILTER_MASK -1
+# -------------------------------------------------------------------------
+
+MULTI_READER_CONTINUE_ON_READER_FAILURE No
+
+# -------------------------------------------------------------------------
+
+MACRO WORKSPACE_NAME zvv
+MACRO FME_VIEWER_APP fmedatainspector
+DEFAULT_MACRO WB_CURRENT_CONTEXT
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * RoutingFactory FACTORY_NAME "Destination Feature Type Routing Correlator"   COMMAND_PARM_EVALUATION SINGLE_PASS   INPUT FEATURE_TYPE *   FEATURE_TYPE_ATTRIBUTE __wb_out_feat_type__   OUTPUT ROUTED FEATURE_TYPE *    OUTPUT NOT_ROUTED FEATURE_TYPE __nuke_me__ @Tcl2("FME_StatMessage 818059 [FME_GetAttribute fme_template_feature_type] 818060 818061 fme_warn")
+# -------------------------------------------------------------------------
+
+FACTORY_DEF * TeeFactory   FACTORY_NAME "Final Output Nuker"   INPUT FEATURE_TYPE __nuke_me__
+
