@@ -1,0 +1,2967 @@
+﻿lineno;linename;sequence;id;stationfrom;stationto
+440;Burgdorf West - Obermatt;1;3917;LERV;BDFS
+440;Burgdorf West - Obermatt;2;1872;BDFS;OBB
+440;Burgdorf West - Obermatt;3;1873;OBB;HA
+440;Burgdorf West - Obermatt;4;1874;HA;LUGO
+440;Burgdorf West - Obermatt;5;1875;LUGO;RAM
+440;Burgdorf West - Obermatt;6;1876;RAM;ZO
+440;Burgdorf West - Obermatt;7;1877;ZO;NM
+440;Burgdorf West - Obermatt;8;1878;NM;OM
+441;Langenthal - Huttwil;1;1893;LTH;LTHS
+441;Langenthal - Huttwil;2;1894;LTHS;LOTZ
+441;Langenthal - Huttwil;3;1895;LOTZ;GUBU
+441;Langenthal - Huttwil;4;1896;GUBU;MADI
+441;Langenthal - Huttwil;5;1897;MADI;LHO
+441;Langenthal - Huttwil;6;1898;LHO;KDI
+441;Langenthal - Huttwil;7;1899;KDI;RBA
+441;Langenthal - Huttwil;8;1900;RBA;HWIL
+442;Ramsei - Huttwil;0;1909;RAM;GRMA
+442;Ramsei - Huttwil;1;1910;GRMA;SWG
+442;Ramsei - Huttwil;2;1911;SWG;GT
+442;Ramsei - Huttwil;3;1912;GT;GBA
+442;Ramsei - Huttwil;4;1913;GBA;AFWE
+442;Ramsei - Huttwil;5;1914;AFWE;HAMO
+442;Ramsei - Huttwil;6;1915;HAMO;MUSS
+442;Ramsei - Huttwil;7;1916;MUSS;DROT
+442;Ramsei - Huttwil;8;2692;DROT;HWSZ
+442;Ramsei - Huttwil;9;2693;HWSZ;HWIL
+443;Sumiswald Grünen - Wasen im Emmental;1;1918;SWG;EIIE
+443;Sumiswald Grünen - Wasen im Emmental;2;1919;EIIE;BHOF
+443;Sumiswald Grünen - Wasen im Emmental;3;1920;BHOF;OEI
+443;Sumiswald Grünen - Wasen im Emmental;4;1921;OEI;WAIE
+445;Huttwil - Wolhusen;1;1901;HWIL;GOND
+445;Huttwil - Wolhusen;2;1902;GOND;HUE
+445;Huttwil - Wolhusen;3;1903;HUE;ZELL
+445;Huttwil - Wolhusen;4;1904;ZELL;GET
+445;Huttwil - Wolhusen;5;4301;GET;GETG
+445;Huttwil - Wolhusen;6;4302;GETG;WSAU
+445;Huttwil - Wolhusen;7;1906;WSAU;DWIL
+445;Huttwil - Wolhusen;8;1907;DWIL;MAU
+445;Huttwil - Wolhusen;9;4007;MAU;WHW
+445;Huttwil - Wolhusen;10;4004;WHW;WH
+450;Olten Süd - Bern;-8;3527;OLS;RTR
+450;Olten Süd - Bern;-7;3525;RTR;RTRW
+450;Olten Süd - Bern;-6;3526;RTRW;RANS
+450;Olten Süd - Bern;-5;2497;RANS;MGT
+450;Olten Süd - Bern;-4;371;MGT;ROG
+450;Olten Süd - Bern;-3;2631;ROG;LTH
+450;Olten Süd - Bern;-2;1495;LTH;LTG
+450;Olten Süd - Bern;-1;3977;LTG;HB
+450;Olten Süd - Bern;0;375;HB;RTW
+450;Olten Süd - Bern;1;376;RTW;WY
+450;Olten Süd - Bern;2;377;WY;BDF
+450;Olten Süd - Bern;3;1125;BDF;BDFW
+450;Olten Süd - Bern;4;1126;BDFW;LYS
+450;Olten Süd - Bern;5;2131;LYS;SAAC
+450;Olten Süd - Bern;6;2132;SAAC;HBK
+450;Olten Süd - Bern;7;381;HBK;HRDF
+450;Olten Süd - Bern;8;2318;HRDF;UHDB
+450;Olten Süd - Bern;9;2319;UHDB;MAT
+450;Olten Süd - Bern;10;383;MAT;SCHB
+450;Olten Süd - Bern;11;2109;SCHB;ZOLN
+450;Olten Süd - Bern;12;2110;ZOLN;ZOL
+450;Olten Süd - Bern;13;1782;ZOL;RUTT
+450;Olten Süd - Bern;14;1783;RUTT;LGUT
+450;Olten Süd - Bern;15;1784;LGUT;LGUS
+450;Olten Süd - Bern;16;3982;LGUS;BNWD
+450;Olten Süd - Bern;17;3983;BNWD;BNWF
+450;Olten Süd - Bern;18;387;BNWF;BN
+451;Aarburg-Oftringen - Rothrist Gleis 1;0;2281;ABO;ABOW
+451;Aarburg-Oftringen - Rothrist Gleis 1;1;1490;ABOW;BFG
+451;Aarburg-Oftringen - Rothrist Gleis 1;2;1120;BFG;RTR
+452;Rothrist - Zofingen (Kriegsschlaufe);1;1487;ABOW;ABOS
+453;Rothrist Ost - Rothrist Gleis 4;1;3523;BFG;RTR
+455;Unterhard BE - Aespli;1;2140;UHDB;AESP
+456;Oberhard BE - Aespli;1;2141;OHDB;AESP
+457;Hardfeld (Spw) - Mattstetten;1;2316;HRDF;OHDB
+457;Hardfeld (Spw) - Mattstetten;2;2317;OHDB;MAT
+459;Rütti - Löchligut;1;2127;RUTT;LGUT
+460;Gümligen Süd - Fluhmühle;-5;2381;GUES;WB
+460;Gümligen Süd - Fluhmühle;-4;3962;WB;BACH
+460;Gümligen Süd - Fluhmühle;-3;3963;BACH;TI
+460;Gümligen Süd - Fluhmühle;-2;394;TI;KF
+460;Gümligen Süd - Fluhmühle;-1;395;KF;ZAE
+460;Gümligen Süd - Fluhmühle;0;396;ZAE;BOW
+460;Gümligen Süd - Fluhmühle;1;3964;BOW;SCHG
+460;Gümligen Süd - Fluhmühle;2;3965;SCHG;SIGN
+460;Gümligen Süd - Fluhmühle;3;3966;SIGN;SCUB
+460;Gümligen Süd - Fluhmühle;4;3967;SCUB;EMM
+460;Gümligen Süd - Fluhmühle;5;399;EMM;OM
+460;Gümligen Süd - Fluhmühle;6;400;OM;LN
+460;Gümligen Süd - Fluhmühle;7;401;LN;TSCH
+460;Gümligen Süd - Fluhmühle;8;402;TSCH;WIG
+460;Gümligen Süd - Fluhmühle;9;403;WIG;ESCH
+316;Lauterbrunnen - Grindelwald Grund;-5;4180;WIMA;ROFL
+316;Lauterbrunnen - Grindelwald Grund;-4;4183;ROFL;WEWA
+316;Lauterbrunnen - Grindelwald Grund;-3;4184;WEWA;WENG
+316;Lauterbrunnen - Grindelwald Grund;-2;3650;WENG;ALDW
+316;Lauterbrunnen - Grindelwald Grund;-1;4185;ALDW;BANW
+316;Lauterbrunnen - Grindelwald Grund;0;4186;BANW;WEAL
+316;Lauterbrunnen - Grindelwald Grund;1;3123;WEAL;KLS
+316;Lauterbrunnen - Grindelwald Grund;2;4187;KLS;SZEG
+316;Lauterbrunnen - Grindelwald Grund;3;4188;SZEG;STRT
+316;Lauterbrunnen - Grindelwald Grund;4;4189;STRT;ALP
+316;Lauterbrunnen - Grindelwald Grund;5;3652;ALP;BRAD
+316;Lauterbrunnen - Grindelwald Grund;6;4190;BRAD;ROHR
+316;Lauterbrunnen - Grindelwald Grund;7;4191;ROHR;GRIG
+317;Grindelwald Grund - Grindelwald;1;3572;GRIG;GRIN
+318;Kleine Scheidegg - Jungfraujoch;1;3695;KLS;EIGL
+318;Kleine Scheidegg - Jungfraujoch;2;3696;EIGL;EIGE
+318;Kleine Scheidegg - Jungfraujoch;3;3697;EIGE;EISM
+318;Kleine Scheidegg - Jungfraujoch;4;3698;EISM;JU
+320;Spiez - Zweisimmen;1;3575;SPAB;SPMS
+320;Spiez - Zweisimmen;2;1997;SPMS;LAT
+320;Spiez - Zweisimmen;3;1998;LAT;EIF
+320;Spiez - Zweisimmen;4;1999;EIF;WM
+320;Spiez - Zweisimmen;5;2000;WM;BH
+320;Spiez - Zweisimmen;6;2001;BH;OE
+320;Spiez - Zweisimmen;7;2002;OE;EBIS
+320;Spiez - Zweisimmen;8;2003;EBIS;RGD
+320;Spiez - Zweisimmen;9;2004;RGD;DR
+320;Spiez - Zweisimmen;10;2005;DR;WG
+320;Spiez - Zweisimmen;11;2006;WG;OIS
+320;Spiez - Zweisimmen;12;2007;OIS;ENGE
+320;Spiez - Zweisimmen;13;2008;ENGE;BOLT
+320;Spiez - Zweisimmen;14;2009;BOLT;WBA
+320;Spiez - Zweisimmen;15;2010;WBA;GRU
+320;Spiez - Zweisimmen;16;2011;GRU;GAB
+320;Spiez - Zweisimmen;17;2012;GAB;ZW
+320;Spiez - Zweisimmen;18;4303;ZW;ZWGE
+321;Zweisimmen - Lenk;1;3001;ZW;BLB
+321;Zweisimmen - Lenk;2;3002;BLB;STOI
+321;Zweisimmen - Lenk;3;3003;STOI;STST
+321;Zweisimmen - Lenk;4;3004;STST;MATE
+321;Zweisimmen - Lenk;5;3005;MATE;BODE
+321;Zweisimmen - Lenk;6;3006;BODE;LENK
+330;Wengi-Ey - Lötschberg - St.German (Ost);1;2679;WENE;FRNP
+330;Wengi-Ey - Lötschberg - St.German (Ost);2;2680;FRNP;ADL
+330;Wengi-Ey - Lötschberg - St.German (Ost);3;2681;ADL;MITH
+330;Wengi-Ey - Lötschberg - St.German (Ost);4;2682;MITH;FERD
+330;Wengi-Ey - Lötschberg - St.German (Ost);5;2683;FERD;LOET
+330;Wengi-Ey - Lötschberg - St.German (Ost);6;2684;LOET;STGE
+331;Wengi-Ey - Lötschberg - St.German (West);4;4258;MITH;FERD
+331;Wengi-Ey - Lötschberg - St.German (West);5;4259;FERD;LOET
+331;Wengi-Ey - Lötschberg - St.German (West);6;4260;LOET;STGE
+332;Frutigen - Frutigen Nordportal (Ost);1;4270;FRS;FRNP
+333;Frutigen - Adelrein (West);1;4271;FRS;ADL
+335;Lötschen - Gampel-Steg;1;2686;LOET;GA
+359;Busto Arsizio - Malpensa Aeroporto;0;4473;BUAR;BUAN
+359;Busto Arsizio - Malpensa Aeroporto;1;4474;BUAN;FELO
+359;Busto Arsizio - Malpensa Aeroporto;2;4475;FELO;MAAE
+360;Rho - Gallarate - Arona;-1;4471;LEGN;BUAR
+360;Rho - Gallarate - Arona;0;4472;BUAR;GAL
+360;Rho - Gallarate - Arona;1;4476;GAL;CASO
+360;Rho - Gallarate - Arona;2;4481;CASO;SOML
+360;Rho - Gallarate - Arona;3;4482;SOML;VERG
+360;Rho - Gallarate - Arona;4;4478;VERG;SECA
+360;Rho - Gallarate - Arona;5;4479;SECA;DORM
+360;Rho - Gallarate - Arona;6;4480;DORM;ARO
+361;Gallarate - Varese;0;4483;GAL;CAVR
+361;Gallarate - Varese;1;4484;CAVR;ALBI
+361;Gallarate - Varese;2;4485;ALBI;CSTR
+361;Gallarate - Varese;3;4486;CSTR;GAZZ
+361;Gallarate - Varese;4;4487;GAZZ;VARE
+362;Varese - Porto Ceresio;0;4488;VARE;INO
+362;Varese - Porto Ceresio;1;4489;INO;ARCS
+362;Varese - Porto Ceresio;2;4490;ARCS;BISU
+362;Varese - Porto Ceresio;3;4491;BISU;PCER
+363;Arcisate - Gaggiolo Confine;0;4492;ARCS;GAGO
+363;Arcisate - Gaggiolo Confine;1;4493;GAGO;GAGC
+364;Gallarate - Laveno-Mombello;0;4345;GAL;BENA
+364;Gallarate - Laveno-Mombello;1;4346;BENA;MORN
+364;Gallarate - Laveno-Mombello;2;4347;MORN;TERV
+364;Gallarate - Laveno-Mombello;3;4348;TERV;TRAV
+364;Gallarate - Laveno-Mombello;4;4349;TRAV;BESZ
+364;Gallarate - Laveno-Mombello;5;4350;BESZ;SANG
+364;Gallarate - Laveno-Mombello;6;4351;SANG;LAMO
+365;Arona - Domodossola;0;4494;ARO;MEI
+365;Arona - Domodossola;1;4495;MEI;LESA
+365;Arona - Domodossola;2;4496;LESA;BELI
+365;Arona - Domodossola;3;4497;BELI;STRA
+365;Arona - Domodossola;4;4498;STRA;BAVE
+365;Arona - Domodossola;5;4499;BAVE;VEPA
+365;Arona - Domodossola;6;4500;VEPA;MERG
+365;Arona - Domodossola;7;4501;MERG;CUZZ
+365;Arona - Domodossola;8;4502;CUZZ;PREM
+365;Arona - Domodossola;9;4503;PREM;VOGO
+365;Arona - Domodossola;10;4504;VOGO;DOFS
+400;Löchligut - Wanzwil - Rothrist West;-5;2136;LGUT;AESP
+400;Löchligut - Wanzwil - Rothrist West;-4;3521;AESP;WANZ
+400;Löchligut - Wanzwil - Rothrist West;-3;3522;WANZ;RTRW
+410;Olten - Solothurn - Biel/Bienne;-4;1493;OL;OLH
+410;Olten - Solothurn - Biel/Bienne;-3;337;OLH;WBOL
+410;Olten - Solothurn - Biel/Bienne;-2;338;WBOL;HAE
+410;Olten - Solothurn - Biel/Bienne;-1;2520;HAE;HRK
+410;Olten - Solothurn - Biel/Bienne;0;2521;HRK;EG
+410;Olten - Solothurn - Biel/Bienne;1;340;EG;OB
+410;Olten - Solothurn - Biel/Bienne;2;341;OB;OEN
+410;Olten - Solothurn - Biel/Bienne;3;1492;OEN;NB
+410;Olten - Solothurn - Biel/Bienne;4;343;NB;WAA
+410;Olten - Solothurn - Biel/Bienne;5;344;WAA;DN
+410;Olten - Solothurn - Biel/Bienne;6;345;DN;LUT
+410;Olten - Solothurn - Biel/Bienne;7;346;LUT;SO
+410;Olten - Solothurn - Biel/Bienne;8;347;SO;SW
+410;Olten - Solothurn - Biel/Bienne;9;1113;SW;SWW
+410;Olten - Solothurn - Biel/Bienne;10;4662;SWW;SOAD
+410;Olten - Solothurn - Biel/Bienne;11;4663;SOAD;BELL
+410;Olten - Solothurn - Biel/Bienne;12;4690;BELL;BELE
+410;Olten - Solothurn - Biel/Bienne;13;4691;BELE;SEL
+410;Olten - Solothurn - Biel/Bienne;14;350;SEL;BET
+410;Olten - Solothurn - Biel/Bienne;15;351;BET;GS
+410;Olten - Solothurn - Biel/Bienne;16;2107;GS;LENO
+410;Olten - Solothurn - Biel/Bienne;17;2108;LENO;LEN
+410;Olten - Solothurn - Biel/Bienne;18;353;LEN;PIE
+410;Olten - Solothurn - Biel/Bienne;19;4666;PIE;BIBD
+410;Olten - Solothurn - Biel/Bienne;20;4667;BIBD;BIMA
+410;Olten - Solothurn - Biel/Bienne;21;2584;BIMA;BIM
+410;Olten - Solothurn - Biel/Bienne;22;1709;BIM;BIO
+410;Olten - Solothurn - Biel/Bienne;23;1710;BIO;BIAE
+410;Olten - Solothurn - Biel/Bienne;24;1704;BIAE;BI
+411;Solothurn - Niederbipp;1;3036;SO;SOBT
+411;Solothurn - Niederbipp;2;3037;SOBT;SOST
+411;Solothurn - Niederbipp;3;3038;SOST;STKA
+411;Solothurn - Niederbipp;4;3039;STKA;FEBR
+411;Solothurn - Niederbipp;5;3040;FEBR;BDWE
+411;Solothurn - Niederbipp;6;3041;BDWE;RIHO
+411;Solothurn - Niederbipp;7;3042;RIHO;HRIH
+411;Solothurn - Niederbipp;8;3043;HRIH;FLUM
+411;Solothurn - Niederbipp;9;3044;FLUM;ATTI
+411;Solothurn - Niederbipp;10;3045;ATTI;WIED
+411;Solothurn - Niederbipp;11;3046;WIED;OBBI
+411;Solothurn - Niederbipp;12;3047;OBBI;BULI
+411;Solothurn - Niederbipp;13;3048;BULI;NB
+412;Oensingen - Balsthal;1;2660;OEN;VR
+412;Oensingen - Balsthal;2;2661;VR;MAIA
+412;Oensingen - Balsthal;3;2662;MAIA;KLUS
+412;Oensingen - Balsthal;4;2663;KLUS;THBU
+412;Oensingen - Balsthal;5;2664;THBU;BTH
+413;Langenthal - Niederbipp;0;3049;LTH;LTHG
+413;Langenthal - Niederbipp;1;3050;LTHG;HAMU
+413;Langenthal - Niederbipp;2;3051;HAMU;AARV
+413;Langenthal - Niederbipp;3;3052;AARV;AARW
+413;Langenthal - Niederbipp;4;3053;AARW;AARS
+413;Langenthal - Niederbipp;5;4037;AARS;BANK
+413;Langenthal - Niederbipp;6;4038;BANK;BAN
+413;Langenthal - Niederbipp;7;3059;BAN;HZH
+413;Langenthal - Niederbipp;8;3654;HZH;SNAG
+413;Langenthal - Niederbipp;9;3655;SNAG;NBD
+413;Langenthal - Niederbipp;10;3058;NBD;NB
+414;Langenthal - St. Urban;-1;4099;LTHG;KAHE
+414;Langenthal - St. Urban;0;4101;KAHE;ROSC
+414;Langenthal - St. Urban;1;4097;ROSC;ROGD
+414;Langenthal - St. Urban;2;3063;ROGD;ROBU
+414;Langenthal - St. Urban;3;3064;ROBU;SURB
+414;Langenthal - St. Urban;4;3065;SURB;ZIE
+415;Wanzwil (Abzw) - Solothurn - Busswil;0;3509;WANZ;INK
+415;Wanzwil (Abzw) - Solothurn - Busswil;1;3515;INK;SBN
+415;Wanzwil (Abzw) - Solothurn - Busswil;2;359;SBN;DER
+415;Wanzwil (Abzw) - Solothurn - Busswil;3;360;DER;SO
+415;Wanzwil (Abzw) - Solothurn - Busswil;4;1116;SO;SORM
+415;Wanzwil (Abzw) - Solothurn - Busswil;5;1117;SORM;LUE
+415;Wanzwil (Abzw) - Solothurn - Busswil;6;362;LUE;LE
+415;Wanzwil (Abzw) - Solothurn - Busswil;7;363;LE;ARCH
+415;Wanzwil (Abzw) - Solothurn - Busswil;8;364;ARCH;RTI
+415;Wanzwil (Abzw) - Solothurn - Busswil;9;365;RTI;BUER
+415;Wanzwil (Abzw) - Solothurn - Busswil;10;366;BUER;DON
+415;Wanzwil (Abzw) - Solothurn - Busswil;11;2587;DON;BUS
+416;Wanzwil - Inkwil (Tunnel Wolfacher Süd);1;3516;WANZ;INK
+417;Langenthal GB - Bützberg Ost (Agl);1;3978;LTG;BUEO
+418;Anschlussgleis Herzogenbuchsee Nord;1;3979;HBN;HB
+420;Solothurn West - Moutier;1;2029;SWW;LADO
+420;Solothurn West - Moutier;2;1838;LADO;LOM
+420;Solothurn West - Moutier;3;1839;LOM;IMHO
+420;Solothurn West - Moutier;4;1840;IMHO;ODF
+420;Solothurn West - Moutier;5;1841;ODF;GAE
+420;Solothurn West - Moutier;6;1842;GAE;ZOO
+420;Solothurn West - Moutier;7;1843;ZOO;CORC
+420;Solothurn West - Moutier;8;1844;CORC;CREM
+420;Solothurn West - Moutier;9;1845;CREM;GVAL
+420;Solothurn West - Moutier;10;1846;GVAL;MOU
+421;Solothurn RM - Burgdorf West;1;1863;SORM;BIST
+421;Solothurn RM - Burgdorf West;2;1864;BIST;GLF
+421;Solothurn RM - Burgdorf West;3;1865;GLF;WR
+421;Solothurn RM - Burgdorf West;4;1866;WR;UT
+421;Solothurn RM - Burgdorf West;5;1867;UT;AEF
+421;Solothurn RM - Burgdorf West;6;1868;AEF;KIAL
+421;Solothurn RM - Burgdorf West;7;1869;KIAL;BDFB
+421;Solothurn RM - Burgdorf West;8;2021;BDFB;BDFW
+430;Hasle Rüegsau - Thun;1;1879;HA;SHIE
+430;Hasle Rüegsau - Thun;2;1880;SHIE;BIGE
+430;Hasle Rüegsau - Thun;3;1881;BIGE;WALK
+430;Hasle Rüegsau - Thun;4;1882;WALK;BIG
+430;Hasle Rüegsau - Thun;5;1883;BIG;GH
+430;Hasle Rüegsau - Thun;6;1884;GH;KF
+430;Hasle Rüegsau - Thun;7;1885;KF;STAL
+430;Hasle Rüegsau - Thun;8;1886;STAL;OD
+430;Hasle Rüegsau - Thun;9;1887;OD;BK
+430;Hasle Rüegsau - Thun;10;1888;BK;HMB
+430;Hasle Rüegsau - Thun;11;1889;HMB;LAED
+430;Hasle Rüegsau - Thun;12;1890;LAED;STEF
+430;Hasle Rüegsau - Thun;13;1891;STEF;SWB
+430;Hasle Rüegsau - Thun;14;2418;SWB;THAB
+440;Burgdorf West - Obermatt;0;3916;BDFW;LERV
+460;Gümligen Süd - Fluhmühle;10;404;ESCH;SCHH
+460;Gümligen Süd - Fluhmühle;11;405;SCHH;HAS
+460;Gümligen Süd - Fluhmühle;12;406;HAS;ENT
+460;Gümligen Süd - Fluhmühle;13;407;ENT;DOPP
+460;Gümligen Süd - Fluhmühle;14;1480;DOPP;WH
+460;Gümligen Süd - Fluhmühle;15;409;WH;WST
+460;Gümligen Süd - Fluhmühle;16;410;WST;SCHA
+460;Gümligen Süd - Fluhmühle;17;411;SCHA;MAL
+460;Gümligen Süd - Fluhmühle;18;412;MAL;LIT
+460;Gümligen Süd - Fluhmühle;19;1477;LIT;FMUE
+469;Meiringen West - Interlaken Ost Brünig;-1;3907;MRW;STLF
+469;Meiringen West - Interlaken Ost Brünig;0;4678;STLF;BRW
+469;Meiringen West - Interlaken Ost Brünig;1;4680;BRW;BRWS
+469;Meiringen West - Interlaken Ost Brünig;2;4681;BRWS;BRZ
+469;Meiringen West - Interlaken Ost Brünig;3;433;BRZ;BRZW
+469;Meiringen West - Interlaken Ost Brünig;4;434;BRZW;EBLI
+469;Meiringen West - Interlaken Ost Brünig;5;435;EBLI;OAB
+469;Meiringen West - Interlaken Ost Brünig;6;436;OAB;NR
+469;Meiringen West - Interlaken Ost Brünig;7;437;NR;RIN
+469;Meiringen West - Interlaken Ost Brünig;8;1500;RIN;IO
+469;Meiringen West - Interlaken Ost Brünig;9;3921;IO;IOBR
+600;Immensee - Bellinzona - Chiasso;15;543;PARD;FA
+600;Immensee - Bellinzona - Chiasso;16;544;FA;CHIG
+600;Immensee - Bellinzona - Chiasso;17;545;CHIG;LAV
+600;Immensee - Bellinzona - Chiasso;18;546;LAV;PIA
+600;Immensee - Bellinzona - Chiasso;19;547;PIA;GIOC
+600;Immensee - Bellinzona - Chiasso;20;548;GIOC;GIO
+600;Immensee - Bellinzona - Chiasso;21;549;GIO;BO
+600;Immensee - Bellinzona - Chiasso;22;4684;BO;POLN
+600;Immensee - Bellinzona - Chiasso;23;4685;POLN;BIA
+600;Immensee - Bellinzona - Chiasso;24;4329;BIA;GIDI
+600;Immensee - Bellinzona - Chiasso;25;4330;GIDI;OS
+600;Immensee - Bellinzona - Chiasso;26;553;OS;CLA
+600;Immensee - Bellinzona - Chiasso;27;4584;CLA;CASN
+600;Immensee - Bellinzona - Chiasso;28;4585;CASN;CAST
+600;Immensee - Bellinzona - Chiasso;29;1438;CAST;SPAO
+600;Immensee - Bellinzona - Chiasso;30;1439;SPAO;BEL
+600;Immensee - Bellinzona - Chiasso;31;557;BEL;GIU
+600;Immensee - Bellinzona - Chiasso;32;1221;GIU;GIUS
+600;Immensee - Bellinzona - Chiasso;33;1222;GIUS;VIGA
+600;Immensee - Bellinzona - Chiasso;34;559;VIGA;ALSA
+600;Immensee - Bellinzona - Chiasso;35;1515;ALSA;ALME
+600;Immensee - Bellinzona - Chiasso;36;1514;ALME;ALM
+600;Immensee - Bellinzona - Chiasso;37;1516;ALM;MCEN
+600;Immensee - Bellinzona - Chiasso;38;1517;MCEN;RIBN
+600;Immensee - Bellinzona - Chiasso;39;1224;RIBN;RIB
+600;Immensee - Bellinzona - Chiasso;40;564;RIB;MEZ
+600;Immensee - Bellinzona - Chiasso;41;565;MEZ;MEZC
+600;Immensee - Bellinzona - Chiasso;42;4392;MEZC;SIGI
+600;Immensee - Bellinzona - Chiasso;43;4393;SIGI;TAV
+600;Immensee - Bellinzona - Chiasso;44;1225;TAV;TAVS
+600;Immensee - Bellinzona - Chiasso;45;1226;TAVS;LAM
+600;Immensee - Bellinzona - Chiasso;46;3756;LAM;VEZB
+600;Immensee - Bellinzona - Chiasso;47;3752;VEZB;MASN
+600;Immensee - Bellinzona - Chiasso;48;1519;MASN;LGN
+600;Immensee - Bellinzona - Chiasso;49;1520;LGN;LG
+600;Immensee - Bellinzona - Chiasso;50;570;LG;LGP
+600;Immensee - Bellinzona - Chiasso;51;1229;LGP;LGPC
+600;Immensee - Bellinzona - Chiasso;52;1230;LGPC;MDEC
+600;Immensee - Bellinzona - Chiasso;53;1231;MDEC;MDE
+600;Immensee - Bellinzona - Chiasso;54;572;MDE;MAR
+600;Immensee - Bellinzona - Chiasso;55;573;MAR;CAP
+600;Immensee - Bellinzona - Chiasso;56;4686;CAP;MOSM
+600;Immensee - Bellinzona - Chiasso;57;4687;MOSM;MEN
+470;Luzern - Meiringen;-5;4597;LZBR;LZZB
+470;Luzern - Meiringen;-4;4454;LZZB;ALD
+470;Luzern - Meiringen;-3;4455;ALD;KRM
+470;Luzern - Meiringen;-2;3957;KRM;HW
+470;Luzern - Meiringen;-1;4278;HW;HWS
+470;Luzern - Meiringen;0;4279;HWS;MATT
+470;Luzern - Meiringen;1;417;MATT;HGW
+470;Luzern - Meiringen;2;1497;HGW;AST
+470;Luzern - Meiringen;3;419;AST;ADF
+470;Luzern - Meiringen;4;420;ADF;KER
+470;Luzern - Meiringen;5;421;KER;SAR
+470;Luzern - Meiringen;6;422;SAR;SACH
+470;Luzern - Meiringen;7;4123;SACH;EWMA
+470;Luzern - Meiringen;8;4647;EWMA;GIGR
+470;Luzern - Meiringen;9;4648;GIGR;GI
+470;Luzern - Meiringen;10;424;GI;KAI
+470;Luzern - Meiringen;11;425;KAI;LUN
+470;Luzern - Meiringen;12;426;LUN;KAEP
+470;Luzern - Meiringen;13;427;KAEP;BRUE
+470;Luzern - Meiringen;14;428;BRUE;BRFL
+470;Luzern - Meiringen;15;1448;BRFL;MRW
+470;Luzern - Meiringen;16;1449;MRW;MR
+470;Luzern - Meiringen;17;1450;MR;MRO
+473;Alpnachstad - Pilatus Kulm;1;3507;AST;AEM
+473;Alpnachstad - Pilatus Kulm;2;3508;AEM;PIL
+474;Meiringen - Innertkirchen;1;3647;MMIB;MRSS
+474;Meiringen - Innertkirchen;2;3648;MRSS;INNP
+474;Meiringen - Innertkirchen;3;3649;INNP;INN
+475;Brienz - Brienzer Rothorn;1;3453;BRZ;PLP
+475;Brienz - Brienzer Rothorn;2;3454;PLP;ROHO
+480;Hergiswil - Engelberg;0;1927;HGW;SSTA
+480;Hergiswil - Engelberg;1;1928;SSTA;STAN
+480;Hergiswil - Engelberg;2;3913;STAN;DAL
+480;Hergiswil - Engelberg;3;1932;DAL;NRRB
+480;Hergiswil - Engelberg;4;1933;NRRB;WOS
+480;Hergiswil - Engelberg;5;1934;WOS;DOER
+480;Hergiswil - Engelberg;6;1935;DOER;GRAF
+480;Hergiswil - Engelberg;7;4735;GRAF;FBO
+480;Hergiswil - Engelberg;8;4518;FBO;BRNI
+480;Hergiswil - Engelberg;9;4526;BRNI;EBGB
+480;Hergiswil - Engelberg;10;4527;EBGB;EBG
+490;(Paris - Belfort -) Altkirch - Mulhouse;0;3903;ALTK;WALH
+490;(Paris - Belfort -) Altkirch - Mulhouse;1;3904;WALH;TAGH
+490;(Paris - Belfort -) Altkirch - Mulhouse;2;3885;TAGH;ILLF
+490;(Paris - Belfort -) Altkirch - Mulhouse;3;3886;ILLF;ZLLH
+490;(Paris - Belfort -) Altkirch - Mulhouse;4;3887;ZLLH;FLAX
+490;(Paris - Belfort -) Altkirch - Mulhouse;5;3888;FLAX;BRST
+490;(Paris - Belfort -) Altkirch - Mulhouse;6;3889;BRST;HASR
+490;(Paris - Belfort -) Altkirch - Mulhouse;7;3890;HASR;MUL
+500;Basel SBB - Olten - Luzern;-12;1190;BS;BSO
+500;Basel SBB - Olten - Luzern;-11;1530;BSO;BSNO
+500;Basel SBB - Olten - Luzern;-10;1531;BSNO;GELW
+500;Basel SBB - Olten - Luzern;-9;2340;GELW;MU
+500;Basel SBB - Olten - Luzern;-8;2599;MU;MUOS
+500;Basel SBB - Olten - Luzern;-7;2600;MUOS;PRW
+500;Basel SBB - Olten - Luzern;-6;1535;PRW;PRUW
+500;Basel SBB - Olten - Luzern;-5;1536;PRUW;PR
+500;Basel SBB - Olten - Luzern;-4;1539;PR;PRO
+500;Basel SBB - Olten - Luzern;-3;1538;PRO;FRE
+500;Basel SBB - Olten - Luzern;-2;2601;FRE;LSTN
+500;Basel SBB - Olten - Luzern;-1;2602;LSTN;LST
+500;Basel SBB - Olten - Luzern;0;443;LST;LSN
+500;Basel SBB - Olten - Luzern;1;444;LSN;IT
+500;Basel SBB - Olten - Luzern;2;445;IT;SIS
+500;Basel SBB - Olten - Luzern;3;446;SIS;GKD
+500;Basel SBB - Olten - Luzern;4;447;GKD;TK
+500;Basel SBB - Olten - Luzern;5;448;TK;HBTN
+500;Basel SBB - Olten - Luzern;6;449;HBTN;HBTS
+500;Basel SBB - Olten - Luzern;7;450;HBTS;OLTU
+500;Basel SBB - Olten - Luzern;8;1185;OLTU;OLN
+500;Basel SBB - Olten - Luzern;9;1186;OLN;OL
+500;Basel SBB - Olten - Luzern;10;1485;OL;OLS
+500;Basel SBB - Olten - Luzern;11;1486;OLS;ABO
+500;Basel SBB - Olten - Luzern;12;2284;ABO;ABOS
+500;Basel SBB - Olten - Luzern;13;1491;ABOS;ZFN
+500;Basel SBB - Olten - Luzern;14;1200;ZFN;ZF
+500;Basel SBB - Olten - Luzern;15;456;ZF;BRIT
+500;Basel SBB - Olten - Luzern;16;457;BRIT;REID
+500;Basel SBB - Olten - Luzern;17;458;REID;DAG
+500;Basel SBB - Olten - Luzern;18;459;DAG;NEB
+500;Basel SBB - Olten - Luzern;19;460;NEB;WAU
+500;Basel SBB - Olten - Luzern;20;461;WAU;STER
+500;Basel SBB - Olten - Luzern;21;1483;STER;SS
+500;Basel SBB - Olten - Luzern;22;463;SS;OBK
+500;Basel SBB - Olten - Luzern;23;464;OBK;NO
+500;Basel SBB - Olten - Luzern;24;465;NO;SEM
+500;Basel SBB - Olten - Luzern;25;466;SEM;RBG
+500;Basel SBB - Olten - Luzern;26;467;RBG;RBGD
+500;Basel SBB - Olten - Luzern;27;2523;RBGD;HUEB
+500;Basel SBB - Olten - Luzern;28;3736;HUEB;GSAG
+500;Basel SBB - Olten - Luzern;29;3737;GSAG;EBR
+500;Basel SBB - Olten - Luzern;30;1474;EBR;FMUE
+500;Basel SBB - Olten - Luzern;31;2338;FMUE;GTS
+500;Basel SBB - Olten - Luzern;32;2498;GTS;HEIM
+500;Basel SBB - Olten - Luzern;33;2499;HEIM;LZEF
+500;Basel SBB - Olten - Luzern;34;1304;LZEF;LZ
+501;Muttenz - Adlertunnel - Liestal;1;2598;MUOS;LSTN
+502;Liestal - Waldenburg;1;2929;LST;AKT
+502;Liestal - Waldenburg;2;2930;AKT;BUDO
+502;Liestal - Waldenburg;3;2931;BUDO;TALH
+502;Liestal - Waldenburg;4;2932;TALH;LGRG
+502;Liestal - Waldenburg;5;2933;LGRG;HOE
+502;Liestal - Waldenburg;6;2934;HOE;HOES
+502;Liestal - Waldenburg;7;3664;HOES;HOEW
+502;Liestal - Waldenburg;8;3665;HOEW;HING
+502;Liestal - Waldenburg;9;2936;HING;NDF
+502;Liestal - Waldenburg;10;3666;NDF;ODBW
+502;Liestal - Waldenburg;11;3667;ODBW;ODBL
+502;Liestal - Waldenburg;12;2938;ODBL;WAG
+503;Sissach - Läufelfingen - Olten;0;473;SIS;DIE
+503;Sissach - Läufelfingen - Olten;1;474;DIE;SOM
+503;Sissach - Läufelfingen - Olten;2;475;SOM;RLG
+503;Sissach - Läufelfingen - Olten;3;476;RLG;BUC
+503;Sissach - Läufelfingen - Olten;4;477;BUC;LF
+503;Sissach - Läufelfingen - Olten;5;1179;LF;TRI
+503;Sissach - Läufelfingen - Olten;6;2278;TRI;OLN
+503;Sissach - Läufelfingen - Olten;7;2279;OLN;OL
+504;Zofingen - Suhr;1;1187;ZFN;KGD
+504;Zofingen - Suhr;2;482;KGD;WAST
+504;Zofingen - Suhr;3;483;WAST;SAF
+504;Zofingen - Suhr;4;484;SAF;KKO
+504;Zofingen - Suhr;5;485;KKO;KK
+504;Zofingen - Suhr;6;486;KK;OEF
+504;Zofingen - Suhr;7;1505;OEF;SUHR
+505;Dreispitz - Basel BLT - Rodersdorf;4;4163;DSPZ;BSBL
+505;Dreispitz - Basel BLT - Rodersdorf;5;4164;BSBL;BAES
+505;Dreispitz - Basel BLT - Rodersdorf;6;4165;BAES;BSBA
+505;Dreispitz - Basel BLT - Rodersdorf;7;4166;BSBA;BSHW
+505;Dreispitz - Basel BLT - Rodersdorf;8;3679;BSHW;BINI
+505;Dreispitz - Basel BLT - Rodersdorf;9;3680;BINI;BOTM
+505;Dreispitz - Basel BLT - Rodersdorf;10;3681;BOTM;OW
+505;Dreispitz - Basel BLT - Rodersdorf;11;3682;OW;TWIL
+505;Dreispitz - Basel BLT - Rodersdorf;12;3683;TWIL;ET
+505;Dreispitz - Basel BLT - Rodersdorf;13;3684;ET;WW
+505;Dreispitz - Basel BLT - Rodersdorf;14;3685;WW;BTWI
+505;Dreispitz - Basel BLT - Rodersdorf;15;3686;BTWI;FLUE
+505;Dreispitz - Basel BLT - Rodersdorf;16;3687;FLUE;LEYM
+505;Dreispitz - Basel BLT - Rodersdorf;17;3688;LEYM;RD
+506;Dreispitz - Aesch Dorf;1;4154;DSPZ;MSTS
+506;Dreispitz - Aesch Dorf;2;4155;MSTS;MSTL
+506;Dreispitz - Aesch Dorf;3;4156;MSTL;RACH
+506;Dreispitz - Aesch Dorf;4;4157;RACH;AESH
+507;Dreispitz - Dornach;5;4158;DSPZ;MSTN
+507;Dreispitz - Dornach;6;4159;MSTN;HOFM
+507;Dreispitz - Dornach;7;4160;HOFM;MSTD
+507;Dreispitz - Dornach;8;4161;MSTD;ARHD
+507;Dreispitz - Dornach;9;4162;ARHD;DOCH
+510;Mulhouse-Ville - Basel SBB;-6;3783;MUL;RIXH
+510;Mulhouse-Ville - Basel SBB;-5;3784;RIXH;HABS
+510;Mulhouse-Ville - Basel SBB;-4;3785;HABS;SIER
+510;Mulhouse-Ville - Basel SBB;-3;3786;SIER;BART
+510;Mulhouse-Ville - Basel SBB;-2;3787;BART;STLC
+510;Mulhouse-Ville - Basel SBB;-1;3788;STLC;STL
+510;Mulhouse-Ville - Basel SBB;0;3789;STL;BSFR
+510;Mulhouse-Ville - Basel SBB;1;488;BSFR;BSSJ
+510;Mulhouse-Ville - Basel SBB;2;1255;BSSJ;BSW
+510;Mulhouse-Ville - Basel SBB;3;1254;BSW;BS
+511;Basel SBB - Basel GB - Basel RB;0;1253;BSO;BSGB
+511;Basel SBB - Basel GB - Basel RB;1;1540;BSGB;BSGO
+511;Basel SBB - Basel GB - Basel RB;2;3974;BSGO;BSJA
+511;Basel SBB - Basel GB - Basel RB;3;3975;BSJA;BSNK
+511;Basel SBB - Basel GB - Basel RB;4;1543;BSNK;BRBT
+511;Basel SBB - Basel GB - Basel RB;5;3874;BRBT;PRUW
+512;Ruchfeld - Basel SBB GB St.Jakob;1;1544;RUC;BSVL
+512;Ruchfeld - Basel SBB GB St.Jakob;2;1545;BSVL;BSGO
+513;Basel SBB GB Verbindungslinie;1;1546;BSVL;BSGB
+514;SNCF Verbindungslinie;1;1256;BSW;BSO
+516;Weil am Rhein - Lörrach-Stetten;0;3800;WEIR;WEGA
+516;Weil am Rhein - Lörrach-Stetten;1;3801;WEGA;WEPF
+516;Weil am Rhein - Lörrach-Stetten;2;3802;WEPF;WEIO
+516;Weil am Rhein - Lörrach-Stetten;3;4032;WEIO;LODA
+516;Weil am Rhein - Lörrach-Stetten;4;4033;LODA;LOES
+517;Basel Bad Bhf - Zell im Wiesental;-4;4169;BAD;RIEN
+517;Basel Bad Bhf - Zell im Wiesental;-3;4170;RIEN;RIEH
+517;Basel Bad Bhf - Zell im Wiesental;-2;3790;RIEH;LOES
+517;Basel Bad Bhf - Zell im Wiesental;-1;4030;LOES;LOSL
+517;Basel Bad Bhf - Zell im Wiesental;0;4031;LOSL;LOER
+517;Basel Bad Bhf - Zell im Wiesental;1;4034;LOER;LOSW
+517;Basel Bad Bhf - Zell im Wiesental;2;4035;LOSW;HAAG
+517;Basel Bad Bhf - Zell im Wiesental;3;3793;HAAG;BRMB
+517;Basel Bad Bhf - Zell im Wiesental;4;3794;BRMB;STNE
+517;Basel Bad Bhf - Zell im Wiesental;5;3795;STNE;MLG
+517;Basel Bad Bhf - Zell im Wiesental;6;4324;MLG;SPFW
+517;Basel Bad Bhf - Zell im Wiesental;7;4325;SPFW;SPFH
+517;Basel Bad Bhf - Zell im Wiesental;8;3797;SPFH;FN
+517;Basel Bad Bhf - Zell im Wiesental;9;3798;FN;HSN
+517;Basel Bad Bhf - Zell im Wiesental;10;3799;HSN;ZE
+518;Müllheim (Baden) - Basel Bad Bhf;-9;3854;MULH;AUGG
+518;Müllheim (Baden) - Basel Bad Bhf;-8;3855;AUGG;SGEN
+518;Müllheim (Baden) - Basel Bad Bhf;-7;3856;SGEN;BABE
+518;Müllheim (Baden) - Basel Bad Bhf;-6;3857;BABE;RHEI
+518;Müllheim (Baden) - Basel Bad Bhf;-5;3879;RHEI;KLEI
+518;Müllheim (Baden) - Basel Bad Bhf;-4;3880;KLEI;ISTE
+518;Müllheim (Baden) - Basel Bad Bhf;-3;3859;ISTE;EFRI
+518;Müllheim (Baden) - Basel Bad Bhf;-2;3860;EFRI;EIM
+518;Müllheim (Baden) - Basel Bad Bhf;-1;3861;EIM;HALT
+518;Müllheim (Baden) - Basel Bad Bhf;0;3862;HALT;WEIR
+518;Müllheim (Baden) - Basel Bad Bhf;1;3863;WEIR;BAD
+519;Basel SBB - Gellert: Gleis 400;1;1547;BSNO;GELL
+520;Gellert - Basel Bad DB;0;1548;GELW;GELL
+520;Gellert - Basel Bad DB;1;1549;GELL;GELN
+520;Gellert - Basel Bad DB;2;4056;GELN;BSVB
+520;Gellert - Basel Bad DB;3;4057;BSVB;BAD
+521;Umfahrung Süd: Basel SBB RB I - Muttenz;1;2277;BSNK;MU
+522;Umfahrung Nord: Gellert - Pratteln;1;2342;GELN;BSNK
+522;Umfahrung Nord: Gellert - Pratteln;2;1553;BSNK;BSOS
+522;Umfahrung Nord: Gellert - Pratteln;3;1554;BSOS;PRUW
+523;Basel Bad Bf - Kleinhünigen Hafen;1;2062;BAD;BADH
+523;Basel Bad Bf - Kleinhünigen Hafen;2;1555;BADH;BSKH
+523;Basel Bad Bf - Kleinhünigen Hafen;3;4596;BSKH;BSKE
+525;Basel SBB RB - Basel Auhafen;0;4587;BSNK;BSBW
+525;Basel SBB RB - Basel Auhafen;1;4588;BSBW;BSBH
+525;Basel SBB RB - Basel Auhafen;2;1273;BSBH;BSAU
+526;Birsfelderhafen;1;4592;BSBW;BSBV
+528;Ruchfeld - Basel SBB Dreispitz;2;4566;BSDS;RUC
+529;Basel SBB RB II - Schweizerhalle;1;1557;BSOS;BSAS
+529;Basel SBB RB II - Schweizerhalle;2;1558;BSAS;SHAL
+530;Basel SBB RB I  - Schweizerhalle;1;1559;PRW;BSAS
+531;Olten Verbindungslinie;1;1184;OLN;OLO
+540;Olten - Wöschnau;0;1182;OL;OLO
+540;Olten - Wöschnau;1;1183;OLO;DU
+540;Olten - Wöschnau;2;1463;DU;DKRB
+540;Olten - Wöschnau;3;1464;DKRB;DK
+540;Olten - Wöschnau;4;4670;DK;DKO
+540;Olten - Wöschnau;5;4671;DKO;SCOE
+540;Olten - Wöschnau;6;2263;SCOE;WOES
+543;Sursee - Triengen;1;2950;SS;GEUE
+543;Sursee - Triengen;2;2951;GEUE;BBK
+543;Sursee - Triengen;3;2952;BBK;TRW
+551;Luzern Verbindung GB;1;2129;LZEF;LZGB
+552;Luzern Verbindung Seeverlad;0;4574;LZEF;LZSE
+570;Gütsch - Küssnacht - Immensee;-1;2337;GTS;LZVH
+570;Gütsch - Küssnacht - Immensee;0;4249;LZVH;MEGZ
+570;Gütsch - Küssnacht - Immensee;1;4250;MEGZ;MEG
+570;Gütsch - Küssnacht - Immensee;2;515;MEG;MERL
+570;Gütsch - Küssnacht - Immensee;3;516;MERL;KUE
+570;Gütsch - Küssnacht - Immensee;4;1134;KUE;IMW
+600;Immensee - Bellinzona - Chiasso;-14;1207;IMW;IM
+600;Immensee - Bellinzona - Chiasso;-13;518;IM;BRM
+600;Immensee - Bellinzona - Chiasso;-12;4457;BRM;GD
+600;Immensee - Bellinzona - Chiasso;-11;4458;GD;GDO
+600;Immensee - Bellinzona - Chiasso;-10;1209;GDO;STN
+600;Immensee - Bellinzona - Chiasso;-9;521;STN;SCHW
+600;Immensee - Bellinzona - Chiasso;-8;522;SCHW;BRU
+600;Immensee - Bellinzona - Chiasso;-7;1509;BRU;BRUA
+600;Immensee - Bellinzona - Chiasso;-6;1510;BRUA;SKN
+600;Immensee - Bellinzona - Chiasso;-5;1511;SKN;SK
+600;Immensee - Bellinzona - Chiasso;-4;524;SK;GRUO
+600;Immensee - Bellinzona - Chiasso;-3;525;GRUO;FL
+600;Immensee - Bellinzona - Chiasso;-2;526;FL;AL
+600;Immensee - Bellinzona - Chiasso;-1;1214;AL;RIE
+600;Immensee - Bellinzona - Chiasso;0;1215;RIE;ER
+600;Immensee - Bellinzona - Chiasso;1;528;ER;AS
+600;Immensee - Bellinzona - Chiasso;2;3960;AS;ZGRG
+600;Immensee - Bellinzona - Chiasso;3;531;ZGRG;GU
+600;Immensee - Bellinzona - Chiasso;4;532;GU;PFAF
+600;Immensee - Bellinzona - Chiasso;5;533;PFAF;WAS
+600;Immensee - Bellinzona - Chiasso;6;534;WAS;EGW
+600;Immensee - Bellinzona - Chiasso;7;535;EGW;GOE
+600;Immensee - Bellinzona - Chiasso;8;536;GOE;GOTN
+600;Immensee - Bellinzona - Chiasso;9;537;GOTN;GOTS
+600;Immensee - Bellinzona - Chiasso;10;538;GOTS;AI
+600;Immensee - Bellinzona - Chiasso;11;539;AI;SORD
+600;Immensee - Bellinzona - Chiasso;12;540;SORD;AP
+600;Immensee - Bellinzona - Chiasso;13;541;AP;RO
+600;Immensee - Bellinzona - Chiasso;14;542;RO;PARD
+235;Tavannes - Le Noirmont;5;4075;BREU;BREL
+235;Tavannes - Le Noirmont;6;4074;BREL;NOMO
+235;Tavannes - Le Noirmont;7;3321;NOMO;CREB
+235;Tavannes - Le Noirmont;8;3322;CREB;BOEC
+235;Tavannes - Le Noirmont;9;3323;BOEC;BOIS
+235;Tavannes - Le Noirmont;10;3324;BOIS;LARG
+235;Tavannes - Le Noirmont;11;3325;LARG;CHXA
+235;Tavannes - Le Noirmont;12;3326;CHXA;FER
+235;Tavannes - Le Noirmont;13;3327;FER;SEIG
+235;Tavannes - Le Noirmont;14;3328;SEIG;CIB
+235;Tavannes - Le Noirmont;15;3329;CIB;BELV
+235;Tavannes - Le Noirmont;16;3330;BELV;CFES
+235;Tavannes - Le Noirmont;17;3331;CFES;CF
+236;Le Noirmont - Combe-Tabeillon;1;3332;NOMO;EMI
+236;Le Noirmont - Combe-Tabeillon;2;3333;EMI;MUAU
+236;Le Noirmont - Combe-Tabeillon;3;3334;MUAU;SAIG
+236;Le Noirmont - Combe-Tabeillon;4;3335;SAIG;BEM
+236;Le Noirmont - Combe-Tabeillon;5;3336;BEM;PREP
+236;Le Noirmont - Combe-Tabeillon;6;3337;PREP;COMB
+236;Le Noirmont - Combe-Tabeillon;7;3338;COMB;BOLL
+236;Le Noirmont - Combe-Tabeillon;8;3339;BOLL;COTA
+237;Combe-Tabeillon - Glovelier;9;3340;COTA;GLO
+238;Porrentruy - Bonfol;0;3341;POR;ALLE
+238;Porrentruy - Bonfol;1;4083;ALLE;ALLC
+300;Spiez - Kandersteg - Brig;-2;3970;KA;EGGE
+300;Spiez - Kandersteg - Brig;-1;3971;EGGE;TS
+300;Spiez - Kandersteg - Brig;0;3972;TS;GOSW
+300;Spiez - Kandersteg - Brig;1;3973;GOSW;GO
+300;Spiez - Kandersteg - Brig;2;4039;GO;STOG
+300;Spiez - Kandersteg - Brig;3;4655;STOG;MGTN
+300;Spiez - Kandersteg - Brig;4;4656;MGTN;MGTS
+300;Spiez - Kandersteg - Brig;5;4657;MGTS;HT
+300;Spiez - Kandersteg - Brig;6;1990;HT;RARK
+300;Spiez - Kandersteg - Brig;7;1991;RARK;AB
+300;Spiez - Kandersteg - Brig;8;2677;AB;VIKT
+300;Spiez - Kandersteg - Brig;9;2678;VIKT;EB
+300;Spiez - Kandersteg - Brig;10;1993;EB;LL
+300;Spiez - Kandersteg - Brig;11;1994;LL;MUND
+300;Spiez - Kandersteg - Brig;12;2036;MUND;BRLO
+301;alter Hondrichtunnel;1;4304;SPNI;HOND
+302;Zweiter Mittalgrabentunnel;-1;4660;MGTN;MGTS
+310;Thun - Spiez - Interlaken Ost;-6;3567;THEG;THSC
+310;Thun - Spiez - Interlaken Ost;-5;4748;THSC;GW
+310;Thun - Spiez - Interlaken Ost;-4;2666;GW;EIN
+310;Thun - Spiez - Interlaken Ost;-3;2669;EIN;SPAB
+310;Thun - Spiez - Interlaken Ost;-2;2670;SPAB;SP
+310;Thun - Spiez - Interlaken Ost;-1;3918;SP;SPNI
+310;Thun - Spiez - Interlaken Ost;0;3919;SPNI;FS
+310;Thun - Spiez - Interlaken Ost;1;1972;FS;KH
+310;Thun - Spiez - Interlaken Ost;2;1973;KH;LBAD
+310;Thun - Spiez - Interlaken Ost;3;1974;LBAD;LSS
+310;Thun - Spiez - Interlaken Ost;4;1975;LSS;DAE
+310;Thun - Spiez - Interlaken Ost;5;1976;DAE;IW
+310;Thun - Spiez - Interlaken Ost;6;1977;IW;IO
+310;Thun - Spiez - Interlaken Ost;7;4452;IO;BOWE
+310;Thun - Spiez - Interlaken Ost;8;4453;BOWE;BOGE
+311;Interlaken Ost - Lauterbrunnen;-1;3118;IO;WILD
+311;Interlaken Ost - Lauterbrunnen;0;4174;WILD;UMLR
+311;Interlaken Ost - Lauterbrunnen;1;4175;UMLR;ZWEI
+311;Interlaken Ost - Lauterbrunnen;2;4176;ZWEI;SAWE
+311;Interlaken Ost - Lauterbrunnen;3;4177;SAWE;LAUT
+312;Zweilütschinen - Grindelwald;1;3127;ZWEI;LUEL
+312;Zweilütschinen - Grindelwald;2;3128;LUEL;BURG
+312;Zweilütschinen - Grindelwald;3;3129;BURG;SWDG
+312;Zweilütschinen - Grindelwald;4;3130;SWDG;GRIN
+313;Grütschalp - Mürren;1;3700;GALP;WEGG
+313;Grütschalp - Mürren;2;3701;WEGG;MUER
+314;Wilderswil - Schynige Platte;1;4171;WILD;ROTE
+314;Wilderswil - Schynige Platte;2;4172;ROTE;BRLA
+314;Wilderswil - Schynige Platte;3;4173;BRLA;SCHY
+316;Lauterbrunnen - Grindelwald Grund;-6;4179;LAUT;WIMA
+238;Porrentruy - Bonfol;2;4082;ALLC;VEND
+238;Porrentruy - Bonfol;3;3343;VEND;BONF
+240;Delémont - Delle;0;230;DMT;CTT
+240;Delémont - Delle;1;231;CTT;CFV
+240;Delémont - Delle;2;232;CFV;BSC
+240;Delémont - Delle;3;233;BSC;GLO
+240;Delémont - Delle;4;2272;GLO;GLOO
+240;Delémont - Delle;5;2273;GLOO;SU
+240;Delémont - Delle;6;235;SU;CG
+240;Delémont - Delle;7;2274;CG;PORS
+240;Delémont - Delle;8;2275;PORS;POR
+240;Delémont - Delle;9;237;POR;CCH
+240;Delémont - Delle;10;238;CCH;CTM
+240;Delémont - Delle;11;239;CTM;GRA
+240;Delémont - Delle;12;240;GRA;BX
+240;Delémont - Delle;13;241;BX;BCT
+240;Delémont - Delle;14;242;BCT;DLF
+240;Delémont - Delle;15;243;DLF;DL
+240;Delémont - Delle;16;4168;DL;DLN
+241;Courtemaîche - Bure-Casernes;1;2379;CTM;BURE
+245;Belfort - Delle;1;4385;BELF;MERT
+245;Belfort - Delle;2;4383;MERT;MORV
+245;Belfort - Delle;3;4384;MORV;DL
+250;Lausanne Est - Bern;-9;1728;LSE;PUN
+250;Lausanne Est - Bern;-8;245;PUN;CVN
+250;Lausanne Est - Bern;-7;246;CVN;BOSS
+250;Lausanne Est - Bern;-6;247;BOSS;GRV
+250;Lausanne Est - Bern;-5;248;GRV;PUI
+250;Lausanne Est - Bern;-4;249;PUI;MRL
+250;Lausanne Est - Bern;-3;250;MRL;PAL
+250;Lausanne Est - Bern;-2;2266;PAL;PALB
+250;Lausanne Est - Bern;-1;2267;PALB;OR
+250;Lausanne Est - Bern;0;252;OR;VD
+250;Lausanne Est - Bern;1;3505;VD;SIVS
+250;Lausanne Est - Bern;2;3506;SIVS;SIV
+250;Lausanne Est - Bern;3;254;SIV;ROM
+250;Lausanne Est - Bern;4;2268;ROM;ROME
+250;Lausanne Est - Bern;5;2269;ROME;VZ
+250;Lausanne Est - Bern;6;256;VZ;CHE
+250;Lausanne Est - Bern;7;257;CHE;COT
+250;Lausanne Est - Bern;8;258;COT;NEY
+250;Lausanne Est - Bern;9;259;NEY;ROS
+250;Lausanne Est - Bern;10;260;ROS;MTR
+250;Lausanne Est - Bern;11;261;MTR;VG
+250;Lausanne Est - Bern;12;262;VG;FRI
+250;Lausanne Est - Bern;13;2246;FRI;FRNO
+250;Lausanne Est - Bern;14;2247;FRNO;DUED
+250;Lausanne Est - Bern;15;4356;DUED;SCMI
+250;Lausanne Est - Bern;16;266;SCMI;WUE
+250;Lausanne Est - Bern;17;267;WUE;FLM
+250;Lausanne Est - Bern;18;268;FLM;THOD
+250;Lausanne Est - Bern;19;269;THOD;THO
+250;Lausanne Est - Bern;20;270;THO;OWA
+250;Lausanne Est - Bern;21;271;OWA;NWA
+250;Lausanne Est - Bern;22;272;NWA;BNBS
+250;Lausanne Est - Bern;23;2445;BNBS;BNAS
+250;Lausanne Est - Bern;24;3999;BNAS;BNSH
+250;Lausanne Est - Bern;25;3998;BNSH;BWMS
+250;Lausanne Est - Bern;26;3997;BWMS;JKLM
+250;Lausanne Est - Bern;27;3996;JKLM;BN
+251;Palézieux Est - Lyss Nord;-4;2380;PALB;PALV
+251;Palézieux Est - Lyss Nord;-3;276;PALV;CHAT
+251;Palézieux Est - Lyss Nord;-2;277;CHAT;ECU
+251;Palézieux Est - Lyss Nord;-1;278;ECU;BZ
+251;Palézieux Est - Lyss Nord;0;279;BZ;MD
+251;Palézieux Est - Lyss Nord;1;280;MD;LUC
+251;Palézieux Est - Lyss Nord;2;281;LUC;HEN
+251;Palézieux Est - Lyss Nord;3;282;HEN;GM
+251;Palézieux Est - Lyss Nord;4;283;GM;TREY
+251;Palézieux Est - Lyss Nord;5;284;TREY;PAY
+251;Palézieux Est - Lyss Nord;6;285;PAY;PAYE
+251;Palézieux Est - Lyss Nord;7;286;PAYE;CN
+251;Palézieux Est - Lyss Nord;8;287;CN;DOP
+251;Palézieux Est - Lyss Nord;9;288;DOP;DOM
+251;Palézieux Est - Lyss Nord;10;289;DOM;AV
+251;Palézieux Est - Lyss Nord;11;290;AV;FG
+251;Palézieux Est - Lyss Nord;12;291;FG;MRT
+251;Palézieux Est - Lyss Nord;13;292;MRT;LOEW
+251;Palézieux Est - Lyss Nord;14;2089;LOEW;MUN
+251;Palézieux Est - Lyss Nord;15;2090;MUN;GZ
+251;Palézieux Est - Lyss Nord;16;4091;GZ;KZW
+251;Palézieux Est - Lyss Nord;17;4092;KZW;KZ
+251;Palézieux Est - Lyss Nord;18;4093;KZ;KZPP
+251;Palézieux Est - Lyss Nord;19;4094;KZPP;FRAE
+251;Palézieux Est - Lyss Nord;20;296;FRAE;KAL
+251;Palézieux Est - Lyss Nord;21;297;KAL;BRG
+251;Palézieux Est - Lyss Nord;22;298;BRG;ABE
+251;Palézieux Est - Lyss Nord;23;4593;ABE;LYGR
+251;Palézieux Est - Lyss Nord;24;4594;LYGR;LYW
+251;Palézieux Est - Lyss Nord;25;2118;LYW;LYN
+252;Yverdon Est - Payerne;0;2210;YVES;CHP
+252;Yverdon Est - Payerne;1;2211;CHP;YND
+252;Yverdon Est - Payerne;2;301;YND;CHS
+252;Yverdon Est - Payerne;3;302;CHS;EST
+252;Yverdon Est - Payerne;4;2212;EST;SIPO
+252;Yverdon Est - Payerne;5;2213;SIPO;SEVA
+252;Yverdon Est - Payerne;6;2214;SEVA;CGY
+252;Yverdon Est - Payerne;7;304;CGY;PAY
+253;Payerne Est - Fribourg Nord;-2;1766;PAYE;CS
+253;Payerne Est - Fribourg Nord;-1;2215;CS;BOBO
+253;Payerne Est - Fribourg Nord;0;2216;BOBO;BOMO
+253;Payerne Est - Fribourg Nord;1;2217;BOMO;COUS
+253;Payerne Est - Fribourg Nord;2;307;COUS;LECH
+253;Payerne Est - Fribourg Nord;3;2091;LECH;TKLL
+253;Payerne Est - Fribourg Nord;4;2092;TKLL;GRO
+253;Payerne Est - Fribourg Nord;5;309;GRO;BF
+253;Payerne Est - Fribourg Nord;6;310;BF;GIV
+253;Payerne Est - Fribourg Nord;7;2410;GIV;FRNO
+254;Bulle - Romont;1;3715;BUL;VUAN
+254;Bulle - Romont;2;3351;VUAN;VAUL
+254;Bulle - Romont;3;3352;VAUL;SALE
+254;Bulle - Romont;4;3353;SALE;RUEY
+254;Bulle - Romont;5;3354;RUEY;VUI
+254;Bulle - Romont;6;3355;VUI;ROM
+255;Givisiez - Murten;1;2179;GIV;BFV
+255;Givisiez - Murten;2;2174;BFV;PEN
+255;Givisiez - Murten;3;2175;PEN;COUR
+255;Givisiez - Murten;4;2176;COUR;CRFR
+255;Givisiez - Murten;5;2177;CRFR;MUCO
+255;Givisiez - Murten;6;2178;MUCO;MRT
+256;Muntelier GFM - Ins;1;2172;MUN;SUGI
+256;Muntelier GFM - Ins;2;2173;SUGI;INS
+257;Flamatt - Laupen - Gümmenen;1;2250;FLM;FLMD
+257;Flamatt - Laupen - Gümmenen;2;2251;FLMD;NGG
+257;Flamatt - Laupen - Gümmenen;3;3985;NGG;LPN
+257;Flamatt - Laupen - Gümmenen;4;2254;LPN;GMM
+258;Kerzers West - Kerzers BLS;1;4095;KZW;KZB
+259;Kerzers Süd - Kerzers SBB;1;4406;KZS;KZ
+260;Zollikofen Nord - Biel/Bienne Aebistr.;0;1701;ZOLN;MUEB
+260;Zollikofen Nord - Biel/Bienne Aebistr.;1;313;MUEB;SCUE
+260;Zollikofen Nord - Biel/Bienne Aebistr.;2;314;SCUE;SUB
+260;Zollikofen Nord - Biel/Bienne Aebistr.;3;315;SUB;LY
+260;Zollikofen Nord - Biel/Bienne Aebistr.;4;1702;LY;LYN
+260;Zollikofen Nord - Biel/Bienne Aebistr.;5;1705;LYN;BUS
+260;Zollikofen Nord - Biel/Bienne Aebistr.;6;317;BUS;STU
+260;Zollikofen Nord - Biel/Bienne Aebistr.;7;318;STU;BGG
+260;Zollikofen Nord - Biel/Bienne Aebistr.;8;319;BGG;MAD
+260;Zollikofen Nord - Biel/Bienne Aebistr.;9;1703;MAD;BIAE
+261;Biel - Täuffelen - Ins;1;3389;BIBT;NIDA
+261;Biel - Täuffelen - Ins;2;3390;NIDA;NIBE
+261;Biel - Täuffelen - Ins;3;3391;NIBE;IP
+261;Biel - Täuffelen - Ins;4;3392;IP;IPHE
+261;Biel - Täuffelen - Ins;5;3393;IPHE;SUTZ
+261;Biel - Täuffelen - Ins;6;3394;SUTZ;LATR
+261;Biel - Täuffelen - Ins;7;3395;LATR;MGEN
+261;Biel - Täuffelen - Ins;8;3396;MGEN;GERO
+261;Biel - Täuffelen - Ins;9;3397;GERO;TAEU
+261;Biel - Täuffelen - Ins;10;3398;TAEU;HECK
+261;Biel - Täuffelen - Ins;11;3399;HECK;LUES
+261;Biel - Täuffelen - Ins;12;3400;LUES;SIFI
+261;Biel - Täuffelen - Ins;13;3401;SIFI;FINS
+261;Biel - Täuffelen - Ins;14;3402;FINS;BRUT
+261;Biel - Täuffelen - Ins;15;4137;BRUT;INSD
+261;Biel - Täuffelen - Ins;16;3405;INSD;INS
+263;Studen Auto - Studen;1;2595;STUA;STU
+264;Lyss West - Lyss Fulenmatt (Agl);1;3712;LYW;LYFU
+265;Biel Mett Abzweigung - Biel/Bienne Ost;1;2585;BIMA;BIRB
+265;Biel Mett Abzweigung - Biel/Bienne Ost;2;1714;BIRB;BIRW
+265;Biel Mett Abzweigung - Biel/Bienne Ost;3;1715;BIRW;BIO
+266;Madretsch - Biel/Bienne RB West;1;1716;MAD;BIRW
+267;Biel/Bienne RB - Biel Madretsch-Schüss;1;4366;BIRB;BIHW
+267;Biel/Bienne RB - Biel Madretsch-Schüss;2;4367;BIHW;BIEM
+268;Biel Depot Ost - Biel Aebistrasse;1;4368;BIDO;BIAE
+289;Bern Weyermannshaus - Bern JKLM;-1;4025;BNSH;BNWM
+289;Bern Weyermannshaus - Bern JKLM;0;4026;BNWM;JKLM
+290;Bern Wylerfeld - Thun;-4;3980;BNWF;BNWK
+290;Bern Wylerfeld - Thun;-3;3981;BNWK;WKD
+290;Bern Wylerfeld - Thun;-2;326;WKD;OST
+290;Bern Wylerfeld - Thun;-1;327;OST;GUE
+290;Bern Wylerfeld - Thun;0;2374;GUE;GUES
+290;Bern Wylerfeld - Thun;1;2375;GUES;RUB
+290;Bern Wylerfeld - Thun;2;329;RUB;MS
+290;Bern Wylerfeld - Thun;3;330;MS;WCH
+290;Bern Wylerfeld - Thun;4;331;WCH;KI
+290;Bern Wylerfeld - Thun;5;332;KI;UTI
+290;Bern Wylerfeld - Thun;6;4055;UTI;THAB
+290;Bern Wylerfeld - Thun;7;2392;THAB;TH
+290;Bern Wylerfeld - Thun;8;334;TH;THEG
+291;Löchligut - Wankdorf;1;1781;LGUS;WKD
+292;Solothurn - Bern RBS;1;3406;SO;BLEI
+292;Solothurn - Bern RBS;2;3407;BLEI;BIBS
+292;Solothurn - Bern RBS;3;3408;BIBS;AMMA
+292;Solothurn - Bern RBS;4;3409;AMMA;LOLU
+292;Solothurn - Bern RBS;5;3410;LOLU;KUEK
+292;Solothurn - Bern RBS;6;3411;KUEK;BKI
+292;Solothurn - Bern RBS;7;3412;BKI;SCN
+292;Solothurn - Bern RBS;8;3413;SCN;BUHO
+292;Solothurn - Bern RBS;9;3414;BUHO;FBR
+292;Solothurn - Bern RBS;10;3415;FBR;GRRI
+292;Solothurn - Bern RBS;11;3416;GRRI;JEG
+292;Solothurn - Bern RBS;12;3417;JEG;URTN
+292;Solothurn - Bern RBS;13;3418;URTN;SCBS
+292;Solothurn - Bern RBS;14;3419;SCBS;SCSH
+292;Solothurn - Bern RBS;15;3420;SCSH;MOSE
+292;Solothurn - Bern RBS;16;3421;MOSE;ZOL
+292;Solothurn - Bern RBS;17;3422;ZOL;OBZO
+292;Solothurn - Bern RBS;18;3423;OBZO;WBL
+292;Solothurn - Bern RBS;19;3424;WBL;BNTI
+292;Solothurn - Bern RBS;20;3425;BNTI;BNFE
+292;Solothurn - Bern RBS;21;3426;BNFE;BRBS
+293;Unterzollikofen - Worblaufen;1;3578;UNZO;STBA
+293;Unterzollikofen - Worblaufen;2;3577;STBA;WBL
+294;Worb Dorf - Worblaufen;1;3442;WBDO;VECH
+294;Worb Dorf - Worblaufen;2;3443;VECH;BOUT
+294;Worb Dorf - Worblaufen;3;3444;BOUT;STTL
+294;Worb Dorf - Worblaufen;4;3445;STTL;DEI
+294;Worb Dorf - Worblaufen;5;3446;DEI;BOLI
+294;Worb Dorf - Worblaufen;6;3447;BOLI;ITT
+294;Worb Dorf - Worblaufen;7;3448;ITT;PAPI
+294;Worb Dorf - Worblaufen;8;3449;PAPI;WBL
+295;Bern Zytglogge - Worb Dorf;1;3429;BNZY;BNKF
+295;Bern Zytglogge - Worb Dorf;2;3430;BNKF;BNBR
+295;Bern Zytglogge - Worb Dorf;3;3431;BNBR;BNEG
+295;Bern Zytglogge - Worb Dorf;4;3432;BNEG;MIBN
+295;Bern Zytglogge - Worb Dorf;5;3433;MIBN;SEID
+295;Bern Zytglogge - Worb Dorf;6;3434;SEID;MELB
+295;Bern Zytglogge - Worb Dorf;7;3435;MELB;GUE
+295;Bern Zytglogge - Worb Dorf;8;3436;GUE;HOGU
+295;Bern Zytglogge - Worb Dorf;9;3437;HOGU;SILO
+295;Bern Zytglogge - Worb Dorf;10;3438;SILO;SHZ
+295;Bern Zytglogge - Worb Dorf;11;3439;SHZ;RUEF
+295;Bern Zytglogge - Worb Dorf;12;3440;RUEF;LALO
+295;Bern Zytglogge - Worb Dorf;13;3441;LALO;WBDO
+297;Bern Fischermätteli - Schwarzenburg;0;4049;BNFI;KOEW
+297;Bern Fischermätteli - Schwarzenburg;1;4050;KOEW;LBF
+297;Bern Fischermätteli - Schwarzenburg;2;1958;LBF;KOE
+297;Bern Fischermätteli - Schwarzenburg;3;1959;KOE;MOOS
+297;Bern Fischermätteli - Schwarzenburg;4;1960;MOOS;GAS
+297;Bern Fischermätteli - Schwarzenburg;5;1961;GAS;NS
+297;Bern Fischermätteli - Schwarzenburg;6;1962;NS;MHN
+297;Bern Fischermätteli - Schwarzenburg;7;1963;MHN;SBR
+297;Bern Fischermätteli - Schwarzenburg;8;1964;SBR;LH
+297;Bern Fischermätteli - Schwarzenburg;9;1965;LH;SCBG
+297;Bern Fischermätteli - Schwarzenburg;10;4451;SCBG;SCGE
+298;Bern Holligen - Thun Abzweigung;-3;4029;BNSH;HOL
+298;Bern Holligen - Thun Abzweigung;-2;1940;HOL;BNAH
+298;Bern Holligen - Thun Abzweigung;-1;1941;BNAH;BNFI
+298;Bern Holligen - Thun Abzweigung;0;1942;BNFI;BNWE
+298;Bern Holligen - Thun Abzweigung;1;1943;BNWE;WBB
+298;Bern Holligen - Thun Abzweigung;2;4051;WBB;BREI
+298;Bern Holligen - Thun Abzweigung;3;4052;BREI;KSN
+298;Bern Holligen - Thun Abzweigung;4;1945;KSN;KS
+298;Bern Holligen - Thun Abzweigung;5;2690;KS;FALK
+298;Bern Holligen - Thun Abzweigung;6;2691;FALK;BPST
+298;Bern Holligen - Thun Abzweigung;7;1947;BPST;BP
+298;Bern Holligen - Thun Abzweigung;8;1948;BP;TO
+298;Bern Holligen - Thun Abzweigung;9;1949;TO;KD
+298;Bern Holligen - Thun Abzweigung;10;1950;KD;THU
+298;Bern Holligen - Thun Abzweigung;11;1951;THU;BWA
+298;Bern Holligen - Thun Abzweigung;12;1952;BWA;SF
+298;Bern Holligen - Thun Abzweigung;13;1953;SF;UE
+298;Bern Holligen - Thun Abzweigung;14;1954;UE;UEA
+298;Bern Holligen - Thun Abzweigung;15;1955;UEA;LNF
+298;Bern Holligen - Thun Abzweigung;16;2391;LNF;THAB
+299;Thun AB - Thun;1;2393;THAB;THB
+299;Thun AB - Thun;2;2394;THB;TH
+299;Thun AB - Thun;3;3569;TH;THSC
+300;Spiez - Kandersteg - Brig;-18;3920;SPNI;HOND
+300;Spiez - Kandersteg - Brig;-17;3908;HOND;HEU
+300;Spiez - Kandersteg - Brig;-16;1979;HEU;MUE
+300;Spiez - Kandersteg - Brig;-15;1980;MUE;REIK
+300;Spiez - Kandersteg - Brig;-14;4265;REIK;RURK
+300;Spiez - Kandersteg - Brig;-13;4266;RURK;WENE
+300;Spiez - Kandersteg - Brig;-12;4267;WENE;WINK
+300;Spiez - Kandersteg - Brig;-11;4085;WINK;FR
+300;Spiez - Kandersteg - Brig;-10;4268;FR;FRS
+300;Spiez - Kandersteg - Brig;-9;4269;FRS;KG
+300;Spiez - Kandersteg - Brig;-8;4125;KG;GRSP
+300;Spiez - Kandersteg - Brig;-7;4126;GRSP;BL
+300;Spiez - Kandersteg - Brig;-6;4127;BL;FUSP
+300;Spiez - Kandersteg - Brig;-5;4128;FUSP;FEB
+300;Spiez - Kandersteg - Brig;-4;4129;FEB;BUHL
+300;Spiez - Kandersteg - Brig;-3;4130;BUHL;KA
+100;Lausanne - Simplon Tunnel I - Iselle;-18;1685;LS;LSE
+100;Lausanne - Simplon Tunnel I - Iselle;-17;1686;LSE;PU
+100;Lausanne - Simplon Tunnel I - Iselle;-16;2;PU;LTY
+100;Lausanne - Simplon Tunnel I - Iselle;-15;3;LTY;VTE
+100;Lausanne - Simplon Tunnel I - Iselle;-14;4;VTE;CU
+100;Lausanne - Simplon Tunnel I - Iselle;-13;5;CU;EPS
+100;Lausanne - Simplon Tunnel I - Iselle;-12;6;EPS;RIV
+100;Lausanne - Simplon Tunnel I - Iselle;-11;7;RIV;STSA
+100;Lausanne - Simplon Tunnel I - Iselle;-10;1689;STSA;VVO
+100;Lausanne - Simplon Tunnel I - Iselle;-9;1690;VVO;VV
+100;Lausanne - Simplon Tunnel I - Iselle;-8;9;VV;TOUR
+100;Lausanne - Simplon Tunnel I - Iselle;-7;10;TOUR;BURI
+100;Lausanne - Simplon Tunnel I - Iselle;-6;11;BURI;CL
+100;Lausanne - Simplon Tunnel I - Iselle;-5;12;CL;MX
+100;Lausanne - Simplon Tunnel I - Iselle;-4;13;MX;TER
+100;Lausanne - Simplon Tunnel I - Iselle;-3;14;TER;VEY
+100;Lausanne - Simplon Tunnel I - Iselle;-2;15;VEY;VIL
+100;Lausanne - Simplon Tunnel I - Iselle;-1;16;VIL;ROC
+100;Lausanne - Simplon Tunnel I - Iselle;0;4167;ROC;AIG
+100;Lausanne - Simplon Tunnel I - Iselle;1;19;AIG;ST
+100;Lausanne - Simplon Tunnel I - Iselle;2;20;ST;BEX
+100;Lausanne - Simplon Tunnel I - Iselle;3;2430;BEX;PDS
+140;Brig - Visp - Zermatt;7;2891;SNK;HEBR
+140;Brig - Visp - Zermatt;8;2892;HEBR;RAN
+140;Brig - Visp - Zermatt;9;2893;RAN;TAES
+140;Brig - Visp - Zermatt;10;2894;TAES;ZERM
+142;Zermatt - Gornergrat;1;3635;ZERG;FIND
+142;Zermatt - Gornergrat;2;3636;FIND;RIAL
+142;Zermatt - Gornergrat;3;3637;RIAL;RIBO
+142;Zermatt - Gornergrat;4;3638;RIBO;RIBE
+142;Zermatt - Gornergrat;5;3639;RIBE;ROBO
+142;Zermatt - Gornergrat;6;3640;ROBO;GOGR
+145;Domodossola - Iselle;-4;3528;DOFS;DOBI
+145;Domodossola - Iselle;-3;3529;DOBI;PRE
+145;Domodossola - Iselle;-2;4428;PRE;MOKM
+145;Domodossola - Iselle;-1;4429;MOKM;MOGN
+145;Domodossola - Iselle;0;3531;MOGN;VAR
+145;Domodossola - Iselle;1;3532;VAR;IS
+146;Domodossola II - Domodossola bivio;0;3537;DOII;DOFM
+146;Domodossola II - Domodossola bivio;1;3538;DOFM;DOBI
+150;Lausanne - Genève-Aéroport;-4;61;LS;LSBI
+150;Lausanne - Genève-Aéroport;-3;4044;LSBI;MEY
+150;Lausanne - Genève-Aéroport;-2;4575;MEY;PRMA
+150;Lausanne - Genève-Aéroport;-1;4576;PRMA;RENB
+150;Lausanne - Genève-Aéroport;0;1729;RENB;REN
+150;Lausanne - Genève-Aéroport;1;1740;REN;RENO
+150;Lausanne - Genève-Aéroport;2;1739;RENO;ARCY
+150;Lausanne - Genève-Aéroport;3;1738;ARCY;DENB
+150;Lausanne - Genève-Aéroport;4;1737;DENB;DENA
+150;Lausanne - Genève-Aéroport;5;1736;DENA;DEN
+150;Lausanne - Genève-Aéroport;6;1735;DEN;LONB
+150;Lausanne - Genève-Aéroport;7;1734;LONB;LONA
+150;Lausanne - Genève-Aéroport;8;1733;LONA;LON
+150;Lausanne - Genève-Aéroport;9;66;LON;STJ
+150;Lausanne - Genève-Aéroport;10;67;STJ;MOR
+150;Lausanne - Genève-Aéroport;11;68;MOR;TOL
+150;Lausanne - Genève-Aéroport;12;69;TOL;STP
+150;Lausanne - Genève-Aéroport;13;70;STP;ETOY
+150;Lausanne - Genève-Aéroport;14;71;ETOY;ALL
+150;Lausanne - Genève-Aéroport;15;72;ALL;PER
+150;Lausanne - Genève-Aéroport;16;73;PER;ROL
+150;Lausanne - Genève-Aéroport;17;74;ROL;GIBU
+150;Lausanne - Genève-Aéroport;18;75;GIBU;GLA
+150;Lausanne - Genève-Aéroport;19;76;GLA;PRN
+150;Lausanne - Genève-Aéroport;20;77;PRN;NY
+150;Lausanne - Genève-Aéroport;21;2406;NY;NYB
+150;Lausanne - Genève-Aéroport;22;2407;NYB;CRA
+100;Lausanne - Simplon Tunnel I - Iselle;4;22;PDS;SM
+100;Lausanne - Simplon Tunnel I - Iselle;5;23;SM;EV
+100;Lausanne - Simplon Tunnel I - Iselle;6;24;EV;VERN
+100;Lausanne - Simplon Tunnel I - Iselle;7;25;VERN;MA
+100;Lausanne - Simplon Tunnel I - Iselle;8;4355;MA;CHAR
+100;Lausanne - Simplon Tunnel I - Iselle;9;27;CHAR;SAX
+100;Lausanne - Simplon Tunnel I - Iselle;10;28;SAX;RID
+100;Lausanne - Simplon Tunnel I - Iselle;11;29;RID;CHA
+100;Lausanne - Simplon Tunnel I - Iselle;12;30;CHA;ARD
+100;Lausanne - Simplon Tunnel I - Iselle;13;31;ARD;CHF
+100;Lausanne - Simplon Tunnel I - Iselle;14;32;CHF;SIO
+100;Lausanne - Simplon Tunnel I - Iselle;15;33;SIO;SL
+100;Lausanne - Simplon Tunnel I - Iselle;16;34;SL;GRAL
+100;Lausanne - Simplon Tunnel I - Iselle;17;2431;GRAL;SIE
+100;Lausanne - Simplon Tunnel I - Iselle;18;4567;SIE;SIET
+100;Lausanne - Simplon Tunnel I - Iselle;19;4568;SIET;SAL
+100;Lausanne - Simplon Tunnel I - Iselle;20;3987;SAL;LK
+100;Lausanne - Simplon Tunnel I - Iselle;21;4090;LK;LKK
+100;Lausanne - Simplon Tunnel I - Iselle;22;2518;LKK;TUR
+100;Lausanne - Simplon Tunnel I - Iselle;23;40;TUR;GA
+100;Lausanne - Simplon Tunnel I - Iselle;24;41;GA;RAR
+100;Lausanne - Simplon Tunnel I - Iselle;25;3984;RAR;STGE
+100;Lausanne - Simplon Tunnel I - Iselle;26;2685;STGE;BALT
+100;Lausanne - Simplon Tunnel I - Iselle;27;2477;BALT;VI
+100;Lausanne - Simplon Tunnel I - Iselle;28;43;VI;GAMS
+100;Lausanne - Simplon Tunnel I - Iselle;29;1687;GAMS;BRLO
+100;Lausanne - Simplon Tunnel I - Iselle;30;1688;BRLO;BR
+100;Lausanne - Simplon Tunnel I - Iselle;31;45;BR;BRTU
+100;Lausanne - Simplon Tunnel I - Iselle;32;2142;BRTU;STDG
+100;Lausanne - Simplon Tunnel I - Iselle;33;2347;STDG;ISTU
+100;Lausanne - Simplon Tunnel I - Iselle;34;2239;ISTU;IS
+101;Lausanne-Flon - Bercher;1;3471;LSLE;LSCH
+101;Lausanne-Flon - Bercher;2;3472;LSCH;MTET
+101;Lausanne-Flon - Bercher;3;3473;MTET;UPRI
+101;Lausanne-Flon - Bercher;4;3474;UPRI;PRCH
+101;Lausanne-Flon - Bercher;5;3475;PRCH;CEF
+101;Lausanne-Flon - Bercher;6;3476;CEF;JOUM
+101;Lausanne-Flon - Bercher;7;3477;JOUM;LELX
+101;Lausanne-Flon - Bercher;8;3478;LELX;ROSL
+101;Lausanne-Flon - Bercher;9;3479;ROSL;VECA
+101;Lausanne-Flon - Bercher;10;3480;VECA;BEAI
+101;Lausanne-Flon - Bercher;11;3481;BEAI;CHES
+101;Lausanne-Flon - Bercher;12;3482;CHES;RIPE
+101;Lausanne-Flon - Bercher;13;3483;RIPE;ETA
+101;Lausanne-Flon - Bercher;14;3484;ETA;ASNS
+101;Lausanne-Flon - Bercher;15;3485;ASNS;ECH
+101;Lausanne-Flon - Bercher;16;3486;ECH;SROC
+101;Lausanne-Flon - Bercher;17;3487;SROC;GRES
+101;Lausanne-Flon - Bercher;18;3488;GRES;SUGN
+101;Lausanne-Flon - Bercher;19;3489;SUGN;FEY
+101;Lausanne-Flon - Bercher;20;3490;FEY;BERC
+107;Brig-Lötschberg (Abzw) Brig Tunnel;1;2386;BRLO;BRRB
+107;Brig-Lötschberg (Abzw) Brig Tunnel;2;2387;BRRB;BRTU
+108;Nouvel axe pour Tunnel de Sierre (GOBET);0;4569;SIE;SIET
+109;Simplon Tunnel II;1;2348;BRTU;STDG
+109;Simplon Tunnel II;2;2349;STDG;ISTU
+111;Vevey Ouest - Puidoux-Chexbres;-1;2451;VVO;VVFU
+111;Vevey Ouest - Puidoux-Chexbres;0;2448;VVFU;CORS
+111;Vevey Ouest - Puidoux-Chexbres;1;2449;CORS;CHX
+111;Vevey Ouest - Puidoux-Chexbres;2;2364;CHX;LVE
+111;Vevey Ouest - Puidoux-Chexbres;3;2365;LVE;PUI
+112;Vevey - Blonay;1;3247;VV;GIL
+112;Vevey - Blonay;2;3248;GIL;CLIE
+112;Vevey - Blonay;3;3249;CLIE;HTV
+112;Vevey - Blonay;4;3250;HTV;CHTV
+112;Vevey - Blonay;5;3251;CHTV;STLE
+112;Vevey - Blonay;6;3252;STLE;STLV
+112;Vevey - Blonay;7;3253;STLV;CHIZ
+112;Vevey - Blonay;8;3254;CHIZ;CHBL
+112;Vevey - Blonay;9;3255;CHBL;BLON
+113;Blonay - Les Pléiades;1;3256;BLON;PRLZ
+113;Blonay - Les Pléiades;2;3257;PRLZ;TUS
+113;Blonay - Les Pléiades;3;3258;TUS;CHEV
+113;Blonay - Les Pléiades;4;3259;CHEV;BCHX
+113;Blonay - Les Pléiades;5;3260;BCHX;FAY
+113;Blonay - Les Pléiades;6;3261;FAY;OND
+113;Blonay - Les Pléiades;7;3262;OND;LAL
+113;Blonay - Les Pléiades;8;3263;LAL;PLEI
+114;Blonay - Chamby;1;4280;BLON;CHAN
+114;Blonay - Chamby;2;4281;CHAN;CHCO
+114;Blonay - Chamby;3;4282;CHCO;CABM
+114;Blonay - Chamby;4;4283;CABM;CABY
+117;Palézieux - Châtel-St-Denis;1;3364;PAL;GRAV
+117;Palézieux - Châtel-St-Denis;2;3365;GRAV;BENS
+117;Palézieux - Châtel-St-Denis;3;3366;BENS;TAT
+117;Palézieux - Châtel-St-Denis;4;3367;TAT;REMA
+117;Palézieux - Châtel-St-Denis;5;3368;REMA;MOUL
+117;Palézieux - Châtel-St-Denis;6;3369;MOUL;CHSD
+118;Châtel-St-Denis - Montbovon;1;3370;CHSD;PRAY
+118;Châtel-St-Denis - Montbovon;2;3371;PRAY;SEMS
+118;Châtel-St-Denis - Montbovon;3;3372;SEMS;VERI
+118;Châtel-St-Denis - Montbovon;4;3373;VERI;CRE
+118;Châtel-St-Denis - Montbovon;5;3374;CRE;PNTS
+118;Châtel-St-Denis - Montbovon;6;3375;PNTS;VAUS
+118;Châtel-St-Denis - Montbovon;7;3376;VAUS;COLO
+118;Châtel-St-Denis - Montbovon;8;3377;COLO;VUA
+118;Châtel-St-Denis - Montbovon;9;3378;VUA;PCHY
+118;Châtel-St-Denis - Montbovon;10;3379;PCHY;BUL
+118;Châtel-St-Denis - Montbovon;11;3380;BUL;TDT
+118;Châtel-St-Denis - Montbovon;12;3381;TDT;PAQ
+118;Châtel-St-Denis - Montbovon;13;3468;PAQ;GRY
+118;Châtel-St-Denis - Montbovon;14;3469;GRY;ESTA
+118;Châtel-St-Denis - Montbovon;15;3383;ESTA;ENN
+118;Châtel-St-Denis - Montbovon;16;3384;ENN;GRVI
+118;Châtel-St-Denis - Montbovon;17;3385;GRVI;NEIR
+118;Châtel-St-Denis - Montbovon;18;3386;NEIR;ALBE
+118;Châtel-St-Denis - Montbovon;19;3387;ALBE;LES
+118;Châtel-St-Denis - Montbovon;20;3388;LES;MTB
+119;Bulle - Broc-Fabrique;1;3344;BUL;TOUV
+119;Bulle - Broc-Fabrique;2;3345;TOUV;EPA
+119;Bulle - Broc-Fabrique;3;3346;EPA;MARC
+119;Bulle - Broc-Fabrique;4;3347;MARC;BROV
+119;Bulle - Broc-Fabrique;5;3348;BROV;BROF
+120;Montreux - Zweisimmen;1;2967;MXMO;CGE
+120;Montreux - Zweisimmen;2;2968;CGE;VUAR
+120;Montreux - Zweisimmen;3;2969;VUAR;BEMM
+120;Montreux - Zweisimmen;4;2970;BEMM;COLD
+120;Montreux - Zweisimmen;5;2971;COLD;CHAL
+120;Montreux - Zweisimmen;6;2972;CHAL;PLAC
+120;Montreux - Zweisimmen;7;2973;PLAC;FON
+120;Montreux - Zweisimmen;8;2974;FON;CHER
+120;Montreux - Zweisimmen;9;2975;CHER;SONZ
+120;Montreux - Zweisimmen;10;2976;SONZ;CABY
+120;Montreux - Zweisimmen;11;2977;CABY;SDY
+120;Montreux - Zweisimmen;12;2978;SDY;AVA
+120;Montreux - Zweisimmen;13;2979;AVA;JOR
+120;Montreux - Zweisimmen;14;2980;JOR;CASE
+120;Montreux - Zweisimmen;15;2981;CASE;ALLI
+120;Montreux - Zweisimmen;16;2982;ALLI;SCI
+120;Montreux - Zweisimmen;17;2983;SCI;MTB
+120;Montreux - Zweisimmen;18;2984;MTB;TINE
+120;Montreux - Zweisimmen;19;2985;TINE;ROSI
+120;Montreux - Zweisimmen;20;2986;ROSI;CHAU
+120;Montreux - Zweisimmen;21;2987;CHAU;CHOE
+120;Montreux - Zweisimmen;22;2988;CHOE;PALZ
+120;Montreux - Zweisimmen;23;2989;PALZ;GRAC
+120;Montreux - Zweisimmen;24;2990;GRAC;COMS
+120;Montreux - Zweisimmen;25;2991;COMS;FLED
+120;Montreux - Zweisimmen;26;2992;FLED;ROU
+120;Montreux - Zweisimmen;27;2993;ROU;SAAN
+120;Montreux - Zweisimmen;28;2994;SAAN;GST
+120;Montreux - Zweisimmen;29;2995;GST;GRUB
+120;Montreux - Zweisimmen;30;2996;GRUB;SCR
+120;Montreux - Zweisimmen;31;2997;SCR;SAMO
+120;Montreux - Zweisimmen;32;2998;SAMO;OES
+120;Montreux - Zweisimmen;33;2999;OES;HALN
+120;Montreux - Zweisimmen;34;3000;HALN;ZW
+121;Montreux - Glion;1;3264;MXMT;PLCH
+121;Montreux - Glion;2;3265;PLCH;TOV
+121;Montreux - Glion;3;3266;TOV;VALM
+121;Montreux - Glion;4;3267;VALM;GLI
+122;Glion - Rochers-de-Naye;1;3268;GLI;GLHA
+122;Glion - Rochers-de-Naye;2;3269;GLHA;GLCO
+122;Glion - Rochers-de-Naye;3;3270;GLCO;TREM
+122;Glion - Rochers-de-Naye;4;3271;TREM;CAUX
+122;Glion - Rochers-de-Naye;5;3714;CAUX;ECTS
+122;Glion - Rochers-de-Naye;6;3713;ECTS;HDC
+122;Glion - Rochers-de-Naye;7;3274;HDC;CRDB
+122;Glion - Rochers-de-Naye;8;3275;CRDB;PACC
+122;Glion - Rochers-de-Naye;9;3276;PACC;JAMA
+122;Glion - Rochers-de-Naye;10;3277;JAMA;PERC
+122;Glion - Rochers-de-Naye;11;3278;PERC;RODN
+123;Aigle - Le Sépey;-1;4319;AIG;AIPM
+123;Aigle - Le Sépey;0;4320;AIPM;AIGT
+123;Aigle - Le Sépey;1;4307;AIGT;AGHO
+123;Aigle - Le Sépey;2;4308;AGHO;VERC
+123;Aigle - Le Sépey;3;2835;VERC;PLAM
+123;Aigle - Le Sépey;4;2836;PLAM;EX
+123;Aigle - Le Sépey;5;2837;EX;FLLE
+123;Aigle - Le Sépey;6;2838;FLLE;PLAS
+123;Aigle - Le Sépey;7;2839;PLAS;SEP
+124;Les Planches - Les Diablerets;0;2840;PLAS;ECHE
+124;Les Planches - Les Diablerets;1;4309;ECHE;SLB
+124;Les Planches - Les Diablerets;2;4306;SLB;AVIO
+124;Les Planches - Les Diablerets;3;2842;AVIO;VEGL
+124;Les Planches - Les Diablerets;4;2843;VEGL;DIAB
+125;Aigle - Aigle-Dépôt;1;2824;AIG;AIGM
+125;Aigle - Aigle-Dépôt;2;2825;AIGM;AIGD
+126;Aigle-Dépôt - Leysin;1;2826;AIGD;FTY
+126;Aigle-Dépôt - Leysin;2;2827;FTY;PTD
+126;Aigle-Dépôt - Leysin;3;2828;PTD;REAZ
+126;Aigle-Dépôt - Leysin;4;3645;REAZ;ROUL
+126;Aigle-Dépôt - Leysin;5;3646;ROUL;LEYV
+126;Aigle-Dépôt - Leysin;6;2830;LEYV;VEMO
+126;Aigle-Dépôt - Leysin;7;2831;VEMO;LEY
+126;Aigle-Dépôt - Leysin;8;2832;LEY;LEYG
+127;Bex - Villars;-1;4063;BEX;RUAZ
+127;Bex - Villars;0;4064;RUAZ;BEXM
+127;Bex - Villars;1;3631;BEXM;BXPN
+127;Bex - Villars;2;3632;BXPN;GMOU
+127;Bex - Villars;3;3633;GMOU;FYDM
+127;Bex - Villars;4;3634;FYDM;BEVI
+127;Bex - Villars;5;2757;BEVI;FONT
+127;Bex - Villars;6;2758;FONT;POSS
+127;Bex - Villars;7;2759;POSS;GRYO
+127;Bex - Villars;8;4065;GRYO;GRBG
+127;Bex - Villars;9;4066;GRBG;BARB
+127;Bex - Villars;10;2761;BARB;CLAI
+127;Bex - Villars;11;2762;CLAI;ARVE
+127;Bex - Villars;12;2763;ARVE;VIAR
+128;Villars - Col-de-Bretaye;-1;4312;VIAR;RCHG
+128;Villars - Col-de-Bretaye;0;4313;RCHG;COLS
+128;Villars - Col-de-Bretaye;1;4314;COLS;VIGO
+128;Villars - Col-de-Bretaye;2;4315;VIGO;BOUQ
+128;Villars - Col-de-Bretaye;3;2753;BOUQ;COLB
+129;Aigle - Ollon - Monthey-Ville;-1;2764;AIG;AIGH
+129;Aigle - Ollon - Monthey-Ville;0;4310;AIGH;CHLX
+129;Aigle - Ollon - Monthey-Ville;1;4311;CHLX;STVI
+129;Aigle - Ollon - Monthey-Ville;2;2766;STVI;OLLO
+129;Aigle - Ollon - Monthey-Ville;3;2767;OLLO;ARNO
+129;Aigle - Ollon - Monthey-Ville;4;2768;ARNO;VY
+129;Aigle - Ollon - Monthey-Ville;5;2769;VY;STGR
+129;Aigle - Ollon - Monthey-Ville;6;2770;STGR;PTR
+129;Aigle - Ollon - Monthey-Ville;7;2771;PTR;COR
+129;Aigle - Ollon - Monthey-Ville;8;2772;COR;COMU
+129;Aigle - Ollon - Monthey-Ville;9;2773;COMU;MTHP
+129;Aigle - Ollon - Monthey-Ville;10;4317;MTHP;MTD
+129;Aigle - Ollon - Monthey-Ville;11;4318;MTD;MTHV
+130;Monthey-En Place - Champéry;0;2775;MTHP;MTHH
+130;Monthey-En Place - Champéry;1;3641;MTHH;PTCX
+130;Monthey-En Place - Champéry;2;3642;PTCX;CHEX
+130;Monthey-En Place - Champéry;3;2777;CHEX;CXN
+130;Monthey-En Place - Champéry;4;3643;CXN;NEYS
+130;Monthey-En Place - Champéry;5;3644;NEYS;RTEM
+130;Monthey-En Place - Champéry;6;2779;RTEM;TROI
+130;Monthey-En Place - Champéry;7;2780;TROI;FAYO
+130;Monthey-En Place - Champéry;8;2781;FAYO;VALI
+130;Monthey-En Place - Champéry;9;2782;VALI;CHAY
+130;Monthey-En Place - Champéry;10;2783;CHAY;COU
+130;Monthey-En Place - Champéry;11;4047;COU;CRYV
+130;Monthey-En Place - Champéry;12;4048;CRYV;CRY
+131;Les Paluds - St-Gingolph (Frontière);1;52;PDS;MAS
+131;Les Paluds - St-Gingolph (Frontière);2;1373;MAS;LOSI
+131;Les Paluds - St-Gingolph (Frontière);3;1385;LOSI;MTH
+131;Les Paluds - St-Gingolph (Frontière);4;1375;MTH;GIOV
+131;Les Paluds - St-Gingolph (Frontière);5;1376;GIOV;CBY
+131;Les Paluds - St-Gingolph (Frontière);6;1377;CBY;CABV
+131;Les Paluds - St-Gingolph (Frontière);7;1378;CABV;AGIP
+131;Les Paluds - St-Gingolph (Frontière);8;1379;AGIP;VIO
+131;Les Paluds - St-Gingolph (Frontière);9;56;VIO;VOU
+131;Les Paluds - St-Gingolph (Frontière);10;1386;VOU;EVOU
+131;Les Paluds - St-Gingolph (Frontière);11;58;EVOU;BOU
+131;Les Paluds - St-Gingolph (Frontière);12;59;BOU;STGI
+131;Les Paluds - St-Gingolph (Frontière);13;1384;STGI;STGF
+131;Les Paluds - St-Gingolph (Frontière);14;3711;STGF;BRE
+132;Martigny - Le Châtelard-Frontière;1;3279;MA;BATI
+132;Martigny - Le Châtelard-Frontière;2;3280;BATI;FUM
+132;Martigny - Le Châtelard-Frontière;3;3281;FUM;VEMC
+132;Martigny - Le Châtelard-Frontière;4;3282;VEMC;SLV
+132;Martigny - Le Châtelard-Frontière;5;3283;SLV;MARE
+132;Martigny - Le Châtelard-Frontière;6;3284;MARE;MED
+132;Martigny - Le Châtelard-Frontière;7;3285;MED;TRET
+132;Martigny - Le Châtelard-Frontière;8;3286;TRET;FIN
+132;Martigny - Le Châtelard-Frontière;9;3287;FIN;CHGI
+132;Martigny - Le Châtelard-Frontière;10;3288;CHGI;CHFR
+133;Martigny - Orsières;0;4067;MA;MABC
+133;Martigny - Orsières;1;4068;MABC;MABO
+133;Martigny - Orsières;2;3290;MABO;MACR
+133;Martigny - Orsières;3;3627;MACR;BOVE
+133;Martigny - Orsières;4;3626;BOVE;SEMB
+133;Martigny - Orsières;5;3726;SEMB;DOUY
+133;Martigny - Orsières;6;3727;DOUY;ORS
+134;Sembrancher - Le Châble;1;3470;SEMB;ETIE
+134;Sembrancher - Le Châble;2;3296;ETIE;CHAB
+140;Brig - Visp - Zermatt;0;2637;BRMG;GAM
+140;Brig - Visp - Zermatt;1;2638;GAM;EYHO
+140;Brig - Visp - Zermatt;2;4361;EYHO;VI
+140;Brig - Visp - Zermatt;3;4362;VI;ACK
+140;Brig - Visp - Zermatt;4;2641;ACK;STAS
+140;Brig - Visp - Zermatt;5;2889;STAS;KALP
+140;Brig - Visp - Zermatt;6;2890;KALP;SNK
+670;Wädenswil - Einsiedeln;0;3716;WAE;BGH
+670;Wädenswil - Einsiedeln;1;1833;BGH;GRF
+670;Wädenswil - Einsiedeln;2;1834;GRF;SAM
+670;Wädenswil - Einsiedeln;3;1822;SAM;SCHI
+670;Wädenswil - Einsiedeln;4;2299;SCHI;KABO
+670;Wädenswil - Einsiedeln;5;2300;KABO;BIB
+670;Wädenswil - Einsiedeln;6;1835;BIB;NBG
+670;Wädenswil - Einsiedeln;7;3939;NBG;EISH
+670;Wädenswil - Einsiedeln;8;3940;EISH;EIS
+670;Wädenswil - Einsiedeln;9;3728;EIS;EISE
+671;Rapperswil - Pfäffikon Ost (SOB);0;1768;RW;HUR
+671;Rapperswil - Pfäffikon Ost (SOB);1;3952;HUR;PFNO
+671;Rapperswil - Pfäffikon Ost (SOB);2;3953;PFNO;PFOS
+672;Pfäffikon SZ - Samstagern;1;1817;PF;FRBS
+672;Pfäffikon SZ - Samstagern;2;1818;FRBS;WILN
+672;Pfäffikon SZ - Samstagern;3;1819;WILN;WOL
+672;Pfäffikon SZ - Samstagern;4;1820;WOL;RDM
+672;Pfäffikon SZ - Samstagern;5;1821;RDM;SAM
+673;Biberbrugg - Arth-Goldau;1;1824;BIB;AT
+673;Biberbrugg - Arth-Goldau;2;1825;AT;RTT
+673;Biberbrugg - Arth-Goldau;3;1826;RTT;BIGG
+673;Biberbrugg - Arth-Goldau;4;1827;BIGG;SAT
+740;Rapperswil - Uster - Wallisellen Ost;0;1591;RWO;JO
+740;Rapperswil - Uster - Wallisellen Ost;1;818;JO;RUE
+740;Rapperswil - Uster - Wallisellen Ost;2;1402;RUE;RUEW
+740;Rapperswil - Uster - Wallisellen Ost;3;1403;RUEW;BUB
+740;Rapperswil - Uster - Wallisellen Ost;4;820;BUB;WZ
+740;Rapperswil - Uster - Wallisellen Ost;5;821;WZ;AAT
+740;Rapperswil - Uster - Wallisellen Ost;6;822;AAT;UST
+740;Rapperswil - Uster - Wallisellen Ost;7;823;UST;NAEN
+740;Rapperswil - Uster - Wallisellen Ost;8;824;NAEN;SCWE
+740;Rapperswil - Uster - Wallisellen Ost;9;825;SCWE;DUE
+740;Rapperswil - Uster - Wallisellen Ost;10;1369;DUE;CHRI
+740;Rapperswil - Uster - Wallisellen Ost;11;1370;CHRI;WSO
+742;Hinwil - Bäretswil - Bauma;0;868;HI;ETH
+742;Hinwil - Bäretswil - Bauma;1;1617;ETH;BAET
+742;Hinwil - Bäretswil - Bauma;2;1618;BAET;BAEW
+742;Hinwil - Bäretswil - Bauma;3;870;BAEW;NEU
+742;Hinwil - Bäretswil - Bauma;4;871;NEU;BMA
+745;ZH Langstrasse - Dietlikon Süd (S-Bahn);1;1365;ZLST;ZMUS
+745;ZH Langstrasse - Dietlikon Süd (S-Bahn);2;811;ZMUS;ZSTH
+745;ZH Langstrasse - Dietlikon Süd (S-Bahn);3;812;ZSTH;ZHOT
+745;ZH Langstrasse - Dietlikon Süd (S-Bahn);4;813;ZHOT;STET
+745;ZH Langstrasse - Dietlikon Süd (S-Bahn);5;1366;STET;NEGW
+745;ZH Langstrasse - Dietlikon Süd (S-Bahn);6;1367;NEGW;NEGO
+745;ZH Langstrasse - Dietlikon Süd (S-Bahn);7;1368;NEGO;DTLS
+746;Neugut Ost (Abzw) - Chriesbach (Abzw);1;1372;NEGO;CHRI
+747;Neugut West (Abzw) - Chriesbach (Abzw);1;1371;NEGW;CHRI
+748;ZH Altstetten - ZH Oerlikon, DML;-3;3871;ZASO;ZVB
+748;ZH Altstetten - ZH Oerlikon, DML;-2;3872;ZVB;ZLST
+748;ZH Altstetten - ZH Oerlikon, DML;-1;2642;ZLST;ZLOE
+748;ZH Altstetten - ZH Oerlikon, DML;0;2643;ZLOE;ZOES
+748;ZH Altstetten - ZH Oerlikon, DML;1;3566;ZOES;ZOER
+750;ZH Oerlikon Nord - Dorfnest;2;1634;ZOEN;OP
+750;ZH Oerlikon Nord - Dorfnest;3;1620;OP;ZFH
+750;ZH Oerlikon Nord - Dorfnest;4;828;ZFH;DORF
+751;ZH Langstr. - Wallisellen - Winterthur;-5;3744;ZLST;ZVIA
+751;ZH Langstr. - Wallisellen - Winterthur;-4;3743;ZVIA;ZWIP
+751;ZH Langstr. - Wallisellen - Winterthur;-3;4275;ZWIP;ZOES
+751;ZH Langstr. - Wallisellen - Winterthur;-2;4276;ZOES;ZOER
+751;ZH Langstr. - Wallisellen - Winterthur;-1;835;ZOER;WS
+751;ZH Langstr. - Wallisellen - Winterthur;0;1417;WS;WSO
+751;ZH Langstr. - Wallisellen - Winterthur;1;1418;WSO;DTLS
+751;ZH Langstr. - Wallisellen - Winterthur;2;1419;DTLS;DTL
+673;Biberbrugg - Arth-Goldau;5;1828;SAT;STBG
+673;Biberbrugg - Arth-Goldau;6;1829;STBG;MAGZ
+673;Biberbrugg - Arth-Goldau;7;1830;MAGZ;GDO
+691;RBL Kopf Zürich - Killwangen West;1;1673;RBLZ;RBL
+691;RBL Kopf Zürich - Killwangen West;2;1674;RBL;KLW
+691;RBL Kopf Zürich - Killwangen West;3;1675;KLW;KLWW
+692;RBL Nord;1;3618;RBLZ;RBLD
+692;RBL Nord;2;3924;RBLD;RBLA
+692;RBL Nord;3;3925;RBLA;RBLL
+692;RBL Nord;4;3926;RBLL;RBLR
+692;RBL Nord;5;3927;RBLR;RBLU
+692;RBL Nord;6;3928;RBLU;RBLK
+693;RBL Mitte;2;3936;RBLD;RBLR
+693;RBL Mitte;3;3931;RBLR;RBLE
+693;RBL Mitte;4;3932;RBLE;RBLK
+694;RBL Depot;1;3935;RBLD;RBLO
+695;RBL R-Gruppe;1;3933;RBLO;RBLR
+695;RBL R-Gruppe;2;3934;RBLR;RBL
+696;Ein-/Ausfahrt RBL Feld A;1;4243;RBLA;SILB
+698;Killwangen West -411- Heitersbergl. Ost;2;1408;KLWW;HBLO
+699;Neuer Bözbergtunnel;0;4668;SDO;EFG
+700;Brugg - Pratteln Ost;-5;1570;BG;BGN
+700;Brugg - Pratteln Ost;-4;694;BGN;VSPW
+700;Brugg - Pratteln Ost;-3;695;VSPW;VILL
+700;Brugg - Pratteln Ost;-2;696;VILL;SDO
+700;Brugg - Pratteln Ost;-1;697;SDO;EFG
+700;Brugg - Pratteln Ost;0;2285;EFG;KIM
+700;Brugg - Pratteln Ost;1;2286;KIM;HNS
+700;Brugg - Pratteln Ost;2;2287;HNS;BUHA
+700;Brugg - Pratteln Ost;3;2288;BUHA;FCK
+700;Brugg - Pratteln Ost;4;2289;FCK;NIF
+700;Brugg - Pratteln Ost;5;2290;NIF;EI
+700;Brugg - Pratteln Ost;6;1582;EI;STSO
+700;Brugg - Pratteln Ost;7;1581;STSO;STS
+700;Brugg - Pratteln Ost;8;702;STS;MPF
+700;Brugg - Pratteln Ost;9;703;MPF;DOSS
+700;Brugg - Pratteln Ost;10;704;DOSS;MOE
+700;Brugg - Pratteln Ost;11;705;MOE;RF
+700;Brugg - Pratteln Ost;12;4241;RF;RFAU
+700;Brugg - Pratteln Ost;13;4242;RFAU;KAU
+700;Brugg - Pratteln Ost;14;4239;KAU;PRSR
+700;Brugg - Pratteln Ost;15;4240;PRSR;PRO
+701;Eglisau - Koblenz - Stein Säckingen Ost;6;716;EGL;ZWD
+701;Eglisau - Koblenz - Stein Säckingen Ost;7;717;ZWD;WK
+701;Eglisau - Koblenz - Stein Säckingen Ost;8;2435;WK;KAAG
+701;Eglisau - Koblenz - Stein Säckingen Ost;9;2436;KAAG;RUEN
+701;Eglisau - Koblenz - Stein Säckingen Ost;10;4300;RUEN;MELN
+701;Eglisau - Koblenz - Stein Säckingen Ost;11;2438;MELN;REK
+701;Eglisau - Koblenz - Stein Säckingen Ost;12;720;REK;ZZ
+701;Eglisau - Koblenz - Stein Säckingen Ost;13;721;ZZ;RIET
+701;Eglisau - Koblenz - Stein Säckingen Ost;14;1316;RIET;KBD
+701;Eglisau - Koblenz - Stein Säckingen Ost;15;1317;KBD;KB
+701;Eglisau - Koblenz - Stein Säckingen Ost;16;723;KB;FE
+701;Eglisau - Koblenz - Stein Säckingen Ost;17;1645;FE;FU
+701;Eglisau - Koblenz - Stein Säckingen Ost;18;1319;FU;LEI
+701;Eglisau - Koblenz - Stein Säckingen Ost;19;726;LEI;SCWA
+701;Eglisau - Koblenz - Stein Säckingen Ost;20;727;SCWA;EZG
+701;Eglisau - Koblenz - Stein Säckingen Ost;21;728;EZG;SZ
+701;Eglisau - Koblenz - Stein Säckingen Ost;22;729;SZ;LFG
+701;Eglisau - Koblenz - Stein Säckingen Ost;23;1320;LFG;KAIO
+701;Eglisau - Koblenz - Stein Säckingen Ost;24;1321;KAIO;SLN
+701;Eglisau - Koblenz - Stein Säckingen Ost;25;2219;SLN;MWIA
+701;Eglisau - Koblenz - Stein Säckingen Ost;26;2220;MWIA;STSO
+702;Turgi - Koblenz - Waldshut;-2;732;TG;SIG
+702;Turgi - Koblenz - Waldshut;-1;2596;SIG;WUZW
+702;Turgi - Koblenz - Waldshut;0;2597;WUZW;BEZ
+702;Turgi - Koblenz - Waldshut;1;1324;BEZ;DOE
+702;Turgi - Koblenz - Waldshut;2;3746;DOE;KLI
+702;Turgi - Koblenz - Waldshut;3;3747;KLI;KB
+702;Turgi - Koblenz - Waldshut;4;735;KB;KBGR
+702;Turgi - Koblenz - Waldshut;5;736;KBGR;WADB
+703;ZH Oerlikon Nord - Wettingen - Gruemet;-3;1333;ZOEN;ZSEO
+703;ZH Oerlikon Nord - Wettingen - Gruemet;-2;1334;ZSEO;ZSEB
+703;ZH Oerlikon Nord - Wettingen - Gruemet;-1;738;ZSEB;ZAF
+703;ZH Oerlikon Nord - Wettingen - Gruemet;0;739;ZAF;REG
+703;ZH Oerlikon Nord - Wettingen - Gruemet;1;1335;REG;REGW
+703;ZH Oerlikon Nord - Wettingen - Gruemet;2;1336;REGW;BUD
+703;ZH Oerlikon Nord - Wettingen - Gruemet;3;1337;BUD;OFR
+703;ZH Oerlikon Nord - Wettingen - Gruemet;4;1338;OFR;OF
+703;ZH Oerlikon Nord - Wettingen - Gruemet;5;742;OF;WUER
+703;ZH Oerlikon Nord - Wettingen - Gruemet;6;743;WUER;WE
+703;ZH Oerlikon Nord - Wettingen - Gruemet;7;744;WE;BDO
+703;ZH Oerlikon Nord - Wettingen - Gruemet;8;745;BDO;DAET
+703;ZH Oerlikon Nord - Wettingen - Gruemet;9;746;DAET;MEL
+703;ZH Oerlikon Nord - Wettingen - Gruemet;10;747;MEL;GMT
+704;Würenlos - Killwangen West (RBL);1;1398;WUER;KLWW
+705;Tanklager Otelfingen Ost - Otelfingen;1;1720;TAOO;TAO
+705;Tanklager Otelfingen Ost - Otelfingen;2;1719;TAO;OF
+706;Zürich Seebach - Glattbrugg Süd;0;2417;ZSEO;OPS
+706;Zürich Seebach - Glattbrugg Süd;1;2416;OPS;GLBS
+708;Zürich Altstetten - Einfang;1;2533;ZAS;ZMUE
+708;Zürich Altstetten - Einfang;2;2534;ZMUE;EINF
+709;Zue Vorbahnhof Nord - Zürich Altstetten;0;3741;ZLST;ZVBN
+709;Zue Vorbahnhof Nord - Zürich Altstetten;1;2548;ZVBN;ZHER
+709;Zue Vorbahnhof Nord - Zürich Altstetten;2;2549;ZHER;ZAS
+710;Zürich HB - Brugg AG;-16;3729;ZULQ;ZUE
+710;Zürich HB - Brugg AG;-15;684;ZUE;ZLST
+710;Zürich HB - Brugg AG;-14;2305;ZLST;ZUN
+710;Zürich HB - Brugg AG;-13;2306;ZUN;ZHDB
+710;Zürich HB - Brugg AG;-12;2536;ZHDB;ZHDW
+710;Zürich HB - Brugg AG;-11;2537;ZHDW;ZASO
+710;Zürich HB - Brugg AG;-10;1326;ZASO;ZAS
+710;Zürich HB - Brugg AG;-9;2535;ZAS;EINF
+710;Zürich HB - Brugg AG;-8;1612;EINF;SCHL
+710;Zürich HB - Brugg AG;-7;1615;SCHL;GLZB
+710;Zürich HB - Brugg AG;-6;1616;GLZB;DT
+710;Zürich HB - Brugg AG;-5;1670;DT;RBLZ
+710;Zürich HB - Brugg AG;-4;4253;RBLZ;SILB
+710;Zürich HB - Brugg AG;-3;4254;SILB;KLW
+710;Zürich HB - Brugg AG;-2;1327;KLW;KLWW
+710;Zürich HB - Brugg AG;-1;1613;KLWW;NHOF
+710;Zürich HB - Brugg AG;0;1614;NHOF;WE
+710;Zürich HB - Brugg AG;1;690;WE;BD
+710;Zürich HB - Brugg AG;2;691;BD;TG
+710;Zürich HB - Brugg AG;3;692;TG;BG
+711;ZH Hardbrücke - Kollermühle;-3;2542;ZHDB;ZASN
+711;ZH Hardbrücke - Kollermühle;-2;2543;ZASN;ZASS
+711;ZH Hardbrücke - Kollermühle;-1;1641;ZASS;ZAS
+711;ZH Hardbrücke - Kollermühle;0;758;ZAS;URD
+711;ZH Hardbrücke - Kollermühle;1;759;URD;URDW
+711;ZH Hardbrücke - Kollermühle;2;760;URDW;BIRI
+711;ZH Hardbrücke - Kollermühle;3;761;BIRI;BIR
+711;ZH Hardbrücke - Kollermühle;4;2505;BIR;FILD
+711;ZH Hardbrücke - Kollermühle;5;2506;FILD;BON
+711;ZH Hardbrücke - Kollermühle;6;763;BON;HED
+711;ZH Hardbrücke - Kollermühle;7;764;HED;AF
+711;ZH Hardbrücke - Kollermühle;8;765;AF;MTM
+711;ZH Hardbrücke - Kollermühle;9;766;MTM;KNO
+711;ZH Hardbrücke - Kollermühle;10;767;KNO;STE
+711;ZH Hardbrücke - Kollermühle;11;4469;STE;STRI
+711;ZH Hardbrücke - Kollermühle;12;4470;STRI;KMUE
+712;Zürich Selnau - Adliswil - Sihlbrugg;2;2896;ZSEL;ZGH
+712;Zürich Selnau - Adliswil - Sihlbrugg;3;2897;ZGH;ZSAA
+712;Zürich Selnau - Adliswil - Sihlbrugg;4;2898;ZSAA;ZBRU
+712;Zürich Selnau - Adliswil - Sihlbrugg;5;2899;ZBRU;ZMA
+712;Zürich Selnau - Adliswil - Sihlbrugg;6;2900;ZMA;ZLE
+712;Zürich Selnau - Adliswil - Sihlbrugg;7;2901;ZLE;SOOD
+712;Zürich Selnau - Adliswil - Sihlbrugg;8;2902;SOOD;ADW
+712;Zürich Selnau - Adliswil - Sihlbrugg;9;2903;ADW;SIA
+712;Zürich Selnau - Adliswil - Sihlbrugg;10;2904;SIA;WP
+712;Zürich Selnau - Adliswil - Sihlbrugg;11;2905;WP;LNG
+712;Zürich Selnau - Adliswil - Sihlbrugg;12;2906;LNG;SIW
+712;Zürich Selnau - Adliswil - Sihlbrugg;13;2907;SIW;SBG
+713;Zürich Giesshübel - Uetliberg;1;2908;ZGH;ZBZ
+713;Zürich Giesshübel - Uetliberg;2;2909;ZBZ;BORR
+713;Zürich Giesshübel - Uetliberg;3;2910;BORR;FRIB
+713;Zürich Giesshübel - Uetliberg;4;2911;FRIB;SHF
+713;Zürich Giesshübel - Uetliberg;5;2912;SHF;TRLI
+713;Zürich Giesshübel - Uetliberg;6;2913;TRLI;BGF
+713;Zürich Giesshübel - Uetliberg;7;2914;BGF;UIWA
+713;Zürich Giesshübel - Uetliberg;8;2915;UIWA;RILI
+713;Zürich Giesshübel - Uetliberg;9;2916;RILI;UEBE
+714;Zürich - Altstetten (Südeinfahrt);-1;2647;ZLST;ZVBO
+714;Zürich - Altstetten (Südeinfahrt);0;2648;ZVBO;ZVB
+714;Zürich - Altstetten (Südeinfahrt);1;2649;ZVB;ZASO
+715;Zürich Altstetten Ost - Zürich Hard;-1;2544;ZASO;ZASN
+715;Zürich Altstetten Ost - Zürich Hard;0;2545;ZASN;HRD
+716;Zürich Hardbrücke - Zürich Herdern;1;2532;ZHDB;ZHER
+717;Zürich Giesshübel - Zürich Wiedikon;1;3576;ZGH;ZWIE
+718;ZH Aussersihl - ZH Altstetten Süd;-1;1573;ZAU;ZVB
+718;ZH Aussersihl - ZH Altstetten Süd;0;2314;ZVB;ZGV
+718;ZH Aussersihl - ZH Altstetten Süd;1;2315;ZGV;ZHW
+718;ZH Aussersihl - ZH Altstetten Süd;2;2313;ZHW;ZASS
+719;ZH Langstrasse - ZH Altstetten Süd;2;771;ZLST;ZVBN
+719;ZH Langstrasse - ZH Altstetten Süd;3;1572;ZVBN;ZVB
+719;ZH Langstrasse - ZH Altstetten Süd;4;2546;ZVB;ZVBW
+719;ZH Langstrasse - ZH Altstetten Süd;5;2547;ZVBW;ZASS
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;-2;1344;ZLST;ZAU
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;-1;2538;ZAU;ZLOG
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;0;2539;ZLOG;ZWIE
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;1;774;ZWIE;ZEN
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;2;775;ZEN;ZWOL
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;3;776;ZWOL;KIL
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;4;777;KIL;RUES
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;5;2540;RUES;TWNO
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;6;2541;TWNO;TW
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;7;1411;TW;TWS
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;8;1412;TWS;ORD
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;9;780;ORD;HG
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;10;2453;HG;MEIB
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;11;2454;MEIB;AU
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;12;782;AU;WAE
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;13;783;WAE;RI
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;14;1632;RI;HAF
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;15;1633;HAF;BAE
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;16;786;BAE;FRB
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;17;787;FRB;PF
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;18;1770;PF;PFOS
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;19;1771;PFOS;ALTD
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;20;789;ALTD;LA
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;21;790;LA;SIB
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;22;791;SIB;SCBU
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;23;792;SCBU;RG
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;24;793;RG;BIL
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;25;1575;BIL;ZBW
+720;ZH Langstrasse - Thalwil - Ziegelbrücke;26;1576;ZBW;ZB
+721;Thalwil - Thalwil Süd;1;1413;TW;TWS
+722;ZH Langstrasse - Nidelbad - Litti;0;3739;ZLST;ZAU
+722;ZH Langstrasse - Nidelbad - Litti;1;3740;ZAU;ZLOG
+722;ZH Langstrasse - Nidelbad - Litti;2;2472;ZLOG;ZKOL
+722;ZH Langstrasse - Nidelbad - Litti;3;2473;ZKOL;NIDB
+722;ZH Langstrasse - Nidelbad - Litti;4;2474;NIDB;NIDS
+723;Nidelbad Süd - Thalwil Nord;1;2468;NIDS;NIDO
+723;Nidelbad Süd - Thalwil Nord;2;2469;NIDO;TWNO
+725;Nidelbad - Nidelbad Ost;1;2471;NIDB;NIDO
+727;Zürich HB - Zürich Selnau;0;4528;ZUSZ;ZUSS
+727;Zürich HB - Zürich Selnau;1;4529;ZUSS;ZSEL
+730;Zürich Stadelhofen - Rapperswil;0;795;ZSTH;ZTB
+730;Zürich Stadelhofen - Rapperswil;1;796;ZTB;ZK
+730;Zürich Stadelhofen - Rapperswil;2;797;ZK;KGO
+730;Zürich Stadelhofen - Rapperswil;3;798;KGO;KUES
+730;Zürich Stadelhofen - Rapperswil;4;799;KUES;ERLB
+730;Zürich Stadelhofen - Rapperswil;5;800;ERLB;WIN
+730;Zürich Stadelhofen - Rapperswil;6;801;WIN;HERL
+730;Zürich Stadelhofen - Rapperswil;7;802;HERL;ML
+730;Zürich Stadelhofen - Rapperswil;8;803;ML;UET
+730;Zürich Stadelhofen - Rapperswil;9;804;UET;MAEN
+730;Zürich Stadelhofen - Rapperswil;10;805;MAEN;STAE
+730;Zürich Stadelhofen - Rapperswil;11;806;STAE;UER
+730;Zürich Stadelhofen - Rapperswil;12;807;UER;FB
+730;Zürich Stadelhofen - Rapperswil;13;808;FB;KPT
+730;Zürich Stadelhofen - Rapperswil;14;809;KPT;RW
+731;Zürich Stadelhofen - Esslingen;0;3914;ZSTF;ZUER
+731;Zürich Stadelhofen - Esslingen;1;2696;ZUER;WALG
+731;Zürich Stadelhofen - Esslingen;2;3624;WALG;SPIT
+731;Zürich Stadelhofen - Esslingen;3;3625;SPIT;ZKBG
+731;Zürich Stadelhofen - Esslingen;4;2698;ZKBG;WLTK
+731;Zürich Stadelhofen - Esslingen;5;2699;WLTK;ZUM
+731;Zürich Stadelhofen - Esslingen;6;2700;ZUM;MAIF
+731;Zürich Stadelhofen - Esslingen;7;2701;MAIF;NFCH
+731;Zürich Stadelhofen - Esslingen;8;2702;NFCH;FCH
+731;Zürich Stadelhofen - Esslingen;9;2703;FCH;SCRN
+731;Zürich Stadelhofen - Esslingen;10;2704;SCRN;NHBH
+731;Zürich Stadelhofen - Esslingen;11;2705;NHBH;HINT
+731;Zürich Stadelhofen - Esslingen;12;2706;HINT;EGG
+731;Zürich Stadelhofen - Esslingen;13;2707;EGG;LIES
+731;Zürich Stadelhofen - Esslingen;14;2708;LIES;EMMA
+731;Zürich Stadelhofen - Esslingen;15;2709;EMMA;ESSL
+735;Ziegelbrücke West - Rapperswil Ost;1;1586;ZBW;SCAE
+735;Ziegelbrücke West - Rapperswil Ost;2;1036;SCAE;BNK
+735;Ziegelbrücke West - Rapperswil Ost;3;1037;BNK;UZ
+735;Ziegelbrücke West - Rapperswil Ost;4;1038;UZ;SCME
+735;Ziegelbrücke West - Rapperswil Ost;5;1039;SCME;BOL
+735;Ziegelbrücke West - Rapperswil Ost;6;1588;BOL;BLU
+735;Ziegelbrücke West - Rapperswil Ost;7;1589;BLU;RWO
+736;Ziegelbrücke Ost - Linthal Gleisende;1;1585;ZBO;NOU
+736;Ziegelbrücke Ost - Linthal Gleisende;2;1042;NOU;NAEF
+736;Ziegelbrücke Ost - Linthal Gleisende;3;1043;NAEF;NET
+736;Ziegelbrücke Ost - Linthal Gleisende;4;1044;NET;GL
+736;Ziegelbrücke Ost - Linthal Gleisende;5;1045;GL;EDA
+736;Ziegelbrücke Ost - Linthal Gleisende;6;1046;EDA;MIT
+736;Ziegelbrücke Ost - Linthal Gleisende;7;1047;MIT;SCHD
+736;Ziegelbrücke Ost - Linthal Gleisende;8;1048;SCHD;NID
+736;Ziegelbrücke Ost - Linthal Gleisende;9;1049;NID;LGB
+736;Ziegelbrücke Ost - Linthal Gleisende;10;1050;LGB;LU
+736;Ziegelbrücke Ost - Linthal Gleisende;11;1051;LU;DSB
+736;Ziegelbrücke Ost - Linthal Gleisende;12;1052;DSB;RUET
+736;Ziegelbrücke Ost - Linthal Gleisende;13;1053;RUET;LINB
+736;Ziegelbrücke Ost - Linthal Gleisende;14;1054;LINB;LIN
+736;Ziegelbrücke Ost - Linthal Gleisende;15;1772;LIN;LINE
+740;Rapperswil - Uster - Wallisellen Ost;-1;1590;RW;RWO
+751;ZH Langstr. - Wallisellen - Winterthur;3;4423;DTL;HURW
+751;ZH Langstr. - Wallisellen - Winterthur;4;4424;HURW;HUER
+751;ZH Langstr. - Wallisellen - Winterthur;5;4425;HUER;HURO
+751;ZH Langstr. - Wallisellen - Winterthur;6;4426;HURO;EF
+751;ZH Langstr. - Wallisellen - Winterthur;7;839;EF;KE
+751;ZH Langstr. - Wallisellen - Winterthur;8;2550;KE;TOEM
+751;ZH Langstr. - Wallisellen - Winterthur;9;2551;TOEM;WWE
+751;ZH Langstr. - Wallisellen - Winterthur;10;841;WWE;W
+751;ZH Langstr. - Wallisellen - Winterthur;11;1592;W;WNO
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);0;1593;ZOEN;OPS
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);1;1621;OPS;OP
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);2;1622;OP;RT
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);3;844;RT;KLB
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);4;845;KLB;KL
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);5;846;KL;DORF
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);6;829;DORF;BSD
+752;Zürich Oerlikon Nord - Hürlistein (Abzw);7;830;BSD;HUER
+753;Effretikon - Wetzikon - Hinwil;0;847;EF;IL
+753;Effretikon - Wetzikon - Hinwil;1;848;IL;FET
+753;Effretikon - Wetzikon - Hinwil;2;4530;FET;WITZ
+753;Effretikon - Wetzikon - Hinwil;3;4531;WITZ;PFZ
+853;Wil Süd - Wattwil - Uznach;6;1454;LSG;LSGS
+853;Wil Süd - Wattwil - Uznach;7;1455;LSGS;WA
+853;Wil Süd - Wattwil - Uznach;8;990;WA;KAB
+853;Wil Süd - Wattwil - Uznach;9;991;KAB;UZ
+854;Gossau SG - Wasserauen;0;4553;GSAE;GSAB
+854;Gossau SG - Wasserauen;1;4244;GSAB;RUED
+854;Gossau SG - Wasserauen;2;4245;RUED;HEAB
+854;Gossau SG - Wasserauen;3;4246;HEAB;WILE
+854;Gossau SG - Wasserauen;4;2716;WILE;WSTA
+854;Gossau SG - Wasserauen;5;2717;WSTA;SULB
+854;Gossau SG - Wasserauen;6;2718;SULB;ZUEM
+854;Gossau SG - Wasserauen;7;2719;ZUEM;UR
+854;Gossau SG - Wasserauen;8;2720;UR;JAK
+854;Gossau SG - Wasserauen;9;2721;JAK;GONT
+854;Gossau SG - Wasserauen;10;2722;GONT;GONB
+854;Gossau SG - Wasserauen;11;2723;GONB;APPZ
+854;Gossau SG - Wasserauen;12;2724;APPZ;STEE
+854;Gossau SG - Wasserauen;13;2725;STEE;WEIS
+854;Gossau SG - Wasserauen;14;2726;WEIS;SCDE
+854;Gossau SG - Wasserauen;15;2727;SCDE;WASS
+854;Gossau SG - Wasserauen;16;4554;WASS;WASE
+855;St. Gallen AB - Gais - Appenzell;1;2728;SGSG;RITH
+855;St. Gallen AB - Gais - Appenzell;2;2729;RITH;LIEB
+855;St. Gallen AB - Gais - Appenzell;3;2730;LIEB;LUMU
+855;St. Gallen AB - Gais - Appenzell;4;2731;LUMU;NTEU
+855;St. Gallen AB - Gais - Appenzell;5;2732;NTEU;STTF
+855;St. Gallen AB - Gais - Appenzell;6;2733;STTF;STFE
+855;St. Gallen AB - Gais - Appenzell;7;2734;STFE;TEUF
+855;St. Gallen AB - Gais - Appenzell;8;2735;TEUF;SBA
+855;St. Gallen AB - Gais - Appenzell;9;2736;SBA;BUEH
+855;St. Gallen AB - Gais - Appenzell;10;2737;BUEH;STRH
+855;St. Gallen AB - Gais - Appenzell;11;2738;STRH;ZWBR
+855;St. Gallen AB - Gais - Appenzell;12;2739;ZWBR;GAIS
+855;St. Gallen AB - Gais - Appenzell;13;2740;GAIS;SAPL
+855;St. Gallen AB - Gais - Appenzell;14;2741;SAPL;HIRS
+855;St. Gallen AB - Gais - Appenzell;15;2742;HIRS;APPZ
+856;Altstätten Stadt - Gais;0;4555;ASTG;ALST
+856;Altstätten Stadt - Gais;1;4558;ALST;AZO
+856;Altstätten Stadt - Gais;2;4559;AZO;WBG
+856;Altstätten Stadt - Gais;3;4560;WBG;KREU
+856;Altstätten Stadt - Gais;4;4561;KREU;STOS
+856;Altstätten Stadt - Gais;5;4562;STOS;RITI
+856;Altstätten Stadt - Gais;6;4563;RITI;SCEA
+856;Altstätten Stadt - Gais;7;4564;SCEA;HBRG
+856;Altstätten Stadt - Gais;8;4565;HBRG;GAIS
+753;Effretikon - Wetzikon - Hinwil;4;850;PFZ;KN
+753;Effretikon - Wetzikon - Hinwil;5;851;KN;WZ
+753;Effretikon - Wetzikon - Hinwil;6;852;WZ;HI
+754;Winterthur Grüze - Bauma - Rüti ZH West;1;853;WGR;WSEE
+754;Winterthur Grüze - Bauma - Rüti ZH West;2;854;WSEE;SKY
+754;Winterthur Grüze - Bauma - Rüti ZH West;3;855;SKY;KOL
+754;Winterthur Grüze - Bauma - Rüti ZH West;4;856;KOL;RN
+754;Winterthur Grüze - Bauma - Rüti ZH West;5;857;RN;RMZ
+754;Winterthur Grüze - Bauma - Rüti ZH West;6;858;RMZ;TU
+754;Winterthur Grüze - Bauma - Rüti ZH West;7;859;TU;WILA
+754;Winterthur Grüze - Bauma - Rüti ZH West;8;860;WILA;SD
+754;Winterthur Grüze - Bauma - Rüti ZH West;9;861;SD;BMA
+754;Winterthur Grüze - Bauma - Rüti ZH West;10;862;BMA;STG
+754;Winterthur Grüze - Bauma - Rüti ZH West;11;863;STG;FI
+754;Winterthur Grüze - Bauma - Rüti ZH West;12;864;FI;GIB
+754;Winterthur Grüze - Bauma - Rüti ZH West;13;865;GIB;WL
+754;Winterthur Grüze - Bauma - Rüti ZH West;14;866;WL;TD
+754;Winterthur Grüze - Bauma - Rüti ZH West;15;1422;TD;RUEW
+755;ZH Langstrasse - ZH Viadukt;1;3745;ZLST;ZVIA
+756;Ueberwerfung Hürlistein;1;4422;HURW;HURO
+759;Zürich Vbhf Ost - Vbhf Nord;1;3742;ZVBO;ZVBN
+760;Zürich Hardbrücke  - Bülach;-4;1640;ZHDB;HRD
+760;Zürich Hardbrücke  - Bülach;-3;874;HRD;ZOER
+760;Zürich Hardbrücke  - Bülach;-2;1425;ZOER;ZOEN
+760;Zürich Hardbrücke  - Bülach;-1;1426;ZOEN;GLBS
+760;Zürich Hardbrücke  - Bülach;0;1427;GLBS;GLB
+760;Zürich Hardbrücke  - Bülach;1;1471;GLB;TALR
+760;Zürich Hardbrücke  - Bülach;2;1472;TALR;RUEM
+760;Zürich Hardbrücke  - Bülach;3;877;RUEM;OGL
+760;Zürich Hardbrücke  - Bülach;4;878;OGL;NG
+760;Zürich Hardbrücke  - Bülach;5;879;NG;BUE
+761;Oberglatt - Niederweningen Gleisende;1;880;OGL;NIE
+761;Oberglatt - Niederweningen Gleisende;2;881;NIE;DI
+761;Oberglatt - Niederweningen Gleisende;3;882;DI;STMR
+761;Oberglatt - Niederweningen Gleisende;4;883;STMR;SCHO
+761;Oberglatt - Niederweningen Gleisende;5;884;SCHO;NWD
+761;Oberglatt - Niederweningen Gleisende;6;885;NWD;NW
+761;Oberglatt - Niederweningen Gleisende;7;1773;NW;NWGE
+762;Winterthur Nord - Schaffhausen RB Ost;-1;4041;WNO;HET
+762;Winterthur Nord - Schaffhausen RB Ost;0;887;HET;HGT
+762;Winterthur Nord - Schaffhausen RB Ost;1;888;HGT;AN
+762;Winterthur Nord - Schaffhausen RB Ost;2;2529;AN;MEDE
+762;Winterthur Nord - Schaffhausen RB Ost;3;2530;MEDE;MTL
+762;Winterthur Nord - Schaffhausen RB Ost;4;890;MTL;DA
+762;Winterthur Nord - Schaffhausen RB Ost;5;1630;DA;SLF
+762;Winterthur Nord - Schaffhausen RB Ost;6;1631;SLF;NH
+762;Winterthur Nord - Schaffhausen RB Ost;7;892;NH;SH
+762;Winterthur Nord - Schaffhausen RB Ost;8;1468;SH;SHRB
+762;Winterthur Nord - Schaffhausen RB Ost;9;1469;SHRB;SRBO
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-17;2061;BAD;GREZ
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-16;3814;GREZ;WYH
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-15;3815;WYH;HRT
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-14;3816;HRT;RHF
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-13;3817;RHF;BEU
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-12;3818;BEU;SSTT
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-11;3819;SSTT;WBN
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-10;3820;WBN;SAE
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-9;3821;SAE;MRG
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-8;3822;MRG;LFBU
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-7;3823;LFBU;LFBO
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-6;3824;LFBO;ALBB
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-5;3825;ALBB;DOG
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-4;3826;DOG;WADB
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-3;3806;WADB;TIEN
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-2;3807;TIEN;LAUC
+763;Basel Bad Bhf - Waldshut - Schaffhausen;-1;3808;LAUC;GRSS
+763;Basel Bad Bhf - Waldshut - Schaffhausen;0;3809;GRSS;ERZB
+763;Basel Bad Bhf - Waldshut - Schaffhausen;1;2067;ERZB;KLLG
+763;Basel Bad Bhf - Waldshut - Schaffhausen;2;2068;KLLG;TRHA
+763;Basel Bad Bhf - Waldshut - Schaffhausen;3;2069;TRHA;WIHA
+763;Basel Bad Bhf - Waldshut - Schaffhausen;4;2070;WIHA;NEUK
+763;Basel Bad Bhf - Waldshut - Schaffhausen;5;2071;NEUK;BERB
+763;Basel Bad Bhf - Waldshut - Schaffhausen;6;4700;BERB;BERD
+763;Basel Bad Bhf - Waldshut - Schaffhausen;7;4701;BERD;NHDB
+763;Basel Bad Bhf - Waldshut - Schaffhausen;8;2073;NHDB;SH
+764;Schaffhausen - Singen - Konstanz;-2;2297;SH;SRBO
+764;Schaffhausen - Singen - Konstanz;-1;2227;SRBO;HEBL
+764;Schaffhausen - Singen - Konstanz;0;2075;HEBL;THAY
+764;Schaffhausen - Singen - Konstanz;1;2076;THAY;EULG
+764;Schaffhausen - Singen - Konstanz;2;3812;EULG;BIET
+764;Schaffhausen - Singen - Konstanz;3;3813;BIET;GOTT
+764;Schaffhausen - Singen - Konstanz;4;3811;GOTT;SIN
+764;Schaffhausen - Singen - Konstanz;5;3827;SIN;SIND
+764;Schaffhausen - Singen - Konstanz;6;3828;SIND;BOEH
+764;Schaffhausen - Singen - Konstanz;7;3829;BOEH;RAD
+764;Schaffhausen - Singen - Konstanz;8;3830;RAD;MAKF
+764;Schaffhausen - Singen - Konstanz;9;3831;MAKF;ASB
+764;Schaffhausen - Singen - Konstanz;10;3832;ASB;HEG
+764;Schaffhausen - Singen - Konstanz;11;3833;HEG;RNAU
+764;Schaffhausen - Singen - Konstanz;12;3834;RNAU;WOMA
+764;Schaffhausen - Singen - Konstanz;13;4102;WOMA;KFUE
+764;Schaffhausen - Singen - Konstanz;14;4103;KFUE;PHAU
+764;Schaffhausen - Singen - Konstanz;15;3836;PHAU;KODB
+768;Niederglatt - Tanklager Oberhasli West;1;1723;NG;TAFR
+768;Niederglatt - Tanklager Oberhasli West;2;1724;TAFR;TAOH
+768;Niederglatt - Tanklager Oberhasli West;3;1725;TAOH;TAOW
+769;Winterthur West - Bülach;1;709;WWE;WTOE
+769;Winterthur West - Bülach;2;3767;WTOE;WWUE
+769;Winterthur West - Bülach;3;711;WWUE;PFU
+769;Winterthur West - Bülach;4;712;PFU;EMB
+769;Winterthur West - Bülach;5;713;EMB;BUE
+770;Bülach - Eglisau - Neuhausen;-4;2298;BUE;GF
+770;Bülach - Eglisau - Neuhausen;-3;715;GF;EGL
+770;Bülach - Eglisau - Neuhausen;-2;893;EGL;HUEW
+770;Bülach - Eglisau - Neuhausen;-1;894;HUEW;RZ
+770;Bülach - Eglisau - Neuhausen;0;895;RZ;LOT
+770;Bülach - Eglisau - Neuhausen;1;4379;LOT;JES
+770;Bülach - Eglisau - Neuhausen;2;4380;JES;JE
+770;Bülach - Eglisau - Neuhausen;3;897;JE;AR
+770;Bülach - Eglisau - Neuhausen;4;4381;AR;FISH
+770;Bülach - Eglisau - Neuhausen;5;4382;FISH;NH
+810;Engen - Singen (Hohentwil);1;3837;ENG;WELN
+810;Engen - Singen (Hohentwil);2;3838;WELN;MHE
+810;Engen - Singen (Hohentwil);3;3839;MHE;RSIS
+810;Engen - Singen (Hohentwil);4;3840;RSIS;SIN
+819;Etzwilen - Singen;1;912;EW;HEM
+819;Etzwilen - Singen;2;913;HEM;RA
+819;Etzwilen - Singen;3;914;RA;RIEL
+819;Etzwilen - Singen;4;915;RIEL;SIN
+820;Etzwilen - Schaffhausen;-1;1597;EW;EWW
+820;Etzwilen - Schaffhausen;0;1598;EWW;SCHN
+820;Etzwilen - Schaffhausen;1;900;SCHN;DSH
+820;Etzwilen - Schaffhausen;2;3546;DSH;STKT
+820;Etzwilen - Schaffhausen;3;3547;STKT;SCHT
+820;Etzwilen - Schaffhausen;4;902;SCHT;LAN
+820;Etzwilen - Schaffhausen;5;903;LAN;FT
+820;Etzwilen - Schaffhausen;6;904;FT;SH
+821;Oberwinterthur - Etzwilen West (Abzw);0;1623;OWT;WWAL
+821;Oberwinterthur - Etzwilen West (Abzw);1;1624;WWAL;REUT
+821;Oberwinterthur - Etzwilen West (Abzw);2;906;REUT;SEU
+821;Oberwinterthur - Etzwilen West (Abzw);3;907;SEU;DIH
+821;Oberwinterthur - Etzwilen West (Abzw);4;908;DIH;TLH
+821;Oberwinterthur - Etzwilen West (Abzw);5;909;TLH;OSS
+821;Oberwinterthur - Etzwilen West (Abzw);6;910;OSS;STM
+821;Oberwinterthur - Etzwilen West (Abzw);7;1599;STM;EWW
+822;Etzwilen - Konstanz;-2;916;EW;STR
+822;Etzwilen - Konstanz;-1;917;STR;EZ
+822;Etzwilen - Konstanz;0;918;EZ;MAM
+822;Etzwilen - Konstanz;1;919;MAM;STK
+822;Etzwilen - Konstanz;2;920;STK;BER
+822;Etzwilen - Konstanz;3;921;BER;MANN
+822;Etzwilen - Konstanz;4;922;MANN;ERM
+822;Etzwilen - Konstanz;5;2654;ERM;TRIB
+822;Etzwilen - Konstanz;6;2655;TRIB;TAEG
+822;Etzwilen - Konstanz;7;3552;TAEG;TAMO
+822;Etzwilen - Konstanz;8;3553;TAMO;KR
+822;Etzwilen - Konstanz;9;4462;KR;KRGR
+822;Etzwilen - Konstanz;10;4463;KRGR;KODB
+823;Kreuzlingen - Kreuzlingen Hafen;1;926;KR;KRH
+824;Romanshorn - Konstanz;-3;927;RH;UTW
+824;Romanshorn - Konstanz;-2;928;UTW;KWL
+824;Romanshorn - Konstanz;-1;929;KWL;GUET
+824;Romanshorn - Konstanz;0;930;GUET;ALN
+824;Romanshorn - Konstanz;1;3548;ALN;LDS
+824;Romanshorn - Konstanz;2;3549;LDS;MSPI
+824;Romanshorn - Konstanz;3;2651;MSPI;MSCH
+824;Romanshorn - Konstanz;4;932;MSCH;BOT
+824;Romanshorn - Konstanz;5;2652;BOT;KURZ
+824;Romanshorn - Konstanz;6;2653;KURZ;KRH
+824;Romanshorn - Konstanz;7;4464;KRH;KHGR
+824;Romanshorn - Konstanz;8;4465;KHGR;KODB
+825;Romanshorn Feld H - Rorschach;-5;1600;RHH;RHS
+825;Romanshorn Feld H - Rorschach;-4;936;RHS;EGN
+825;Romanshorn Feld H - Rorschach;-3;4285;EGN;ARBS
+825;Romanshorn Feld H - Rorschach;-2;4286;ARBS;ARB
+825;Romanshorn Feld H - Rorschach;-1;4287;ARB;STCH
+825;Romanshorn Feld H - Rorschach;0;4288;STCH;HN
+825;Romanshorn Feld H - Rorschach;1;939;HN;RSHF
+825;Romanshorn Feld H - Rorschach;2;940;RSHF;RS
+830;Wil - Weinfelden;0;1786;WIL;BRO
+830;Wil - Weinfelden;1;2161;BRO;BROA
+830;Wil - Weinfelden;2;2162;BROA;BTW
+830;Wil - Weinfelden;3;2656;BTW;TAEN
+830;Wil - Weinfelden;4;2657;TAEN;TOA
+830;Wil - Weinfelden;5;1789;TOA;MAE
+830;Wil - Weinfelden;6;2163;MAE;OPP
+830;Wil - Weinfelden;7;2164;OPP;BNG
+830;Wil - Weinfelden;8;1791;BNG;WFS
+830;Wil - Weinfelden;9;1792;WFS;WF
+831;Weinfelden - Tägermoos;0;1793;WF;KHF
+831;Weinfelden - Tägermoos;1;1794;KHF;BERG
+831;Weinfelden - Tägermoos;2;2165;BERG;AHAU
+831;Weinfelden - Tägermoos;3;2166;AHAU;SHAU
+831;Weinfelden - Tägermoos;4;1796;SHAU;LENG
+831;Weinfelden - Tägermoos;5;1797;LENG;KRB
+831;Weinfelden - Tägermoos;6;1798;KRB;TAEM
+831;Weinfelden - Tägermoos;7;3554;TAEM;TAMO
+840;Winterthur Nord - Romanshorn;-2;4580;WNO;SCAL
+840;Winterthur Nord - Romanshorn;-1;4581;SCAL;OWT
+840;Winterthur Nord - Romanshorn;0;942;OWT;WD
+840;Winterthur Nord - Romanshorn;1;943;WD;RIK
+840;Winterthur Nord - Romanshorn;2;944;RIK;ISL
+840;Winterthur Nord - Romanshorn;3;2507;ISL;ZFFR
+840;Winterthur Nord - Romanshorn;4;2508;ZFFR;FF
+840;Winterthur Nord - Romanshorn;5;946;FF;FEL
+840;Winterthur Nord - Romanshorn;6;947;FEL;HM
+840;Winterthur Nord - Romanshorn;7;948;HM;MUEL
+840;Winterthur Nord - Romanshorn;8;949;MUEL;MAER
+840;Winterthur Nord - Romanshorn;9;950;MAER;WF
+840;Winterthur Nord - Romanshorn;10;2458;WF;WFKV
+840;Winterthur Nord - Romanshorn;11;2459;WFKV;BGL
+840;Winterthur Nord - Romanshorn;12;952;BGL;SLG
+840;Winterthur Nord - Romanshorn;13;953;SLG;ERL
+840;Winterthur Nord - Romanshorn;14;954;ERL;OA
+840;Winterthur Nord - Romanshorn;15;955;OA;AW
+840;Winterthur Nord - Romanshorn;16;956;AW;RHW
+840;Winterthur Nord - Romanshorn;17;1601;RHW;RHH
+840;Winterthur Nord - Romanshorn;18;2020;RHH;RH
+841;Oberwinterthur - Oberw. Unterhaltanlage;1;2531;OWT;OWTU
+842;Oberwinterthur - SA Pünten;0;4649;OWT;OWTP
+843;Frauenfeld - Frauenfeld Paketpost;1;2592;FF;FFPP
+848;Romanshorn West - Romanshorn Süd (VL);1;958;RHW;RHS
+850;St.Gallen - Winterthur Nord;-5;959;SG;SGW
+850;St.Gallen - Winterthur Nord;-4;960;SGW;SGBR
+850;St.Gallen - Winterthur Nord;-3;961;SGBR;SGWI
+850;St.Gallen - Winterthur Nord;-2;962;SGWI;GSS
+850;St.Gallen - Winterthur Nord;-1;2456;GSS;BUDZ
+850;St.Gallen - Winterthur Nord;0;2457;BUDZ;FLA
+850;St.Gallen - Winterthur Nord;1;964;FLA;UZW
+850;St.Gallen - Winterthur Nord;2;965;UZW;ALG
+850;St.Gallen - Winterthur Nord;3;966;ALG;SCHZ
+850;St.Gallen - Winterthur Nord;4;1604;SCHZ;WILS
+850;St.Gallen - Winterthur Nord;5;1605;WILS;WIL
+850;St.Gallen - Winterthur Nord;6;968;WIL;SIR
+850;St.Gallen - Winterthur Nord;7;969;SIR;ESL
+850;St.Gallen - Winterthur Nord;8;970;ESL;GUN
+850;St.Gallen - Winterthur Nord;9;971;GUN;AD
+850;St.Gallen - Winterthur Nord;10;972;AD;EL
+850;St.Gallen - Winterthur Nord;11;4653;EL;SNT
+850;St.Gallen - Winterthur Nord;12;4654;SNT;SCHK
+850;St.Gallen - Winterthur Nord;13;974;SCHK;RAET
+850;St.Gallen - Winterthur Nord;14;4263;RAET;WHE
+850;St.Gallen - Winterthur Nord;15;4264;WHE;WGR
+850;St.Gallen - Winterthur Nord;16;4582;WGR;SCAL
+850;St.Gallen - Winterthur Nord;17;4583;SCAL;WNO
+851;Wil - Frauenfeld;0;4552;WIFG;WIFW
+851;Wil - Frauenfeld;1;4551;WIFW;SHOF
+851;Wil - Frauenfeld;2;2954;SHOF;MWIL
+851;Wil - Frauenfeld;3;2955;MWIL;PFL
+851;Wil - Frauenfeld;4;2956;PFL;RTAL
+851;Wil - Frauenfeld;5;2957;RTAL;WGB
+851;Wil - Frauenfeld;6;2958;WGB;WAEN
+851;Wil - Frauenfeld;7;2959;WAEN;WIGR
+851;Wil - Frauenfeld;8;2960;WIGR;JTAL
+851;Wil - Frauenfeld;9;2961;JTAL;MATZ
+851;Wil - Frauenfeld;10;2962;MATZ;WEBM
+851;Wil - Frauenfeld;11;2963;WEBM;MURK
+851;Wil - Frauenfeld;12;2964;MURK;LUED
+851;Wil - Frauenfeld;13;4548;LUED;FFMA
+851;Wil - Frauenfeld;14;4549;FFMA;FFFW
+851;Wil - Frauenfeld;15;4550;FFFW;FFBG
+852;Sulgen - Gossau SG;1;977;SLG;KRA
+852;Sulgen - Gossau SG;2;978;KRA;BZN
+852;Sulgen - Gossau SG;3;979;BZN;SIT
+852;Sulgen - Gossau SG;4;980;SIT;BZS
+852;Sulgen - Gossau SG;5;981;BZS;HPT
+852;Sulgen - Gossau SG;6;982;HPT;ARN
+852;Sulgen - Gossau SG;7;1635;ARN;GSSO
+852;Sulgen - Gossau SG;8;1636;GSSO;GSS
+853;Wil Süd - Wattwil - Uznach;-1;2460;WILS;BAZZ
+853;Wil Süd - Wattwil - Uznach;0;2462;BAZZ;BAZM
+853;Wil Süd - Wattwil - Uznach;1;2463;BAZM;BAZ
+853;Wil Süd - Wattwil - Uznach;2;985;BAZ;LUET
+853;Wil Süd - Wattwil - Uznach;3;986;LUET;BUET
+853;Wil Süd - Wattwil - Uznach;4;987;BUET;DTF
+853;Wil Süd - Wattwil - Uznach;5;988;DTF;LSG
+600;Immensee - Bellinzona - Chiasso;58;1232;MEN;MENS
+600;Immensee - Bellinzona - Chiasso;59;1297;MENS;BASM
+600;Immensee - Bellinzona - Chiasso;60;1299;BASM;BAL
+600;Immensee - Bellinzona - Chiasso;61;1235;BAL;CHIB
+600;Immensee - Bellinzona - Chiasso;62;1236;CHIB;CHI
+600;Immensee - Bellinzona - Chiasso;63;1237;CHI;CHIE
+600;Immensee - Bellinzona - Chiasso;64;2344;CHIE;CHOU
+602;Arth Goldau - Rigi Kulm;1;3493;GD;KRAE
+602;Arth Goldau - Rigi Kulm;2;3494;KRAE;FRUT
+602;Arth Goldau - Rigi Kulm;3;3495;FRUT;RKL
+602;Arth Goldau - Rigi Kulm;4;3496;RKL;RFI
+602;Arth Goldau - Rigi Kulm;5;3497;RFI;RST
+602;Arth Goldau - Rigi Kulm;6;3498;RST;RKU
+603;Vitznau - Rigi Staffel;1;3499;VTZ;GRBA
+603;Vitznau - Rigi Staffel;2;3500;GRBA;FREB
+603;Vitznau - Rigi Staffel;3;3501;FREB;ROFE
+603;Vitznau - Rigi Staffel;4;3502;ROFE;RIGI
+603;Vitznau - Rigi Staffel;5;3503;RIGI;RSTH
+603;Vitznau - Rigi Staffel;6;3504;RSTH;RST
+603;Vitznau - Rigi Staffel;7;3579;RST;RKU
+604;Brunnen - Sisikon (Gleis links);1;1512;BRUA;SKN
+605;Sisikon - Gruonbach (Gleis links);1;1240;SK;GRUO
+606;Al Sasso - Al Motto (binario sinistro);1;1521;ALSA;ALME
+656;Bremgarten West - Dietikon;-1;4060;ZUFI;ZUFH
+656;Bremgarten West - Dietikon;0;4061;ZUFH;HEIN
+656;Bremgarten West - Dietikon;1;4295;HEIN;BEVE
+656;Bremgarten West - Dietikon;2;4296;BEVE;BEWI
+656;Bremgarten West - Dietikon;3;3660;BEWI;RUHO
+656;Bremgarten West - Dietikon;4;3661;RUHO;RUD
+656;Bremgarten West - Dietikon;5;3606;RUD;REPP
+656;Bremgarten West - Dietikon;6;3662;REPP;DSTO
+656;Bremgarten West - Dietikon;7;4297;DSTO;BEFR
+656;Bremgarten West - Dietikon;8;4298;BEFR;DTSS
+656;Bremgarten West - Dietikon;9;4299;DTSS;DT
+657;Wohlen - Villmergen;1;3467;WON;VMG
+660;Thalwil - Zug - Fluhmühle;-14;1388;TW;ORDD
+660;Thalwil - Zug - Fluhmühle;-13;666;ORDD;HGO
+660;Thalwil - Zug - Fluhmühle;-12;667;HGO;SBG
+660;Thalwil - Zug - Fluhmühle;-11;1499;SBG;LITT
+660;Thalwil - Zug - Fluhmühle;-10;1526;LITT;BAA
+660;Thalwil - Zug - Fluhmühle;-9;3891;BAA;BAAN
+660;Thalwil - Zug - Fluhmühle;-8;3893;BAAN;BAAL
+660;Thalwil - Zug - Fluhmühle;-7;3894;BAAL;ZGN
+660;Thalwil - Zug - Fluhmühle;-6;4460;ZGN;ZG
+660;Thalwil - Zug - Fluhmühle;-5;4461;ZG;ZGSE
+660;Thalwil - Zug - Fluhmühle;-4;3896;ZGSE;KMUE
+660;Thalwil - Zug - Fluhmühle;-3;3773;KMUE;CHAA
+660;Thalwil - Zug - Fluhmühle;-2;3774;CHAA;CHAM
+660;Thalwil - Zug - Fluhmühle;-1;3897;CHAM;HUZY
+660;Thalwil - Zug - Fluhmühle;0;3899;HUZY;HUCH
+660;Thalwil - Zug - Fluhmühle;1;4272;HUCH;FREU
+660;Thalwil - Zug - Fluhmühle;2;4273;FREU;RK
+660;Thalwil - Zug - Fluhmühle;3;674;RK;GSK
+660;Thalwil - Zug - Fluhmühle;4;3734;GSK;LBD
+660;Thalwil - Zug - Fluhmühle;5;3958;LBD;BURN
+660;Thalwil - Zug - Fluhmühle;6;3959;BURN;EBI
+660;Thalwil - Zug - Fluhmühle;7;676;EBI;ROTS
+660;Thalwil - Zug - Fluhmühle;8;1476;ROTS;FMUE
+664;Zug Nord - Zug Süd;1;1524;ZGN;ZGS
+665;Zug Süd - Arth-Goldau;-3;3780;ZGS;ZGPP
+665;Zug Süd - Arth-Goldau;-2;4397;ZGPP;ZGCA
+665;Zug Süd - Arth-Goldau;-1;4398;ZGCA;ZGFR
+665;Zug Süd - Arth-Goldau;0;3782;ZGFR;ZGO
+665;Zug Süd - Arth-Goldau;1;4399;ZGO;WCHO
+665;Zug Süd - Arth-Goldau;2;4400;WCHO;WCHW
+665;Zug Süd - Arth-Goldau;3;1300;WCHW;GDMF
+665;Zug Süd - Arth-Goldau;4;1301;GDMF;GDNW
+666;Goldau Nord - Goldau Ost;1;1525;GDNW;GDO
+607;Mt. Ceneri - Rivera  (binario destro);1;1522;MCEN;RIBN
+608;Massagno - Lugano (binario destro);1;1523;MASN;LGN
+609;Milano Centrale - Como - Chiasso;-10;4332;MICL;MIGP
+609;Milano Centrale - Como - Chiasso;-9;4333;MIGP;SESG
+609;Milano Centrale - Como - Chiasso;-8;4334;SESG;MOZ
+609;Milano Centrale - Como - Chiasso;-7;4335;MOZ;LIMU
+609;Milano Centrale - Como - Chiasso;-6;4336;LIMU;DESI
+609;Milano Centrale - Como - Chiasso;-5;4337;DESI;SER
+609;Milano Centrale - Como - Chiasso;-4;4338;SER;CALE
+609;Milano Centrale - Como - Chiasso;-3;4339;CALE;CARI
+609;Milano Centrale - Como - Chiasso;-2;4340;CARI;CACE
+609;Milano Centrale - Como - Chiasso;-1;4341;CACE;CUCC
+609;Milano Centrale - Como - Chiasso;0;4343;CUCC;BIRO
+609;Milano Centrale - Como - Chiasso;1;4344;BIRO;ALCA
+609;Milano Centrale - Como - Chiasso;2;4151;ALCA;COSG
+609;Milano Centrale - Como - Chiasso;3;4152;COSG;CHOU
+610;Brig - Andermatt - Disentis;-23;4600;BRMG;BIWE
+610;Brig - Andermatt - Disentis;-22;4601;BIWE;BITS
+610;Brig - Andermatt - Disentis;-21;4602;BITS;HOHF
+610;Brig - Andermatt - Disentis;-20;4603;HOHF;MOEL
+610;Brig - Andermatt - Disentis;-19;2635;MOEL;BEFO
+610;Brig - Andermatt - Disentis;-18;2636;BEFO;GREN
+610;Brig - Andermatt - Disentis;-17;3007;GREN;LAX
+610;Brig - Andermatt - Disentis;-16;3008;LAX;FIED
+610;Brig - Andermatt - Disentis;-15;3009;FIED;FIE
+610;Brig - Andermatt - Disentis;-14;3010;FIE;FUER
+610;Brig - Andermatt - Disentis;-13;4604;FUER;NWWE
+610;Brig - Andermatt - Disentis;-12;4605;NWWE;NWAL
+610;Brig - Andermatt - Disentis;-11;3012;NWAL;BLIZ
+610;Brig - Andermatt - Disentis;-10;4606;BLIZ;BLIO
+610;Brig - Andermatt - Disentis;-9;4607;BLIO;BIGO
+610;Brig - Andermatt - Disentis;-8;3014;BIGO;GLUR
+610;Brig - Andermatt - Disentis;-7;4608;GLUR;RECW
+610;Brig - Andermatt - Disentis;-6;4609;RECW;RECK
+610;Brig - Andermatt - Disentis;-5;4610;RECK;MUEW
+610;Brig - Andermatt - Disentis;-4;4611;MUEW;MUET
+610;Brig - Andermatt - Disentis;-3;3017;MUET;GES
+610;Brig - Andermatt - Disentis;-2;3018;GES;ULR
+610;Brig - Andermatt - Disentis;-1;3019;ULR;OBGE
+610;Brig - Andermatt - Disentis;0;3020;OBGE;OBW
+610;Brig - Andermatt - Disentis;1;4633;OBW;OBWO
+610;Brig - Andermatt - Disentis;2;4634;OBWO;GEWE
+610;Brig - Andermatt - Disentis;3;4628;GEWE;GERE
+610;Brig - Andermatt - Disentis;4;4626;GERE;GEOS
+610;Brig - Andermatt - Disentis;5;4635;GEOS;ROTW
+610;Brig - Andermatt - Disentis;6;4639;ROTW;ROTD
+610;Brig - Andermatt - Disentis;7;4640;ROTD;ROTO
+610;Brig - Andermatt - Disentis;8;4638;ROTO;REWE
+610;Brig - Andermatt - Disentis;9;4631;REWE;REAL
+610;Brig - Andermatt - Disentis;10;4612;REAL;HOSW
+610;Brig - Andermatt - Disentis;11;4613;HOSW;HOS
+610;Brig - Andermatt - Disentis;12;3023;HOS;AND
+610;Brig - Andermatt - Disentis;13;3025;AND;NAET
+610;Brig - Andermatt - Disentis;14;3026;NAET;OBAL
+610;Brig - Andermatt - Disentis;15;4641;OBAL;TSSW
+610;Brig - Andermatt - Disentis;16;4642;TSSW;TSSE
+610;Brig - Andermatt - Disentis;17;3028;TSSE;DIEN
+610;Brig - Andermatt - Disentis;18;3029;DIEN;RUER
+610;Brig - Andermatt - Disentis;19;3030;RUER;SED
+610;Brig - Andermatt - Disentis;20;3031;SED;BUGN
+610;Brig - Andermatt - Disentis;21;3032;BUGN;MOTU
+610;Brig - Andermatt - Disentis;22;3033;MOTU;SEG
+610;Brig - Andermatt - Disentis;23;3034;SEG;ACLA
+610;Brig - Andermatt - Disentis;24;4643;ACLA;DISB
+610;Brig - Andermatt - Disentis;25;4644;DISB;DIS
+611;Göschenen - Andermatt;0;4106;GOE;STEK
+611;Göschenen - Andermatt;1;4107;STEK;AND
+620;Domodossola - Ribellasca;1;3580;DOFS;MASR
+620;Domodossola - Ribellasca;2;3581;MASR;CREG
+620;Domodossola - Ribellasca;3;3582;CREG;TRON
+620;Domodossola - Ribellasca;4;3583;TRON;VEGO
+620;Domodossola - Ribellasca;5;3584;VEGO;MARO
+620;Domodossola - Ribellasca;6;3585;MARO;COIM
+620;Domodossola - Ribellasca;7;3586;COIM;GAOR
+620;Domodossola - Ribellasca;8;3587;GAOR;DRSS
+620;Domodossola - Ribellasca;9;3588;DRSS;BUTT
+620;Domodossola - Ribellasca;10;3589;BUTT;SMSS
+620;Domodossola - Ribellasca;11;3590;SMSS;PREO
+620;Domodossola - Ribellasca;12;3591;PREO;ZORN
+620;Domodossola - Ribellasca;13;3592;ZORN;MASS
+620;Domodossola - Ribellasca;14;3593;MASS;VILE
+620;Domodossola - Ribellasca;15;3594;VILE;RESS
+620;Domodossola - Ribellasca;16;3595;RESS;FODI
+620;Domodossola - Ribellasca;17;3596;FODI;ISOL
+620;Domodossola - Ribellasca;18;3597;ISOL;RIBA
+621;Ponte Brolla - Ribellasca;5;2796;POBR;TEGN
+621;Ponte Brolla - Ribellasca;6;2797;TEGN;VESC
+621;Ponte Brolla - Ribellasca;7;2798;VESC;CAVI
+621;Ponte Brolla - Ribellasca;8;2799;CAVI;INTR
+621;Ponte Brolla - Ribellasca;9;2800;INTR;CORA
+621;Ponte Brolla - Ribellasca;10;2801;CORA;VERD
+621;Ponte Brolla - Ribellasca;11;2802;VERD;PALG
+621;Ponte Brolla - Ribellasca;12;2803;PALG;BORC
+621;Ponte Brolla - Ribellasca;13;2804;BORC;CAME
+621;Ponte Brolla - Ribellasca;14;3598;CAME;RIBA
+622;Locarno S. Antonio - Ponte Brolla;1;2793;LOAN;SOLD
+622;Locarno S. Antonio - Ponte Brolla;2;2794;SOLD;SMAR
+622;Locarno S. Antonio - Ponte Brolla;3;2795;SMAR;POBR
+623;Locarno S. Antonio - Locarno FART;1;3599;LOAN;FART
+626;Castione-Arbedo - Cama;1;3841;CAST;LUMI
+626;Castione-Arbedo - Cama;2;3842;LUMI;SVIV
+626;Castione-Arbedo - Cama;3;3843;SVIV;SVI
+626;Castione-Arbedo - Cama;4;3844;SVI;ROV
+626;Castione-Arbedo - Cama;5;3845;ROV;GROF
+626;Castione-Arbedo - Cama;6;3846;GROF;LEG
+626;Castione-Arbedo - Cama;7;3847;LEG;CAMA
+627;Milano Porta Garibaldi - Greco Pirelli;0;4661;MIGA;MIGP
+628;S.Cristoforo - Greco Pirelli (S9);1;4357;MISC;MIRM
+628;S.Cristoforo - Greco Pirelli (S9);2;4358;MIRM;MIPR
+628;S.Cristoforo - Greco Pirelli (S9);3;4359;MIPR;MILA
+628;S.Cristoforo - Greco Pirelli (S9);4;4360;MILA;MIGP
+629;Chiasso SM - Gruppo S - Chiasso;0;4547;CHSN;CHIB
+630;Giubiasco - Locarno;-2;4692;GIUS;GIUO
+630;Giubiasco - Locarno;-1;4693;GIUO;SAN
+630;Giubiasco - Locarno;0;584;SAN;CD
+630;Giubiasco - Locarno;1;1501;CD;CDO
+630;Giubiasco - Locarno;2;1502;CDO;RIA
+630;Giubiasco - Locarno;3;4377;RIA;RIAZ
+630;Giubiasco - Locarno;4;4378;RIAZ;GDA
+630;Giubiasco - Locarno;5;587;GDA;TEN
+630;Giubiasco - Locarno;6;588;TEN;LO
+630;Giubiasco - Locarno;7;1504;LO;LOP
+631;Cadenazzo - Pino confine;1;1503;CDO;QUA
+631;Cadenazzo - Pino confine;2;590;QUA;MAG
+631;Cadenazzo - Pino confine;3;591;MAG;SN
+631;Cadenazzo - Pino confine;4;592;SN;GER
+631;Cadenazzo - Pino confine;5;593;GER;RZO
+631;Cadenazzo - Pino confine;6;594;RZO;PINC
+632;Sesto Calende - Luino - Pino confine;-6;4505;SECA;TAI
+632;Sesto Calende - Luino - Pino confine;-5;4506;TAI;ISP
+632;Sesto Calende - Luino - Pino confine;-4;4507;ISP;LEGM
+632;Sesto Calende - Luino - Pino confine;-3;4508;LEGM;LAMO
+632;Sesto Calende - Luino - Pino confine;-2;4352;LAMO;CLD
+632;Sesto Calende - Luino - Pino confine;-1;4353;CLD;POVA
+632;Sesto Calende - Luino - Pino confine;0;4354;POVA;LIFS
+632;Sesto Calende - Luino - Pino confine;1;1445;LIFS;CMA
+632;Sesto Calende - Luino - Pino confine;2;1446;CMA;MAC
+632;Sesto Calende - Luino - Pino confine;3;2030;MAC;PINT
+632;Sesto Calende - Luino - Pino confine;4;2031;PINT;PINC
+633;Taverne-Torricella - Lugano Vedeggio;1;1246;TAVS;LGV
+634;Mendrisio Sud - Stabio;1;1247;MENS;STAO
+634;Mendrisio Sud - Stabio;2;597;STAO;STAC
+635;Lugano FLP - Ponte Tresa;-1;2939;LGFL;SOGO
+635;Lugano FLP - Ponte Tresa;0;4231;SOGO;SORL
+635;Lugano FLP - Ponte Tresa;1;4232;SORL;CAAG
+635;Lugano FLP - Ponte Tresa;2;4233;CAAG;BIOM
+635;Lugano FLP - Ponte Tresa;3;4234;BIOM;BIOG
+635;Lugano FLP - Ponte Tresa;4;2942;BIOG;SERO
+635;Lugano FLP - Ponte Tresa;5;2943;SERO;AGNO
+635;Lugano FLP - Ponte Tresa;6;2944;AGNO;MAGP
+635;Lugano FLP - Ponte Tresa;7;2945;MAGP;MAGL
+635;Lugano FLP - Ponte Tresa;8;2946;MAGL;CASL
+635;Lugano FLP - Ponte Tresa;9;2947;CASL;POTR
+636;Capolago-Riva S. Vitale - Monte Generoso;1;3668;CAP;SNIC
+636;Capolago-Riva S. Vitale - Monte Generoso;2;3669;SNIC;BVIS
+636;Capolago-Riva S. Vitale - Monte Generoso;3;3670;BVIS;GEVE
+637;Chiasso Smistamento - Chiasso;1;1563;CHSN;CHIB
+638;Balerna SM - Chiasso Smistamento;1;1564;BASM;CHSN
+638;Balerna SM - Chiasso Smistamento;2;1565;CHSN;CHSM
+639;Monte Olimpino II - Chiasso Smistamento;0;4153;BIRO;CHOD
+639;Monte Olimpino II - Chiasso Smistamento;1;2345;CHOD;CHIE
+639;Monte Olimpino II - Chiasso Smistamento;2;1251;CHIE;CHSM
+639;Monte Olimpino II - Chiasso Smistamento;3;4261;CHSM;CHSN
+640;Brugg - Rupperswil;0;600;BG;SBAD
+640;Brugg - Rupperswil;1;2593;SBAD;HOBK
+640;Brugg - Rupperswil;2;2594;HOBK;WI
+640;Brugg - Rupperswil;3;1140;WI;RUO
+640;Brugg - Rupperswil;4;1141;RUO;RU
+641;Rupperswil Ost - Rupperswil Gleis rechts;1;1144;RUO;RU
+643;Aarau - Schöftland;0;3079;AAWS;DIBE
+643;Aarau - Schöftland;1;3080;DIBE;UNEN
+643;Aarau - Schöftland;2;3081;UNEN;OEFW
+643;Aarau - Schöftland;3;3082;OEFW;MUH
+643;Aarau - Schöftland;4;4235;MUH;OMUH
+643;Aarau - Schöftland;5;4236;OMUH;HIT
+643;Aarau - Schöftland;6;3084;HIT;SCHF
+644;Aarau - Menziken;-3;4509;AAWS;BUAG
+644;Aarau - Menziken;-2;4510;BUAG;SUHR
+644;Aarau - Menziken;-1;4512;SUHR;GRAT
+644;Aarau - Menziken;0;4513;GRAT;GRAE
+644;Aarau - Menziken;1;4514;GRAE;GRAO
+644;Aarau - Menziken;2;4515;GRAO;BLN
+644;Aarau - Menziken;3;3071;BLN;TEU
+644;Aarau - Menziken;4;4237;TEU;UKUN
+644;Aarau - Menziken;5;4238;UKUN;UKU
+644;Aarau - Menziken;6;3073;UKU;OKU
+644;Aarau - Menziken;7;3074;OKU;GON
+644;Aarau - Menziken;8;3075;GON;ZETZ
+644;Aarau - Menziken;9;3076;ZETZ;LEIM
+644;Aarau - Menziken;10;3703;LEIM;REIN
+644;Aarau - Menziken;11;3704;REIN;REMI
+644;Aarau - Menziken;12;3705;REMI;REI
+644;Aarau - Menziken;13;3706;REI;ME
+645;Lenzburg West - Suhr;1;1506;LBW;HU
+645;Lenzburg West - Suhr;2;4579;HU;SUHR
+646;Brunegg - Mägenwil West (Abzw);0;4696;BRGG;MAET
+647;Brugg - Hendschiken Nord;-2;613;BG;BGS
+647;Brugg - Hendschiken Nord;-1;2366;BGS;LUPF
+647;Brugg - Hendschiken Nord;0;2369;LUPF;BRF
+647;Brugg - Hendschiken Nord;1;2368;BRF;BIRR
+647;Brugg - Hendschiken Nord;2;4694;BIRR;BRGG
+647;Brugg - Hendschiken Nord;3;4695;BRGG;OTH
+647;Brugg - Hendschiken Nord;4;1152;OTH;HDKN
+648;Brugg Süd - Brugg Nord (VL);1;1404;BGS;BGN
+649;Aarau - Wöschnau Tunnel alt;1;2233;AA;WOET
+650;Killwangen West - Lenzburg - Däniken Ost;-3;1473;KLWW;HBLO
+650;Killwangen West - Lenzburg - Däniken Ost;-2;1406;HBLO;LANG
+650;Killwangen West - Lenzburg - Däniken Ost;-1;3922;LANG;MELH
+650;Killwangen West - Lenzburg - Däniken Ost;0;3923;MELH;GMT
+650;Killwangen West - Lenzburg - Däniken Ost;1;622;GMT;MAEG
+650;Killwangen West - Lenzburg - Däniken Ost;2;4697;MAEG;MAET
+650;Killwangen West - Lenzburg - Däniken Ost;3;4698;MAET;OTH
+650;Killwangen West - Lenzburg - Däniken Ost;4;1153;OTH;GEXO
+650;Killwangen West - Lenzburg - Däniken Ost;5;1154;GEXO;GEXI
+650;Killwangen West - Lenzburg - Däniken Ost;6;1155;GEXI;LB
+650;Killwangen West - Lenzburg - Däniken Ost;7;1159;LB;LBW
+650;Killwangen West - Lenzburg - Däniken Ost;8;1160;LBW;RU
+650;Killwangen West - Lenzburg - Däniken Ost;9;3915;RU;AAGB
+650;Killwangen West - Lenzburg - Däniken Ost;10;4578;AAGB;AA
+650;Killwangen West - Lenzburg - Däniken Ost;11;2231;AA;WOET
+650;Killwangen West - Lenzburg - Däniken Ost;12;2232;WOET;WOES
+650;Killwangen West - Lenzburg - Däniken Ost;13;4675;WOES;DKO
+651;Hübeli - Beinwil - Lenzburg;-4;2528;HUEB;WAB
+651;Hübeli - Beinwil - Lenzburg;-3;630;WAB;ESB
+651;Hübeli - Beinwil - Lenzburg;-2;631;ESB;BLL
+651;Hübeli - Beinwil - Lenzburg;-1;4247;BLL;HOSA
+651;Hübeli - Beinwil - Lenzburg;0;4248;HOSA;HO
+651;Hübeli - Beinwil - Lenzburg;1;3954;HO;BLGK
+651;Hübeli - Beinwil - Lenzburg;2;3955;BLGK;BLG
+651;Hübeli - Beinwil - Lenzburg;3;634;BLG;GELF
+651;Hübeli - Beinwil - Lenzburg;4;635;GELF;HIK
+651;Hübeli - Beinwil - Lenzburg;5;636;HIK;ESEE
+651;Hübeli - Beinwil - Lenzburg;6;637;ESEE;MO
+651;Hübeli - Beinwil - Lenzburg;7;638;MO;BW
+651;Hübeli - Beinwil - Lenzburg;8;3628;BW;BWL
+651;Hübeli - Beinwil - Lenzburg;9;4571;BWL;BONI
+651;Hübeli - Beinwil - Lenzburg;10;4388;BONI;BOWN
+651;Hübeli - Beinwil - Lenzburg;11;4389;BOWN;HD
+651;Hübeli - Beinwil - Lenzburg;12;642;HD;SE
+651;Hübeli - Beinwil - Lenzburg;13;4598;SE;LBSE
+651;Hübeli - Beinwil - Lenzburg;14;4599;LBSE;LBW
+653;Gexi Ost - Rotkreuz - Immensee West;-4;1156;GEXO;HDKN
+653;Gexi Ost - Rotkreuz - Immensee West;-3;1158;HDKN;HDK
+653;Gexi Ost - Rotkreuz - Immensee West;-2;651;HDK;DOT
+653;Gexi Ost - Rotkreuz - Immensee West;-1;1527;DOT;DOTU
+653;Gexi Ost - Rotkreuz - Immensee West;0;1528;DOTU;WON
+653;Gexi Ost - Rotkreuz - Immensee West;1;1165;WON;WO
+653;Gexi Ost - Rotkreuz - Immensee West;2;1166;WO;WOSU
+653;Gexi Ost - Rotkreuz - Immensee West;3;2603;WOSU;WALS
+653;Gexi Ost - Rotkreuz - Immensee West;4;2591;WALS;BOS
+653;Gexi Ost - Rotkreuz - Immensee West;5;655;BOS;MI
+653;Gexi Ost - Rotkreuz - Immensee West;6;656;MI;BNZ
+653;Gexi Ost - Rotkreuz - Immensee West;7;657;BNZ;MUEH
+653;Gexi Ost - Rotkreuz - Immensee West;8;658;MUEH;SINS
+653;Gexi Ost - Rotkreuz - Immensee West;9;659;SINS;OI
+653;Gexi Ost - Rotkreuz - Immensee West;10;660;OI;RK
+653;Gexi Ost - Rotkreuz - Immensee West;11;2552;RK;BRGL
+653;Gexi Ost - Rotkreuz - Immensee West;12;4262;BRGL;IMW
+654;Gexi - Hendschiken Nord (Gleis links);1;1157;GEXI;HDKN
+655;Wohlen Süd - Bremgarten West;1;2095;WOSU;WOOB
+655;Wohlen Süd - Bremgarten West;2;3658;WOOB;ERDM
+655;Wohlen Süd - Bremgarten West;3;3659;ERDM;BGW
+656;Bremgarten West - Dietikon;-6;4290;BGW;BGIS
+656;Bremgarten West - Dietikon;-5;4291;BGIS;BGOT
+656;Bremgarten West - Dietikon;-4;4292;BGOT;BREG
+656;Bremgarten West - Dietikon;-3;4293;BREG;BGBI
+656;Bremgarten West - Dietikon;-2;4294;BGBI;ZUFI
+150;Lausanne - Genève-Aéroport;23;79;CRA;MUR
+150;Lausanne - Genève-Aéroport;24;80;MUR;CEL
+150;Lausanne - Genève-Aéroport;25;81;CEL;FOU
+150;Lausanne - Genève-Aéroport;26;82;FOU;COP
+150;Lausanne - Genève-Aéroport;27;83;COP;TAN
+150;Lausanne - Genève-Aéroport;28;84;TAN;MIES
+150;Lausanne - Genève-Aéroport;29;2501;MIES;PTC
+150;Lausanne - Genève-Aéroport;30;86;PTC;VSX
+150;Lausanne - Genève-Aéroport;31;87;VSX;CRGD
+150;Lausanne - Genève-Aéroport;32;88;CRGD;GDBE
+150;Lausanne - Genève-Aéroport;33;2157;GDBE;TUIS
+150;Lausanne - Genève-Aéroport;34;2158;TUIS;TUI
+150;Lausanne - Genève-Aéroport;35;90;TUI;VEN
+150;Lausanne - Genève-Aéroport;36;91;VEN;CHY
+150;Lausanne - Genève-Aéroport;37;3990;CHY;GESE
+150;Lausanne - Genève-Aéroport;38;3991;GESE;GEPO
+150;Lausanne - Genève-Aéroport;39;2351;GEPO;GE
+150;Lausanne - Genève-Aéroport;40;93;GE;SJ
+150;Lausanne - Genève-Aéroport;41;94;SJ;CHNE
+150;Lausanne - Genève-Aéroport;42;95;CHNE;GEAP
+150;Lausanne - Genève-Aéroport;43;2152;GEAP;GEAF
+151;Genève St-Jean - La Plaine-Frontière;1;4431;SJ;FUBI
+226;Sonceboz-Sombeval - Moutier - Delémont;7;210;CT;MOU
+226;Sonceboz-Sombeval - Moutier - Delémont;8;3875;MOU;CHZ
+226;Sonceboz-Sombeval - Moutier - Delémont;9;4023;CHZ;DMTE
+226;Sonceboz-Sombeval - Moutier - Delémont;10;1693;DMTE;DMT
+230;Delémont Est - Basel SBB Ost;-1;2399;DMTE;SOY
+230;Delémont Est - Basel SBB Ost;0;217;SOY;SOYE
+230;Delémont Est - Basel SBB Ost;1;218;SOYE;LSB
+230;Delémont Est - Basel SBB Ost;2;219;LSB;BAER
+230;Delémont Est - Basel SBB Ost;3;220;BAER;LFN
+230;Delémont Est - Basel SBB Ost;4;221;LFN;SBRU
+230;Delémont Est - Basel SBB Ost;5;222;SBRU;ZWG
+230;Delémont Est - Basel SBB Ost;6;223;ZWG;GREL
+230;Delémont Est - Basel SBB Ost;7;224;GREL;DUG
+230;Delémont Est - Basel SBB Ost;8;225;DUG;AE
+230;Delémont Est - Basel SBB Ost;9;226;AE;DOR
+230;Delémont Est - Basel SBB Ost;10;227;DOR;MST
+230;Delémont Est - Basel SBB Ost;11;228;MST;RUC
+230;Delémont Est - Basel SBB Ost;12;4121;RUC;BSDH
+230;Delémont Est - Basel SBB Ost;13;4122;BSDH;BSO
+232;Moutier - Lengnau Ost;1;2024;MOU;TBL
+232;Moutier - Lengnau Ost;2;2025;TBL;GN
+232;Moutier - Lengnau Ost;3;2106;GN;LENO
+233;Le Locle - Les Brenets;1;3308;LOC;CHET
+233;Le Locle - Les Brenets;2;3309;CHET;FRET
+233;Le Locle - Les Brenets;3;3310;FRET;BREN
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;1;3297;CF;CFG
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;2;3298;CFG;REYM
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;3;3299;REYM;COBA
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;4;3300;COBA;SAEG
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;5;3301;SAEG;SAGN
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;6;3302;SAGN;COED
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;7;3303;COED;COEU
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;8;3304;COEU;PTME
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;9;3305;PTME;PTMA
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;10;3306;PTMA;STD
+234;La Chaux-de-Fonds - Les Ponts-de-Martel;11;3307;STD;PDM
+235;Tavannes - Le Noirmont;-3;4073;TA;TRDE
+235;Tavannes - Le Noirmont;-2;4072;TRDE;TRAM
+235;Tavannes - Le Noirmont;-1;4076;TRAM;TRAC
+235;Tavannes - Le Noirmont;0;4080;TRAC;TRCH
+235;Tavannes - Le Noirmont;1;4079;TRCH;REUS
+235;Tavannes - Le Noirmont;2;3316;REUS;PIEO
+235;Tavannes - Le Noirmont;3;3317;PIEO;CHXB
+235;Tavannes - Le Noirmont;4;3318;CHXB;BREU
+151;Genève St-Jean - La Plaine-Frontière;2;4432;FUBI;CHNE
+151;Genève St-Jean - La Plaine-Frontière;3;4433;CHNE;COI
+151;Genève St-Jean - La Plaine-Frontière;4;4434;COI;VMC
+151;Genève St-Jean - La Plaine-Frontière;5;4435;VMC;VM
+151;Genève St-Jean - La Plaine-Frontière;6;4436;VM;ZIM
+151;Genève St-Jean - La Plaine-Frontière;7;4437;ZIM;SY
+151;Genève St-Jean - La Plaine-Frontière;8;4438;SY;RUS
+151;Genève St-Jean - La Plaine-Frontière;9;4439;RUS;LP
+151;Genève St-Jean - La Plaine-Frontière;10;4440;LP;LPFR
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-10;108;SJ;JON
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-9;4407;JON;LABA
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-8;4408;LABA;LAPR
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-7;4444;LAPR;LAPP
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-6;4445;LAPP;GEPR
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-5;4446;GEPR;GEPB
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-4;4447;GEPB;GEST
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-3;4442;GEST;CABS
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-2;4416;CABS;CABA
+152;St-Jean - Genève-Eaux-Vives - Annemasse;-1;3758;CABA;CHHO
+152;St-Jean - Genève-Eaux-Vives - Annemasse;0;3759;CHHO;GEV
+152;St-Jean - Genève-Eaux-Vives - Annemasse;1;3760;GEV;CHEB
+152;St-Jean - Genève-Eaux-Vives - Annemasse;2;3764;CHEB;CHEF
+152;St-Jean - Genève-Eaux-Vives - Annemasse;3;3765;CHEF;AMBI
+152;St-Jean - Genève-Eaux-Vives - Annemasse;4;3762;AMBI;ANN
+153;St-Jean - Genève-La Praille;3;4443;CABS;GEPF
+154;Furet - Jonction;1;4441;FUBI;JON
+155;Nyon - St-Cergue - La Cure;0;3732;NY;PLAN
+155;Nyon - St-Cergue - La Cure;1;3733;PLAN;VUAP
+155;Nyon - St-Cergue - La Cure;2;2846;VUAP;ASSE
+155;Nyon - St-Cergue - La Cure;3;2847;ASSE;TREL
+155;Nyon - St-Cergue - La Cure;4;2848;TREL;GIVI
+155;Nyon - St-Cergue - La Cure;5;2849;GIVI;GEN
+155;Nyon - St-Cergue - La Cure;6;2850;GEN;SUCH
+155;Nyon - St-Cergue - La Cure;7;2851;SUCH;JOCL
+155;Nyon - St-Cergue - La Cure;8;2852;JOCL;MUI
+155;Nyon - St-Cergue - La Cure;9;2853;MUI;BASS
+155;Nyon - St-Cergue - La Cure;10;2854;BASS;ARZ
+155;Nyon - St-Cergue - La Cure;11;2855;ARZ;CHMO
+155;Nyon - St-Cergue - La Cure;12;2856;CHMO;STCE
+155;Nyon - St-Cergue - La Cure;13;2857;STCE;PRAL
+155;Nyon - St-Cergue - La Cure;14;2858;PRAL;GIVR
+155;Nyon - St-Cergue - La Cure;15;2859;GIVR;CURE
+156;Morges - Bière;1;2860;MOR;GOT
+156;Morges - Bière;2;2861;GOT;PRL
+156;Morges - Bière;3;2862;PRL;CHGN
+156;Morges - Bière;4;2863;CHGN;VUF
+156;Morges - Bière;5;2864;VUF;MARA
+156;Morges - Bière;6;2865;MARA;BUSM
+156;Morges - Bière;7;2866;BUSM;YENS
+156;Morges - Bière;8;2867;YENS;CHAC
+156;Morges - Bière;9;2868;CHAC;REV
+156;Morges - Bière;10;2869;REV;APPL
+156;Morges - Bière;11;2870;APPL;FRD
+156;Morges - Bière;12;2871;FRD;BALL
+156;Morges - Bière;13;2872;BALL;BIER
+157;Apples - L'Isle-Mont-la-Ville;1;2873;APPL;MANE
+157;Apples - L'Isle-Mont-la-Ville;2;2874;MANE;PASE
+157;Apples - L'Isle-Mont-la-Ville;3;2875;PASE;MAUZ
+157;Apples - L'Isle-Mont-la-Ville;4;2876;MAUZ;TUIE
+157;Apples - L'Isle-Mont-la-Ville;5;2877;TUIE;MORI
+157;Apples - L'Isle-Mont-la-Ville;6;2878;MORI;VIAB
+157;Apples - L'Isle-Mont-la-Ville;7;2879;VIAB;ISLE
+158;Genève Poste 1 - Genève FB - Genève;0;2352;GEPO;GEFB
+158;Genève Poste 1 - Genève FB - Genève;1;2353;GEFB;GE
+159;Nyon - Eysins;1;3989;NYB;EYSI
+160;Renens VD Ouest - Lausanne-Triage sect.;-1;2190;RENO;LTE
+160;Renens VD Ouest - Lausanne-Triage sect.;0;2191;LTE;LTC
+160;Renens VD Ouest - Lausanne-Triage sect.;1;4538;LTC;LTB
+160;Renens VD Ouest - Lausanne-Triage sect.;2;4539;LTB;LTP
+160;Renens VD Ouest - Lausanne-Triage sect.;3;4541;LTP;LTO
+160;Renens VD Ouest - Lausanne-Triage sect.;4;4542;LTO;LTSE
+161;Lausanne-Triage F - Lonay A (bif);0;4543;LTF;LTO
+161;Lausanne-Triage F - Lonay A (bif);1;4544;LTO;LONA
+162;Lausanne-Triage P1 - Lonay B;1;1745;LTP;LONB
+163;Lausanne-Triage D - Denges B;1;1746;LTD;DENB
+164;Lécheires - Denges A;1;2023;LECR;DENA
+165;Lausanne-Triage Est - Bussigny-Scheu.;1;2195;LTE;BYSC
+166;Renens VD Ouest - Lausanne-Triage Est;1;2196;RENO;ARCA
+166;Renens VD Ouest - Lausanne-Triage Est;2;2197;ARCA;LTE
+167;Lausanne-Triage D - Lausanne-Triage C;1;2260;LTD;LTC
+168;Archy A - Lausanne-Triage Nord;1;2264;ARCA;ARCY
+168;Archy A - Lausanne-Triage Nord;2;2265;ARCY;LTN
+169;Lausanne-Triage sect. - Bussigny;2;2205;LTSE;LTS
+169;Lausanne-Triage sect. - Bussigny;3;1756;LTS;LT
+169;Lausanne-Triage sect. - Bussigny;4;2206;LT;LTD
+169;Lausanne-Triage sect. - Bussigny;5;1763;LTD;LECR
+169;Lausanne-Triage sect. - Bussigny;6;2201;LECR;LTN
+169;Lausanne-Triage sect. - Bussigny;7;2202;LTN;BYSC
+169;Lausanne-Triage sect. - Bussigny;8;2261;BYSC;BY
+170;Lausanne-Triage (Est - Sud);1;2376;LTE;LTAB
+170;Lausanne-Triage (Est - Sud);2;2377;LTAB;LTS
+171;Lausanne-Triage F - Lausanne-Triage Sud;-1;4534;LTO;LTK
+171;Lausanne-Triage F - Lausanne-Triage Sud;0;4536;LTK;LTS
+172;Lausanne-Triage  A/B - B;1;4546;LTAB;LTB
+175;Lausanne - (LSSB) - Renens VD Est;1;121;LSBI;LSSB
+175;Lausanne - (LSSB) - Renens VD Est;2;1730;LSSB;RENB
+176;Lausanne-Sébeillon - Lausanne-TRIDEL;1;3757;LSSB;LSTD
+191;Bellegarde (Ain) - La Plaine-Frontière;1;4228;BELG;LOBI
+191;Bellegarde (Ain) - La Plaine-Frontière;2;4229;LOBI;FOLE
+191;Bellegarde (Ain) - La Plaine-Frontière;3;4230;FOLE;POCH
+191;Bellegarde (Ain) - La Plaine-Frontière;4;2645;POCH;LPFR
+200;Renens VD Ouest - Vallorbe;-2;2098;RENO;BYE
+200;Renens VD Ouest - Vallorbe;-1;2262;BYE;BY
+200;Renens VD Ouest - Vallorbe;0;2120;BY;VU
+200;Renens VD Ouest - Vallorbe;1;125;VU;COS
+200;Renens VD Ouest - Vallorbe;2;4021;COS;DAIL
+200;Renens VD Ouest - Vallorbe;3;4022;DAIL;DAIB
+200;Renens VD Ouest - Vallorbe;4;2572;DAIB;LSA
+200;Renens VD Ouest - Vallorbe;5;128;LSA;AX
+200;Renens VD Ouest - Vallorbe;6;129;AX;CR
+200;Renens VD Ouest - Vallorbe;7;130;CR;BRT
+200;Renens VD Ouest - Vallorbe;8;131;BRT;DAY
+200;Renens VD Ouest - Vallorbe;9;132;DAY;VAL
+201;Le Day - Le Brassus;0;2478;DAY;PT
+201;Le Day - Le Brassus;1;2421;PT;CHB
+201;Le Day - Le Brassus;2;2422;CHB;SEC
+201;Le Day - Le Brassus;3;2423;SEC;LIEU
+201;Le Day - Le Brassus;4;2424;LIEU;EDR
+201;Le Day - Le Brassus;5;2425;EDR;RCY
+201;Le Day - Le Brassus;6;2426;RCY;SGO
+201;Le Day - Le Brassus;7;2427;SGO;SEN
+201;Le Day - Le Brassus;8;2658;SEN;CLME
+201;Le Day - Le Brassus;9;2659;CLME;CLM
+201;Le Day - Le Brassus;10;2429;CLM;BRA
+203;Frasne - Vallorbe;-3;4225;FRAS;VXCH
+203;Frasne - Vallorbe;-2;4226;VXCH;LAB
+203;Frasne - Vallorbe;-1;4227;LAB;LVIL
+203;Frasne - Vallorbe;0;3223;LVIL;VALF
+203;Frasne - Vallorbe;1;136;VALF;VAL
+206;Renens VD Ouest - Bussigny Est;1;1779;RENO;BYE
+210;Daillens - Biel/Bienne;-1;4002;DAIB;ECL
+210;Daillens - Biel/Bienne;0;1094;ECL;ECLN
+210;Daillens - Biel/Bienne;1;1095;ECLN;BAV
+210;Daillens - Biel/Bienne;2;1096;BAV;CHVS
+210;Daillens - Biel/Bienne;3;1097;CHVS;CHV
+210;Daillens - Biel/Bienne;4;1098;CHV;ESP
+210;Daillens - Biel/Bienne;5;1099;ESP;EP
+210;Daillens - Biel/Bienne;6;1100;EP;YVES
+210;Daillens - Biel/Bienne;7;1101;YVES;YV
+210;Daillens - Biel/Bienne;8;143;YV;GRS
+210;Daillens - Biel/Bienne;9;144;GRS;ONB
+210;Daillens - Biel/Bienne;10;145;ONB;CC
+210;Daillens - Biel/Bienne;11;2588;CC;LLA
+210;Daillens - Biel/Bienne;12;2589;LLA;VAU
+210;Daillens - Biel/Bienne;13;147;VAU;GOR
+210;Daillens - Biel/Bienne;14;148;GOR;BV
+210;Daillens - Biel/Bienne;15;2373;BV;BDR
+210;Daillens - Biel/Bienne;16;151;BDR;CLB
+210;Daillens - Biel/Bienne;17;152;CLB;AUV
+210;Daillens - Biel/Bienne;18;153;AUV;NESE
+210;Daillens - Biel/Bienne;19;154;NESE;NEBI
+210;Daillens - Biel/Bienne;20;155;NEBI;NE
+210;Daillens - Biel/Bienne;21;2255;NE;NEMA
+210;Daillens - Biel/Bienne;22;2256;NEMA;SBL
+210;Daillens - Biel/Bienne;23;157;SBL;CORN
+210;Daillens - Biel/Bienne;24;158;CORN;CRNE
+210;Daillens - Biel/Bienne;25;159;CRNE;LD
+210;Daillens - Biel/Bienne;26;160;LD;NV
+210;Daillens - Biel/Bienne;27;2419;NV;CHAV
+210;Daillens - Biel/Bienne;28;2420;CHAV;LIG
+210;Daillens - Biel/Bienne;29;162;LIG;TWN
+210;Daillens - Biel/Bienne;30;163;TWN;TUE
+210;Daillens - Biel/Bienne;31;1707;TUE;BIW
+210;Daillens - Biel/Bienne;32;1712;BIW;BI
+211;Chavornay - Orbe;1;2710;CHV;GRAN
+211;Chavornay - Orbe;2;2711;GRAN;STEL
+211;Chavornay - Orbe;3;2712;STEL;ORBE
+212;Yverdon - Ste-Croix;1;2880;YV;YVWB
+212;Yverdon - Ste-Croix;2;2881;YVWB;BRIN
+212;Yverdon - Ste-Croix;3;2882;BRIN;VASM
+212;Yverdon - Ste-Croix;4;2883;VASM;ESSC
+212;Yverdon - Ste-Croix;5;2884;ESSC;VUIB
+212;Yverdon - Ste-Croix;6;2885;VUIB;BAU
+212;Yverdon - Ste-Croix;7;2886;BAU;SIXF
+212;Yverdon - Ste-Croix;8;2887;SIXF;TRVI
+212;Yverdon - Ste-Croix;9;2888;TRVI;STCR
+215;Neuchâtel - Neuchâtel Est;1;2401;NE;NETR
+215;Neuchâtel - Neuchâtel Est;2;2400;NETR;NEMA
+216;Cornaux - Raffinerie - Juracime;1;3724;CORN;CORI
+216;Cornaux - Raffinerie - Juracime;2;3725;CORI;CORF
+217;Besançon - Le Locle-Frontière;1;4104;MORT;LOCF
+218;Frasne - Les Verrières frontière;-2;4222;FRAS;LARI
+218;Frasne - Les Verrières frontière;-1;4223;LARI;STCO
+218;Frasne - Les Verrières frontière;0;4224;STCO;PONF
+218;Frasne - Les Verrières frontière;1;4042;PONF;FRA
+218;Frasne - Les Verrières frontière;2;4043;FRA;VERF
+219;Auvernier - Les Verrières frontière;-2;2371;AUV;COTD
+219;Auvernier - Les Verrières frontière;-1;2372;COTD;BOLE
+219;Auvernier - Les Verrières frontière;0;166;BOLE;CDM
+219;Auvernier - Les Verrières frontière;1;167;CDM;NOI
+219;Auvernier - Les Verrières frontière;2;168;NOI;TR
+219;Auvernier - Les Verrières frontière;3;2270;TR;TROU
+219;Auvernier - Les Verrières frontière;4;2271;TROU;CVT
+219;Auvernier - Les Verrières frontière;5;170;CVT;BOV
+219;Auvernier - Les Verrières frontière;6;171;BOV;LBA
+219;Auvernier - Les Verrières frontière;7;172;LBA;VER
+219;Auvernier - Les Verrières frontière;8;173;VER;VERF
+220;Bern - Neuchâtel Est (bif);-7;3976;BNHB;BN
+220;Bern - Neuchâtel Est (bif);-6;4000;BN;BWMS
+220;Bern - Neuchâtel Est (bif);-5;4001;BWMS;HOL
+220;Bern - Neuchâtel Est (bif);-4;1681;HOL;BNST
+220;Bern - Neuchâtel Est (bif);-3;1682;BNST;BNBZ
+220;Bern - Neuchâtel Est (bif);-2;3905;BNBZ;BNB
+220;Bern - Neuchâtel Est (bif);-1;3906;BNB;NBT
+220;Bern - Neuchâtel Est (bif);0;2017;NBT;RCH
+220;Bern - Neuchâtel Est (bif);1;1684;RCH;ROSS
+220;Bern - Neuchâtel Est (bif);2;4401;ROSS;GMMV
+220;Bern - Neuchâtel Est (bif);3;4402;GMMV;GMM
+220;Bern - Neuchâtel Est (bif);4;1849;GMM;FEG
+220;Bern - Neuchâtel Est (bif);5;3717;FEG;KZS
+220;Bern - Neuchâtel Est (bif);6;3719;KZS;KZB
+220;Bern - Neuchâtel Est (bif);7;3720;KZB;MM
+220;Bern - Neuchâtel Est (bif);8;1852;MM;INS
+220;Bern - Neuchâtel Est (bif);9;1853;INS;GP
+220;Bern - Neuchâtel Est (bif);10;1854;GP;ZBR
+220;Bern - Neuchâtel Est (bif);11;1855;ZBR;MEP
+220;Bern - Neuchâtel Est (bif);12;1856;MEP;SBLB
+220;Bern - Neuchâtel Est (bif);13;2259;SBLB;NEMA
+221;Travers limite RVT - Buttes;1;2786;TROU;PRST
+221;Travers limite RVT - Buttes;2;2787;PRST;CVTR
+221;Travers limite RVT - Buttes;3;2788;CVTR;MOT
+221;Travers limite RVT - Buttes;4;2789;MOT;FLE
+221;Travers limite RVT - Buttes;5;2790;FLE;BT
+222;Fleurier - St-Sulpice;1;2791;FLE;SSP
+223;Neuchâtel-Vauseyon - Chambrelien;0;2096;NEBI;NEVS
+223;Neuchâtel-Vauseyon - Chambrelien;1;174;NEVS;DEU
+223;Neuchâtel-Vauseyon - Chambrelien;2;175;DEU;CP
+223;Neuchâtel-Vauseyon - Chambrelien;3;1776;CP;CHNN
+223;Neuchâtel-Vauseyon - Chambrelien;4;1777;CHNN;CHN
+223;Neuchâtel-Vauseyon - Chambrelien;5;2116;CHN;CHNF
+224;Chambrelien Nord - Le Locle (Frontière);1;1778;CHNN;MML
+224;Chambrelien Nord - Le Locle (Frontière);2;178;MML;GEC
+224;Chambrelien Nord - Le Locle (Frontière);3;179;GEC;HGV
+224;Chambrelien Nord - Le Locle (Frontière);4;180;HGV;CV
+224;Chambrelien Nord - Le Locle (Frontière);5;2086;CV;CFN
+224;Chambrelien Nord - Le Locle (Frontière);6;2087;CFN;CF
+224;Chambrelien Nord - Le Locle (Frontière);7;2504;CF;CRET
+224;Chambrelien Nord - Le Locle (Frontière);8;186;CRET;LOC
+224;Chambrelien Nord - Le Locle (Frontière);9;187;LOC;COL
+224;Chambrelien Nord - Le Locle (Frontière);10;188;COL;LOCF
+225;Biel/Bienne West - La Chaux-de-Fonds;1;1732;BIW;MAH
+225;Biel/Bienne West - La Chaux-de-Fonds;2;190;MAH;FRIN
+225;Biel/Bienne West - La Chaux-de-Fonds;3;191;FRIN;REU
+225;Biel/Bienne West - La Chaux-de-Fonds;4;192;REU;LHE
+225;Biel/Bienne West - La Chaux-de-Fonds;5;193;LHE;SCB
+225;Biel/Bienne West - La Chaux-de-Fonds;6;2243;SCB;SCBO
+225;Biel/Bienne West - La Chaux-de-Fonds;7;2244;SCBO;COG
+225;Biel/Bienne West - La Chaux-de-Fonds;8;195;COG;CO
+225;Biel/Bienne West - La Chaux-de-Fonds;9;196;CO;CTY
+225;Biel/Bienne West - La Chaux-de-Fonds;10;197;CTY;CORM
+225;Biel/Bienne West - La Chaux-de-Fonds;11;198;CORM;VT
+225;Biel/Bienne West - La Chaux-de-Fonds;12;199;VT;STI
+225;Biel/Bienne West - La Chaux-de-Fonds;13;200;STI;SV
+225;Biel/Bienne West - La Chaux-de-Fonds;14;201;SV;RE
+225;Biel/Bienne West - La Chaux-de-Fonds;15;202;RE;LCR
+225;Biel/Bienne West - La Chaux-de-Fonds;16;2088;LCR;CFN
+226;Sonceboz-Sombeval - Moutier - Delémont;1;2245;SCBO;TA
+226;Sonceboz-Sombeval - Moutier - Delémont;2;205;TA;REC
+226;Sonceboz-Sombeval - Moutier - Delémont;3;206;REC;PON
+226;Sonceboz-Sombeval - Moutier - Delémont;4;207;PON;MB
+226;Sonceboz-Sombeval - Moutier - Delémont;5;208;MB;SOR
+226;Sonceboz-Sombeval - Moutier - Delémont;6;209;SOR;CT
+920;Landquart RhB - Chur - Disentis;1;4321;TRIS;TRMB
+920;Landquart RhB - Chur - Disentis;2;4322;TRMB;HALD
+920;Landquart RhB - Chur - Disentis;3;4251;HALD;CHWI
+920;Landquart RhB - Chur - Disentis;4;4252;CHWI;CH
+920;Landquart RhB - Chur - Disentis;5;3131;CH;CHWE
+920;Landquart RhB - Chur - Disentis;6;3132;CHWE;FBG
+920;Landquart RhB - Chur - Disentis;7;3133;FBG;DE
+920;Landquart RhB - Chur - Disentis;8;3134;DE;EMSW
+920;Landquart RhB - Chur - Disentis;9;3135;EMSW;REIT
+920;Landquart RhB - Chur - Disentis;10;4419;REIT;REIF
+920;Landquart RhB - Chur - Disentis;11;4421;REIF;TRIN
+920;Landquart RhB - Chur - Disentis;12;3158;TRIN;VESA
+920;Landquart RhB - Chur - Disentis;13;3159;VESA;VASA
+920;Landquart RhB - Chur - Disentis;14;3160;VASA;CASR
+920;Landquart RhB - Chur - Disentis;15;3161;CASR;ILZ
+920;Landquart RhB - Chur - Disentis;16;3162;ILZ;RUEU
+920;Landquart RhB - Chur - Disentis;17;3163;RUEU;WAVU
+920;Landquart RhB - Chur - Disentis;18;3164;WAVU;TABR
+920;Landquart RhB - Chur - Disentis;19;3165;TABR;TRUN
+920;Landquart RhB - Chur - Disentis;20;3166;TRUN;RASU
+920;Landquart RhB - Chur - Disentis;21;3167;RASU;SUCU
+920;Landquart RhB - Chur - Disentis;22;4645;SUCU;DISL
+920;Landquart RhB - Chur - Disentis;23;4646;DISL;DIS
+930;Chur - Arosa;0;4405;CHNO;CHBP
+930;Chur - Arosa;1;4404;CHBP;CHSA
+930;Chur - Arosa;2;3086;CHSA;DEPS
+930;Chur - Arosa;3;3087;DEPS;USAX
+930;Chur - Arosa;4;3088;USAX;LUCA
+930;Chur - Arosa;5;3089;LUCA;STPM
+930;Chur - Arosa;6;3090;STPM;PEI
+930;Chur - Arosa;7;3091;PEI;LAWI
+930;Chur - Arosa;8;3092;LAWI;LITZ
+930;Chur - Arosa;9;3093;LITZ;HGR
+930;Chur - Arosa;10;3094;HGR;AROS
+940;Reichenau Farsch (Abzw) - St. Moritz;3;4420;REIF;BONA
+940;Reichenau Farsch (Abzw) - St. Moritz;4;3137;BONA;RHAE
+940;Reichenau Farsch (Abzw) - St. Moritz;5;3138;RHAE;ROTH
+940;Reichenau Farsch (Abzw) - St. Moritz;6;3139;ROTH;RORE
+940;Reichenau Farsch (Abzw) - St. Moritz;7;3140;RORE;CAZI
+940;Reichenau Farsch (Abzw) - St. Moritz;8;3141;CAZI;THS
+940;Reichenau Farsch (Abzw) - St. Moritz;9;3142;THS;SILS
+940;Reichenau Farsch (Abzw) - St. Moritz;10;3143;SILS;SOLI
+940;Reichenau Farsch (Abzw) - St. Moritz;11;3144;SOLI;TICA
+940;Reichenau Farsch (Abzw) - St. Moritz;12;3145;TICA;SURA
+940;Reichenau Farsch (Abzw) - St. Moritz;13;3146;SURA;ALV
+940;Reichenau Farsch (Abzw) - St. Moritz;14;4146;ALV;FILN
+940;Reichenau Farsch (Abzw) - St. Moritz;15;4145;FILN;FILI
+940;Reichenau Farsch (Abzw) - St. Moritz;16;3148;FILI;STGL
+940;Reichenau Farsch (Abzw) - St. Moritz;17;3149;STGL;BEBR
+940;Reichenau Farsch (Abzw) - St. Moritz;18;3150;BEBR;MUOT
+940;Reichenau Farsch (Abzw) - St. Moritz;19;4289;MUOT;PREN
+940;Reichenau Farsch (Abzw) - St. Moritz;20;4149;PREN;PRED
+940;Reichenau Farsch (Abzw) - St. Moritz;21;3152;PRED;SPIN
+940;Reichenau Farsch (Abzw) - St. Moritz;22;3153;SPIN;BEV
+940;Reichenau Farsch (Abzw) - St. Moritz;23;3154;BEV;SAME
+940;Reichenau Farsch (Abzw) - St. Moritz;24;3155;SAME;CELE
+940;Reichenau Farsch (Abzw) - St. Moritz;25;3156;CELE;SMOR
+950;St. Moritz - Tirano;0;3095;SMOR;CELS
+950;St. Moritz - Tirano;1;3096;CELS;PTMS
+950;St. Moritz - Tirano;2;3097;PTMS;PORE
+950;St. Moritz - Tirano;3;3098;PORE;SURO
+950;St. Moritz - Tirano;4;3099;SURO;MOTA
+950;St. Moritz - Tirano;5;3100;MOTA;BESU
+950;St. Moritz - Tirano;6;3101;BESU;BEDI
+950;St. Moritz - Tirano;7;3102;BEDI;BELA
+950;St. Moritz - Tirano;8;3103;BELA;OSBE
+950;St. Moritz - Tirano;9;3104;OSBE;ALGR
+950;St. Moritz - Tirano;10;3105;ALGR;STAK
+950;St. Moritz - Tirano;11;3106;STAK;CAVA
+950;St. Moritz - Tirano;12;3107;CAVA;CADE
+950;St. Moritz - Tirano;13;3108;CADE;PRI
+950;St. Moritz - Tirano;14;3109;PRI;POS
+950;St. Moritz - Tirano;15;3110;POS;CURT
+950;St. Moritz - Tirano;16;3883;CURT;PRET
+950;St. Moritz - Tirano;17;3882;PRET;PRES
+950;St. Moritz - Tirano;18;3881;PRES;MIRA
+950;St. Moritz - Tirano;19;3114;MIRA;BRIO
+950;St. Moritz - Tirano;20;3115;BRIO;CAIO
+950;St. Moritz - Tirano;21;3116;CAIO;CAMP
+950;St. Moritz - Tirano;22;3117;CAMP;TIR
+959;Samedan - Pontresina;1;3207;SAME;PTM
+959;Samedan - Pontresina;2;3208;PTM;PORE
+960;Bever - Scuol-Tarasp;1;3209;BEV;LAPU
+960;Bever - Scuol-Tarasp;2;3210;LAPU;MADU
+960;Bever - Scuol-Tarasp;3;3211;MADU;ZUOZ
+960;Bever - Scuol-Tarasp;4;3212;ZUOZ;SCAN
+960;Bever - Scuol-Tarasp;5;3213;SCAN;CIN
+960;Bever - Scuol-Tarasp;6;3214;CIN;CARO
+960;Bever - Scuol-Tarasp;7;3215;CARO;ZEZ
+960;Bever - Scuol-Tarasp;8;3216;ZEZ;SUS
+960;Bever - Scuol-Tarasp;9;3225;SUS;SASS
+960;Bever - Scuol-Tarasp;10;3226;SASS;SAGL
+960;Bever - Scuol-Tarasp;11;3218;SAGL;LAVI
+960;Bever - Scuol-Tarasp;12;3219;LAVI;GUA
+960;Bever - Scuol-Tarasp;13;3220;GUA;ADZ
+960;Bever - Scuol-Tarasp;14;3221;ADZ;FTAN
+960;Bever - Scuol-Tarasp;15;3222;FTAN;SCTA
+2603;Standseilbahn Piotta - Ritom;1;2513;PIOC;ALTA
+2603;Standseilbahn Piotta - Ritom;2;2514;ALTA;PIOR
+5001;Amsteg Zugangsstollen;0;4520;ASZW;ASZO
+5002;Amsteg Kabelstollen;0;4521;ASKO;ASSW
+5003;Sedrun Zugangs- und Entlüftungsstollen;0;4522;SEZU;SETS
+5004;Faido cunicolo di accesso;0;4523;FACO;FACE
+5005;Bodio cunicolo di aggiramento;0;4524;BOCS;BOAN
+5010;Sigirino finestra;0;4525;SIFO;SIFE
+7744;Zürich Viadukt - Letten (abgebrochen);1;3937;ZVIA;ZLET
+7744;Zürich Viadukt - Letten (abgebrochen);2;1767;ZLET;ZLEE
+9220;neuer Rosshäuserntunnel;1;4403;ROSS;GMMV
+9501;Projekt Juradurchstich;1;2034;LST;OLN
+9590;Verbindunglinie GBT - Pollegio Nord;1;2557;POZZ;POLN
+9591;Projekt AT Verb. Cadenazzo - Camorino;1;3559;SAN;CAMN
+9592;Projekt AT Verb. K630 - Camorino (Ovest);1;2565;GIUO;CAMS
+9593;Projekt AT Verb. K630 - Camorino (Est);1;2564;GIUO;CAMO
+9594;Projekt ATG GBT West;-2;4012;RYSP;SSMN
+9594;Projekt ATG GBT West;-1;4020;SSMN;SSMS
+9594;Projekt ATG GBT West;0;4018;SSMS;FSMF
+9594;Projekt ATG GBT West;1;4016;FSMF;POZZ
+9595;Projekt Alptransit Altdorf - Lugano;-6;2616;AL;RYN
+9595;Projekt Alptransit Altdorf - Lugano;-5;2617;RYN;RYAB
+9595;Projekt Alptransit Altdorf - Lugano;-4;4326;RYAB;RYSP
+9595;Projekt Alptransit Altdorf - Lugano;-3;2620;RYSP;SSMF
+9595;Projekt Alptransit Altdorf - Lugano;-2;4008;SSMF;FSMN
+9595;Projekt Alptransit Altdorf - Lugano;-1;4019;FSMN;FSMS
+9595;Projekt Alptransit Altdorf - Lugano;0;4011;FSMS;POZZ
+9595;Projekt Alptransit Altdorf - Lugano;1;2487;POZZ;POLS
+9595;Projekt Alptransit Altdorf - Lugano;2;2488;POLS;GIDI
+9595;Projekt Alptransit Altdorf - Lugano;3;2558;GIDI;CAMN
+9595;Projekt Alptransit Altdorf - Lugano;4;2559;CAMN;CAMO
+9595;Projekt Alptransit Altdorf - Lugano;5;2560;CAMO;CAMS
+9595;Projekt Alptransit Altdorf - Lugano;6;3557;CAMS;SADI
+9595;Projekt Alptransit Altdorf - Lugano;7;3558;SADI;VEZB
+9596;Projekt ATG CBT West;0;3555;CAMS;SADI
+9596;Projekt ATG CBT West;1;3556;SADI;VEZB
+9597;Spurwechsel Sedrun SMF;1;4013;SSMN;SSMF
+9597;Spurwechsel Sedrun SMF;2;4017;SSMF;SSMS
+9598;Cambiamento binari Faido SMF;1;4009;FSMN;FSMF
+9598;Cambiamento binari Faido SMF;2;4010;FSMF;FSMS
+9600;Verlegung K 600 r. Gleis später löschen;0;2627;AL;RYN
+9600;Verlegung K 600 r. Gleis später löschen;1;2630;RYN;ERNA
+9600;Verlegung K 600 r. Gleis später löschen;2;2626;ERNA;ER
+9601;Verlegung K 600 l. Gleis später löschen;1;4327;RYAB;ERNA
+9630;Projekt AT: GIUS-SAN  (später löschen);1;2568;GIUS;GIUO
+9630;Projekt AT: GIUS-SAN  (später löschen);2;3766;GIUO;SAN
+9668;"Projekt Alptransit ""Spange Rotkreuz""";1;3779;FREU;BRGL
+9722;Nidelbad - Litti;1;2080;NIDS;LITT
+9724;Meilibach (Abzw) - Sihlbrugg;1;2455;MEIB;SBG
+9749;Hagenholz - Dorfnest;1;2065;HAHO;DORF
+9750;ZH Flughafen - Winterthur West;0;2063;ZFH;HAHO
+9750;ZH Flughafen - Winterthur West;1;4427;HAHO;TOEM
+9876;Bern - Aarberg TEST;0;4760;BN;ABE
+9999;Km ohne Geometrie - Km sans géométrie;1;4323;OHNE;SANS
+857;Rorschach Ost (Abzw) - Heiden;0;2182;RSO;BERS
+857;Rorschach Ost (Abzw) - Heiden;1;2183;BERS;SEEB
+857;Rorschach Ost (Abzw) - Heiden;2;2184;SEEB;SB
+857;Rorschach Ost (Abzw) - Heiden;3;2053;SB;WARS
+857;Rorschach Ost (Abzw) - Heiden;4;2054;WARS;WITO
+857;Rorschach Ost (Abzw) - Heiden;5;2055;WITO;SWD
+857;Rorschach Ost (Abzw) - Heiden;6;2056;SWD;HEI
+857;Rorschach Ost (Abzw) - Heiden;7;4556;HEI;HEII
+858;Rheineck - Walzenhausen;1;2948;RCK;RUDB
+858;Rheineck - Walzenhausen;2;2949;RUDB;WALZ
+859;St. Gallen AB - Trogen;-1;4316;SGSG;SGRA
+859;St. Gallen AB - Trogen;0;4087;SGRA;SGMP
+859;St. Gallen AB - Trogen;1;2918;SGMP;SPIS
+859;St. Gallen AB - Trogen;2;2919;SPIS;SHS
+859;St. Gallen AB - Trogen;3;4369;SHS;SGBI
+859;St. Gallen AB - Trogen;4;4370;SGBI;NOGG
+859;St. Gallen AB - Trogen;5;2921;NOGG;SBAR
+859;St. Gallen AB - Trogen;6;2922;SBAR;RANK
+859;St. Gallen AB - Trogen;7;2923;RANK;VOEG
+859;St. Gallen AB - Trogen;8;2924;VOEG;SGAR
+859;St. Gallen AB - Trogen;9;2925;SGAR;SPEI
+859;St. Gallen AB - Trogen;10;2926;SPEI;BEND
+859;St. Gallen AB - Trogen;11;2927;BEND;GFEL
+859;St. Gallen AB - Trogen;12;2928;GFEL;TRO
+859;St. Gallen AB - Trogen;13;4557;TRO;TROG
+868;Spange SOB Bruggwaldtunnel - St.Fiden;1;4371;BRWA;SGFN
+869;Romanshorn Süd - St.Gallen St.Fiden;0;1800;RHS;NK
+869;Romanshorn Süd - St.Gallen St.Fiden;1;1801;NK;STB
+869;Romanshorn Süd - St.Gallen St.Fiden;2;1802;STB;MUO
+869;Romanshorn Süd - St.Gallen St.Fiden;3;1803;MUO;HAEW
+869;Romanshorn Süd - St.Gallen St.Fiden;4;1804;HAEW;ROBG
+869;Romanshorn Süd - St.Gallen St.Fiden;5;1805;ROBG;WIT
+869;Romanshorn Süd - St.Gallen St.Fiden;6;4372;WIT;BRWA
+869;Romanshorn Süd - St.Gallen St.Fiden;7;4373;BRWA;SGF
+870;St.Gallen West - Lichtensteig;-2;1807;SGW;SGHA
+870;St.Gallen West - Lichtensteig;-1;1808;SGHA;GUEB
+870;St.Gallen West - Lichtensteig;0;1809;GUEB;HE
+870;St.Gallen West - Lichtensteig;1;1810;HE;SCH
+870;St.Gallen West - Lichtensteig;2;1811;SCH;DG
+870;St.Gallen West - Lichtensteig;3;3941;DG;DGWE
+870;St.Gallen West - Lichtensteig;4;3942;DGWE;MOG
+870;St.Gallen West - Lichtensteig;5;1813;MOG;BRN
+870;St.Gallen West - Lichtensteig;6;3722;BRN;LSBT
+870;St.Gallen West - Lichtensteig;7;3723;LSBT;LSGS
+870;St.Gallen West - Lichtensteig;8;4516;LSGS;WA
+871;Wattwil - Ebnat-Kappel;1;992;WA;EK
+872;Ebnat-Kappel - Nesslau-Neu St.Johann;1;1774;EK;KRU
+872;Ebnat-Kappel - Nesslau-Neu St.Johann;2;1775;KRU;NL
+872;Ebnat-Kappel - Nesslau-Neu St.Johann;3;3730;NL;NLGE
+880;Sargans Ost - St.Gallen;-4;1456;SAOS;SANO
+880;Sargans Ost - St.Gallen;-3;1457;SANO;TRUE
+880;Sargans Ost - St.Gallen;-2;994;TRUE;NGR
+880;Sargans Ost - St.Gallen;-1;995;NGR;WEI
+880;Sargans Ost - St.Gallen;0;996;WEI;SEV
+880;Sargans Ost - St.Gallen;1;997;SEV;RAEF
+880;Sargans Ost - St.Gallen;2;998;RAEF;BU
+880;Sargans Ost - St.Gallen;3;999;BU;HAG
+880;Sargans Ost - St.Gallen;4;1000;HAG;SAS
+880;Sargans Ost - St.Gallen;5;1001;SAS;RTH
+880;Sargans Ost - St.Gallen;6;1002;RTH;ORT
+880;Sargans Ost - St.Gallen;7;1003;ORT;ALT
+880;Sargans Ost - St.Gallen;8;1004;ALT;REB
+880;Sargans Ost - St.Gallen;9;1005;REB;HEBG
+880;Sargans Ost - St.Gallen;10;1006;HEBG;AUSG
+880;Sargans Ost - St.Gallen;11;1458;AUSG;SMGO
+880;Sargans Ost - St.Gallen;12;1459;SMGO;SMG
+880;Sargans Ost - St.Gallen;13;1008;SMG;RCK
+880;Sargans Ost - St.Gallen;14;1625;RCK;ALRH
+880;Sargans Ost - St.Gallen;15;1626;ALRH;STA
+880;Sargans Ost - St.Gallen;16;1460;STA;RSO
+880;Sargans Ost - St.Gallen;17;1461;RSO;RS
+880;Sargans Ost - St.Gallen;18;2604;RS;RSST
+880;Sargans Ost - St.Gallen;19;4532;RSST;GOLO
+880;Sargans Ost - St.Gallen;20;4533;GOLO;GOL
+880;Sargans Ost - St.Gallen;21;4376;GOL;HOT
+880;Sargans Ost - St.Gallen;22;1629;HOT;MOER
+880;Sargans Ost - St.Gallen;23;1014;MOER;EWIL
+880;Sargans Ost - St.Gallen;24;4374;EWIL;SGFN
+880;Sargans Ost - St.Gallen;25;4375;SGFN;SGF
+880;Sargans Ost - St.Gallen;26;1016;SGF;SG
+881;Sargans Schl. West - Schleife - Trübbach;1;1462;SASW;SASL
+881;Sargans Schl. West - Schleife - Trübbach;2;1018;SASL;TRUE
+882;Feldkirch - Buchs SG;-6;4131;FK;ATST
+882;Feldkirch - Buchs SG;-5;4132;ATST;GIS
+882;Feldkirch - Buchs SG;-4;4133;GIS;TIS
+882;Feldkirch - Buchs SG;-3;4134;TIS;SNW
+882;Feldkirch - Buchs SG;-2;4135;SNW;NEND
+882;Feldkirch - Buchs SG;-1;4136;NEND;SCAA
+882;Feldkirch - Buchs SG;0;2646;SCAA;LGCL
+882;Feldkirch - Buchs SG;1;1718;LGCL;BU
+883;St. Margrethen Ost - Lauterach Nord;1;1717;SMGO;SMLG
+883;St. Margrethen Ost - Lauterach Nord;2;4586;SMLG;LUS
+883;St. Margrethen Ost - Lauterach Nord;3;4139;LUS;HF
+883;St. Margrethen Ost - Lauterach Nord;4;4140;HF;LWA
+883;St. Margrethen Ost - Lauterach Nord;5;4141;LWA;LANO
+884;Buchs - Buchs RB;0;4669;BU;BURB
+885;Lindau - Bregenz - Feldkirch - Bludenz;1;4192;LIND;LIRE
+885;Lindau - Bregenz - Feldkirch - Bludenz;2;4193;LIRE;LC
+885;Lindau - Bregenz - Feldkirch - Bludenz;3;4194;LC;BRHA
+885;Lindau - Bregenz - Feldkirch - Bludenz;4;4195;BRHA;BREZ
+885;Lindau - Bregenz - Feldkirch - Bludenz;5;4196;BREZ;RIED
+885;Lindau - Bregenz - Feldkirch - Bludenz;6;4197;RIED;LANO
+885;Lindau - Bregenz - Feldkirch - Bludenz;7;4198;LANO;LASU
+885;Lindau - Bregenz - Feldkirch - Bludenz;8;4199;LASU;WOLF
+885;Lindau - Bregenz - Feldkirch - Bludenz;9;4200;WOLF;SWVO
+885;Lindau - Bregenz - Feldkirch - Bludenz;10;4201;SWVO;HAST
+885;Lindau - Bregenz - Feldkirch - Bludenz;11;4202;HAST;DORN
+885;Lindau - Bregenz - Feldkirch - Bludenz;12;4203;DORN;DOST
+885;Lindau - Bregenz - Feldkirch - Bludenz;13;4204;DOST;HOHE
+885;Lindau - Bregenz - Feldkirch - Bludenz;14;4212;HOHE;ALCH
+885;Lindau - Bregenz - Feldkirch - Bludenz;15;4213;ALCH;GZIS
+885;Lindau - Bregenz - Feldkirch - Bludenz;16;4214;GZIS;KLSV
+885;Lindau - Bregenz - Feldkirch - Bludenz;17;4215;KLSV;SLZR
+885;Lindau - Bregenz - Feldkirch - Bludenz;18;4216;SLZR;RNKW
+885;Lindau - Bregenz - Feldkirch - Bludenz;19;4217;RNKW;FKAB
+885;Lindau - Bregenz - Feldkirch - Bludenz;20;4218;FKAB;FK
+885;Lindau - Bregenz - Feldkirch - Bludenz;21;4206;FK;FRAZ
+885;Lindau - Bregenz - Feldkirch - Bludenz;22;4207;FRAZ;SCLS
+885;Lindau - Bregenz - Feldkirch - Bludenz;23;4208;SCLS;NEN
+885;Lindau - Bregenz - Feldkirch - Bludenz;24;4209;NEN;LUDE
+885;Lindau - Bregenz - Feldkirch - Bludenz;25;4210;LUDE;NUZ
+885;Lindau - Bregenz - Feldkirch - Bludenz;26;4211;NUZ;BLUD
+890;Sargans Ost - Ziegelbrücke;-1;4467;SAOS;SA
+890;Sargans Ost - Ziegelbrücke;0;4468;SA;MELS
+890;Sargans Ost - Ziegelbrücke;1;1026;MELS;FMS
+890;Sargans Ost - Ziegelbrücke;2;1027;FMS;WAL
+890;Sargans Ost - Ziegelbrücke;3;1028;WAL;MOLS
+890;Sargans Ost - Ziegelbrücke;4;1029;MOLS;UNT
+890;Sargans Ost - Ziegelbrücke;5;1030;UNT;MG
+890;Sargans Ost - Ziegelbrücke;6;1031;MG;TIEF
+890;Sargans Ost - Ziegelbrücke;7;1032;TIEF;MH
+890;Sargans Ost - Ziegelbrücke;8;1033;MH;WN
+890;Sargans Ost - Ziegelbrücke;9;1583;WN;ZBO
+890;Sargans Ost - Ziegelbrücke;10;1584;ZBO;ZB
+900;Sargans Ost - Chur West (Gleisende);-1;1466;SAOS;SASW
+900;Sargans Ost - Chur West (Gleisende);0;1467;SASW;BRAG
+900;Sargans Ost - Chur West (Gleisende);1;1020;BRAG;MF
+900;Sargans Ost - Chur West (Gleisende);2;2354;MF;ROR
+900;Sargans Ost - Chur West (Gleisende);3;2355;ROR;LQ
+900;Sargans Ost - Chur West (Gleisende);4;1022;LQ;ZIZS
+900;Sargans Ost - Chur West (Gleisende);5;1023;ZIZS;TRIM
+900;Sargans Ost - Chur West (Gleisende);6;1024;TRIM;CH
+900;Sargans Ost - Chur West (Gleisende);7;1465;CH;CHW
+910;Landquart - Klosters - Sagliains;-1;3176;LQ;MALA
+910;Landquart - Klosters - Sagliains;0;3177;MALA;SEEV
+910;Landquart - Klosters - Sagliains;1;3178;SEEV;GRUS
+910;Landquart - Klosters - Sagliains;2;4005;GRUS;MUDA
+910;Landquart - Klosters - Sagliains;3;4006;MUDA;SCRS
+910;Landquart - Klosters - Sagliains;4;4417;SCRS;SLAN
+910;Landquart - Klosters - Sagliains;5;4418;SLAN;FUWI
+910;Landquart - Klosters - Sagliains;6;3181;FUWI;FURN
+910;Landquart - Klosters - Sagliains;7;3182;FURN;JAZ
+910;Landquart - Klosters - Sagliains;8;3183;JAZ;FID
+910;Landquart - Klosters - Sagliains;9;3184;FID;KUEB
+910;Landquart - Klosters - Sagliains;10;3185;KUEB;SAAS
+910;Landquart - Klosters - Sagliains;11;3186;SAAS;SERN
+910;Landquart - Klosters - Sagliains;12;3187;SERN;KLOD
+910;Landquart - Klosters - Sagliains;13;3188;KLOD;KLO
+910;Landquart - Klosters - Sagliains;14;3200;KLO;SELF
+910;Landquart - Klosters - Sagliains;15;3201;SELF;SELS
+910;Landquart - Klosters - Sagliains;16;3202;SELS;VNOR
+910;Landquart - Klosters - Sagliains;17;4142;VNOR;VSUD
+910;Landquart - Klosters - Sagliains;18;3204;VSUD;SNOR
+910;Landquart - Klosters - Sagliains;19;3205;SNOR;SAGL
+914;Sagliains Nord - Sasslatsch Test;1;3206;SNOR;SASS
+915;Klosters - Davos - Filisur;1;3189;KLO;CDUE
+915;Klosters - Davos - Filisur;2;3190;CDUE;DALT
+915;Klosters - Davos - Filisur;3;3191;DALT;DAW
+915;Klosters - Davos - Filisur;4;3192;DAW;DAD
+915;Klosters - Davos - Filisur;5;3193;DAD;DAV
+915;Klosters - Davos - Filisur;6;3194;DAV;DAI
+915;Klosters - Davos - Filisur;7;3195;DAI;DAF
+915;Klosters - Davos - Filisur;8;3196;DAF;DAGL
+915;Klosters - Davos - Filisur;9;3197;DAGL;DAM
+915;Klosters - Davos - Filisur;10;3198;DAM;WIES
+915;Klosters - Davos - Filisur;11;3199;WIES;FILI
+920;Landquart RhB - Chur - Disentis;-5;4365;LQ;LQRI
+920;Landquart RhB - Chur - Disentis;-4;4364;LQRI;IGIS
+920;Landquart RhB - Chur - Disentis;-3;4143;IGIS;ZALT
+920;Landquart RhB - Chur - Disentis;-2;4144;ZALT;ZIZ
+920;Landquart RhB - Chur - Disentis;-1;3172;ZIZ;UVAZ
+920;Landquart RhB - Chur - Disentis;0;3173;UVAZ;TRIS
