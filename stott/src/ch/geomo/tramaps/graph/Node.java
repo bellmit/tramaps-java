@@ -4,24 +4,25 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.Point;
-import ch.geomo.tramaps.util.CollectionUtil;
-import org.apache.commons.lang3.tuple.Pair;
+import ch.geomo.tramaps.geom.NodePoint;
+import ch.geomo.tramaps.grid.GridNode;
+import ch.geomo.tramaps.util.tuple.Tuple;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.Set;
 
-public interface Node<T extends Number & Comparable<T>, E extends Edge<T, ?>> extends Point<T> {
+public interface Node<E extends Edge> extends NodePoint {
+
+    long getVersion();
 
     /**
      * Gets the node name. If not overridden, returns x/y coordinates as a String representation.
      */
     @NotNull
-    default String getName() {
-        return getX() + "/" + getY();
-    }
+    String getName();
 
     @Nullable
     NodeLabel getLabel();
@@ -30,9 +31,13 @@ public interface Node<T extends Number & Comparable<T>, E extends Edge<T, ?>> ex
      * Gets pairs of adjacent edges.
      */
     @NotNull
-    default Set<Pair<E, E>> getAdjacentEdgePairs() {
-        return new HashSet<>(CollectionUtil.makePairs(getEdges(), true, true));
-    }
+    Set<Tuple<E>> getAdjacentEdgePairs();
+
+    /**
+     * Returns all adjacent nodes.
+     */
+    @NotNull
+    Set<? extends Node<E>> getAdjacentNodes();
 
     /**
      * Gets all edges.
@@ -40,26 +45,26 @@ public interface Node<T extends Number & Comparable<T>, E extends Edge<T, ?>> ex
     @NotNull
     Set<E> getEdges();
 
+    @NotNull
+    Point getPoint();
+
+    @NotNull
+    Coordinate getCoordinate();
+
     /**
      * Gets the degree value of this node.
      */
-    default int getDegreeValue() {
-        return getEdges().size();
-    }
+    int getDegreeValue();
 
     /**
      * Returns true if the degree value is equals to given value.
      */
-    default boolean hasDegreeValueOf(int value) {
-        return getDegreeValue() == value;
-    }
+    boolean hasDegreeValueOf(int value);
 
     /**
      * Returns the number of the quadrant of a Cartesian coordinate system using given node as origin.
      */
     @NotNull
-    default Quadrant getQuadrant(@NotNull Point<T> originPoint) {
-        return Quadrant.getQuadrant(this, originPoint);
-    }
+    Quadrant getQuadrant(@NotNull NodePoint originPoint);
 
 }

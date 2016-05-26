@@ -4,7 +4,6 @@
 
 package ch.geomo.tramaps;
 
-import ch.geomo.tramaps.criteria.NodeCriteriaCalculator;
 import ch.geomo.tramaps.graph.geo.GeoEdge;
 import ch.geomo.tramaps.graph.geo.GeoGraph;
 import ch.geomo.tramaps.graph.geo.GeoNode;
@@ -26,8 +25,12 @@ public class MetroMapDataTest {
         List<GeoEdge> edges = loader.readEdges(nodes);
 
         MetroMap map = new MetroMapBuilder()
-                .setGridSpacing(50)
                 .setGraph(new GeoGraph(new ArrayList<>(nodes.values()), edges))
+                .setGridSpacing(50)
+                .setRadius(4)
+                .setMinIteration(1)
+                .setMaxIteration(10)
+                .setMultiplicator(1.25)
                 .build();
 
 //        System.out.println(map.getEdges());
@@ -38,11 +41,11 @@ public class MetroMapDataTest {
                 .findFirst()
                 .ifPresent(n -> System.out.println(n.getEdges()));
 
-        NodeCriteriaCalculator calculator = new NodeCriteriaCalculator(2, 50);
-        System.out.println(calculator.calculate(map.getNodes(), map.getEdges()));
+//        NodeCriteriaHandler calculator = new NodeCriteriaHandler(2, 50);
+//        System.out.println(calculator._calculate(map.getNodes(), map.getEdges()));
 
-//        MetroMapExporter exporter = new MetroMapExporter();
-//        exporter.toCsv("/Users/thozub/Repositories/tramaps/stott/out", map);
+        MetroMapExporter exporter = new MetroMapExporter();
+        exporter.toCsv("/Users/thozub/Repositories/tramaps/stott/out", map);
 
     }
 

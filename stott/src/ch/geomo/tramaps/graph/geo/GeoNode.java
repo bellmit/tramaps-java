@@ -4,105 +4,78 @@
 
 package ch.geomo.tramaps.graph.geo;
 
-import ch.geomo.tramaps.graph.EdgeOrderComparator;
-import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.geom.Point;
+import ch.geomo.tramaps.graph.AbstractNode;
 import ch.geomo.tramaps.graph.NodeLabel;
+import ch.geomo.tramaps.grid.GridNode;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-public class GeoNode implements Node<Double, GeoEdge> {
-
-    private String name;
-
-    private Double x;
-    private Double y;
-
-    private NodeLabel label;
-
-    private final Set<GeoEdge> edges = new TreeSet<>(new EdgeOrderComparator<>(this));
+public class GeoNode extends AbstractNode<GeoEdge> {
 
     /**
-     * Default constructor for SuperCSV.
+     * SuperCSV only
+     */
+    private Double initialX;
+
+    /**
+     * SuperCSV only
+     */
+    private Double initialY;
+
+    /**
+     * SuperCSV only
      */
     public GeoNode() {
+        super();
     }
 
     public GeoNode(String name, double x, double y) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
+        super(name, x, y);
     }
 
-    @NotNull
     @Override
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
-        this.name = name;
+        super.setName(name);
     }
 
-    @Nullable
     @Override
-    public NodeLabel getLabel() {
-        return label;
-    }
-
     public void setLabel(NodeLabel label) {
-        this.label = label;
+        super.setLabel(label);
     }
 
-    @NotNull
-    @Override
-    public Double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    @NotNull
-    @Override
-    public Double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    @NotNull
-    @Override
-    public Set<GeoEdge> getEdges() {
-        return edges;
-    }
-
-    public void addEdge(@NotNull GeoEdge edge) {
-        if (edge.contains(this) && !getEdges().contains(edge)) {
-            this.edges.add(edge);
+    /**
+     * SuperCSV only
+     */
+    private void setPoint() {
+        if (initialX != null && initialY != null) {
+            super.setPoint(initialX, initialY);
         }
     }
 
-    @Override
-    public double calculateDistanceTo(@NotNull Point<Double> point) {
-        return Math.sqrt(Math.pow(getX() - point.getX(), 2) + Math.pow(getY() - point.getY(), 2));
+    /**
+     * SuperCSV only
+     */
+    public void setX(double x) {
+        initialX = x;
+        setPoint();
     }
 
-    @Override
-    public double calculateAngleBetween(@NotNull Point<Double> p1, @NotNull Point<Double> p2) {
-        double angle1 = Math.atan2(p1.getY() - getY(), p1.getX() - getX());
-        double angle2 = Math.atan2(p2.getY() - getY(), p2.getX() - getX());
-        return angle1 - angle2;
+    /**
+     * SuperCSV only
+     */
+    public void setY(double y) {
+        initialY = y;
+        setPoint();
     }
 
-    @Override
-    public String toString() {
-        return getName();
+    @NotNull
+    public Set<GeoNode> getAdjacentNodes() {
+        return getEdges().stream()
+                .map(edge -> edge.getOppositeNode(this))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -117,11 +90,6 @@ public class GeoNode implements Node<Double, GeoEdge> {
                 && Objects.equals(getY(), node.getY())
                 && Objects.equals(getName(), node.getName());
 
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getX(), getY(), getName());
     }
 
 }

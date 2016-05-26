@@ -65,24 +65,28 @@ public class MetroMapDataLoader {
 
             ParseEdgeNode edgeNodeParser = new ParseEdgeNode(nodes);
 
-            final String[] header = new String[]{null, null, null, "name", "start", "end"};
+            final String[] header = new String[]{null, null, null, "name", "firstNode", "secondNode"};
             final CellProcessor[] processors = new CellProcessor[]{null, null, null, new NotNull(), edgeNodeParser, edgeNodeParser};
 
             GeoEdge edge;
             while ((edge = reader.read(GeoEdge.class, header, processors)) != null) {
 
-                GeoNode start = edge.getNodes().getLeft();
-                GeoNode end = edge.getNodes().getRight();
+                if (edge.getNodes() == null) {
+                    continue;
+                }
 
-                if (start == null || end == null) {
+                GeoNode first = edge.getFirstNode();
+                GeoNode second = edge.getSecondNode();
+
+                if (first == null || second == null) {
                     continue;
                 }
 
                 edges.add(edge);
 
                 // add bi-directional dependency
-                start.addEdge(edge);
-                end.addEdge(edge);
+                first.addEdge(edge);
+                second.addEdge(edge);
 
             }
 

@@ -2,7 +2,7 @@ package ch.geomo.tramaps.graph;
 
 import java.util.Set;
 
-public interface Graph<T extends Number & Comparable<T>, E extends Edge<T, N>, N extends Node<T, E>> {
+public interface Graph<E extends Edge<N>, N extends Node<E>> {
     Set<N> getNodes();
     Set<E> getEdges();
 }

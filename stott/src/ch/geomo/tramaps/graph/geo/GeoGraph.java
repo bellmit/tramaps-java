@@ -5,8 +5,6 @@
 package ch.geomo.tramaps.graph.geo;
 
 import ch.geomo.tramaps.graph.Graph;
-import ch.geomo.tramaps.graph.geo.GeoEdge;
-import ch.geomo.tramaps.graph.geo.GeoNode;
 
 import java.util.Collection;
 import java.util.HashSet;

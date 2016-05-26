@@ -1,32 +1,27 @@
 package ch.geomo.tramaps.criteria.node;
 
-import ch.geomo.tramaps.criteria.NodeCriterion;
-import ch.geomo.tramaps.graph.Graph;
-import ch.geomo.tramaps.grid.GridEdge;
+import ch.geomo.tramaps.criteria.AbstractNodeCriterion;
+import ch.geomo.tramaps.grid.GridGraph;
 import ch.geomo.tramaps.grid.GridNode;
 
 import java.util.Set;
 
-public class LineStraightnessCriterion implements NodeCriterion {
-
-    private double w;
+public class LineStraightnessCriterion extends AbstractNodeCriterion {
 
     public LineStraightnessCriterion(double weight) {
-        this.w = weight;
+        super(weight);
     }
 
     @Override
-    public double calculate(Set<GridNode> nodes, Set<GridEdge> edges) {
-        return w * nodes.stream()
-                .mapToDouble(n -> n.getAdjacentEdgePairs().stream()
-                        .mapToDouble(p -> {
-                            Double angle = p.getRight().calculateAngleTo(p.getLeft());
-                            if (angle == null) {
-                                // should never reach this line since both edges are adjacent
-                                throw new IllegalStateException("Edges are not adjacent to each other!");
-                            }
-                            return Math.abs(angle);
-                        })
+    public double _calculate(GridGraph graph) {
+        final Set<GridNode> nodes = graph.getNodes();
+        return nodes.parallelStream()
+                .mapToDouble(n -> n.getAdjacentEdgePairs().parallelStream()
+                        .mapToDouble(p ->
+                                p.get(0).calculateAngleTo(p.get(1))
+                                        .map(Math::abs)
+                                        .orElseThrow(() -> new IllegalStateException("Edges are not adjacent to each other!"))
+                        )
                         .sum())
                 .sum();
     }

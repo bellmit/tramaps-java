@@ -1,33 +1,30 @@
 package ch.geomo.tramaps.criteria.node;
 
-import ch.geomo.tramaps.criteria.NodeCriterion;
-import ch.geomo.tramaps.grid.GridEdge;
+import ch.geomo.tramaps.criteria.AbstractNodeCriterion;
+import ch.geomo.tramaps.grid.GridGraph;
 import ch.geomo.tramaps.grid.GridNode;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Set;
 
-public class AngularResolutionCriterion implements NodeCriterion {
-
-    private double w;
+public class AngularResolutionCriterion extends AbstractNodeCriterion {
 
     public AngularResolutionCriterion(double weight) {
-        this.w = weight;
+        super(weight);
     }
 
     @Override
-    public double calculate(Set<GridNode> nodes, Set<GridEdge> edges) {
-        return w * nodes.stream()
-                .mapToDouble(n -> n.getAdjacentEdgePairs().stream()
-                        .mapToDouble(p -> {
-                            Double angle = p.getRight().calculateAngleTo(p.getLeft());
-                            if (angle == null) {
-                                // should never reach this line since both edges are adjacent
-                                throw new IllegalStateException("Edges are not adjacent to each other!");
-                            }
-                            int degreeValue = n.getDegreeValue();
-                            return Math.abs(((2 * Math.PI) / degreeValue) - angle);
-                        })
+    public double _calculate(GridGraph graph) {
+        final Set<GridNode> nodes = graph.getNodes();
+        return nodes.stream()
+                .mapToDouble(n -> n.getAdjacentEdgePairs().parallelStream()
+                        .mapToDouble(p ->
+                            p.get(0).calculateAngleTo(p.get(1))
+                                    .map(angle -> {
+                                        int degreeValue = n.getDegreeValue();
+                                        return Math.abs(((2 * Math.PI) / degreeValue) - angle);
+                                    })
+                                    .orElseThrow(() -> new IllegalStateException("Edges are not adjacent to each other!"))
+                        )
                         .sum())
                 .sum();
     }

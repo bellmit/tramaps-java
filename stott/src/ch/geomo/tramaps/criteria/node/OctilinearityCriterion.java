@@ -1,26 +1,24 @@
 package ch.geomo.tramaps.criteria.node;
 
-import ch.geomo.tramaps.criteria.NodeCriterion;
-import ch.geomo.tramaps.graph.Graph;
+import ch.geomo.tramaps.criteria.AbstractNodeCriterion;
 import ch.geomo.tramaps.grid.GridEdge;
-import ch.geomo.tramaps.grid.GridNode;
+import ch.geomo.tramaps.grid.GridGraph;
 
 import java.util.Set;
 
-public class OctilinearityCriterion implements NodeCriterion {
-
-    private double w;
+public class OctilinearityCriterion extends AbstractNodeCriterion {
 
     public OctilinearityCriterion(double weight) {
-        this.w = weight;
+        super(weight);
     }
 
     @Override
-    public double calculate(Set<GridNode> nodes, Set<GridEdge> edges) {
-        return w * edges.stream()
+    public double _calculate(GridGraph graph) {
+        final Set<GridEdge> edges = graph.getEdges();
+        return edges.parallelStream()
                 .mapToDouble(e -> {
-                    long dY = e.getStart().getY() - e.getEnd().getY();
-                    long dX = e.getStart().getX() - e.getEnd().getX();
+                    double dY = e.getNode(0).getY() - e.getNode(1).getY();
+                    double dX = e.getNode(0).getX() - e.getNode(1).getX();
                     if (dX == 0) {
                         // TODO how to avoid / by zero?
                         return 0;

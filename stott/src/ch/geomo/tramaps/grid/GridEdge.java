@@ -4,54 +4,62 @@
 
 package ch.geomo.tramaps.grid;
 
-import ch.geomo.tramaps.graph.Edge;
-import org.apache.commons.lang3.tuple.Pair;
+import ch.geomo.tramaps.graph.AbstractEdge;
+import ch.geomo.tramaps.util.tuple.Tuple;
 import org.jetbrains.annotations.NotNull;
 
-public class GridEdge implements Edge<Long, GridNode> {
+import java.util.Objects;
 
-    private String name;
+public class GridEdge extends AbstractEdge<GridNode> {
 
-    private GridNode start;
-    private GridNode end;
-
-    public GridEdge(@NotNull String name, @NotNull GridNode start, @NotNull GridNode end) {
-        this.name = name;
-        this.start = start;
-        this.end = end;
+    /**
+     * Default constructor for SuperCSV.
+     */
+    public GridEdge() {
+        super();
     }
 
-    @NotNull
-    public String getName() {
-        return name;
+    public GridEdge(@NotNull String name, @NotNull GridNode firstNode, @NotNull GridNode secondNode) {
+        super(name, firstNode, secondNode);
     }
 
+    @Override
     public void setName(@NotNull String name) {
-        this.name = name;
-    }
-
-    public void setStart(@NotNull GridNode start) {
-        this.start = start;
-    }
-
-    public void setEnd(@NotNull GridNode end) {
-        this.end = end;
-    }
-
-    @NotNull
-    @Override
-    public Pair<GridNode, GridNode> getNodes() {
-        return Pair.of(start, end);
+        super.setName(name);
     }
 
     @Override
-    public double getLength() {
-        return start.calculateDistanceTo(end);
+    public void setNodes(Tuple<GridNode> nodes) {
+        super.setNodes(nodes);
+    }
+
+    public long getStartX() {
+        return (long)super.getNode(0).getX();
+    }
+
+    public long getStartY() {
+        return (long)super.getNode(0).getY();
+    }
+
+    public long getEndX() {
+        return (long)super.getNode(1).getX();
+    }
+
+    public long getEndY() {
+        return (long)super.getNode(1).getY();
     }
 
     @Override
-    public String toString() {
-        return "{" + getName() + "|" + getStart() + "--" + getEnd() + "}";
+    public boolean equals(Object obj) {
+
+        if (obj == null || !(obj instanceof GridEdge)) {
+            return false;
+        }
+
+        GridEdge edge = (GridEdge) obj;
+        return Objects.equals(edge.getNodes(), getNodes())
+                && Objects.equals(edge.getName(), getName());
+
     }
 
 }

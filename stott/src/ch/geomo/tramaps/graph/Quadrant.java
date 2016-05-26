@@ -4,8 +4,7 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.Point;
-import ch.geomo.tramaps.util.NumberUtil;
+import ch.geomo.tramaps.geom.NodePoint;
 
 /**
  * Quadrant of a Cartesian coordinate system.
@@ -37,16 +36,16 @@ public enum Quadrant {
         return getNumber() < quadrant.getNumber();
     }
 
-    public static <N extends Number & Comparable<N>>Quadrant getQuadrant(Point<N> originPoint, Point<N> point) {
+    public static Quadrant getQuadrant(NodePoint originPoint, NodePoint point) {
 
-        if (NumberUtil.isGreaterThan(point.getX(), originPoint.getX())) {
-            if (NumberUtil.isGreaterThan(point.getY(), originPoint.getY())) {
+        if (point.getX() > originPoint.getX()) {
+            if (point.getY() > originPoint.getY()) {
                 return Quadrant.FIRST;
             }
             return Quadrant.FOURTH;
         }
 
-        if (NumberUtil.isGreaterThan(point.getY(), originPoint.getY())) {
+        if (point.getY() > originPoint.getY()) {
             return Quadrant.SECOND;
         }
         return Quadrant.THIRD;

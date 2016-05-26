@@ -4,55 +4,77 @@
 
 package ch.geomo.tramaps.graph.geo;
 
-import ch.geomo.tramaps.graph.Edge;
-import org.apache.commons.lang3.tuple.Pair;
+import ch.geomo.tramaps.graph.AbstractEdge;
+import ch.geomo.tramaps.util.tuple.Tuple;
 import org.jetbrains.annotations.NotNull;
 
-public class GeoEdge implements Edge<Double, GeoNode> {
+import java.util.Objects;
 
-    private String name;
+public class GeoEdge extends AbstractEdge<GeoNode> {
 
-    private GeoNode start;
-    private GeoNode end;
 
     /**
-     * Default constructor for SuperCSV.
+     * SuperCSV only
+     */
+    private GeoNode initialFirstNode;
+
+    /**
+     * SuperCSV only
+     */
+    private GeoNode initialSecondNode;
+
+    /**
+     * SuperCSV only
      */
     public GeoEdge() {
+        super();
     }
 
-    public GeoEdge(@NotNull String name, @NotNull GeoNode start, @NotNull GeoNode end) {
-        this.name = name;
-        this.start = start;
-        this.end = end;
+    public GeoEdge(@NotNull String name, @NotNull GeoNode firstNode, @NotNull GeoNode secondNode) {
+        super(name, firstNode, secondNode);
     }
 
-    @NotNull
-    public String getName() {
-        return name;
-    }
-
+    @Override
     public void setName(@NotNull String name) {
-        this.name = name;
+        super.setName(name);
     }
 
-    public void setStart(@NotNull GeoNode start) {
-        this.start = start;
+    /**
+     * SuperCSV only
+     */
+    private void setNodes() {
+        if (initialFirstNode != null && initialSecondNode != null) {
+            super.setNodes(Tuple.of(initialFirstNode, initialSecondNode));
+        }
     }
 
-    public void setEnd(@NotNull GeoNode end) {
-        this.end = end;
+    /**
+     * SuperCSV only
+     */
+    public void setFirstNode(@NotNull GeoNode firstNode) {
+        this.initialFirstNode = firstNode;
+        setNodes();
     }
 
-    @NotNull
+    /**
+     * SuperCSV only
+     */
+    public void setSecondNode(@NotNull GeoNode secondNode) {
+        this.initialSecondNode = secondNode;
+        setNodes();
+    }
+
     @Override
-    public Pair<GeoNode, GeoNode> getNodes() {
-        return Pair.of(start, end);
-    }
+    public boolean equals(Object obj) {
 
-    @Override
-    public double getLength() {
-        return start.calculateDistanceTo(end);
+        if (obj == null || !(obj instanceof GeoEdge)) {
+            return false;
+        }
+
+        GeoEdge edge = (GeoEdge) obj;
+        return Objects.equals(edge.getNodes(), getNodes())
+                && Objects.equals(edge.getName(), getName());
+
     }
 
 }

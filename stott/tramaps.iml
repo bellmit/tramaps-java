@@ -22,5 +22,6 @@
     <orderEntry type="library" name="junit:junit:4.12" level="project" />
     <orderEntry type="library" name="net.sf.supercsv:super-csv-java8:2.4.0" level="project" />
     <orderEntry type="library" name="org.apache.commons:commons-lang3:3.4" level="project" />
+    <orderEntry type="library" name="com.vividsolutions:jts-core:1.14.0" level="project" />
   </component>
 </module>

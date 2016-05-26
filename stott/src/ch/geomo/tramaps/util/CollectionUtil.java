@@ -4,17 +4,14 @@
 
 package ch.geomo.tramaps.util;
 
+import ch.geomo.tramaps.util.tuple.Tuple;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -23,14 +20,30 @@ public final class CollectionUtil {
     private CollectionUtil() {
     }
 
-    @Contract("null -> null")
-    public static <T> List<Pair<T, T>> makePairs(@Nullable Collection<T> collection) {
-        return makePairs(collection, false);
+    @NotNull
+    public static <T> Set<Tuple<T>> makePermutations(@Nullable Collection<T> items, boolean disallowEqualCombination) {
+        return makePermutations(items, p -> !disallowEqualCombination || p.getFirst() != p.getSecond() );
     }
 
-    @Contract("null,_ -> null")
-    public static <T> List<Pair<T, T>> makePairs(@Nullable Collection<T> collection, boolean closeCircle) {
-        return makePairs(collection, closeCircle, false);
+    @NotNull
+    public static <T> Set<Tuple<T>> makePermutations(@Nullable Collection<T> items) {
+        return makePermutations(items, p -> true);
+    }
+
+    @NotNull
+    public static <T> Set<Tuple<T>> makePermutations(@Nullable Collection<T> items, @NotNull Predicate<Tuple<T>> filterPredicate) {
+
+        if (items == null || items.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        return items.parallelStream()
+                .flatMap(v1 -> items.parallelStream()
+                        .map(v2 -> Tuple.of(v1, v2)))
+                .filter(filterPredicate)
+                .distinct()
+                .collect(Collectors.toSet());
+
     }
 
     @Contract("null,_,_ -> null")
@@ -40,8 +53,8 @@ public final class CollectionUtil {
             return null;
         }
 
-        if (emptyListWhenNoPairAvailable && collection.size() < 2) {
-            return Collections.emptyList();
+        if (collection.size() < 2) {
+            return emptyListWhenNoPairAvailable ? Collections.emptyList() : null;
         }
 
         List<T> right = collection.stream()
@@ -70,14 +83,6 @@ public final class CollectionUtil {
                 .mapToObj(index -> Pair.of(right.get(index), left.get(index)))
                 .collect(Collectors.toList());
 
-    }
-
-    @Contract("!null, _ -> !null")
-    public static <T>T defaultIfNull(T value, @NotNull Supplier<T> nullValueSupplier) {
-        if (value != null) {
-            return value;
-        }
-        return nullValueSupplier.get();
     }
 
 }
