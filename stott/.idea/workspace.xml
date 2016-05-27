@@ -2,154 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5c41261-095d-43a1-96da-b1f9644d2843" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/STRECKE_OVERVIEW.csf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/STRECKE_OVERVIEW.dbf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/STRECKE_OVERVIEW.prj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/STRECKE_OVERVIEW.shp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/STRECKE_OVERVIEW.shx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/ZH.dbf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/ZH.sbn" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/ZH.sbx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/ZH.shp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/ZH.shx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_17_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_miglayout_miglayout_swing_3_7.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_imageio_ext_imageio_ext_geocore_1_1_13.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_imageio_ext_imageio_ext_streams_1_1_13.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_imageio_ext_imageio_ext_tiff_1_1_13.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_imageio_ext_imageio_ext_utilities_1_1_13.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_affine_jt_affine_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_algebra_jt_algebra_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_bandcombine_jt_bandcombine_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_bandmerge_jt_bandmerge_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_bandselect_jt_bandselect_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_binarize_jt_binarize_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_border_jt_border_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_buffer_jt_buffer_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_classifier_jt_classifier_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_colorconvert_jt_colorconvert_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_colorindexer_jt_colorindexer_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_crop_jt_crop_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_errordiffusion_jt_errordiffusion_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_format_jt_format_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_imagefunction_jt_imagefunction_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_iterators_jt_iterators_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_lookup_jt_lookup_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_mosaic_jt_mosaic_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_nullop_jt_nullop_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_orderdither_jt_orderdither_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_piecewise_jt_piecewise_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_rescale_jt_rescale_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_rlookup_jt_rlookup_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_scale_jt_scale_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_stats_jt_stats_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_translate_jt_translate_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_utilities_jt_utilities_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_vectorbin_jt_vectorbin_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_warp_jt_warp_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__it_geosolutions_jaiext_zonal_jt_zonal_1_0_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_media_jai_codec_1_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_media_jai_imageio_1_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_geotools_gt_coverage_15_SNAPSHOT.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_geotools_gt_cql_15_SNAPSHOT.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_geotools_gt_graph_15_SNAPSHOT.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_geotools_gt_render_15_SNAPSHOT.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_geotools_gt_swing_15_SNAPSHOT.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jaitools_jt_utils_1_4_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jaitools_jt_zonalstats_1_4_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/STRECKE_OVERVIEW.cpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/ZH.cpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/ZH.prj" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapMain.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/Geom.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geotools/TramapsGraphBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geotools/TramapsGraphGenerator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/LineStringOrderComparator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/ObjectUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/tuple/MutableTuple.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMap.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/label/NodeProximityCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/label/OcclusionCriteria.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/label/PerpendicularTickCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/label/PositionConsistencyCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/label/PositionCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/AbstractEdge.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/AbstractNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Edge.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Graph.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Node.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/geo/GeoEdge.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/geo/GeoGraph.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/geo/GeoNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMap.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/label/NodeProximityCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/label/OcclusionCriteria.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/label/PerpendicularTickCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/label/PositionConsistencyCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/label/PositionCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/AbstractEdge.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/AbstractNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Edge.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/EdgeOrderComparator$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/EdgeOrderComparator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Graph.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Node.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/geo/GeoEdge.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/geo/GeoGraph.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/geo/GeoNode.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/EdgeOrderComparator.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/GridEdgeOrderComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapBuilder.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapDataLoader.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapDataLoader.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapExporter.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapExporter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/LabelCriteriaCalculator.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/LabelCriteriaCalculator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/LabelCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/LabelCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/NodeCriteriaHandler.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/NodeCriteriaHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/AngularResolutionCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/AngularResolutionCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/BalancedEdgeLengthCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/BalancedEdgeLengthCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/EdgeCrossingCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/EdgeCrossingCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/EdgeLengthCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/EdgeLengthCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/LineStraightnessCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/LineStraightnessCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/csv/ParseEdgeNode.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/csv/ParseEdgeNode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/geom/ImmutableNodePoint.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/geom/ImmutableNodePoint.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/geom/NodePoint.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/geom/NodePoint.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Quadrant.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Quadrant.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/Grid.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/Grid.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridEdge.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridEdge.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridGraph.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridGraph.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridNode.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridNode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/util/CollectionUtil.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/util/CollectionUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/util/tuple/Tuple.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/util/tuple/Tuple.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/ch/geomo/tramaps/MetroMapDataTest.class" afterPath="$PROJECT_DIR$/target/test-classes/ch/geomo/tramaps/MetroMapDataTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/thozub.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/thozub.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapDataLoader.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapDataLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapExporter.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapExporter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/LabelCriteriaCalculator.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/LabelCriteriaCalculator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/LabelCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/LabelCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/NodeCriteriaHandler.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/NodeCriteriaHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/AngularResolutionCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/AngularResolutionCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/BalancedEdgeLengthCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/BalancedEdgeLengthCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/EdgeCrossingCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/EdgeCrossingCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/LineStraightnessCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/LineStraightnessCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/csv/ParseEdgeNode.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/csv/ParseEdgeNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/ImmutableNodePoint.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/ImmutableNodePoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/NodePoint.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/NodePoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/NodeLabel.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/NodeLabel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Quadrant.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Quadrant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/Grid.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/Grid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridEdge.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridEdge.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridGraph.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridNode.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/tuple/Tuple.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/tuple/Tuple.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ch/geomo/tramaps/MetroMapDataTest.java" afterPath="$PROJECT_DIR$/src/test/java/ch/geomo/tramaps/MetroMapDataTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tramaps.iml" afterPath="$PROJECT_DIR$/tramaps.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/NodeLabel.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/NodeLabel.class" />
     </list>
     <ignored path="tramaps.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1102,6 +955,14 @@
       <option name="presentableId" value="Default" />
       <updated>1463916135716</updated>
     </task>
+    <task id="LOCAL-00001" summary="introducing geotools">
+      <created>1464385772549</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1464385772549</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1175,6 +1036,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="introducing geotools" />
+    <option name="LAST_COMMIT_MESSAGE" value="introducing geotools" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
