@@ -17,7 +17,7 @@ public class BalancedEdgeLengthCriterion extends AbstractNodeCriterion {
     public double _calculate(GridGraph graph) {
         final Set<GridNode> nodes = graph.getNodes();
         return nodes.parallelStream()
-                .filter(n -> n.hasDegreeValueOf(2))
+                .filter(n -> n.hasDegree(2))
                 .mapToDouble(n -> {
                     GridEdge[] e = n.getEdges().toArray(new GridEdge[0]);
                     return Math.abs(Math.abs(e[0].getLength()) - Math.abs(e[1].getLength()));

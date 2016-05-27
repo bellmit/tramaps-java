@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.csv;
 
-import ch.geomo.tramaps.graph.geo.GeoNode;
+import ch.geomo.tramaps.grid.GridNode;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.util.CsvContext;
 
@@ -13,14 +13,14 @@ import java.util.Optional;
 
 public class ParseEdgeNode extends CellProcessorAdaptor {
 
-    private Map<String, GeoNode> nodes;
+    private Map<String, GridNode> nodes;
 
-    public ParseEdgeNode(Map<String, GeoNode> nodes) {
+    public ParseEdgeNode(Map<String, GridNode> nodes) {
         this.nodes = nodes;
     }
 
     @Override
-    public GeoNode execute(Object o, CsvContext csvContext) {
+    public GridNode execute(Object o, CsvContext csvContext) {
         return Optional.ofNullable(o).map(node -> nodes.get(node.toString())).orElse(null);
     }
 

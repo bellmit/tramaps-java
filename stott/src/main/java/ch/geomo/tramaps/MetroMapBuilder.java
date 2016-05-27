@@ -1,31 +1,36 @@
 package ch.geomo.tramaps;
 
 import ch.geomo.tramaps.criteria.NodeCriteriaHandler;
-import ch.geomo.tramaps.graph.geo.GeoGraph;
 import ch.geomo.tramaps.grid.Grid;
+import ch.geomo.tramaps.grid.GridGraph;
+import org.opengis.geometry.BoundingBox;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MetroMapBuilder {
+public class MetroMapBuilder extends Observable {
 
     private final static Logger logger = Logger.getLogger(MetroMapBuilder.class.getSimpleName());
 
-    private GeoGraph graph;
+    private GridGraph graph;
 
     private long gridSpacing = 100;
     private double multiplicator = 1;
 
     private int radius = 2;
     private int minIteration = 1;
-    private int maxIteration = 50;
+    private int maxIteration = 10;
 
     private NodeCriteriaHandler nodeCriteriaHandler;
+
+    private BoundingBox drawingArea;
 
     public MetroMapBuilder() {
     }
 
-    public MetroMapBuilder setGraph(GeoGraph graph) {
+    public MetroMapBuilder setGraph(GridGraph graph) {
         this.graph = graph;
         return this;
     }
@@ -55,10 +60,15 @@ public class MetroMapBuilder {
         return this;
     }
 
+    public MetroMapBuilder setDrawingArea(BoundingBox drawingArea) {
+        this.drawingArea = drawingArea;
+        return this;
+    }
+
     private double getCurrentCriteriaValue() {
         nodeCriteriaHandler.test();
         double lastNodeCriteria = nodeCriteriaHandler.getLastNodeCriteria();
-        System.out.println("Last Node Criteria Value: " + lastNodeCriteria);
+        System.out.println("Last INode Criteria Value: " + lastNodeCriteria);
         return lastNodeCriteria;
     }
 
@@ -72,6 +82,7 @@ public class MetroMapBuilder {
             System.out.println("Start Iteration: " + iteration);
 
             nodeCriteriaHandler.runIteration(radius);
+            notifyObservers();
 
             // test iteration
             double currentCriteriaValue = getCurrentCriteriaValue();
@@ -89,17 +100,24 @@ public class MetroMapBuilder {
 
     }
 
-    public MetroMap build() {
+    public synchronized MetroMapBuilder addBuildObserver(Observer o) {
+        super.addObserver(o);
+        return this;
+    }
+
+    public Grid build() {
 
         logger.log(Level.INFO, "Start building...");
         logger.log(Level.INFO, "Start creating grid...");
 
-        Grid grid = new Grid();
-        grid.setGridSpace(gridSpacing);
+        Grid grid = new Grid(graph);
+
+        grid.setGridSpacing(gridSpacing);
         grid.setMultiplicator(multiplicator);
         grid.setInitialMoveRadius(radius);
+        grid.setDrawingArea(drawingArea);
 
-        grid.init(graph.getNodes());
+        grid.snapNodes();
 
         logger.log(Level.INFO, "Grid created.");
 
@@ -109,7 +127,7 @@ public class MetroMapBuilder {
         run();
 
         logger.log(Level.INFO, "Metro Map generated.");
-        return new MetroMap(grid.getGraph());
+        return grid;
 
     }
 

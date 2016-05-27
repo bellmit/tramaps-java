@@ -4,17 +4,15 @@
 
 package ch.geomo.tramaps.grid;
 
+import ch.geomo.tramaps.geom.Geom;
 import ch.geomo.tramaps.geom.NodePoint;
 import ch.geomo.tramaps.geom.NodePointDistanceComparator;
-import ch.geomo.tramaps.graph.geo.GeoEdge;
-import ch.geomo.tramaps.graph.geo.GeoNode;
-import ch.geomo.tramaps.util.tuple.Tuple;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.NotNull;
+import org.opengis.geometry.BoundingBox;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -26,14 +24,6 @@ public class Grid {
     private final static Logger logger = Logger.getLogger(Grid.class.getSimpleName());
 
     private GridGraph graph;
-
-    private Map<GeoNode, GridNode> nodeMap = new HashMap<>();
-    private Map<GeoEdge, GridEdge> edgeMap = new HashMap<>();
-
-    /**
-     * Nodes placed in the grid.
-     */
-    private Set<GridNode> nodes = new HashSet<>();
 
     /**
      * Alg. variable, Stott's thesis, p. 74, variable g
@@ -50,11 +40,14 @@ public class Grid {
      */
     private int initialMoveRadius;
 
-    public Grid() {
+    private BoundingBox drawingArea;
+
+    public Grid(GridGraph graph) {
+        this.graph = graph;
     }
 
     public boolean isOccupied(double x, double y) {
-        return nodes.parallelStream()
+        return graph.getNodes().stream()
                 .filter(n -> n.getX() == x && n.getY() == y)
                 .findAny()
                 .isPresent();
@@ -78,12 +71,15 @@ public class Grid {
 
     }
 
-    private Set<NodePoint> getNonOccupiedPoints(int radius, NodePoint point) {
+    private Stream<NodePoint> getNonOccupiedPointStream(int radius, NodePoint point) {
         return getPointStream(radius, point)
                 .parallel()
                 .filter(p -> !isOccupied(p.getX(), p.getY()))
-                .sorted(new NodePointDistanceComparator<>(point))
-                .collect(Collectors.toSet());
+                .sorted(new NodePointDistanceComparator<>(point));
+    }
+
+    private Set<NodePoint> getNonOccupiedPoints(int radius, NodePoint point) {
+        return getNonOccupiedPointStream(radius, point).collect(Collectors.toSet());
     }
 
     /**
@@ -91,56 +87,40 @@ public class Grid {
      * to get a better layout.
      */
     @NotNull
-    public Set<NodePoint> getAvailablePoints(int radius, @NotNull GridNode point) {
+    public Set<NodePoint> getAvailablePoints(int radius, @NotNull GridNode node) {
 
-//        Set<NodePoint> nonOccupiedPoints = point.getAlternativePoints().parallelStream()
-//                .filter(p -> !isOccupied(p.getX(), p.getY()))
-//                .sorted(new NodePointDistanceComparator<>(point))
-//                .collect(Collectors.toSet());
-
-        Set<NodePoint> nonOccupiedPoints = getNonOccupiedPoints(radius, point.getOriginalPoint());
-
-        Set<NodePoint> nonIntersectingPoints = Tuple.from(nonOccupiedPoints, NodePoint.cast(point.getAdjacentNodes())).parallelStream()
-                .filter(tuple -> {
-                    LineString line = new GeometryFactory().createLineString(new Coordinate[]{tuple.get(0).getCoordinate(), tuple.get(1).getCoordinate()});
+        Set<NodePoint> availablePoints = getNonOccupiedPointStream(radius, node)
+                // Restrict Movement to Boundary of Drawing Area
+                .filter(p -> drawingArea.contains(p.getX(), p.getY()))
+                // Enforcement of Geographic Relationships
+                // TODO
+                // Handling Node and Edge Occlusions
+                .filter(p -> {
+                    LineString line = Geom.createLineString(p, node);
                     return getGraph().getEdges().stream()
-                            .filter(edge -> !new ArrayList<>(point.getEdges()).contains(edge))
-                            .noneMatch(edge -> edge.getLineString().intersects(line));
+                            .filter(e -> e.getLineString().intersects(line))
+                            .noneMatch(e -> e.getLineString().contains(p.getPoint()));
                 })
-                .map(tuple -> tuple.get(0))
+                .filter(p -> getGraph().getNodes().stream()
+                        .noneMatch(n -> n.getPoint().equals(p)))
+                // Preservation of Edge Ordering
+                .filter(p -> !node.hasChangedEdgeOrderingWhenMovingTo(p))
                 .collect(Collectors.toSet());
 
-        if (!nonIntersectingPoints.isEmpty()) {
-            logger.log(Level.INFO, "{0} testing points found.", nonIntersectingPoints.size());
-        }
+//        if (!availablePoints.isEmpty()) {
+//            logger.log(Level.INFO, "{0} testing points found for GeoPoint {1}.", new Object[]{availablePoints.size(), node});
+//        }
 
-        return new HashSet<>(nonIntersectingPoints);
+        return new HashSet<>(availablePoints);
 
     }
 
-    @NotNull
-    private GridEdge toGridEdge(@NotNull GeoEdge edge) {
-        GridEdge gridEdge = new GridEdge(edge.getName(), nodeMap.get(edge.getFirstNode()), nodeMap.get(edge.getSecondNode()));
-        edgeMap.put(edge, gridEdge);
-        return gridEdge;
-    }
-
-    public void init(Set<GeoNode> nodes) {
+    public void snapNodes() {
 
         logger.log(Level.INFO, "Snapping nodes to grid...");
 
-        this.nodes = nodes.parallelStream()
-                .map(node -> new GridNode(node, getClosestGridNode(node)))
-                .collect(Collectors.toSet());
-
-        nodeMap = this.nodes.parallelStream()
-                .collect(Collectors.toMap(GridNode::getGeoNode, n -> n));
-
-        this.nodes.parallelStream()
-                .forEach(node -> node.getGeoNode().getEdges()
-                        .forEach(edge -> node.addEdge(toGridEdge(edge))));
-
-        graph = new GridGraph(this.nodes, edgeMap.values(), gridSpace, initialMoveRadius);
+        graph.getNodes().parallelStream()
+                .forEach(node -> node.moveTo(getClosestGridNode(node)));
 
         logger.log(Level.INFO, "Snapping done.");
 
@@ -149,7 +129,7 @@ public class Grid {
     /**
      * Limitation: currently only working with positive coordinates!
      */
-    private NodePoint getClosestGridNode(GeoNode node) {
+    private NodePoint getClosestGridNode(GridNode node) {
 
         long x = (long) (node.getX() - (node.getX() % gridSpace));
         long y = (long) (node.getY() - (node.getY() % gridSpace));
@@ -161,23 +141,20 @@ public class Grid {
                 .flatMap(i -> Stream.of(y, y + gridSpace)
                         .parallel()
                         .map(j -> NodePoint.of(i, j)))
-                .sorted((n1, n2) -> {
-                    if (isOccupied(n1)) {
-                        return 1;
-                    }
-                    if (isOccupied(n2)) {
-                        return -1;
-                    }
-                    double diff = p.calculateDistanceTo(n1.getX(), n1.getY()) - p.calculateDistanceTo(n1.getX(), n2.getY());
-                    return (diff > 0) ? 1 : (diff < 0) ? -1 : 0;
-                })
+                .filter(n -> !isOccupied(n))
+                .filter(n -> !node.hasChangedEdgeOrderingWhenMovingTo(n))
+                .sorted(new NodePointDistanceComparator<>(p))
                 .findFirst()
-                .orElse(p);
+                .orElseThrow(() -> new IllegalStateException("check gridSpacing"));
 
     }
 
-    public void setGridSpace(long gridSpace) {
+    public void setGridSpacing(long gridSpace) {
         this.gridSpace = gridSpace;
+    }
+
+    public void setDrawingArea(BoundingBox drawingArea) {
+        this.drawingArea = drawingArea;
     }
 
     public void setMultiplicator(double multiplicator) {

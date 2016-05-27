@@ -4,8 +4,8 @@
 
 package ch.geomo.tramaps.criteria;
 
-import ch.geomo.tramaps.graph.Graph;
+import ch.geomo.tramaps.grid.GridGraph;
 
 public interface LabelCriterion {
-    double calculate(Graph graph);
+    double calculate(GridGraph graph);
 }

@@ -4,6 +4,8 @@
 
 package ch.geomo.tramaps.graph;
 
+import java.util.Objects;
+
 public class NodeLabel {
 
     private String name;
@@ -25,4 +27,20 @@ public class NodeLabel {
         return name;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null || !(obj instanceof NodeLabel)) {
+            return false;
+        }
+
+        NodeLabel label = (NodeLabel)obj;
+        return Objects.equals(getName(), label.getName());
+
+    }
 }

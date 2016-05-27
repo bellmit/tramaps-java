@@ -5,6 +5,8 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geom.NodePoint;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Point;
 
 /**
  * Quadrant of a Cartesian coordinate system.
@@ -34,6 +36,14 @@ public enum Quadrant {
      */
     public boolean isBefore(Quadrant quadrant) {
         return getNumber() < quadrant.getNumber();
+    }
+
+    public boolean isQuadrant(int number) {
+        return getNumber() == number;
+    }
+
+    public static Quadrant getQuadrant(Point originPoint, Point point) {
+        return getQuadrant(NodePoint.of(originPoint.getX(), originPoint.getY()), NodePoint.of(point.getX(), point.getY()));
     }
 
     public static Quadrant getQuadrant(NodePoint originPoint, NodePoint point) {

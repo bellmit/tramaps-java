@@ -20,7 +20,7 @@ public class LineStraightnessCriterion extends AbstractNodeCriterion {
                         .mapToDouble(p ->
                                 p.get(0).calculateAngleTo(p.get(1))
                                         .map(Math::abs)
-                                        .orElseThrow(() -> new IllegalStateException("Edges are not adjacent to each other!"))
+                                        .orElse(0d)
                         )
                         .sum())
                 .sum();

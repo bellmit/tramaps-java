@@ -29,6 +29,10 @@ public interface Tuple<T> {
      */
     T getSecond();
 
+    default boolean isNull(int index) {
+        return get(index) == null;
+    }
+
     /**
      * Gets the other value. Throws a {@link NoSuchElementException} if given value is not an item of current tuple.
      *
@@ -74,6 +78,18 @@ public interface Tuple<T> {
      */
     @NotNull
     static <T> Tuple<T> of(@Nullable T first, @Nullable T second) {
+        return new ImmutableTuple<>(first, second);
+    }
+
+
+    /**
+     * Creates a new tuple of given values.
+     */
+    @NotNull
+    static <T> Tuple<T> of(@Nullable T first, @Nullable T second, boolean mutable) {
+        if (mutable) {
+            return new MutableTuple<>(first, second);
+        }
         return new ImmutableTuple<>(first, second);
     }
 

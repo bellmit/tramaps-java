@@ -31,12 +31,12 @@ public class NodeCriteriaHandler {
     }
 
     private void initCriteria(double multiplicator, long gridSpacing) {
-        criteria.add(new AngularResolutionCriterion(1));
+        criteria.add(new AngularResolutionCriterion(10));
         criteria.add(new BalancedEdgeLengthCriterion(1));
-        criteria.add(new EdgeCrossingCriterion(1));
-        criteria.add(new EdgeLengthCriterion(1, multiplicator, gridSpacing));
-        criteria.add(new LineStraightnessCriterion(2));
-        criteria.add(new OctilinearityCriterion(1));
+        criteria.add(new EdgeCrossingCriterion(2));
+        criteria.add(new EdgeLengthCriterion(2, multiplicator, gridSpacing));
+        criteria.add(new LineStraightnessCriterion(5));
+        criteria.add(new OctilinearityCriterion(5));
     }
 
     /**
@@ -65,23 +65,18 @@ public class NodeCriteriaHandler {
         return lastNodeCriteria;
     }
 
-    private void moveNode(GridNode node, NodePoint point) {
-        node.setPoint(point.getX(), point.getY());
-        node.updateEdges();
-    }
-
     public void runIteration(int radius) {
         iteration++;
         for (GridNode node : grid.getGraph().getNodes()) {
             NodePoint bestPoint = new ImmutableNodePoint(node.getX(), node.getY());
             Set<NodePoint> availablePoints = grid.getAvailablePoints(radius, node);
             for (NodePoint point : availablePoints) {
-                moveNode(node, point);
+                node.moveTo(point);
                 if (test()) {
                     bestPoint = point;
                 }
             }
-            moveNode(node, bestPoint);
+            node.moveTo(bestPoint);
         }
     }
 

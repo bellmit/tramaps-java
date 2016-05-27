@@ -4,62 +4,138 @@
 
 package ch.geomo.tramaps.grid;
 
-import ch.geomo.tramaps.graph.AbstractEdge;
+import ch.geomo.tramaps.geom.Geom;
 import ch.geomo.tramaps.util.tuple.Tuple;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
+import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.geotools.graph.structure.Node;
+import org.geotools.graph.structure.basic.BasicEdge;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.opengis.feature.simple.SimpleFeature;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Stream;
 
-public class GridEdge extends AbstractEdge<GridNode> {
+public class GridEdge extends BasicEdge {
 
-    /**
-     * Default constructor for SuperCSV.
-     */
-    public GridEdge() {
-        super();
-    }
+    private long version;
+    private String name;
 
-    public GridEdge(@NotNull String name, @NotNull GridNode firstNode, @NotNull GridNode secondNode) {
-        super(name, firstNode, secondNode);
-    }
-
-    @Override
-    public void setName(@NotNull String name) {
-        super.setName(name);
+    public GridEdge(@NotNull GridNode nodeA, @NotNull GridNode nodeB) {
+        super(nodeA, nodeB);
+        version = 0;
     }
 
     @Override
-    public void setNodes(Tuple<GridNode> nodes) {
-        super.setNodes(nodes);
+    public GridNode getNodeA() {
+        return (GridNode) super.getNodeA();
     }
 
-    public long getStartX() {
-        return (long)super.getNode(0).getX();
+    @Override
+    public GridNode getNodeB() {
+        return (GridNode) super.getNodeB();
     }
 
-    public long getStartY() {
-        return (long)super.getNode(0).getY();
+    void updateLineString() {
+        if (getObject() != null) {
+            getSimpleFeature().setDefaultGeometry(Geom.createLineString(getNodeA(), getNodeB()));
+        }
+        version++;
     }
 
-    public long getEndX() {
-        return (long)super.getNode(1).getX();
+    public long getVersion() {
+        return version;
     }
 
-    public long getEndY() {
-        return (long)super.getNode(1).getY();
+    @Nullable
+    public String getName() {
+        return name;
+    }
+
+    protected void setName(@Nullable String name) {
+        this.name = name;
+    }
+
+    public SimpleFeature getSimpleFeature() {
+        return (SimpleFeature) getObject();
+    }
+
+    @NotNull
+    public LineString getLineString() {
+        Geometry geometry = (Geometry) getSimpleFeature().getDefaultGeometry();
+        if (geometry instanceof MultiLineString) {
+            return (LineString) geometry.getGeometryN(0);
+        }
+        return (LineString) geometry;
+    }
+
+    @Override
+    public GridNode getOtherNode(Node node) {
+        return (GridNode) super.getOtherNode(node);
+    }
+
+    @NotNull
+    public Optional<Double> calculateAngleTo(@NotNull GridEdge edge) {
+        return getSharedNode(edge)
+                .map(node -> node.getEdgeAngles().get(Tuple.of(this, edge)));
+    }
+
+    public boolean isAdjacent(@NotNull GridEdge edge) {
+        return getSharedNode(edge).map(e -> true).orElse(false);
+    }
+
+    @NotNull
+    public Optional<GridNode> getSharedNode(@NotNull GridEdge edge) {
+        return Stream.of(getNodeA(), getNodeB())
+                .filter(node -> node.equals(edge.getNodeA()) || node.equals(edge.getNodeB()))
+                .findFirst();
+    }
+
+    public double getLength() {
+        return getLineString().getLength();
+    }
+
+    @Contract("null->false")
+    public boolean intersects(GridEdge otherEdge) {
+        return otherEdge != null && getLineString().intersects(otherEdge.getLineString());
+    }
+
+    @Contract("null,_->false")
+    public boolean intersectsWithBuffer(GridEdge otherEdge, double bufferDistance) {
+        return otherEdge != null && getLineString().buffer(bufferDistance).intersects(otherEdge.getLineString());
+    }
+
+    public boolean isLoop() {
+        return getNodeA().equals(getNodeB());
+    }
+
+    @Override
+    public String toString() {
+        return Optional.ofNullable(getName()).orElse(getLineString().toString());
+    }
+
+    @NotNull
+    public Stream<GridNode> getNodeStream() {
+        return Stream.of(getNodeA(), getNodeB());
     }
 
     @Override
     public boolean equals(Object obj) {
 
         if (obj == null || !(obj instanceof GridEdge)) {
-            return false;
+             return false;
         }
 
-        GridEdge edge = (GridEdge) obj;
-        return Objects.equals(edge.getNodes(), getNodes())
-                && Objects.equals(edge.getName(), getName());
+        GridEdge edge = (GridEdge)obj;
+        return Objects.equals(getNodeA(), edge.getNodeA())
+                || Objects.equals(getNodeB(), edge.getNodeB())
+                || Objects.equals(getName(), getName());
 
     }
-
 }
+

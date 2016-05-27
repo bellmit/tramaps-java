@@ -19,11 +19,8 @@ public class AngularResolutionCriterion extends AbstractNodeCriterion {
                 .mapToDouble(n -> n.getAdjacentEdgePairs().parallelStream()
                         .mapToDouble(p ->
                             p.get(0).calculateAngleTo(p.get(1))
-                                    .map(angle -> {
-                                        int degreeValue = n.getDegreeValue();
-                                        return Math.abs(((2 * Math.PI) / degreeValue) - angle);
-                                    })
-                                    .orElseThrow(() -> new IllegalStateException("Edges are not adjacent to each other!"))
+                                    .map(angle -> Math.abs(((2 * Math.PI) / n.getDegree()) - angle))
+                                    .orElse(0d)
                         )
                         .sum())
                 .sum();

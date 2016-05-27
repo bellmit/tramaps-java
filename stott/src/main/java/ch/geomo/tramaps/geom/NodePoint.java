@@ -5,6 +5,7 @@
 package ch.geomo.tramaps.geom;
 
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,5 +52,7 @@ public interface NodePoint {
     static <N extends NodePoint>Set<NodePoint> cast(Set<N> col) {
         return (Set<NodePoint>)col;
     }
+
+    Point getPoint();
 
 }

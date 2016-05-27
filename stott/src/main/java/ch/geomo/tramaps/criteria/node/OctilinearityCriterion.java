@@ -17,8 +17,8 @@ public class OctilinearityCriterion extends AbstractNodeCriterion {
         final Set<GridEdge> edges = graph.getEdges();
         return edges.parallelStream()
                 .mapToDouble(e -> {
-                    double dY = e.getNode(0).getY() - e.getNode(1).getY();
-                    double dX = e.getNode(0).getX() - e.getNode(1).getX();
+                    double dY = e.getNodeA().getY() - e.getNodeA().getY();
+                    double dX = e.getNodeA().getX() - e.getNodeB().getX();
                     if (dX == 0) {
                         // TODO how to avoid / by zero?
                         return 0;

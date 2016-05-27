@@ -18,7 +18,13 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     <geotools.version>15-SNAPSHOT</geotools.version>
+    <commons-lang.version>3.4</commons-lang.version>
+    <junit-version>4.11</junit-version>
+    <supercsv-version>2.4.0</supercsv-version>
+    <!-- update to 1.14 as soon as maven repo available-->
+    <jts-version>1.13</jts-version>
 
   </properties>
 
@@ -26,7 +32,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -35,20 +41,29 @@
       <version>${geotools.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-swing</artifactId>
+      <version>${geotools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-graph</artifactId>
+      <version>${geotools.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.4</version>
+      <version>${commons-lang.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sf.supercsv</groupId>
       <artifactId>super-csv</artifactId>
-      <version>2.4.0</version>
+      <version>${supercsv-version}</version>
     </dependency>
     <dependency>
       <groupId>com.vividsolutions</groupId>
       <artifactId>jts</artifactId>
-      <!-- update to 1.14 as soon as maven repo available-->
-      <version>1.13</version>
+      <version>${jts-version}</version>
     </dependency>
   </dependencies>
 
