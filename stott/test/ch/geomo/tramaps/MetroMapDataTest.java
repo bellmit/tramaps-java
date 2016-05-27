@@ -26,11 +26,11 @@ public class MetroMapDataTest {
 
         MetroMap map = new MetroMapBuilder()
                 .setGraph(new GeoGraph(new ArrayList<>(nodes.values()), edges))
-                .setGridSpacing(50)
-                .setRadius(4)
-                .setMinIteration(1)
+                .setGridSpacing(5)
+                .setRadius(10)
+                .setMinIteration(10)
                 .setMaxIteration(10)
-                .setMultiplicator(1.25)
+                .setMultiplicator(2.5)
                 .build();
 
 //        System.out.println(map.getEdges());
