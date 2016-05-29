@@ -32,10 +32,10 @@ public class NodeCriteriaHandler {
 
     private void initCriteria(double multiplicator, long gridSpacing) {
         criteria.add(new AngularResolutionCriterion(10));
-        criteria.add(new BalancedEdgeLengthCriterion(1));
-        criteria.add(new EdgeCrossingCriterion(2));
-        criteria.add(new EdgeLengthCriterion(2, multiplicator, gridSpacing));
-        criteria.add(new LineStraightnessCriterion(5));
+        criteria.add(new BalancedEdgeLengthCriterion(5));
+        criteria.add(new EdgeCrossingCriterion(50));
+        criteria.add(new EdgeLengthCriterion(5, multiplicator, gridSpacing));
+        criteria.add(new LineStraightnessCriterion(100));
         criteria.add(new OctilinearityCriterion(5));
     }
 

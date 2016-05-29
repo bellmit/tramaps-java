@@ -69,7 +69,7 @@ public class MetroMapMain {
         new MetroMapBuilder()
                 .setGraph(graph)
                 .setGridSpacing(gridSpacing)
-                .setMaxIteration(10)
+                .setMaxIteration(5)
                 .setMultiplicator(1.25)
                 .setRadius(moveRadius)
                 .setDrawingArea(drawingArea)
