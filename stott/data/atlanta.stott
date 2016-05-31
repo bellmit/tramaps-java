@@ -1,0 +1,75 @@
+NODE:label=Five Points:x=-84.3916:y=33.7539
+NODE:label=Bankhead:x=-84.4288:y=33.7719
+NODE:label=Indian Creek:x=-84.2295:y=33.7697
+NODE:label=North Avenue:x=-84.3863:y=33.7719
+NODE:label=Buckhead:x=-84.3673:y=33.8479
+NODE:label=Medical Center:x=-84.3527:y=33.9108
+NODE:label=Dunwoody:x=-84.3444:y=33.9213
+NODE:label=Sandy Springs:x=-84.3531:y=33.9326
+NODE:label=North Springs :x=-84.3574:y=33.9439
+NODE:label=Brookhaven/Oglethorpe University:x=-84.3389:y=33.8605
+NODE:label=Chamblee:x=-84.3075:y=33.8869
+NODE:label=Doraville :x=-84.2805:y=33.9028
+NODE:label=West End:x=-84.4135:y=33.7361
+NODE:label=Oakland City :x=-84.4256:y=33.7153
+NODE:label=Lakewood/Ft. McPherson:x=-84.4287:y=33.7003
+NODE:label=East Point :x=-84.4409:y=33.6773
+NODE:label=College Park:x=-84.4487:y=33.6516
+NODE:label=Airport :x=-84.4462:y=33.6395
+NODE:label=Georgia State :x=-84.3863:y=33.7507
+NODE:label=King Memorial:x=-84.3746:y=33.7501
+NODE:label=Inman Park/Reynoldstown:x=-84.3529:y=33.7574
+NODE:label=Edgwood/Candler Park:x=-84.3390:y=33.7621
+NODE:label=East Lake:x=-84.3130:y=33.7653
+NODE:label=Decatur:x=-84.2954:y=33.7752
+NODE:label=Avondale:x=-84.2828:y=33.7749
+NODE:label=Kensington :x=-84.2502:y=33.7723
+NODE:label=Dome/GWCC/Philips Arena/CNN Center:x=-84.3988:y=33.7565
+NODE:label=Vine City :x=-84.4061:y=33.7565
+NODE:label=Ashby:x=-84.4183:y=33.7566
+NODE:label=West Lake:x=-84.4449:y=33.7537
+NODE:label=Hamilton E. Holmes:x=-84.4698:y=33.755
+NODE:label=Peachtree Center :x=-84.3876:y=33.7598
+NODE:label=Civic Center :x=-84.3873:y=33.7674
+NODE:label=Midtown:x=-84.3864:y=33.7809
+NODE:label=Arts Center :x=-84.3867:y=33.7893
+NODE:label=Garnett :x=-84.3963:y=33.7481
+NODE:label=Lenox:x=-84.3583:y=33.8454
+NODE:label=Lindburgh Center:x=-84.3697:y=33.8212
+EDGE:label=:color=255,171,25:adjlist=Five Points, Peachtree Center
+EDGE:label=:color=255,171,25:adjlist=Peachtree Center, Civic Center
+EDGE:label=:color=255,171,25:adjlist=Civic Center, North Avenue
+EDGE:label=:color=255,171,25:adjlist=North Avenue, Midtown
+EDGE:label=:color=255,171,25:adjlist=Midtown, Arts Center
+EDGE:label=:color=255,171,25:adjlist=Arts Center, Lindburgh Center
+EDGE:label=:color=255,171,25:adjlist=Lindburgh Center, Buckhead
+EDGE:label=:color=255,171,25:adjlist=Buckhead, Medical Center
+EDGE:label=:color=255,171,25:adjlist=Medical Center, Dunwoody
+EDGE:label=:color=255,171,25:adjlist=Dunwoody, Sandy Springs
+EDGE:label=:color=255,171,25:adjlist=Sandy Springs, North Springs
+EDGE:label=:color=255,171,25:adjlist=Lindburgh Center, Lenox
+EDGE:label=:color=255,171,25:adjlist=Lenox, Brookhaven/Oglethorpe University
+EDGE:label=:color=255,171,25:adjlist=Brookhaven/Oglethorpe University, Chamblee
+EDGE:label=:color=255,171,25:adjlist=Chamblee, Doraville
+EDGE:label=:color=255,171,25:adjlist=Five Points, Garnett
+EDGE:label=:color=255,171,25:adjlist=Garnett, West End
+EDGE:label=:color=255,171,25:adjlist=West End, Oakland City
+EDGE:label=:color=255,171,25:adjlist=Oakland City, Lakewood/Ft. McPherson
+EDGE:label=:color=255,171,25:adjlist=Lakewood/Ft. McPherson, East Point
+EDGE:label=:color=255,171,25:adjlist=East Point, College Park
+EDGE:label=:color=255,171,25:adjlist=College Park, Airport
+EDGE:label=:color=50,103,254:adjlist=Five Points, Dome/GWCC/Philips Arena/CNN Center
+EDGE:label=:color=50,103,254:adjlist=Dome/GWCC/Philips Arena/CNN Center, Vine City
+EDGE:label=:color=50,103,254:adjlist=Vine City, Ashby
+EDGE:label=:color=50,103,254:adjlist=Ashby, West Lake
+EDGE:label=:color=50,103,254:adjlist=West Lake, Hamilton E. Holmes
+EDGE:label=:color=50,103,254:adjlist=Ashby, Bankhead
+EDGE:label=:color=50,103,254:adjlist=Five Points, Georgia State
+EDGE:label=:color=50,103,254:adjlist=Georgia State, King Memorial
+EDGE:label=:color=50,103,254:adjlist=King Memorial, Inman Park/Reynoldstown
+EDGE:label=:color=50,103,254:adjlist=Inman Park/Reynoldstown, Edgwood/Candler Park
+EDGE:label=:color=50,103,254:adjlist=Edgwood/Candler Park, East Lake
+EDGE:label=:color=50,103,254:adjlist=East Lake, Decatur
+EDGE:label=:color=50,103,254:adjlist=Decatur, Avondale
+EDGE:label=:color=50,103,254:adjlist=Avondale, Kensington
+EDGE:label=:color=50,103,254:adjlist=Kensington, Indian Creek

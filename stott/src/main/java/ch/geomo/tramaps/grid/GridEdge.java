@@ -4,13 +4,11 @@
 
 package ch.geomo.tramaps.grid;
 
-import ch.geomo.tramaps.geom.Geom;
+import ch.geomo.tramaps.geom.GeomUtil;
 import ch.geomo.tramaps.util.tuple.Tuple;
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.graph.structure.Node;
 import org.geotools.graph.structure.basic.BasicEdge;
 import org.jetbrains.annotations.Contract;
@@ -18,13 +16,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.opengis.feature.simple.SimpleFeature;
 
+import java.awt.*;
 import java.util.*;
 import java.util.stream.Stream;
 
 public class GridEdge extends BasicEdge {
 
     private long version;
-    private String name;
+    private String label;
+    private Color color;
 
     public GridEdge(@NotNull GridNode nodeA, @NotNull GridNode nodeB) {
         super(nodeA, nodeB);
@@ -43,7 +43,7 @@ public class GridEdge extends BasicEdge {
 
     void updateLineString() {
         if (getObject() != null) {
-            getSimpleFeature().setDefaultGeometry(Geom.createLineString(getNodeA(), getNodeB()));
+            getSimpleFeature().setDefaultGeometry(GeomUtil.createLineString(getNodeA(), getNodeB()));
         }
         version++;
     }
@@ -53,12 +53,21 @@ public class GridEdge extends BasicEdge {
     }
 
     @Nullable
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    protected void setName(@Nullable String name) {
-        this.name = name;
+    public void setLabel(@Nullable String label) {
+        this.label = label;
+    }
+
+    @Nullable
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public SimpleFeature getSimpleFeature() {
@@ -116,7 +125,7 @@ public class GridEdge extends BasicEdge {
 
     @Override
     public String toString() {
-        return Optional.ofNullable(getName()).orElse(getLineString().toString());
+        return Optional.ofNullable(getLabel()).orElse(getLineString().toString());
     }
 
     @NotNull
@@ -134,7 +143,7 @@ public class GridEdge extends BasicEdge {
         GridEdge edge = (GridEdge)obj;
         return Objects.equals(getNodeA(), edge.getNodeA())
                 || Objects.equals(getNodeB(), edge.getNodeB())
-                || Objects.equals(getName(), getName());
+                || Objects.equals(getLabel(), getLabel());
 
     }
 }

@@ -25,18 +25,18 @@ public class NodeCriteriaHandler {
     private double lastNodeCriteria;
     private double lowestNodeCriteria;
 
-    public NodeCriteriaHandler(Grid grid, double multiplicator, long gridSpacing) {
+    public NodeCriteriaHandler(Grid grid, double multiplicator, double gridSpacing) {
         this.grid = grid;
         initCriteria(multiplicator, gridSpacing);
     }
 
-    private void initCriteria(double multiplicator, long gridSpacing) {
-        criteria.add(new AngularResolutionCriterion(10));
-        criteria.add(new BalancedEdgeLengthCriterion(5));
-        criteria.add(new EdgeCrossingCriterion(50));
-        criteria.add(new EdgeLengthCriterion(5, multiplicator, gridSpacing));
-        criteria.add(new LineStraightnessCriterion(100));
-        criteria.add(new OctilinearityCriterion(5));
+    private void initCriteria(double multiplicator, double gridSpacing) {
+        criteria.add(new AngularResolutionCriterion(30000));
+        criteria.add(new EdgeLengthCriterion(50, multiplicator, gridSpacing));
+        criteria.add(new BalancedEdgeLengthCriterion(45));
+        criteria.add(new EdgeCrossingCriterion(1000000)); // wn4
+        criteria.add(new LineStraightnessCriterion(220));
+        criteria.add(new OctilinearityCriterion(9250));
     }
 
     /**

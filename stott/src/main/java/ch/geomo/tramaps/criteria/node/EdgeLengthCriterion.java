@@ -9,9 +9,9 @@ import java.util.Set;
 public class EdgeLengthCriterion extends AbstractNodeCriterion {
 
     private double l;
-    private long g;
+    private double g;
 
-    public EdgeLengthCriterion(double weight, double multiplicator, long gridSpacing) {
+    public EdgeLengthCriterion(double weight, double multiplicator, double gridSpacing) {
         super(weight);
         this.l = multiplicator;
         this.g = gridSpacing;

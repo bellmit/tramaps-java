@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.geom;
 
+import ch.geomo.tramaps.graph.Quadrant;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
@@ -32,12 +33,25 @@ public interface NodePoint {
         return calculateDistanceTo(point.getX(), point.getY());
     }
 
-    double calculateDistanceTo(double x, double y);
+    default double calculateDistanceTo(double x, double y) {
+        return calculateDistanceTo(new Coordinate(x, y));
+    }
+
+    default double calculateDistanceTo(Coordinate coordinate) {
+        return getCoordinate().distance(coordinate);
+    }
 
     /**
      * Calculates the angle between three points while current point is the center point of a circle.
      */
-    double calculateAngleBetween(@NotNull NodePoint p1, @NotNull NodePoint p2);
+    default double calculateAngleBetween(@NotNull NodePoint p1, @NotNull NodePoint p2) {
+        return GeomUtil.getAngleBetween(this, p1, p2);
+    }
+
+    @NotNull
+    default Quadrant getQuadrant(@NotNull NodePoint originPoint) {
+        return Quadrant.getQuadrant(this, originPoint);
+    }
 
     @NotNull
     static NodePoint of(double x, double y) {

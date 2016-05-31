@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.Geom;
+import ch.geomo.tramaps.geom.GeomUtil;
 import ch.geomo.tramaps.geom.NodePoint;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
@@ -35,12 +35,12 @@ public class LineStringOrderComparator implements Comparator<LineString> {
         if (Objects.equals(l1, l2)) {
             return 0;
         }
-        if (!Geom.adjacent(l1, l2)) {
+        if (!GeomUtil.adjacent(l1, l2)) {
             return -1;
         }
 
-        Point p1 = Geom.getOtherPoint(l1, point);
-        Point p2 = Geom.getOtherPoint(l2, point);
+        Point p1 = GeomUtil.getOtherPoint(l1, point);
+        Point p2 = GeomUtil.getOtherPoint(l2, point);
 
         if (Objects.equals(p1, p2)) {
             return 0;

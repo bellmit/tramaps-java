@@ -16,7 +16,7 @@ public class MetroMapBuilder extends Observable {
 
     private GridGraph graph;
 
-    private long gridSpacing = 100;
+    private double gridSpacing = 100;
     private double multiplicator = 1;
 
     private int radius = 2;
@@ -35,7 +35,7 @@ public class MetroMapBuilder extends Observable {
         return this;
     }
 
-    public MetroMapBuilder setGridSpacing(long gridSpacing) {
+    public MetroMapBuilder setGridSpacing(double gridSpacing) {
         this.gridSpacing = gridSpacing;
         return this;
     }
@@ -121,10 +121,10 @@ public class MetroMapBuilder extends Observable {
 
         logger.log(Level.INFO, "Grid created.");
 
-        nodeCriteriaHandler = new NodeCriteriaHandler(grid, multiplicator, gridSpacing);
+        nodeCriteriaHandler = new NodeCriteriaHandler(grid, multiplicator, grid.getGridSpacing());
 
         logger.log(Level.INFO, "Start hill climbing algorithm.");
-        run();
+//        run();
 
         logger.log(Level.INFO, "Metro Map generated.");
         return grid;

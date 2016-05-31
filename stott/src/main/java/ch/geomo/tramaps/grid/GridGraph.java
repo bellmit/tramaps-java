@@ -6,6 +6,7 @@ package ch.geomo.tramaps.grid;
 
 import ch.geomo.tramaps.util.CollectionUtil;
 import ch.geomo.tramaps.util.tuple.Tuple;
+import org.geotools.feature.FeatureCollection;
 import org.geotools.graph.structure.Graph;
 import org.geotools.graph.structure.GraphVisitor;
 import org.geotools.graph.structure.Graphable;

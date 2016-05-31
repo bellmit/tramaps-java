@@ -4,15 +4,13 @@
 
 package ch.geomo.tramaps.grid;
 
-import ch.geomo.tramaps.geom.Geom;
-import ch.geomo.tramaps.geom.NodePoint;
-import ch.geomo.tramaps.geom.NodePointDistanceComparator;
+import ch.geomo.tramaps.geom.*;
+import ch.geomo.tramaps.util.tuple.Tuple;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.NotNull;
 import org.opengis.geometry.BoundingBox;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -28,7 +26,7 @@ public class Grid {
     /**
      * Alg. variable, Stott's thesis, p. 74, variable g
      */
-    private long gridSpace;
+    private double gridSpacing;
 
     /**
      * Alg. variable, Stott's thesis, p. 78, variable l, must be greater or equals 1
@@ -40,10 +38,25 @@ public class Grid {
      */
     private int initialMoveRadius;
 
+    private Map<GridNode, Set<GridNode>> closestNodes;
+
     private BoundingBox drawingArea;
 
     public Grid(GridGraph graph) {
         this.graph = graph;
+        this.closestNodes = new HashMap<>();
+        this.graph.getNodes().stream()
+                .forEach(node -> {
+
+                    List<GridNode> excluded = this.graph.getNodes().stream()
+                            .filter(n -> !n.equals(node))
+                            .collect(Collectors.toList());
+
+                    Set<GridNode> nodes = new TreeSet<>(new NodePointDistanceComparator<>(node));
+                    nodes.addAll(excluded);
+                    this.closestNodes.put(node, nodes);
+
+                });
     }
 
     public boolean isOccupied(double x, double y) {
@@ -67,7 +80,7 @@ public class Grid {
                 .<Integer>mapToObj(i -> i)
                 .flatMap(i -> IntStream.range(-radius, radius + 1)
                         .parallel()
-                        .<NodePoint>mapToObj(j -> NodePoint.of(x + i * gridSpace, y + j * gridSpace)));
+                        .<NodePoint>mapToObj(j -> NodePoint.of(x + i * gridSpacing, y + j * gridSpacing)));
 
     }
 
@@ -96,7 +109,7 @@ public class Grid {
                 // TODO
                 // Handling Node and Edge Occlusions
                 .filter(p -> {
-                    LineString line = Geom.createLineString(p, node);
+                    LineString line = GeomUtil.createLineString(p, node);
                     return getGraph().getEdges().stream()
                             .filter(e -> e.getLineString().intersects(line))
                             .noneMatch(e -> e.getLineString().contains(p.getPoint()));
@@ -115,12 +128,81 @@ public class Grid {
 
     }
 
-    public void snapNodes() {
+    private GridNode getClosestNodeTo(GridNode node, int index) {
+        return new ArrayList<>(closestNodes.get(node)).get(index);
+    }
+
+    public void snapNodes(/*NodeCriteriaHandler criteriaHandler*/) {
 
         logger.log(Level.INFO, "Snapping nodes to grid...");
 
-        graph.getNodes().parallelStream()
+//        double factor = drawingArea.getHeight()/drawingArea.getWidth();
+
+//        double averageDistanceX = graph.getNodes().stream()
+//                .map(node -> Tuple.of(node, getClosestNodeTo(node, 0)))
+//                .mapToDouble(tuple -> Math.abs(tuple.getSecond().getX() - tuple.getFirst().getX()))
+//                .average()
+//                .orElseThrow(() -> new IllegalStateException("Cannot calculate average distance between x values."));
+//
+//        double averageDistanceY = graph.getNodes().stream()
+//                .map(node -> Tuple.of(node, getClosestNodeTo(node, 0)))
+//                .mapToDouble(tuple -> Math.abs(tuple.getSecond().getY() - tuple.getFirst().getY()))
+//                .average()
+//                .orElseThrow(() -> new IllegalStateException("Cannot calculate average distance between y values."));
+
+//        double averageDistance = (averageDistanceX + averageDistanceY)/2;
+
+        List<GridNode> nodes = new ArrayList<>(graph.getNodes());
+
+//        for (GridNode node : nodes) {
+//            List<GridNode> closestX = this.getGraph().getNodes().stream()
+//                    .filter(n -> !n.equals(node))
+//                    .filter(n -> n.getX() > node.getX())
+//                    .sorted((n1, n2) -> (n1.getX()-n2.getX() > 0) ? 1 : (n1.getX()-n2.getX() < 0) ? -1 : 0)
+//                    .collect(Collectors.toList());
+//            if (!closestX.isEmpty()) {
+//                GridNode closest = closestX.get(0);
+//                double distanceX = Math.abs(node.getX() - closest.getX());
+//                double distanceY = Math.abs(node.getY() - closest.getY());
+//                if (distanceX < averageDistance && distanceY > averageDistance) {
+//                    closest.setX(node.getX());
+//                    closestX.stream()
+//                            .filter(n -> !n.equals(closest))
+//                            .forEach(n -> n.setX(n.getX() - distanceX + averageDistance*factor));
+//                }
+//                else {
+//                    closestX.forEach(n -> n.setX(n.getX() - distanceX + averageDistance*factor));
+//                }
+//            }
+//        }
+//
+//        for (GridNode node : nodes) {
+//            List<GridNode> closestY = this.getGraph().getNodes().stream()
+//                    .filter(n -> !n.equals(node))
+//                    .filter(n -> n.getY() > node.getY())
+//                    .sorted((n1, n2) -> (n1.getY()-n2.getY() > 0) ? 1 : (n1.getY()-n2.getY() < 0) ? -1 : 0)
+//                    .collect(Collectors.toList());
+//            if (!closestY.isEmpty()) {
+//                GridNode closest = closestY.get(0);
+//                double distanceY = Math.abs(node.getY() - closest.getY());
+//                double distanceX = Math.abs(node.getX() - closest.getX());
+//                if (distanceY < averageDistance && distanceX > averageDistance) {
+//                    closest.setY(node.getY());
+//                    closestY.stream()
+//                            .filter(n -> !n.equals(closest))
+//                            .forEach(n -> n.setY(n.getY() - distanceY + averageDistance));
+//                }
+//                else {
+//                    closestY.forEach(n -> n.setY(n.getY() - distanceY + averageDistance));
+//                }
+//            }
+//        }
+
+        graph.getNodes().stream()
+                .sorted(new NodePointXYComparator())
                 .forEach(node -> node.moveTo(getClosestGridNode(node)));
+
+        nodes.forEach(GridNode::simplifyEdges);
 
         logger.log(Level.INFO, "Snapping done.");
 
@@ -131,14 +213,14 @@ public class Grid {
      */
     private NodePoint getClosestGridNode(GridNode node) {
 
-        long x = (long) (node.getX() - (node.getX() % gridSpace));
-        long y = (long) (node.getY() - (node.getY() % gridSpace));
+        double x = node.getX() - Math.abs(node.getX() % gridSpacing);
+        double y = node.getY() - Math.abs(node.getY() % gridSpacing);
 
         NodePoint p = NodePoint.of(x, y);
 
-        return Stream.of(x, x + gridSpace)
+        return Stream.of(x, x + gridSpacing)
                 .parallel()
-                .flatMap(i -> Stream.of(y, y + gridSpace)
+                .flatMap(i -> Stream.of(y, y + gridSpacing)
                         .parallel()
                         .map(j -> NodePoint.of(i, j)))
                 .filter(n -> !isOccupied(n))
@@ -149,8 +231,8 @@ public class Grid {
 
     }
 
-    public void setGridSpacing(long gridSpace) {
-        this.gridSpace = gridSpace;
+    public void setGridSpacing(double gridSpace) {
+        this.gridSpacing = gridSpace;
     }
 
     public void setDrawingArea(BoundingBox drawingArea) {
@@ -169,4 +251,7 @@ public class Grid {
         return graph;
     }
 
+    public double getGridSpacing() {
+        return gridSpacing;
+    }
 }

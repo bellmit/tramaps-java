@@ -21,7 +21,7 @@ public class MetroMapDataLoader {
 //
 //            GeoNode node;
 //            while ((node = reader.read(GeoNode.class, header, processors)) != null) {
-//                nodes.put(node.getName(), node);
+//                nodes.put(node.getLabel(), node);
 //            }
 //
 //        }

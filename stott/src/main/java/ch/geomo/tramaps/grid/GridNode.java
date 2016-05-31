@@ -4,11 +4,10 @@
 
 package ch.geomo.tramaps.grid;
 
-import ch.geomo.tramaps.geom.Geom;
+import ch.geomo.tramaps.geom.GeomUtil;
 import ch.geomo.tramaps.geom.NodePoint;
 import ch.geomo.tramaps.graph.GridEdgeOrderComparator;
 import ch.geomo.tramaps.graph.NodeLabel;
-import ch.geomo.tramaps.graph.Quadrant;
 import ch.geomo.tramaps.util.CollectionUtil;
 import ch.geomo.tramaps.util.tuple.Tuple;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -17,8 +16,11 @@ import com.vividsolutions.jts.geom.Point;
 import org.apache.commons.lang3.tuple.Pair;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.graph.structure.basic.BasicNode;
+import org.geotools.referencing.CRS;
+import org.geotools.referencing.GeodeticCalculator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.opengis.referencing.FactoryException;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -56,18 +58,186 @@ public class GridNode extends BasicNode implements NodePoint {
         return getPoint().getY();
     }
 
-    public void moveTo(Coordinate coordinate) {
-        setObject(JTSFactoryFinder.getGeometryFactory().createPoint(coordinate));
-        getEdges().forEach(GridEdge::updateLineString);
-        version++;
+    public boolean hasEasyAngle() {
+        return getEdgeAngles().values().stream()
+                .findFirst()
+                .map(angle -> !(Math.toDegrees(angle) < 160 && Math.toDegrees(angle) > 200))
+                .orElse(true);
+    }
+
+    public boolean isMoveable() {
+        return hasDegree(2) && (hasEasyAngle() || getRelatedStream()
+                .filter(node -> !node.equals(this))
+                .anyMatch(GridNode::hasEasyAngle));
+    }
+
+    public void moveTo(Coordinate coordinate, boolean overwriteMoveable) {
+        if (overwriteMoveable || isMoveable()) {
+            setObject(JTSFactoryFinder.getGeometryFactory().createPoint(coordinate));
+            getEdges().forEach(GridEdge::updateLineString);
+            version++;
+        }
     }
 
     public void moveTo(double x, double y) {
-        moveTo(new Coordinate(x, y));
+        moveTo(new Coordinate(x, y), false);
     }
 
     public void moveTo(NodePoint point) {
-        moveTo(point.getCoordinate());
+        moveTo(point.getCoordinate(), false);
+    }
+
+    public void simplifyEdges() {
+        if (!hasDegree(2)) {
+            getRelatedStream()
+                    .filter(node -> !hasDegree(2))
+                    .forEach(node -> {
+                        List<GridNode> nodes = new ArrayList<>();
+                        GridNode current = node;
+                        nodes.add(this);
+                        nodes.add(current);
+                        while (current != null) {
+                            if (current.hasDegree(2)) {
+                                current = current.getRelatedStream()
+                                        .filter(n -> !nodes.contains(n))
+                                        .findFirst()
+                                        .orElse(null);
+                                if (current != null) {
+                                    nodes.add(current);
+                                }
+                            }
+                            else {
+                                nodes.add(current);
+                                current = null;
+                            }
+                        }
+                        GridNode.simplify(nodes);
+                    });
+        }
+    }
+
+    public static void simplify(List<GridNode> nodes) {
+
+        if (nodes.size() <= 2) {
+            return;
+        }
+
+        List<List<GridNode>> segments = new ArrayList<>();
+
+        GridNode f = nodes.get(0);
+        GridNode l = nodes.get(nodes.size() - 1);
+
+        double distanceX = Math.abs(f.getX() - l.getX());
+        double distanceY = Math.abs(f.getY() - l.getY());
+
+        if (!f.hasDegree(1) && !l.hasDegree(1) && distanceX > 750 && distanceY > 750) {
+
+            List<GridNode> firstPart = new ArrayList<>();
+            List<GridNode> secondPart = new ArrayList<>();
+            List<GridNode> thirdPart = new ArrayList<>();
+
+            if (distanceX > distanceY) {
+                double range = distanceX / 3;
+                nodes.forEach(node -> {
+                    double diff = Math.abs(node.getX() - f.getX());
+                    int segmentIndex = (int) (diff / range);
+                    if (segmentIndex == 0) {
+//                        node.setX(f.getX());
+                        firstPart.add(node);
+                    }
+                    else if (segmentIndex == 1) {
+                        secondPart.add(node);
+                    }
+                    else {
+//                        node.setX(l.getX());
+                        thirdPart.add(node);
+                    }
+                });
+            }
+            else {
+                double range = distanceY / 3;
+                nodes.forEach(node -> {
+                    double diff = Math.abs(node.getY() - f.getY());
+                    int segmentIndex = (int) (diff / range);
+                    if (segmentIndex == 0) {
+//                        node.setY(f.getY());
+                        firstPart.add(node);
+                    }
+                    else if (segmentIndex == 1) {
+                        secondPart.add(node);
+                    }
+                    else {
+//                        node.setY(l.getY());
+                        thirdPart.add(node);
+                    }
+                });
+            }
+
+            segments.add(firstPart);
+            segments.add(secondPart);
+            segments.add(thirdPart);
+
+        }
+        else {
+            segments.add(nodes);
+        }
+
+        for (List<GridNode> segment : segments) {
+
+            if (segment.isEmpty()) {
+                continue;
+            }
+
+            GridNode firstNode = segment.get(0);
+            GridNode lastNode = segment.get(segment.size() - 1);
+
+            LineString lineString = JTSFactoryFinder.getGeometryFactory().createLineString(new Coordinate[]{
+                    firstNode.getCoordinate(),
+                    lastNode.getCoordinate()
+            });
+
+            GeodeticCalculator calculator;
+            try {
+                calculator = new GeodeticCalculator(CRS.decode("EPSG:4326"));
+            }
+            catch (FactoryException e) {
+                System.out.println(e);
+                return;
+            }
+
+            LinkedList<Coordinate> coordinates = new LinkedList<>();
+            coordinates.add(firstNode.getCoordinate());
+
+            double segmentLength = lineString.getLength() / segment.size() - 2;
+
+            Coordinate to = lastNode.getCoordinate();
+
+            for (int i = 0; i < segment.size() - 2; i++) {
+
+                Coordinate from = coordinates.getLast();
+
+//                calculator.setStartingGeographicPoint(from.x, from.y);
+//                calculator.setDestinationGeographicPoint(to.x, to.y);
+//
+//                double length = calculator.getOrthodromicDistance();
+
+                // EPSG:21781
+                double length = to.distance(from);
+
+                double ratio = segmentLength / length;
+                double dx = to.x - from.x;
+                double dy = to.y - from.y;
+
+                coordinates.add(new Coordinate(from.x + (dx * ratio), from.y + (dy * ratio)));
+
+            }
+
+            for (int i = 0; i < segment.size() - 2; i++) {
+                segment.get(i).moveTo(coordinates.get(i), false);
+            }
+
+        }
+
     }
 
     /**
@@ -83,7 +253,7 @@ public class GridNode extends BasicNode implements NodePoint {
                     .map(GridEdge::getLineString)
                     .collect(Collectors.toList());
 
-            LineString test = Geom.createLineString(point.getCoordinate(), node.getCoordinate());
+            LineString test = GeomUtil.createLineString(point.getCoordinate(), node.getCoordinate());
             lines.add(test);
 
             int edgeIndex = lines.indexOf(edge.getLineString());
@@ -110,7 +280,12 @@ public class GridNode extends BasicNode implements NodePoint {
 
     @Nullable
     public String getName() {
-        return name;
+        if (name != null) {
+            return name;
+        }
+        return Optional.ofNullable(getLabel())
+                .map(NodeLabel::getName)
+                .orElse(null);
     }
 
     public void setLabel(@Nullable NodeLabel label) {
@@ -211,28 +386,6 @@ public class GridNode extends BasicNode implements NodePoint {
         return getRelatedStream().collect(Collectors.toSet());
     }
 
-    @NotNull
-    public Quadrant getQuadrant(@NotNull NodePoint originPoint) {
-        return Quadrant.getQuadrant(this, originPoint);
-    }
-
-    @Override
-    public double calculateDistanceTo(double x, double y) {
-        return Math.sqrt(Math.pow(getX() - x, 2) + Math.pow(getY() - y, 2));
-    }
-
-    @Override
-    public double calculateDistanceTo(@NotNull NodePoint point) {
-        return calculateDistanceTo(point.getX(), point.getY());
-    }
-
-    @Override
-    public double calculateAngleBetween(@NotNull NodePoint p1, @NotNull NodePoint p2) {
-        double angle1 = Math.atan2(p1.getY() - getY(), p1.getX() - getX());
-        double angle2 = Math.atan2(p2.getY() - getY(), p2.getX() - getX());
-        return angle1 - angle2;
-    }
-
     @Override
     public String toString() {
         return Optional.ofNullable(getName()).orElse(getPoint().toString());
@@ -250,11 +403,26 @@ public class GridNode extends BasicNode implements NodePoint {
         }
 
         GridNode node = (GridNode) obj;
-        return Objects.equals(getX(), node.getX())
-                && Objects.equals(getY(), node.getY())
+        return Objects.equals(getPoint(), node.getPoint())
                 && Objects.equals(getName(), node.getName())
                 && Objects.equals(getLabel(), getLabel());
 
+    }
+
+    public void setX(double x, boolean overwriteMoveable) {
+        moveTo(new Coordinate(x, getPoint().getY()), overwriteMoveable);
+    }
+
+    public void setY(double y, boolean overwriteMoveable) {
+        moveTo(new Coordinate(getPoint().getX(), y), overwriteMoveable);
+    }
+
+    public void setX(double x) {
+        moveTo(x, getPoint().getY());
+    }
+
+    public void setY(double y) {
+        moveTo(getPoint().getX(), y);
     }
 
 }

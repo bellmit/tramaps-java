@@ -85,6 +85,8 @@
     <orderEntry type="library" name="Maven: org.geotools:gt-graph:15-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.geotools:gt-main:15-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.geotools:gt-api:15-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.geotools:gt-epsg-hsql:15-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.hsqldb:hsqldb:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
     <orderEntry type="library" name="Maven: net.sf.supercsv:super-csv:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: com.vividsolutions:jts:1.13" level="project" />

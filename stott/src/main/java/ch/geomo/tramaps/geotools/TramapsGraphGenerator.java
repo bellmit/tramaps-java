@@ -8,8 +8,6 @@ import org.geotools.graph.build.line.LineStringGraphGenerator;
 
 public class TramapsGraphGenerator extends LineStringGraphGenerator {
 
-    private TramapsGraphBuilder builder;
-
     public TramapsGraphGenerator() {
         super();
         setGraphBuilder(new TramapsGraphBuilder());

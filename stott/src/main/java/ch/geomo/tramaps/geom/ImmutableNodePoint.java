@@ -12,6 +12,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * Immutable implementation of {@link NodePoint}.
+ */
 public class ImmutableNodePoint implements NodePoint {
 
     private double x;
@@ -27,14 +30,17 @@ public class ImmutableNodePoint implements NodePoint {
         return x;
     }
 
+    protected void setX(double x) {
+        this.x = x;
+    }
+
     @Override
     public double getY() {
         return y;
     }
 
-    @Override
-    public double calculateDistanceTo(double x, double y) {
-        return Math.sqrt(Math.pow(getX() - x, 2) + Math.pow(getY() - y, 2));
+    protected void setY(double y) {
+        this.y = y;
     }
 
     @Override
@@ -47,22 +53,6 @@ public class ImmutableNodePoint implements NodePoint {
         return JTSFactoryFinder.getGeometryFactory().createPoint(getCoordinate());
     }
 
-    /**
-     * Calculates the distance between current point and a x/y coordinate.
-     *
-     * @see NodePoint#calculateDistanceTo(NodePoint)
-     */
-    public double calculateDistanceTo(long x, long y) {
-        return Math.sqrt(Math.pow(getX() - x, 2) + Math.pow(getY() - y, 2));
-    }
-
-    @Override
-    public double calculateAngleBetween(@NotNull NodePoint p1, @NotNull NodePoint p2) {
-        double angle1 = Math.atan2(p1.getY() - getY(), p1.getX() - getX());
-        double angle2 = Math.atan2(p2.getY() - getY(), p2.getX() - getX());
-        return angle1 - angle2;
-    }
-
     @Override
     public boolean equals(Object obj) {
 
@@ -71,7 +61,7 @@ public class ImmutableNodePoint implements NodePoint {
         }
 
         ImmutableNodePoint point = (ImmutableNodePoint) obj;
-        return point.getY() == getY() && point.getX() == getY();
+        return point.getY() == getY() && point.getX() == getX();
 
     }
 
