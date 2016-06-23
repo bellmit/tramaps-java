@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Comparator;
 
 /**
- * Compares two edges in order to sort edges counter-clockwise using the quadrants of the Cartesian coordinate
- * system.
+ * Compares two edges in order to sort edges counter-clockwise using the quadrants of the
+ * Cartesian coordinate system.
  */
 public class GridEdgeOrderComparator implements Comparator<GridEdge> {
 

@@ -18,6 +18,7 @@ public class NodeLabel {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
@@ -43,4 +44,5 @@ public class NodeLabel {
         return Objects.equals(getName(), label.getName());
 
     }
+
 }

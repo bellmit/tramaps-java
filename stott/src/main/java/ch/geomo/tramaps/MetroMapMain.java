@@ -4,25 +4,18 @@
 
 package ch.geomo.tramaps;
 
-import ch.geomo.tramaps.converter.StottEdge;
-import ch.geomo.tramaps.converter.StottFile;
 import ch.geomo.tramaps.geotools.TramapsGraphGenerator;
 import ch.geomo.tramaps.grid.GridEdge;
 import ch.geomo.tramaps.grid.GridGraph;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import org.apache.commons.lang3.tuple.Pair;
+import ch.geomo.tramaps.grid.GridNode;
 import org.geotools.data.DataUtilities;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
-import org.geotools.data.shapefile.index.Data;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.feature.DefaultFeatureCollection;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.feature.SchemaException;
-import org.geotools.feature.simple.SimpleFeatureBuilder;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.graph.build.feature.FeatureGraphGenerator;
 import org.geotools.map.FeatureLayer;
@@ -33,7 +26,6 @@ import org.geotools.styling.Style;
 import org.geotools.swing.JMapFrame;
 import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.feature.simple.SimpleFeatureType;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,15 +40,21 @@ public class MetroMapMain {
     public static void main(String[] args) throws IOException, SchemaException {
 
 //        File home = new File("/Users/thozub/Repositories/tramaps/stott/data/shp");
-//        File file = JFileDataStoreChooser.showOpenFile("shp", home, null);
+//        File segments = JFileDataStoreChooser.showOpenFile("shp", home, null);
 
-        File file = new File("/Users/thozub/Repositories/tramaps-java/stott/data/shp/ZH.shp");
+//        File segments = new File("/Users/thozub/Repositories/tramaps-java/stott/data/shp/ZH.shp");
 
-        FileDataStore store = FileDataStoreFinder.getDataStore(file);
+        File segments = new File("/Users/thozub/Repositories/tramaps-java/stott/data/shp/city2.shp");
+        File stations = new File("/Users/thozub/Repositories/tramaps-java/stott/data/shp/stations2.shp");
+
+        FileDataStore store = FileDataStoreFinder.getDataStore(segments);
         SimpleFeatureSource featureSource = store.getFeatureSource();
 
+        FileDataStore stationStore = FileDataStoreFinder.getDataStore(stations);
+        SimpleFeatureSource stationFeatureSource = stationStore.getFeatureSource();
+
         SimpleFeatureCollection featureCollection = featureSource.getFeatures();
-        TramapsGraphGenerator generator = new TramapsGraphGenerator(100);
+        TramapsGraphGenerator generator = new TramapsGraphGenerator(50, stationFeatureSource.getFeatures());
         FeatureGraphGenerator featureGenerator = new FeatureGraphGenerator(generator);
 
         try (FeatureIterator iter = featureCollection.features()) {
@@ -67,47 +65,11 @@ public class MetroMapMain {
         }
         GridGraph graph = (GridGraph) featureGenerator.getGraph();
 
-//        StottFile file = new StottFile("/Users/thozub/Repositories/tramaps-java/stott/data/atlanta.stott");
-//        TramapsGraphGenerator generator = new TramapsGraphGenerator();
-//        FeatureGraphGenerator featureGenerator = new FeatureGraphGenerator(generator);
-//
-//        final SimpleFeatureType featureType = DataUtilities.createType("Location", "geom:LineString:srid=4326,label:String");
-//
-//        SimpleFeatureBuilder builder = new SimpleFeatureBuilder(featureType);
-//
-//        file.getEdges().stream()
-//                .flatMap(edge -> edge.toLineStrings().stream()
-//                        .map(lineString -> Pair.of(lineString, edge)))
-//                .forEach(p -> {
-//                    System.out.println(p);
-//                    builder.add(p.getLeft());
-//                    builder.add(p.getRight().getLabel());
-//                    GridEdge edge = (GridEdge) featureGenerator.add(builder.buildFeature(null));
-//                    edge.setLabel(p.getRight().getLabel());
-//                    edge.setColor(p.getRight().getColor());
-//                });
-//
-//        GridGraph graph = (GridGraph) featureGenerator.getGraph();
-//
-//        FeatureCollection featureCollection = DataUtilities.collection(graph.getEdges().parallelStream()
-//                .map(GridEdge::getSimpleFeature)
-//                .collect(Collectors.toList()));
-
-        int moveRadius = 8;
-        double gridSpacing = 500;
-
-        double maxMove = gridSpacing * moveRadius*2;
-        ReferencedEnvelope drawingArea = new ReferencedEnvelope(featureCollection.getBounds());
-        drawingArea.include(drawingArea.getMinX()-maxMove, drawingArea.getMinY()-maxMove);
-        drawingArea.include(drawingArea.getMaxX()+maxMove, drawingArea.getMaxY()+maxMove);
-
         new MetroMapBuilder()
                 .setGraph(graph)
-                .setGridSpacing(gridSpacing)
-                .setMaxIteration(10)
-                .setMultiplicator(4)
-                .setRadius(moveRadius)
-                .setDrawingArea(drawingArea)
+                .setSpacing(500)
+                .setMaxIteration(12)
+                .setInitialSearchDistance(16)
                 .build();
 
         System.out.println(graph);

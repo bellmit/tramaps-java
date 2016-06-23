@@ -2,8 +2,9 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.geom;
+package ch.geomo.tramaps.util.point;
 
+import ch.geomo.tramaps.util.GeomUtil;
 import ch.geomo.tramaps.graph.Quadrant;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
@@ -56,6 +57,11 @@ public interface NodePoint {
     @NotNull
     static NodePoint of(double x, double y) {
         return new ImmutableNodePoint(x, y);
+    }
+
+    @NotNull
+    static NodePoint of(Point point) {
+        return NodePoint.of(point.getX(), point.getY());
     }
 
     /**

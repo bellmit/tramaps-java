@@ -3,10 +3,10 @@ package ch.geomo.tramaps;
 import ch.geomo.tramaps.criteria.NodeCriteriaHandler;
 import ch.geomo.tramaps.grid.Grid;
 import ch.geomo.tramaps.grid.GridGraph;
-import org.opengis.geometry.BoundingBox;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,52 +16,45 @@ public class MetroMapBuilder extends Observable {
 
     private GridGraph graph;
 
-    private double gridSpacing = 100;
-    private double multiplicator = 1;
+    private long spacing = 10;
+    private int maxIteration = 12;
+    private int initialSearchDistance = 16;
 
-    private int radius = 2;
-    private int minIteration = 1;
-    private int maxIteration = 10;
-
+    private List<Integer> searchDistanceValues;
     private NodeCriteriaHandler nodeCriteriaHandler;
-
-    private BoundingBox drawingArea;
 
     public MetroMapBuilder() {
     }
 
-    public MetroMapBuilder setGraph(GridGraph graph) {
-        this.graph = graph;
+    /**
+     * Sets the grid spacing. If not set, default of 10 is used.
+     */
+    public MetroMapBuilder setSpacing(long spacing) {
+        this.spacing = spacing;
         return this;
     }
 
-    public MetroMapBuilder setGridSpacing(double gridSpacing) {
-        this.gridSpacing = gridSpacing;
+    /**
+     * Sets the initial search distance. If not set, default of 16 is used.
+     */
+    public MetroMapBuilder setInitialSearchDistance(int initialSearchDistance) {
+        this.initialSearchDistance = initialSearchDistance;
         return this;
     }
 
-    public MetroMapBuilder setRadius(int radius) {
-        this.radius = radius;
-        return this;
-    }
-
+    /**
+     * Sets the max iteration. If not set, default of 12 is used.
+     */
     public MetroMapBuilder setMaxIteration(int maxIteration) {
         this.maxIteration = maxIteration;
         return this;
     }
 
-    public MetroMapBuilder setMinIteration(int minIteration) {
-        this.minIteration = minIteration;
-        return this;
-    }
-
-    public MetroMapBuilder setMultiplicator(double multiplicator) {
-        this.multiplicator = multiplicator;
-        return this;
-    }
-
-    public MetroMapBuilder setDrawingArea(BoundingBox drawingArea) {
-        this.drawingArea = drawingArea;
+    /**
+     * Sets the grid graph.
+     */
+    public MetroMapBuilder setGraph(GridGraph graph) {
+        this.graph = graph;
         return this;
     }
 
@@ -72,7 +65,8 @@ public class MetroMapBuilder extends Observable {
         return lastNodeCriteria;
     }
 
-    private void run() {
+    private void run(Grid grid) {
+
         int iteration = 0;
         double bestCriteriaValue = getCurrentCriteriaValue();
         while (true) {
@@ -81,12 +75,12 @@ public class MetroMapBuilder extends Observable {
 
             System.out.println("Start Iteration: " + iteration);
 
-            nodeCriteriaHandler.runIteration(radius);
+            nodeCriteriaHandler.runIteration(searchDistanceValues.get(iteration - 1));
             notifyObservers();
 
             // test iteration
             double currentCriteriaValue = getCurrentCriteriaValue();
-            if (currentCriteriaValue > bestCriteriaValue && iteration > minIteration) {
+            if (currentCriteriaValue > bestCriteriaValue) {
                 break;
             }
             bestCriteriaValue = currentCriteriaValue;
@@ -97,36 +91,45 @@ public class MetroMapBuilder extends Observable {
             }
 
         }
-
     }
 
-    public synchronized MetroMapBuilder addBuildObserver(Observer o) {
-        super.addObserver(o);
-        return this;
+    private List<Integer> createSearchDistanceValues() {
+        List<Integer> values = new ArrayList<>();
+        double step = (double) initialSearchDistance / maxIteration;
+        values.add(initialSearchDistance);
+        for (int i = 1; (initialSearchDistance - step * i) >= 1; i++) {
+            values.add((int) (initialSearchDistance - step * i));
+        }
+        return values;
+    }
+
+    private Grid initGrid() {
+        Grid grid = new Grid(graph);
+        grid.setSpacing(spacing);
+        grid.setMaxIteration(maxIteration);
+        grid.setInitialSearchDistance(initialSearchDistance);
+        grid.simplifyLines();
+        grid.createClusters();
+        grid.snapNodes();
+        return grid;
     }
 
     public Grid build() {
 
         logger.log(Level.INFO, "Start building...");
+
         logger.log(Level.INFO, "Start creating grid...");
-
-        Grid grid = new Grid(graph);
-
-        grid.setGridSpacing(gridSpacing);
-        grid.setMultiplicator(multiplicator);
-        grid.setInitialMoveRadius(radius);
-        grid.setDrawingArea(drawingArea);
-
-        grid.snapNodes();
-
+        Grid grid = initGrid();
         logger.log(Level.INFO, "Grid created.");
 
-        nodeCriteriaHandler = new NodeCriteriaHandler(grid, multiplicator, grid.getGridSpacing());
+        logger.log(Level.INFO, "Prepare hill climbing algorithm.");
+        searchDistanceValues = createSearchDistanceValues();
+        nodeCriteriaHandler = new NodeCriteriaHandler(grid);
 
         logger.log(Level.INFO, "Start hill climbing algorithm.");
-//        run();
-
+        run(grid);
         logger.log(Level.INFO, "Metro Map generated.");
+
         return grid;
 
     }

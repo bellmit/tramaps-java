@@ -4,8 +4,8 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.GeomUtil;
-import ch.geomo.tramaps.geom.NodePoint;
+import ch.geomo.tramaps.util.GeomUtil;
+import ch.geomo.tramaps.util.point.NodePoint;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +25,7 @@ public class LineStringOrderComparator implements Comparator<LineString> {
         this.point = point.getPoint();
     }
 
+    @SuppressWarnings("unused")
     public LineStringOrderComparator(@NotNull Point point) {
         this.point = point;
     }

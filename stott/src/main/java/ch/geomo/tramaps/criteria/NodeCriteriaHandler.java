@@ -1,11 +1,10 @@
 package ch.geomo.tramaps.criteria;
 
 import ch.geomo.tramaps.criteria.node.*;
-import ch.geomo.tramaps.geom.ImmutableNodePoint;
-import ch.geomo.tramaps.geom.NodePoint;
+import ch.geomo.tramaps.util.point.ImmutableNodePoint;
+import ch.geomo.tramaps.util.point.NodePoint;
 import ch.geomo.tramaps.grid.Grid;
 import ch.geomo.tramaps.grid.GridNode;
-import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +24,17 @@ public class NodeCriteriaHandler {
     private double lastNodeCriteria;
     private double lowestNodeCriteria;
 
-    public NodeCriteriaHandler(Grid grid, double multiplicator, double gridSpacing) {
+    public NodeCriteriaHandler(Grid grid) {
         this.grid = grid;
-        initCriteria(multiplicator, gridSpacing);
+        initCriteria();
     }
 
-    private void initCriteria(double multiplicator, double gridSpacing) {
-        criteria.add(new AngularResolutionCriterion(30000));
-        criteria.add(new EdgeLengthCriterion(50, multiplicator, gridSpacing));
-        criteria.add(new BalancedEdgeLengthCriterion(45));
-        criteria.add(new EdgeCrossingCriterion(1000000)); // wn4
-        criteria.add(new LineStraightnessCriterion(220));
-        criteria.add(new OctilinearityCriterion(9250));
+    private void initCriteria() {
+        criteria.add(new OctilinearityCriterion(0.1));
+        criteria.add(new MinimumNodeDistanceCriterion(0.2, grid.getSpacing()));
+        criteria.add(new EdgeCrossingCriterion(1000));
+//        criteria.add(new AngularResolutionCriterion(0.25));
+        criteria.add(new EdgeStraightnessCriterion(100));
     }
 
     /**

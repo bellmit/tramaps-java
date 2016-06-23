@@ -20,11 +20,18 @@ public final class CollectionUtil {
     private CollectionUtil() {
     }
 
+    /**
+     * Makes a permutation with given {@link Collection}.
+     */
     @NotNull
     public static <T> Set<Tuple<T>> makePermutations(@Nullable Collection<T> items, boolean disallowEqualCombination) {
         return makePermutations(items, p -> !disallowEqualCombination || p.getFirst() != p.getSecond() );
     }
 
+    /**
+     * Makes a permutation with given {@link Collection}. This implementation <b>allows</b> equal combinations.
+     * @see #makePermutations(Collection, boolean)
+     */
     @NotNull
     public static <T> Set<Tuple<T>> makePermutations(@Nullable Collection<T> items) {
         return makePermutations(items, p -> true);

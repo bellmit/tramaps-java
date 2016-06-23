@@ -4,7 +4,8 @@
 
 package ch.geomo.tramaps.grid;
 
-import ch.geomo.tramaps.geom.GeomUtil;
+import ch.geomo.tramaps.util.GeomUtil;
+import ch.geomo.tramaps.util.point.NodePoint;
 import ch.geomo.tramaps.util.tuple.Tuple;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;

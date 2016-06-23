@@ -2,7 +2,7 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.geom;
+package ch.geomo.tramaps.util.point;
 
 import java.util.Comparator;
 

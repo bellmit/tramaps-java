@@ -4,8 +4,7 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.NodePoint;
-import com.vividsolutions.jts.geom.Coordinate;
+import ch.geomo.tramaps.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Point;
 
 /**

@@ -31,7 +31,7 @@ public class EdgeCrossingCriterion extends AbstractNodeCriterion {
 
     @Override
     public double _calculate(GridGraph graph) {
-        return graph.getIntersectingEdgePairs().stream()
+        return graph.getEdgePairs().stream()
                 .filter(this::intersects)
                 .count();
     }

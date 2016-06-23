@@ -2,13 +2,11 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.geom;
+package ch.geomo.tramaps.util.point;
 
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 import org.geotools.geometry.jts.JTSFactoryFinder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -56,11 +54,11 @@ public class ImmutableNodePoint implements NodePoint {
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof ImmutableNodePoint)) {
+        if (obj == null || !(obj instanceof NodePoint)) {
             return false;
         }
 
-        ImmutableNodePoint point = (ImmutableNodePoint) obj;
+        NodePoint point = (NodePoint) obj;
         return point.getY() == getY() && point.getX() == getX();
 
     }

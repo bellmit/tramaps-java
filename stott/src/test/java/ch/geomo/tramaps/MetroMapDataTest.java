@@ -16,7 +16,7 @@ public class MetroMapDataTest {
 //
 //        MetroMap map = new MetroMapBuilder()
 //                .setGraph(new GeoGraph(new ArrayList<>(nodes.values()), edges))
-//                .setGridSpacing(5)
+//                .setSpacing(5)
 //                .setRadius(10)
 //                .setMinIteration(10)
 //                .setMaxIteration(10)

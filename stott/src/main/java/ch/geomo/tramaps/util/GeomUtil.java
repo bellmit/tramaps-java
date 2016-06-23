@@ -2,8 +2,9 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.geom;
+package ch.geomo.tramaps.util;
 
+import ch.geomo.tramaps.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
@@ -66,6 +67,11 @@ public final class GeomUtil {
         double angle1 = Math.atan2(p1.getY() - circleCenterPoint.getY(), p1.getX() - circleCenterPoint.getX());
         double angle2 = Math.atan2(p2.getY() - circleCenterPoint.getY(), p2.getX() - circleCenterPoint.getX());
         return angle1 - angle2;
+    }
+
+    public static double getAngleBetweenAsDegree(@NotNull NodePoint circleCenterPoint, @NotNull NodePoint p1, @NotNull NodePoint p2) {
+        double angle = getAngleBetween(circleCenterPoint, p1, p2);
+        return Math.toDegrees(angle);
     }
 
 }

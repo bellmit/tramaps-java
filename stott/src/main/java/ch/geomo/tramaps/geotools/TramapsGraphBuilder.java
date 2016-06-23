@@ -7,21 +7,36 @@ package ch.geomo.tramaps.geotools;
 import ch.geomo.tramaps.grid.GridEdge;
 import ch.geomo.tramaps.grid.GridGraph;
 import ch.geomo.tramaps.grid.GridNode;
+import com.vividsolutions.jts.geom.Point;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.feature.FeatureIterator;
 import org.geotools.graph.build.GraphBuilder;
 import org.geotools.graph.structure.Edge;
 import org.geotools.graph.structure.Graph;
 import org.geotools.graph.structure.Node;
+import org.opengis.feature.simple.SimpleFeature;
 
 import java.util.*;
 
 public class TramapsGraphBuilder implements GraphBuilder {
 
+    private Map<Point, SimpleFeature> stations;
+
     private Set<GridNode> nodes;
     private Set<GridEdge> edges;
 
-    public TramapsGraphBuilder() {
+    public TramapsGraphBuilder(SimpleFeatureCollection stations) {
         nodes = new HashSet<>();
         edges = new HashSet<>();
+        this.stations = new HashMap<>();
+        try (FeatureIterator<SimpleFeature> iterator = stations.features()) {
+            while (iterator.hasNext()) {
+                SimpleFeature feature = iterator.next();
+                Point point = (Point) feature.getDefaultGeometry();
+                this.stations.put(point, feature);
+            }
+        }
+        System.out.println(this.stations.keySet());
     }
 
     protected GridGraph buildGraph() {
@@ -45,7 +60,16 @@ public class TramapsGraphBuilder implements GraphBuilder {
 
     @Override
     public void addNode(Node node) {
-        nodes.add((GridNode) node);
+        GridNode gridNode = (GridNode) node;
+        stations.entrySet().stream()
+                .filter(entry -> gridNode.calculateDistanceTo(entry.getKey().getCoordinate()) < 10)
+                .sorted((e1, e2) -> (int) (gridNode.calculateDistanceTo(e1.getKey().getCoordinate()) - gridNode.calculateDistanceTo(e2.getKey().getCoordinate())) * 10)
+                .findFirst()
+                .ifPresent(entry -> {
+                    gridNode.setLabelName((String)entry.getValue().getAttribute("name"));
+                    gridNode.setType((int)entry.getValue().getAttribute("type"));
+                });
+        nodes.add(gridNode);
     }
 
     @Override
@@ -63,7 +87,8 @@ public class TramapsGraphBuilder implements GraphBuilder {
     public void removeNode(Node node) {
         List edges = new ArrayList(node.getEdges());
         removeEdges(edges);
-        nodes.remove(node);
+        GridNode gridNode = (GridNode)node;
+        nodes.remove(gridNode);
     }
 
     @Override
@@ -77,7 +102,8 @@ public class TramapsGraphBuilder implements GraphBuilder {
     public void removeEdge(Edge edge) {
         edge.getNodeA().remove(edge);
         edge.getNodeB().remove(edge);
-        edges.remove(edge);
+        GridEdge gridEdge = (GridEdge)edge;
+        edges.remove(gridEdge);
     }
 
     @Override

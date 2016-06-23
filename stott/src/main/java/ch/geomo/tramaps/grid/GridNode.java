@@ -4,8 +4,8 @@
 
 package ch.geomo.tramaps.grid;
 
-import ch.geomo.tramaps.geom.GeomUtil;
-import ch.geomo.tramaps.geom.NodePoint;
+import ch.geomo.tramaps.util.GeomUtil;
+import ch.geomo.tramaps.util.point.NodePoint;
 import ch.geomo.tramaps.graph.GridEdgeOrderComparator;
 import ch.geomo.tramaps.graph.NodeLabel;
 import ch.geomo.tramaps.util.CollectionUtil;
@@ -30,20 +30,41 @@ import java.util.stream.StreamSupport;
 
 public class GridNode extends BasicNode implements NodePoint {
 
+    @SuppressWarnings("unused")
     private static final Logger logger = Logger.getLogger(GridNode.class.getSimpleName());
 
-    private String name;
+    private int type;
     private NodeLabel label;
-    private long version;
+
+    /**
+     * Metro Map Builder iteration number of the last update/change.
+     */
+    private long version = 0;
+
+    private List<Point> history;
 
     private Set<Tuple<GridEdge>> edgePairs;
     private Map<Tuple<GridEdge>, Double> edgeAngles;
 
     public GridNode() {
+        history = new ArrayList<>();
     }
 
     public long getVersion() {
         return version;
+    }
+
+    @NotNull
+    public List<Point> getHistory() {
+        return history;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public Point getPoint() {
@@ -79,12 +100,20 @@ public class GridNode extends BasicNode implements NodePoint {
         }
     }
 
+    public void moveTo(double x, double y, boolean overwriteMoveable) {
+        moveTo(new Coordinate(x, y), overwriteMoveable);
+    }
+
     public void moveTo(double x, double y) {
         moveTo(new Coordinate(x, y), false);
     }
 
     public void moveTo(NodePoint point) {
         moveTo(point.getCoordinate(), false);
+    }
+
+    public void moveTo(NodePoint point, boolean overwriteMoveable) {
+        moveTo(point.getCoordinate(), overwriteMoveable);
     }
 
     public void simplifyEdges() {
@@ -274,20 +303,17 @@ public class GridNode extends BasicNode implements NodePoint {
         return getPoint().getCoordinate();
     }
 
-    public void setName(@Nullable String name) {
-        this.name = name;
-    }
-
-    @Nullable
-    public String getName() {
-        if (name != null) {
-            return name;
+    @SuppressWarnings("unused")
+    public void setLabelName(@Nullable String name) {
+        if (this.label == null) {
+            this.label = new NodeLabel(name);
         }
-        return Optional.ofNullable(getLabel())
-                .map(NodeLabel::getName)
-                .orElse(null);
+        else {
+            this.label.setName(name);
+        }
     }
 
+    @SuppressWarnings("unused")
     public void setLabel(@Nullable NodeLabel label) {
         this.label = label;
     }
@@ -302,6 +328,7 @@ public class GridNode extends BasicNode implements NodePoint {
         clearCaches();
     }
 
+    @SuppressWarnings("unused")
     public void remove(@NotNull GridEdge e) {
         super.remove(e);
         clearCaches();
@@ -315,6 +342,7 @@ public class GridNode extends BasicNode implements NodePoint {
     }
 
     @NotNull
+    @SuppressWarnings("unused")
     public Optional<GridEdge> getEdge(GridNode other) {
         return Optional.ofNullable(super.getEdge(other)).map(edge -> (GridEdge) edge);
     }
@@ -324,7 +352,7 @@ public class GridNode extends BasicNode implements NodePoint {
     }
 
     @NotNull
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "unused"})
     public List<GridEdge> getEdges(GridNode other) {
         return super.getEdges(other);
     }
@@ -382,45 +410,49 @@ public class GridNode extends BasicNode implements NodePoint {
     }
 
     @NotNull
+    @SuppressWarnings("unused")
     public Set<GridNode> getAdjacentNodes() {
         return getRelatedStream().collect(Collectors.toSet());
     }
 
     @Override
     public String toString() {
-        return Optional.ofNullable(getName()).orElse(getPoint().toString());
+        return Optional.ofNullable(getLabel())
+                .map(NodeLabel::getName)
+                .orElse(getPoint().toString());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getX(), getY(), getName(), getLabel());
+        return Objects.hash(getX(), getY(), getLabel());
     }
 
     public boolean equals(Object obj) {
-
         if (obj == null || !(obj instanceof GridNode)) {
             return false;
         }
-
         GridNode node = (GridNode) obj;
-        return Objects.equals(getPoint(), node.getPoint())
-                && Objects.equals(getName(), node.getName())
+        return Objects.equals(getPoint().getX(), node.getPoint().getX())
+                && Objects.equals(getPoint().getY(), node.getPoint().getY())
                 && Objects.equals(getLabel(), getLabel());
-
     }
 
+    @SuppressWarnings("unused")
     public void setX(double x, boolean overwriteMoveable) {
         moveTo(new Coordinate(x, getPoint().getY()), overwriteMoveable);
     }
 
+    @SuppressWarnings("unused")
     public void setY(double y, boolean overwriteMoveable) {
         moveTo(new Coordinate(getPoint().getX(), y), overwriteMoveable);
     }
 
+    @SuppressWarnings("unused")
     public void setX(double x) {
         moveTo(x, getPoint().getY());
     }
 
+    @SuppressWarnings("unused")
     public void setY(double y) {
         moveTo(getPoint().getX(), y);
     }

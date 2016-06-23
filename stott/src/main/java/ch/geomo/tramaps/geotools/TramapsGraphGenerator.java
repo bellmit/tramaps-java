@@ -4,18 +4,20 @@
 
 package ch.geomo.tramaps.geotools;
 
+import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.graph.build.line.LineStringGraphGenerator;
 
 public class TramapsGraphGenerator extends LineStringGraphGenerator {
 
-    public TramapsGraphGenerator() {
+    @SuppressWarnings("unused")
+    public TramapsGraphGenerator(SimpleFeatureCollection stations) {
         super();
-        setGraphBuilder(new TramapsGraphBuilder());
+        setGraphBuilder(new TramapsGraphBuilder(stations));
     }
 
-    public TramapsGraphGenerator(double tolerance) {
+    public TramapsGraphGenerator(double tolerance, SimpleFeatureCollection stations) {
         super(tolerance);
-        setGraphBuilder(new TramapsGraphBuilder());
+        setGraphBuilder(new TramapsGraphBuilder(stations));
     }
 
 }

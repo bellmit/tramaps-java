@@ -2,7 +2,7 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.geom;
+package ch.geomo.tramaps.util.point;
 
 import java.util.Comparator;
 
@@ -27,10 +27,11 @@ public class NodePointDistanceComparator<P extends NodePoint> implements Compara
     @Override
     @SuppressWarnings("unchecked") // -> safe raw type usage
     public int compare(P p1, P p2) {
-        if (p1.calculateDistanceTo(originPoint) - p2.calculateDistanceTo(originPoint) >= 0) {
+        double diff = p1.calculateDistanceTo(originPoint) - p2.calculateDistanceTo(originPoint);
+        if (diff > 0) {
             return 1;
         }
-        return -1;
+        return (diff < 0) ? -1 : 0;
     }
 
 }

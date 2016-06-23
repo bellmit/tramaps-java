@@ -15,7 +15,7 @@ public class AngularResolutionCriterion extends AbstractNodeCriterion {
     @Override
     public double _calculate(GridGraph graph) {
         final Set<GridNode> nodes = graph.getNodes();
-        return nodes.stream()
+        return nodes.parallelStream()
                 .mapToDouble(n -> n.getAdjacentEdgePairs().parallelStream()
                         .mapToDouble(p ->
                             p.get(0).calculateAngleTo(p.get(1))

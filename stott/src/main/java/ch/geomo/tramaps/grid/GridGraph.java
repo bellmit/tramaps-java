@@ -6,7 +6,6 @@ package ch.geomo.tramaps.grid;
 
 import ch.geomo.tramaps.util.CollectionUtil;
 import ch.geomo.tramaps.util.tuple.Tuple;
-import org.geotools.feature.FeatureCollection;
 import org.geotools.graph.structure.Graph;
 import org.geotools.graph.structure.GraphVisitor;
 import org.geotools.graph.structure.Graphable;
@@ -19,8 +18,8 @@ public class GridGraph implements Graph {
     private Set<GridNode> nodes;
     private Set<GridEdge> edges;
 
-    private long gridSpace;
-    private int moveRadius;
+    private long spacing;
+    private int searchDistance;
 
     private Set<Tuple<GridEdge>> edgePairs;
 
@@ -28,11 +27,11 @@ public class GridGraph implements Graph {
         this(nodes, edges, 100, 2);
     }
 
-    public GridGraph(Collection<GridNode> nodes, Collection<GridEdge> edges, long gridSpace, int moveRadius) {
+    public GridGraph(Collection<GridNode> nodes, Collection<GridEdge> edges, long spacing, int searchDistance) {
         this.nodes = new HashSet<>(nodes);
         this.edges = new HashSet<>(edges);
-        this.gridSpace = gridSpace;
-        this.moveRadius = moveRadius;
+        this.spacing = spacing;
+        this.searchDistance = searchDistance;
         this.prepareEdgePairs();
     }
 
@@ -46,7 +45,7 @@ public class GridGraph implements Graph {
     private void prepareEdgePairs() {
         edgePairs = CollectionUtil.makePermutations(edges, true).parallelStream()
                 // skip all pairs not within a certain buffer distance
-                .filter(p -> this.intersects(p, gridSpace * moveRadius * 1.5))
+                .filter(p -> this.intersects(p, spacing * searchDistance * 1.5))
                 .collect(Collectors.toSet());
     }
 
@@ -97,7 +96,7 @@ public class GridGraph implements Graph {
         return getVisited(edges, visited);
     }
 
-    public Set<Tuple<GridEdge>> getIntersectingEdgePairs() {
+    public Set<Tuple<GridEdge>> getEdgePairs() {
         return Collections.unmodifiableSet(edgePairs);
     }
 

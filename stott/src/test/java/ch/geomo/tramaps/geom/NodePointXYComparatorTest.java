@@ -4,6 +4,8 @@
 
 package ch.geomo.tramaps.geom;
 
+import ch.geomo.tramaps.util.point.NodePoint;
+import ch.geomo.tramaps.util.point.NodePointXYComparator;
 import org.junit.Assert;
 import org.junit.Test;
 
