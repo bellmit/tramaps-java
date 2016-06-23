@@ -2,77 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a5c41261-095d-43a1-96da-b1f9644d2843" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/EdgeStraightnessCriterion.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/MinimumNodeDistanceCriterion.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapDataLoader.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapExporter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/converter/StottEdge.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/converter/StottFile.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/converter/StottNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/LabelCriteriaCalculationResult.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/LabelCriteriaCalculator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/LabelCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/BalancedEdgeLengthCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/EdgeLengthCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/LineStraightnessCriterion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/csv/ParseEdgeNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/csv/ParseLabel.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Cluster.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/NumberUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/ObjectUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapDataLoader.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapExporter.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/LabelCriteriaCalculationResult.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/LabelCriteriaCalculator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/LabelCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/AngularResolutionCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/BalancedEdgeLengthCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/EdgeCrossingCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/EdgeLengthCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/LineStraightnessCriterion.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/csv/ParseEdgeNode.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/csv/ParseLabel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/geom/ImmutableNodePoint.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/geom/NodePoint.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/geom/NodePointDistanceComparator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Cluster.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/util/NumberUtil.class" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/GeomUtil.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/GeomUtil.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/ImmutableNodePoint.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/point/ImmutableNodePoint.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/MutableNodePoint.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/point/MutableNodePoint.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/NodePoint.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/point/NodePoint.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/NodePointDistanceComparator.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/point/NodePointDistanceComparator.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geom/NodePointXYComparator.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/point/NodePointXYComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapBuilder.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/MetroMapBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/NodeLabel.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/NodeLabel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Quadrant.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/graph/Quadrant.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/Grid.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/Grid.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridEdge.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridEdge.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridGraph.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridGraph.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridNode.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/grid/GridNode.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/util/CollectionUtil.class" afterPath="$PROJECT_DIR$/target/classes/ch/geomo/tramaps/util/CollectionUtil.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/thozub.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/thozub.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.dbf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.sbn" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.sbx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.shp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.shx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.dbf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.sbn" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.sbx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.shp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.shp.UNIGIS.15208.14240.sr.lock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.shx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.dbf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.sbn" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.sbx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.shp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.shp.UNIGIS.15208.14240.sr.lock" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.shx" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.cpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.prj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city.shp.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.cpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.prj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/city2.shp.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.cpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.prj" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/shp/stations2.shp.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapMain.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/MetroMapMain.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/NodeCriteriaHandler.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/NodeCriteriaHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/AngularResolutionCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/AngularResolutionCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/EdgeCrossingCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/EdgeCrossingCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/criteria/node/OctilinearityCriterion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geotools/TramapsGraphBuilder.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geotools/TramapsGraphBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geotools/TramapsGraphGenerator.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/geotools/TramapsGraphGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/GridEdgeOrderComparator.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/GridEdgeOrderComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/LineStringOrderComparator.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/LineStringOrderComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/NodeLabel.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/NodeLabel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Quadrant.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/graph/Quadrant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/Grid.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/Grid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridEdge.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridEdge.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridGraph.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridNode.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/grid/GridNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/CollectionUtil.java" afterPath="$PROJECT_DIR$/src/main/java/ch/geomo/tramaps/util/CollectionUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ch/geomo/tramaps/MetroMapDataTest.java" afterPath="$PROJECT_DIR$/src/test/java/ch/geomo/tramaps/MetroMapDataTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ch/geomo/tramaps/geom/NodePointXYComparatorTest.java" afterPath="$PROJECT_DIR$/src/test/java/ch/geomo/tramaps/geom/NodePointXYComparatorTest.java" />
     </list>
     <ignored path="tramaps.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1227,7 +1183,14 @@
       <option name="project" value="LOCAL" />
       <updated>1464385772549</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="new tramaps">
+      <created>1466711561619</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1466711561619</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1305,7 +1268,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="introducing geotools" />
-    <option name="LAST_COMMIT_MESSAGE" value="introducing geotools" />
+    <MESSAGE value="new tramaps" />
+    <option name="LAST_COMMIT_MESSAGE" value="new tramaps" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
