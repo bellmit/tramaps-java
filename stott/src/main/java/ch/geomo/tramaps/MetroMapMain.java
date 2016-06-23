@@ -50,7 +50,7 @@ public class MetroMapMain {
 //        File home = new File("/Users/thozub/Repositories/tramaps/stott/data/shp");
 //        File file = JFileDataStoreChooser.showOpenFile("shp", home, null);
 
-        File file = new File("/Users/thozub/Repositories/tramaps/stott/data/shp/ZH.shp");
+        File file = new File("/Users/thozub/Repositories/tramaps-java/stott/data/shp/ZH.shp");
 
         FileDataStore store = FileDataStoreFinder.getDataStore(file);
         SimpleFeatureSource featureSource = store.getFeatureSource();
@@ -67,7 +67,7 @@ public class MetroMapMain {
         }
         GridGraph graph = (GridGraph) featureGenerator.getGraph();
 
-//        StottFile file = new StottFile("/Users/thozub/Repositories/tramaps/stott/data/atlanta.stott");
+//        StottFile file = new StottFile("/Users/thozub/Repositories/tramaps-java/stott/data/atlanta.stott");
 //        TramapsGraphGenerator generator = new TramapsGraphGenerator();
 //        FeatureGraphGenerator featureGenerator = new FeatureGraphGenerator(generator);
 //
