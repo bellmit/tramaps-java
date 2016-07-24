@@ -1,6 +1,7 @@
 package ch.geomo.tramaps;
 
 import ch.geomo.tramaps.buffer.ElementBuffer;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,8 +27,13 @@ public class Conflict {
         return conflictPolygon;
     }
 
-    public void getDisplacementVector() {
+    @NotNull
+    public Geometry getBoundingBox() {
+        return this.conflictPolygon.getEnvelope();
+    }
 
+    public void getDisplacementVector() {
+        // TODO
     }
 
 }

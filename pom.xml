@@ -23,6 +23,7 @@
     <commons-lang.version>3.4</commons-lang.version>
     <junit-version>4.11</junit-version>
     <supercsv-version>2.4.0</supercsv-version>
+    <apache-math.version>3.6.1</apache-math.version>
     <!-- update to 1.14 as soon as maven repo available-->
     <jts-version>1.13</jts-version>
 
@@ -70,6 +71,11 @@
       <groupId>com.vividsolutions</groupId>
       <artifactId>jts</artifactId>
       <version>${jts-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+      <version>${apache-math.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>

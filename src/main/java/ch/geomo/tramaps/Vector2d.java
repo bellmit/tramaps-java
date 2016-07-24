@@ -3,14 +3,14 @@ package ch.geomo.tramaps;
 import ch.geomo.tramaps.util.GeomUtil;
 import com.vividsolutions.jts.geom.LineString;
 
-public class DisplacementVector {
+public class Vector2d {
 
     private final LineString lineString;
 
     private final double distance;
     private final double angle;
 
-    public DisplacementVector(LineString lineString) {
+    public Vector2d(LineString lineString) {
         this.lineString = lineString;
         this.distance = lineString.getLength();
         this.angle = GeomUtil.getAngleToXAxis(lineString);
@@ -27,4 +27,10 @@ public class DisplacementVector {
     public LineString getLineString() {
         return lineString;
     }
+
+    public Vector2d getProjectionAlong(Vector2d vector) {
+        return this;
+    }
+
+
 }
