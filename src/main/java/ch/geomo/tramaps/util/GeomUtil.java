@@ -52,7 +52,7 @@ public final class GeomUtil {
         return Math.toDegrees(angle);
     }
 
-    public static double getAngleToXAxis(LineString lineString) {
+    public static double getAngleToXAxis(@NotNull LineString lineString) {
         // TODO
         return 0;
     }
