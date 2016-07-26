@@ -30,8 +30,4 @@ public interface GraphElement {
         return this.getGeometry().getCentroid();
     }
 
-    default LineString getQ(GraphElement element) {
-        return GeomUtil.createLineString(this.getCentroid(), element.getCentroid());
-    }
-
 }
