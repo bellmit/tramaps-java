@@ -41,10 +41,12 @@ public class Conflict {
         return this.conflictPolygon.getEnvelope();
     }
 
+    @NotNull
     public MoveVector getMoveVector() {
         return this.moveVector;
     }
 
+    @NotNull
     public LineString getQ() {
         return this.q;
     }

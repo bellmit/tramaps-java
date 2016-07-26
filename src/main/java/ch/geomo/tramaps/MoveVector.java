@@ -5,7 +5,9 @@ import com.vividsolutions.jts.math.Vector2D;
 
 public class MoveVector extends Vector2D {
 
+    @SuppressWarnings("unused")
     public static final Vector2D VECTOR_ALONG_X_AXIS = new Vector2D(1, 0);
+    @SuppressWarnings("unused")
     public static final Vector2D VECTOR_ALONG_Y_AXIS = new Vector2D(0, 1);
 
     private final LineString lineString;
@@ -19,6 +21,5 @@ public class MoveVector extends Vector2D {
     public LineString getLineString() {
         return lineString;
     }
-
 
 }
