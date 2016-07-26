@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.util.point;
 
-import ch.geomo.tramaps.util.GeomUtil;
+import ch.geomo.tramaps.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;

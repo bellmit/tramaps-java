@@ -3,7 +3,7 @@ package ch.geomo.tramaps.buffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Route;
-import ch.geomo.tramaps.util.GeomUtil;
+import ch.geomo.tramaps.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 

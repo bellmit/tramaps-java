@@ -1,12 +1,9 @@
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.util.GeomUtil;
+import ch.geomo.tramaps.geom.GeomUtil;
 import ch.geomo.tramaps.util.tuple.Tuple;
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;

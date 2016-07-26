@@ -1,8 +1,6 @@
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.util.GeomUtil;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 

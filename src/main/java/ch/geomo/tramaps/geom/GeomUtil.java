@@ -1,11 +1,10 @@
-package ch.geomo.tramaps.util;
+package ch.geomo.tramaps.geom;
 
 import ch.geomo.tramaps.util.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferBuilder;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
 import org.geotools.geometry.jts.JTSFactoryFinder;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
