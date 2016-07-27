@@ -2,6 +2,7 @@ package ch.geomo.tramaps;
 
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.math.Vector2D;
+import org.jetbrains.annotations.NotNull;
 
 public class MoveVector extends Vector2D {
 
@@ -20,6 +21,11 @@ public class MoveVector extends Vector2D {
     @SuppressWarnings("unused")
     public LineString getLineString() {
         return lineString;
+    }
+
+    @NotNull
+    public Vector2D getProjection(@NotNull Vector2D alongVector) {
+        return alongVector.multiply(this.dot(alongVector)/this.dot(this));
     }
 
 }

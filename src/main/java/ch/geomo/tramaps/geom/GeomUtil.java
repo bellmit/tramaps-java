@@ -22,6 +22,10 @@ public final class GeomUtil {
         return (Polygon) builder.buffer(geom, distance);
     }
 
+    public static Point createPoint(@NotNull Coordinate coordinate) {
+        return JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
+    }
+
     @NotNull
     public static LineString createLineString(@Nullable Coordinate... points) {
         return JTSFactoryFinder.getGeometryFactory().createLineString(points);
