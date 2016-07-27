@@ -1,6 +1,6 @@
-package ch.geomo.tramaps.geom;
+package ch.geomo.tramaps.geo.util;
 
-import ch.geomo.tramaps.util.point.NodePoint;
+import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferBuilder;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;

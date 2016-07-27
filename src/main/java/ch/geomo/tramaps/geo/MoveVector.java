@@ -1,4 +1,4 @@
-package ch.geomo.tramaps;
+package ch.geomo.tramaps.geo;
 
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.math.Vector2D;

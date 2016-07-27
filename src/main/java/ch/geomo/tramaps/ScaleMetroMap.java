@@ -1,9 +1,11 @@
 package ch.geomo.tramaps;
 
-import ch.geomo.tramaps.geom.Axis;
-import ch.geomo.tramaps.geom.GeomUtil;
+import ch.geomo.tramaps.conflicts.Conflict;
+import ch.geomo.tramaps.conflicts.ConflictFinder;
+import ch.geomo.tramaps.geo.Axis;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.tramaps.map.MetroMap;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
@@ -54,14 +56,14 @@ public class ScaleMetroMap {
         Set<Edge> edges = map.getEdges();
         Set<Node> nodes = map.getNodes();
 
-        Envelope bbox = map.getBoundingBox();
-
         Set<Conflict> conflicts = new ConflictFinder(routeMargin, edgeMargin).getConflicts(edges, nodes);
 
         if (!conflicts.isEmpty()) {
+            Envelope bbox = map.getBoundingBox();
             double scaleFactor = this.evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
             this.scale(map, scaleFactor);
         }
+
     }
 
 }

@@ -2,7 +2,7 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.util.point;
+package ch.geomo.util.point;
 
 /**
  * Mutable implementation of {@link NodePoint}.

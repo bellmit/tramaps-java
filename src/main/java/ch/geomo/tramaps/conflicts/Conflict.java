@@ -1,15 +1,14 @@
-package ch.geomo.tramaps;
+package ch.geomo.tramaps.conflicts;
 
-import ch.geomo.tramaps.buffer.ElementBuffer;
-import ch.geomo.tramaps.geom.Axis;
-import ch.geomo.tramaps.geom.GeomUtil;
-import ch.geomo.tramaps.geom.PolygonUtil;
-import com.vividsolutions.jts.awt.PointShapeFactory;
+import ch.geomo.tramaps.geo.MoveVector;
+import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
+import ch.geomo.tramaps.geo.Axis;
+import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.geo.util.PolygonUtil;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
-import org.opengis.referencing.cs.AxisDirection;
 
 public class Conflict {
 

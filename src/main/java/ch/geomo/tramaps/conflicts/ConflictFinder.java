@@ -1,12 +1,12 @@
-package ch.geomo.tramaps;
+package ch.geomo.tramaps.conflicts;
 
-import ch.geomo.tramaps.buffer.EdgeBuffer;
-import ch.geomo.tramaps.buffer.ElementBuffer;
-import ch.geomo.tramaps.buffer.NodeBuffer;
+import ch.geomo.tramaps.conflicts.buffer.EdgeBuffer;
+import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
+import ch.geomo.tramaps.conflicts.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.util.CollectionUtil;
-import ch.geomo.tramaps.util.tuple.Tuple;
+import ch.geomo.util.tuple.Tuple;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;

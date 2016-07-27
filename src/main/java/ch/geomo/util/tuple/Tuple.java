@@ -2,7 +2,7 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.util.tuple;
+package ch.geomo.util.tuple;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Contract;

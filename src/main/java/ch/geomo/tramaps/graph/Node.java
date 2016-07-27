@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.map.StationSignature;
-import ch.geomo.tramaps.util.point.NodePoint;
+import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;

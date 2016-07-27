@@ -1,4 +1,4 @@
-package ch.geomo.tramaps.buffer;
+package ch.geomo.tramaps.conflicts.buffer;
 
 import ch.geomo.tramaps.graph.GraphElement;
 import com.vividsolutions.jts.geom.Polygon;

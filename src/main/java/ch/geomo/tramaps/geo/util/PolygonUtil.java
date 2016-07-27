@@ -1,4 +1,4 @@
-package ch.geomo.tramaps.geom;
+package ch.geomo.tramaps.geo.util;
 
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.geom.util.AffineTransformation;

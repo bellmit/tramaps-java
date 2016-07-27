@@ -1,7 +1,7 @@
-package ch.geomo.tramaps.buffer;
+package ch.geomo.tramaps.conflicts.buffer;
 
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.geom.GeomUtil;
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class StationBuffer extends NodeBuffer {

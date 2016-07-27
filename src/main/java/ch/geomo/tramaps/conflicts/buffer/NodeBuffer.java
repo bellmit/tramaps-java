@@ -1,8 +1,8 @@
-package ch.geomo.tramaps.buffer;
+package ch.geomo.tramaps.conflicts.buffer;
 
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.geom.GeomUtil;
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 

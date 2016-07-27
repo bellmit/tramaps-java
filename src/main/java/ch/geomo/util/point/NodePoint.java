@@ -2,9 +2,9 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.util.point;
+package ch.geomo.util.point;
 
-import ch.geomo.tramaps.geom.GeomUtil;
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;

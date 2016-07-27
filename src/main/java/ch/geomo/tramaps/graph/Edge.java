@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.GeomUtil;
-import ch.geomo.tramaps.util.tuple.Tuple;
+import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.util.tuple.Tuple;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.NotNull;

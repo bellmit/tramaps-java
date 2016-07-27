@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.util;
 
-import ch.geomo.tramaps.util.tuple.Tuple;
+import ch.geomo.util.tuple.Tuple;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
