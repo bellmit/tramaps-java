@@ -66,4 +66,10 @@ public class ScaleMetroMap {
 
     }
 
+    public void makeSpaceByScalingSubGraphs(MetroMap map, double routeMargin, double edgeMargin) {
+
+        
+
+    }
+
 }
