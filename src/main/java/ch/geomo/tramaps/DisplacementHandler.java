@@ -34,7 +34,7 @@ public class DisplacementHandler {
         double scaleFactorAlongX = (mapWidth + maxMoveX) / mapWidth;
         double scaleFactorAlongY = (mapHeight + maxMoveY) / mapHeight;
 
-        return Math.max(scaleFactorAlongX, scaleFactorAlongY);
+        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY)*100)/100;
 
     }
 

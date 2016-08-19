@@ -52,35 +52,39 @@ public class MainApp extends Application {
     public void draw() {
         Group group = new Group();
         Envelope bbox = this.map.getBoundingBox();
-        Canvas canvas = new Canvas(bbox.getHeight() * 3, bbox.getWidth() * 3);
+        Canvas canvas = new Canvas(bbox.getWidth()*3, bbox.getHeight()*3);
         GraphicsContext context = canvas.getGraphicsContext2D();
         this.drawMetroMap(context);
+        canvas.setTranslateX(bbox.getMinX());
+        canvas.setTranslateY(-bbox.getMinY()*2);
+        canvas.setRotate(270);
         group.getChildren().add(canvas);
         this.stage.setScene(new Scene(group));
         this.stage.show();
     }
 
     private void drawMetroMap(GraphicsContext context) {
+
         this.map.getEdges().forEach(edge -> {
             double width = edge.getEdgeWidth(this.edgeMargin);
             context.setLineWidth(width);
             context.setStroke(Color.rgb((int) width, (int) width, (int) width, 0.5d));
-            context.strokeLine(edge.getNodeA().getY(), edge.getNodeA().getX(), edge.getNodeB().getY(), edge.getNodeB().getX());
+            context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
         });
         this.map.getNodes().forEach(node -> {
             Envelope station = node.getSignature().getGeometry().getEnvelopeInternal();
             context.setFill(Color.rgb(139, 187, 206, 0.5d));
-            context.fillRect(station.getMinY(), station.getMinX(), station.getHeight(), station.getWidth());
+            context.fillRect(station.getMinX(), station.getMinY(), station.getWidth(), station.getHeight());
         });
         this.map.getEdges().forEach(edge -> {
             context.setLineWidth(1);
             context.setStroke(Color.BLACK);
-            context.strokeLine(edge.getNodeA().getY(), edge.getNodeA().getX(), edge.getNodeB().getY(), edge.getNodeB().getX());
+            context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
         });
         context.translate(-5, -5);
         this.map.getNodes().forEach(node -> {
             context.setFill(Color.rgb(0, 145, 255));
-            context.fillOval(node.getY(), node.getX(), 10, 10);
+            context.fillOval(node.getX(), node.getY(), 10, 10);
         });
 
         context.translate(5, 5);
@@ -88,7 +92,7 @@ public class MainApp extends Application {
         conflicts.forEach(conflict -> {
             context.setFill(Color.rgb(240, 88, 88, 0.4));
             Envelope bbox = conflict.getConflictPolygon().getEnvelopeInternal();
-            context.fillRect(bbox.getMinY(), bbox.getMinX(), bbox.getHeight(), bbox.getWidth());
+            context.fillRect(bbox.getMinX(), bbox.getMinY(), bbox.getWidth(), bbox.getHeight());
         });
 
     }
