@@ -21,6 +21,8 @@ public class Conflict {
     private Vector2D bestMoveVectorAlongAnAxis;
     private Axis bestMoveVectorAxis;
 
+    private boolean solved = false;
+
     public Conflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
         this.bufferA = bufferA;
         this.bufferB = bufferB;
@@ -52,6 +54,10 @@ public class Conflict {
             this.bestMoveVectorAxis = Axis.Y;
         }
 
+        if (this.conflictPolygon.isEmpty()) {
+            this.solved = true;
+        }
+
     }
 
     @NotNull
@@ -73,4 +79,9 @@ public class Conflict {
     public Axis getBestMoveVectorAxis() {
         return bestMoveVectorAxis;
     }
+
+    public boolean isSolved() {
+        return solved;
+    }
+
 }

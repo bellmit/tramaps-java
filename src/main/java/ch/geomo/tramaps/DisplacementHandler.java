@@ -52,6 +52,8 @@ public class DisplacementHandler {
 
     public void makeSpaceByScaling(MetroMap map, double routeMargin, double edgeMargin) {
 
+        System.out.println("makeSpaceByScaling");
+
         Set<Edge> edges = map.getEdges();
         Set<Node> nodes = map.getNodes();
 
@@ -61,6 +63,11 @@ public class DisplacementHandler {
             Envelope bbox = map.getBoundingBox();
             double scaleFactor = this.evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
             this.scale(map, scaleFactor);
+        }
+
+        // repeat if space issue is not yet solved
+        if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved())) {
+            this.makeSpaceByScaling(map, routeMargin, edgeMargin);
         }
 
     }
