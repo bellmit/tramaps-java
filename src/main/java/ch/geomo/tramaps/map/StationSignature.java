@@ -13,7 +13,6 @@ import java.util.Observer;
 public class StationSignature extends Observable implements Observer {
 
     private final Node node;
-
     private Polygon signature;
 
     public StationSignature(@NotNull Node node) {
@@ -23,8 +22,11 @@ public class StationSignature extends Observable implements Observer {
     }
 
     private void updateSignature() {
-        // TODO
-        this.signature = (Polygon) new BufferBuilder(new BufferParameters()).buffer(node.getPoint(), node.getAdjacentEdges().size());
+        double width = node.getAdjacentEdges().stream()
+                .map(edge -> edge.getEdgeWidth(5))
+                .max(Double::compare)
+                .orElse(5d);
+        this.signature = (Polygon) new BufferBuilder(new BufferParameters()).buffer(node.getPoint(), width/2);
         this.setChanged();
         this.notifyObservers();
     }

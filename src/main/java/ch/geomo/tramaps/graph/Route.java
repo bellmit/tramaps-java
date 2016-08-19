@@ -1,8 +1,7 @@
 package ch.geomo.tramaps.graph;
 
+import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 
 public class Route {
 

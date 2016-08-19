@@ -28,10 +28,7 @@ public class EdgeBuffer implements ElementBuffer, Observer {
 
     @Override
     public void updateBuffer() {
-        double width = this.edge.getRoutes().stream()
-                .mapToDouble(Route::getLineWidth)
-                .sum();
-        width = width + this.routeMargin * (this.edge.getRoutes().size() - 2) + this.edgeMargin * 2;
+        double width = this.edge.getEdgeWidth(this.routeMargin) + this.edgeMargin * 2;
         this.buffer = GeomUtil.createBuffer(this.edge.getLineString(), width / 2, true);
     }
 

@@ -18,11 +18,20 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
+        this.nodeA.addAdjacentEdge(this);
         this.nodeA.addObserver(this);
         this.nodeB = nodeB;
+        this.nodeB.addAdjacentEdge(this);
         this.nodeB.addObserver(this);
         this.routes = new HashSet<>();
         this.updateLineString();
+    }
+
+    public double getEdgeWidth(double routeMargin) {
+        double width = this.getRoutes().stream()
+                .mapToDouble(Route::getLineWidth)
+                .sum();
+        return width + routeMargin * (this.getRoutes().size() - 2);
     }
 
     @NotNull

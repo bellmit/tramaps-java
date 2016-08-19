@@ -9,6 +9,7 @@ import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 
@@ -16,16 +17,24 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     private Point point;
 
-    private StationSignature signature;
+    private final StationSignature signature;
+    private final Set<Edge> adjacentEdges;
 
     public Node(Point point) {
         this.point = point;
+        this.adjacentEdges = new HashSet<>();
         this.signature = new StationSignature(this);
     }
 
     @NotNull
     public Set<Edge> getAdjacentEdges() {
-        return Collections.emptySet();
+        return this.adjacentEdges;
+    }
+
+    public void addAdjacentEdge(Edge edge) {
+        if (this.equals(edge.getNodeA()) || this.equals(edge.getNodeB())) {
+            this.adjacentEdges.add(edge);
+        }
     }
 
     @NotNull
