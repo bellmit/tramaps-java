@@ -28,18 +28,19 @@ public final class PolygonUtil {
         double factor = Math.max(envelope.getHeight(), envelope.getWidth()) * 2;
         AffineTransformation scaleTransformation = new AffineTransformation();
         scaleTransformation.scale(factor, factor);
-        Geometry scaledLineString = scaleTransformation.transform(parallelTo);
+        LineString scaledLineString = GeomUtil.createLineString(parallelTo.getStartPoint(), GeomUtil.createPoint(scaleTransformation.transform(parallelTo.getEndPoint())));
 
         return Arrays.stream(inPolygon.getCoordinates())
-                .parallel()
                 // create a parallel line for each vertex
                 .map(vertex -> {
                     AffineTransformation translateTransformation = new AffineTransformation();
-                    translateTransformation.translate(vertex.x - centroid.getX(), vertex.y - centroid.getY());
+                    translateTransformation.translate(vertex.x - scaledLineString.getCentroid().getX(), vertex.y - scaledLineString.getCentroid().getY());
                     return translateTransformation.transform(scaledLineString);
                 })
                 // get line string within polygon
                 .map(inPolygon::intersection)
+                .filter(geom -> geom instanceof LineString && !geom.isEmpty())
+                // .peek(System.out::println)
                 .map(geom -> (LineString) geom);
 
     }

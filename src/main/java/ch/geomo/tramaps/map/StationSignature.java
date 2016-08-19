@@ -25,6 +25,7 @@ public class StationSignature extends Observable implements Observer {
     private void updateSignature() {
         // TODO
         this.signature = (Polygon) new BufferBuilder(new BufferParameters()).buffer(node.getPoint(), node.getAdjacentEdges().size());
+        this.setChanged();
         this.notifyObservers();
     }
 

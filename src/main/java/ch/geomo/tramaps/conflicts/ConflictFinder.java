@@ -52,7 +52,7 @@ public class ConflictFinder {
 
         Set<Tuple<ElementBuffer>> tuples = CollectionUtil.makePairs(buffers, ConflictFinder.CONFLICT_TUPLE_PREDICATE);
 
-        return tuples.parallelStream()
+        return tuples.stream()
                 .filter(tuple -> tuple.getFirst().getBuffer().relate(tuple.getSecond().getBuffer(), "T********"))
                 .map(tuple -> new Conflict(tuple.getFirst(), tuple.getSecond()))
                 .collect(Collectors.toSet());

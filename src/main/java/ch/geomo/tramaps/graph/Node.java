@@ -76,6 +76,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     public void setCoordinate(@NotNull Coordinate coordinate) {
         this.point = JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
+        this.setChanged();
         this.notifyObservers();
     }
 
@@ -91,4 +92,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
         this.setCoordinate(new Coordinate(this.getCoordinate().x, y));
     }
 
+    @Override
+    public String toString() {
+        return point.toString();
+    }
 }

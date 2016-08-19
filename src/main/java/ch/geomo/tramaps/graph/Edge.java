@@ -6,10 +6,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 
 public class Edge extends Observable implements Observer, GraphElement {
 
@@ -17,12 +14,14 @@ public class Edge extends Observable implements Observer, GraphElement {
     private Node nodeB;
 
     private LineString lineString;
+    private Set<Route> routes;
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
         this.nodeA.addObserver(this);
         this.nodeB = nodeB;
         this.nodeB.addObserver(this);
+        this.routes = new HashSet<>();
         this.updateLineString();
     }
 
@@ -38,12 +37,21 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     private void updateLineString() {
         this.lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
+        this.setChanged();
         this.notifyObservers();
+    }
+
+    public void setRoutes(@NotNull Collection<Route> routes) {
+        this.routes = new HashSet<>(routes);
+    }
+
+    public void addRoute(@NotNull Route route) {
+        this.routes.add(route);
     }
 
     @NotNull
     public Set<Route> getRoutes() {
-        return Collections.emptySet();
+        return routes;
     }
 
     @NotNull
@@ -81,4 +89,8 @@ public class Edge extends Observable implements Observer, GraphElement {
         this.updateLineString();
     }
 
+    @Override
+    public String toString() {
+        return lineString.toString();
+    }
 }

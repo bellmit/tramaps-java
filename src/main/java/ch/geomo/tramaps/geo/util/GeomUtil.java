@@ -8,6 +8,10 @@ import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public final class GeomUtil {
 
     private GeomUtil() {
@@ -24,6 +28,19 @@ public final class GeomUtil {
 
     public static Point createPoint(@NotNull Coordinate coordinate) {
         return JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
+    }
+
+    @NotNull
+    public static Point createPoint(@NotNull Geometry geometry) {
+        return JTSFactoryFinder.getGeometryFactory().createPoint(geometry.getCoordinate());
+    }
+
+    @NotNull
+    public static GeometryCollection createCollection(@NotNull Collection<Geometry>... collections) {
+        Collection<Geometry> merged = Stream.of(collections)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+        return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(merged.toArray(new Geometry[] {}));
     }
 
     @NotNull

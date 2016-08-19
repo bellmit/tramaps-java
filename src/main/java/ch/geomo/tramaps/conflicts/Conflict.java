@@ -38,7 +38,7 @@ public class Conflict {
         // create exact move vector
         this.moveVector = PolygonUtil.findLongestParallelLineString(this.conflictPolygon, this.q)
                 .map(MoveVector::new)
-                .orElse(new MoveVector(GeomUtil.createLineString()));
+                .orElse(new MoveVector());
 
         // evaluate best move vector along an axis
         double angleX = this.moveVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
