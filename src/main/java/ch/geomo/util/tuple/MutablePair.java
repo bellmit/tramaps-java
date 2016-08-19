@@ -11,12 +11,12 @@ import java.util.Objects;
 /**
  * An immutable tuple implementation.
  */
-public class ImmutableTuple<T> implements Tuple<T> {
+public class MutablePair<T> implements Pair<T> {
 
     private T first;
     private T second;
 
-    public ImmutableTuple(@Nullable T first, @Nullable T second) {
+    public MutablePair(@Nullable T first, @Nullable T second) {
         this.first = first;
         this.second = second;
     }
@@ -31,14 +31,31 @@ public class ImmutableTuple<T> implements Tuple<T> {
         return second;
     }
 
+    public void setFirst(T first) {
+        this.first = first;
+    }
+
+    public void setSecond(T second) {
+        this.second = second;
+    }
+
+    public void set(int index, T value) {
+        if (index == 0) {
+            first = value;
+        }
+        else {
+            second = value;
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof ImmutableTuple)) {
+        if (obj == null || !(obj instanceof MutablePair)) {
             return false;
         }
 
-        ImmutableTuple tuple = (ImmutableTuple) obj;
+        MutablePair tuple = (MutablePair) obj;
         return Objects.equals(getFirst(), tuple.getFirst()) && Objects.equals(getSecond(), tuple.getSecond())
                 || Objects.equals(getSecond(), tuple.getFirst()) && Objects.equals(getFirst(), tuple.getSecond());
 

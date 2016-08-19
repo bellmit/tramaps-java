@@ -1,14 +1,11 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.tramaps.util.CollectionUtil;
-import ch.geomo.util.tuple.Tuple;
+import ch.geomo.util.tuple.Pair;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
-import org.opengis.geometry.BoundingBox;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -56,7 +53,7 @@ public class Graph {
         return null;
     }
 
-    public Map<Edge, Tuple<Graph>> getSubGraphsByLeavingOut(Set<Edge> edges) {
+    public Map<Edge, Pair<Graph>> getSubGraphsByLeavingOut(Set<Edge> edges) {
         // TODO
         return null;
     }

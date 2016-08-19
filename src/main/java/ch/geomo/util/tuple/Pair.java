@@ -4,7 +4,6 @@
 
 package ch.geomo.util.tuple;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +16,7 @@ import java.util.stream.Stream;
  * A tuple or pair of a certain type. Two tuple are always are equal if both of the first tuple values are equals in
  * any combination to the other tuple's values.
  */
-public interface Tuple<T> {
+public interface Pair<T> {
 
     /**
      * Gets the first value.
@@ -36,7 +35,7 @@ public interface Tuple<T> {
     /**
      * Gets the other value. Throws a {@link NoSuchElementException} if given value is not an item of current tuple.
      *
-     * @throws NoSuchElementException if given value is not a value of current {@link Tuple}
+     * @throws NoSuchElementException if given value is not a value of current {@link Pair}
      */
     default T getOtherValue(T value) {
         if (Objects.equals(get(0), value)) {
@@ -61,15 +60,15 @@ public interface Tuple<T> {
      *
      * @throws NoSuchElementException if no shared value was found
      */
-    default T getSharedValue(Tuple<T> otherTuple) {
-        return otherTuple.stream()
+    default T getSharedValue(Pair<T> otherPair) {
+        return otherPair.stream()
                 .filter(this::contains)
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Tuples do not share any value."));
     }
 
-    default boolean hasSharedValue(Tuple<T> otherTuple) {
-        return otherTuple.stream()
+    default boolean hasSharedValue(Pair<T> otherPair) {
+        return otherPair.stream()
                 .anyMatch(this::contains);
     }
 
@@ -77,8 +76,8 @@ public interface Tuple<T> {
      * Creates a new immutable tuple of given values.
      */
     @NotNull
-    static <T> Tuple<T> of(@Nullable T first, @Nullable T second) {
-        return new ImmutableTuple<>(first, second);
+    static <T> Pair<T> of(@Nullable T first, @Nullable T second) {
+        return new ImmutablePair<>(first, second);
     }
 
 
@@ -86,40 +85,40 @@ public interface Tuple<T> {
      * Creates a new tuple of given values.
      */
     @NotNull
-    static <T> Tuple<T> of(@Nullable T first, @Nullable T second, boolean mutable) {
+    static <T> Pair<T> of(@Nullable T first, @Nullable T second, boolean mutable) {
         if (mutable) {
-            return new MutableTuple<>(first, second);
+            return new MutablePair<>(first, second);
         }
-        return new ImmutableTuple<>(first, second);
+        return new ImmutablePair<>(first, second);
     }
 
     @Contract("null -> null")
-    static <T> Tuple<T> from(@Nullable Pair<T, T> pair) {
+    static <T> Pair<T> from(@Nullable org.apache.commons.lang3.tuple.Pair<T, T> pair) {
         if (pair == null) {
             return null;
         }
-        return new ImmutableTuple<>(pair.getLeft(), pair.getRight());
+        return new ImmutablePair<T>(pair.getLeft(), pair.getRight());
     }
 
 
     @NotNull
-    static <T> Set<Tuple<T>> from(Collection<Pair<T, T>> pairs) {
+    static <T> Set<Pair<T>> from(Collection<org.apache.commons.lang3.tuple.Pair<T, T>> pairs) {
         if (pairs == null) {
             return Collections.emptySet();
         }
         return pairs.stream()
-                .map(Tuple::from)
+                .map(Pair::from)
                 .collect(Collectors.toSet());
     }
 
     @NotNull
-    static <T> Set<Tuple<T>> from(Collection<T> col1, Collection<T> col2) {
+    static <T> Set<Pair<T>> from(Collection<T> col1, Collection<T> col2) {
         if (col1 == null || col2 == null) {
             return Collections.emptySet();
         }
         return col1.stream()
                 .flatMap(v1 -> col2.stream()
-                        .map(v2 -> Tuple.of(v1, v2)))
+                        .map(v2 -> Pair.of(v1, v2)))
                 .collect(Collectors.toSet());
     }
 
@@ -135,10 +134,10 @@ public interface Tuple<T> {
     }
 
     /**
-     * Converts given {@link Tuple} instance to an instance of {@link Pair}.
+     * Converts given {@link Pair} instance to an instance of {@link org.apache.commons.lang3.tuple.Pair}.
      */
-    default Pair<T, T> toPair() {
-        return Pair.of(getFirst(), getSecond());
+    default org.apache.commons.lang3.tuple.Pair toPair() {
+        return org.apache.commons.lang3.tuple.Pair.of(getFirst(), getSecond());
     }
 
 }

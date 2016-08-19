@@ -6,7 +6,7 @@ import ch.geomo.tramaps.conflicts.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.util.CollectionUtil;
-import ch.geomo.util.tuple.Tuple;
+import ch.geomo.util.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -19,13 +19,13 @@ public class ConflictFinder {
     /**
      * Returns true if both elements are not equal and not adjacent or at least one element is a node.
      */
-    private final static Predicate<Tuple<ElementBuffer>> CONFLICT_TUPLE_PREDICATE = (Tuple<ElementBuffer> tuple) -> {
-        if (tuple.getFirst() == tuple.getSecond()) {
+    private final static Predicate<Pair<ElementBuffer>> CONFLICT_PAIR_PREDICATE = (Pair<ElementBuffer> pair) -> {
+        if (pair.getFirst() == pair.getSecond()) {
             return false;
         }
-        boolean adjacent = tuple.getFirst().getElement().isAdjacent(tuple.getSecond().getElement());
-        return !adjacent || tuple.stream()
-                .noneMatch(buffer -> buffer.getElement() instanceof Node);
+        boolean adjacent = pair.getFirst().getElement().isAdjacent(pair.getSecond().getElement());
+        return !adjacent || pair.stream()
+                .anyMatch(buffer -> buffer.getElement() instanceof NodeBuffer);
     };
 
     private final double routeMargin;
@@ -50,9 +50,9 @@ public class ConflictFinder {
         Set<ElementBuffer> buffers = new HashSet<>(edgeBuffers);
         buffers.addAll(nodeBuffers);
 
-        Set<Tuple<ElementBuffer>> tuples = CollectionUtil.makePairs(buffers, ConflictFinder.CONFLICT_TUPLE_PREDICATE);
+        Set<Pair<ElementBuffer>> pairs = CollectionUtil.makePairs(buffers, ConflictFinder.CONFLICT_PAIR_PREDICATE);
 
-        return tuples.stream()
+        return pairs.stream()
                 .filter(tuple -> tuple.getFirst().getBuffer().relate(tuple.getSecond().getBuffer(), "T********"))
                 .map(tuple -> new Conflict(tuple.getFirst(), tuple.getSecond()))
                 .collect(Collectors.toSet());

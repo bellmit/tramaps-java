@@ -1,5 +1,6 @@
 package ch.geomo.tramaps.map;
 
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
@@ -26,7 +27,7 @@ public class StationSignature extends Observable implements Observer {
                 .map(edge -> edge.getEdgeWidth(5))
                 .max(Double::compare)
                 .orElse(5d);
-        this.signature = (Polygon) new BufferBuilder(new BufferParameters()).buffer(node.getPoint(), width/2);
+        this.signature = GeomUtil.createBuffer(node.getPoint(), width/2, false);
         this.setChanged();
         this.notifyObservers();
     }

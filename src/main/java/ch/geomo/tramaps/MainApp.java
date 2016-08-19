@@ -1,5 +1,7 @@
 package ch.geomo.tramaps;
 
+import ch.geomo.tramaps.conflicts.Conflict;
+import ch.geomo.tramaps.conflicts.ConflictFinder;
 import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
@@ -19,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Set;
 
 public class MainApp extends Application {
 
@@ -36,7 +39,6 @@ public class MainApp extends Application {
         this.stage.setTitle("Tramaps GUI");
         this.initLayout();
         this.createTestMap();
-        this.scale();
         this.scale();
         this.draw();
     }
@@ -60,9 +62,6 @@ public class MainApp extends Application {
 
     private void drawMetroMap(GraphicsContext context) {
         this.map.getEdges().forEach(edge -> {
-            context.strokeLine(edge.getNodeA().getY(), edge.getNodeA().getX(), edge.getNodeB().getY(), edge.getNodeB().getX());
-        });
-        this.map.getEdges().forEach(edge -> {
             double width = edge.getEdgeWidth(this.edgeMargin);
             context.setLineWidth(width);
             context.setStroke(Color.rgb((int) width, (int) width, (int) width, 0.5d));
@@ -73,9 +72,23 @@ public class MainApp extends Application {
             context.setFill(Color.rgb(139, 187, 206, 0.5d));
             context.fillRect(station.getMinY(), station.getMinX(), station.getHeight(), station.getWidth());
         });
+        this.map.getEdges().forEach(edge -> {
+            context.setLineWidth(1);
+            context.setStroke(Color.BLACK);
+            context.strokeLine(edge.getNodeA().getY(), edge.getNodeA().getX(), edge.getNodeB().getY(), edge.getNodeB().getX());
+        });
         context.translate(-5, -5);
         this.map.getNodes().forEach(node -> {
+            context.setFill(Color.rgb(0, 145, 255));
             context.fillOval(node.getY(), node.getX(), 10, 10);
+        });
+
+        context.translate(5, 5);
+        Set<Conflict> conflicts = new ConflictFinder(routeMargin, edgeMargin).getConflicts(map.getEdges(), map.getNodes());
+        conflicts.forEach(conflict -> {
+            context.setFill(Color.rgb(240, 88, 88, 0.4));
+            Envelope bbox = conflict.getConflictPolygon().getEnvelopeInternal();
+            context.fillRect(bbox.getMinY(), bbox.getMinX(), bbox.getHeight(), bbox.getWidth());
         });
 
     }

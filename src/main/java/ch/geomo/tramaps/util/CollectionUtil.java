@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.util;
 
-import ch.geomo.util.tuple.Tuple;
+import ch.geomo.util.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,15 +20,15 @@ public final class CollectionUtil {
     }
 
     @NotNull
-    public static <T> Set<Tuple<T>> makePairs(@Nullable Collection<T> items, @NotNull Predicate<Tuple<T>> filterPredicate) {
+    public static <T> Set<Pair<T>> makePairs(@Nullable Collection<T> items, @NotNull Predicate<Pair<T>> filterPredicate) {
 
         if (items == null || items.isEmpty()) {
             return Collections.emptySet();
         }
 
-        return items.parallelStream()
+        return items.stream()
                 .flatMap(v1 -> items.parallelStream()
-                        .map(v2 -> Tuple.of(v1, v2)))
+                        .map(v2 -> Pair.of(v1, v2)))
                 .filter(filterPredicate)
                 .distinct()
                 .collect(Collectors.toSet());

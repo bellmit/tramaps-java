@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.util.tuple.Tuple;
+import ch.geomo.util.tuple.Pair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.NotNull;
@@ -64,8 +64,8 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     @NotNull
-    public Tuple<Node> getNodeTuple() {
-        return Tuple.of(nodeA, nodeB);
+    public Pair<Node> getNodeTuple() {
+        return Pair.of(nodeA, nodeB);
     }
 
     @NotNull

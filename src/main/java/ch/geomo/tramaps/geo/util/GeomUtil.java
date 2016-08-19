@@ -2,7 +2,6 @@ package ch.geomo.tramaps.geo.util;
 
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
-import com.vividsolutions.jts.operation.buffer.BufferBuilder;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
@@ -17,13 +16,11 @@ public final class GeomUtil {
     private GeomUtil() {
     }
 
-    public static Polygon createBuffer(Geometry geom, double distance, boolean useFlatEndCap) {
-        BufferParameters params = new BufferParameters();
-        if (useFlatEndCap) {
-            params.setEndCapStyle(BufferParameters.CAP_FLAT);
+    public static Polygon createBuffer(Geometry geom, double distance, boolean useSquareEndCap) {
+        if (useSquareEndCap) {
+            return (Polygon) geom.buffer(distance, BufferParameters.DEFAULT_QUADRANT_SEGMENTS, BufferParameters.CAP_SQUARE);
         }
-        BufferBuilder builder = new BufferBuilder(params);
-        return (Polygon) builder.buffer(geom, distance);
+        return (Polygon) geom.buffer(distance);
     }
 
     public static Point createPoint(@NotNull Coordinate coordinate) {
@@ -40,7 +37,7 @@ public final class GeomUtil {
         Collection<Geometry> merged = Stream.of(collections)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
-        return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(merged.toArray(new Geometry[] {}));
+        return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(merged.toArray(new Geometry[]{}));
     }
 
     @NotNull

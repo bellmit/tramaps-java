@@ -3,25 +3,14 @@ package ch.geomo.tramaps;
 import ch.geomo.tramaps.conflicts.Conflict;
 import ch.geomo.tramaps.conflicts.ConflictFinder;
 import ch.geomo.tramaps.geo.Axis;
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.map.MetroMap;
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
 import com.vividsolutions.jts.math.Vector2D;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.stage.Stage;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Set;
 
 public class DisplacementHandler {
@@ -31,7 +20,7 @@ public class DisplacementHandler {
         double maxMoveX = 0d;
         double maxMoveY = 0d;
 
-        for(Conflict conflict : conflicts) {
+        for (Conflict conflict : conflicts) {
             Axis axis = conflict.getBestMoveVectorAxis();
             Vector2D v = conflict.getBestMoveVectorAlongAnAxis();
             if (axis == Axis.X) {
