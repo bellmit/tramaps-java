@@ -34,6 +34,7 @@ public final class GeomUtil {
     }
 
     @NotNull
+    @SafeVarargs
     public static GeometryCollection createCollection(@NotNull Collection<Geometry>... collections) {
         Collection<Geometry> merged = Stream.of(collections)
                 .flatMap(Collection::stream)

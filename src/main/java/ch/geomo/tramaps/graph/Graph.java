@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static ch.geomo.tramaps.geo.util.GeomUtil.createCollection;
+
 public class Graph {
 
     private Set<Edge> edges;
@@ -59,7 +61,7 @@ public class Graph {
     }
 
     public Envelope getBoundingBox() {
-        GeometryCollection geometryCollection = GeomUtil.createCollection(getEdgeGeometries(), getNodeGeometries());
+        GeometryCollection geometryCollection = createCollection(getEdgeGeometries(), getNodeGeometries());
         return geometryCollection.getEnvelopeInternal();
     }
 

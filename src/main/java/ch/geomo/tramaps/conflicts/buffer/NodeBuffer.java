@@ -23,7 +23,7 @@ public class NodeBuffer implements ElementBuffer {
 
     @Override
     public void updateBuffer() {
-        this.buffer = GeomUtil.createBuffer(this.node.getSignature().getGeometry(), 5, false);
+        this.buffer = GeomUtil.createBuffer(this.node.getSignature().getGeometry(), 25, true);
     }
 
     @NotNull

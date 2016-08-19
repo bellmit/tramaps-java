@@ -2,16 +2,24 @@ package ch.geomo.tramaps;
 
 import ch.geomo.tramaps.conflicts.Conflict;
 import ch.geomo.tramaps.conflicts.ConflictFinder;
+import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
 import ch.geomo.tramaps.geo.Axis;
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.MetroMap;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
 import com.vividsolutions.jts.math.Vector2D;
 
 import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 public class DisplacementHandler {
 
@@ -21,6 +29,8 @@ public class DisplacementHandler {
         double maxMoveY = 0d;
 
         for (Conflict conflict : conflicts) {
+//            maxMoveX = Math.max(maxMoveX, conflict.getXAxisMoveVector().length());
+//            maxMoveY = Math.max(maxMoveY, conflict.getYAxisMoveVector().length());
             Axis axis = conflict.getBestMoveVectorAxis();
             Vector2D v = conflict.getBestMoveVectorAlongAnAxis();
             if (axis == Axis.X) {
@@ -34,7 +44,7 @@ public class DisplacementHandler {
         double scaleFactorAlongX = (mapWidth + maxMoveX) / mapWidth;
         double scaleFactorAlongY = (mapHeight + maxMoveY) / mapHeight;
 
-        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY)*100)/100;
+        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY)*1000)/1000;
 
     }
 
@@ -50,24 +60,33 @@ public class DisplacementHandler {
 
     }
 
-    public void makeSpaceByScaling(MetroMap map, double routeMargin, double edgeMargin) {
+    public void makeSpaceByScaling(MetroMap map, double routeMargin, double edgeMargin, Consumer<Void> consumer) {
 
         System.out.println("makeSpaceByScaling");
 
         Set<Edge> edges = map.getEdges();
         Set<Node> nodes = map.getNodes();
 
-        Set<Conflict> conflicts = new ConflictFinder(routeMargin, edgeMargin).getConflicts(edges, nodes);
+        ConflictFinder conflictFinder = new ConflictFinder(routeMargin, edgeMargin);
+        Set<Conflict> conflicts = conflictFinder.getConflicts(edges, nodes);
 
         if (!conflicts.isEmpty()) {
-            Envelope bbox = map.getBoundingBox();
+            Set<Geometry> buffers = conflicts.stream()
+                    .flatMap(conflict -> Stream.of(conflict.getBufferA(), conflict.getBufferB()))
+                    .map(ElementBuffer::getBuffer)
+                    .collect(Collectors.toSet());
+            GeometryCollection coll = GeomUtil.createCollection(buffers);
+            Envelope bbox = coll.getEnvelopeInternal();
             double scaleFactor = this.evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
+            System.out.println("scale factor: " + scaleFactor);
             this.scale(map, scaleFactor);
         }
 
+        consumer.accept(null);
+
         // repeat if space issue is not yet solved
         if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved())) {
-            this.makeSpaceByScaling(map, routeMargin, edgeMargin);
+            this.makeSpaceByScaling(map, routeMargin, edgeMargin, consumer);
         }
 
     }

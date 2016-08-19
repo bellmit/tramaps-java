@@ -19,6 +19,10 @@ public class Conflict {
     private LineString q;
     private MoveVector moveVector;
     private Vector2D bestMoveVectorAlongAnAxis;
+
+    private Vector2D xAxisMoveVector;
+    private Vector2D yAxisMoveVector;
+
     private Axis bestMoveVectorAxis;
 
     private boolean solved = false;
@@ -45,12 +49,16 @@ public class Conflict {
         // evaluate best move vector along an axis
         double angleX = this.moveVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
         double angleY = this.moveVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
-        if (angleX < angleY) {
-            this.bestMoveVectorAlongAnAxis = this.moveVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+
+        this.xAxisMoveVector = this.moveVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+        this.yAxisMoveVector = this.moveVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+
+        if (angleY < angleX) {
+            this.bestMoveVectorAlongAnAxis = this.xAxisMoveVector;
             this.bestMoveVectorAxis = Axis.X;
         }
         else {
-            this.bestMoveVectorAlongAnAxis = this.moveVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            this.bestMoveVectorAlongAnAxis = yAxisMoveVector;
             this.bestMoveVectorAxis = Axis.Y;
         }
 
@@ -75,13 +83,29 @@ public class Conflict {
         return this.bestMoveVectorAlongAnAxis;
     }
 
+    public Vector2D getXAxisMoveVector() {
+        return this.xAxisMoveVector;
+    }
+
+    public Vector2D getYAxisMoveVector() {
+        return this.yAxisMoveVector;
+    }
+
     @NotNull
     public Axis getBestMoveVectorAxis() {
-        return bestMoveVectorAxis;
+        return this.bestMoveVectorAxis;
     }
 
     public boolean isSolved() {
-        return solved;
+        return this.solved;
+    }
+
+    public ElementBuffer getBufferA() {
+        return bufferA;
+    }
+
+    public ElementBuffer getBufferB() {
+        return bufferB;
     }
 
 }
