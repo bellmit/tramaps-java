@@ -15,15 +15,14 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.FillRule;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -34,7 +33,7 @@ public class MainApp extends Application {
     private Stage stage;
     private BorderPane layout;
 
-    private double edgeMargin = 5;
+    private double edgeMargin = 25;
     private double routeMargin = 5;
 
     @Override
@@ -43,8 +42,8 @@ public class MainApp extends Application {
         this.stage.setTitle("Tramaps GUI");
         this.initLayout();
         this.createTestMap();
-        this.scale((a) -> this.draw());
-//        this.draw();
+        this.scale();
+        this.draw();
     }
 
     public void initLayout() throws IOException {
@@ -70,17 +69,17 @@ public class MainApp extends Application {
     private void drawMetroMap(GraphicsContext context) {
 
         this.map.getEdges().forEach(edge -> {
-            double width = edge.getEdgeWidth(this.edgeMargin);
+            double width = edge.getEdgeWidth(this.routeMargin);
             context.setLineWidth(width);
-            context.setStroke(Color.rgb((int) width, (int) width, (int) width, 0.5d));
+            context.setStroke(Color.rgb(139, 187, 206, 0.5d));
             context.setLineCap(StrokeLineCap.BUTT);
             context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
         });
         this.map.getNodes().forEach(node -> {
             Envelope station = node.getSignature().getGeometry().getEnvelopeInternal();
             context.setFill(Color.BLACK);
-            context.fillRoundRect(station.getMinX()-5, station.getMinY()-5, station.getWidth()+10, station.getHeight()+10, 25, 25);
-            context.setFill(Color.WHITESMOKE);
+            context.fillRoundRect(station.getMinX() - 5, station.getMinY() - 5, station.getWidth() + 10, station.getHeight() + 10, 25, 25);
+            context.setFill(Color.WHITE);
             context.fillRoundRect(station.getMinX(), station.getMinY(), station.getWidth(), station.getHeight(), 25, 25);
         });
         this.map.getEdges().forEach(edge -> {
@@ -98,8 +97,8 @@ public class MainApp extends Application {
         Set<Conflict> conflicts = new ConflictFinder(routeMargin, edgeMargin).getConflicts(map.getEdges(), map.getNodes());
         conflicts.forEach(conflict -> {
             context.setFill(Color.rgb(240, 88, 88, 0.4));
-            Envelope bbox = conflict.getConflictPolygon().getEnvelopeInternal();
-            context.fillRect(bbox.getMinX(), bbox.getMinY(), bbox.getWidth(), bbox.getHeight());
+            Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();
+            context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
         });
 
     }
@@ -136,6 +135,7 @@ public class MainApp extends Application {
         Route line4 = new Route(20, Color.YELLOW);
         Route line5 = new Route(20, Color.ORANGE);
         Route line6 = new Route(20, Color.MAGENTA);
+        Route line7 = new Route(20, Color.BLACK);
 
         ab.setRoutes(Arrays.asList(line1, line2, line3, line4, line5));
         bc.setRoutes(Arrays.asList(line1, line2, line4, line5));
@@ -144,22 +144,22 @@ public class MainApp extends Application {
         ef.setRoutes(Arrays.asList(line1, line2, line4, line5, line6));
         fg.setRoutes(Arrays.asList(line1, line6));
         gh.setRoutes(Arrays.asList(line1, line6));
-        ha.setRoutes(Arrays.asList(line1, line2, line3, line6));
+        ha.setRoutes(Arrays.asList(line1, line2, line3, line6, line7));
         hi.setRoutes(Arrays.asList(line1, line3, line6));
-        ib.setRoutes(Arrays.asList(line6));
-        ia.setRoutes(Arrays.asList(line1));
+        ib.setRoutes(Collections.singletonList(line6));
+        ia.setRoutes(Arrays.asList(line1, line4, line5));
 
         this.map.getNodes().addAll(Arrays.asList(a, b, c, d, e, f, g, h, i));
         this.map.getEdges().addAll(Arrays.asList(ab, bc, cd, de, ef, fg, gh, ha, hi, ib, ia));
 
     }
 
-    public void scale(Consumer<Void> consumer) {
+    public void scale() {
 
         DisplacementHandler handler = new DisplacementHandler();
         System.out.println("Before Scaling:");
         System.out.println(map);
-        handler.makeSpaceByScaling(map, this.routeMargin, this.edgeMargin, consumer);
+        handler.makeSpaceByScaling(map, this.routeMargin, this.edgeMargin);
         System.out.println("Scaled Map:");
         System.out.println(map);
         System.out.println("Finish");

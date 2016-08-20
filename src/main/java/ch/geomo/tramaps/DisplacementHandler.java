@@ -60,7 +60,7 @@ public class DisplacementHandler {
 
     }
 
-    public void makeSpaceByScaling(MetroMap map, double routeMargin, double edgeMargin, Consumer<Void> consumer) {
+    public void makeSpaceByScaling(MetroMap map, double routeMargin, double edgeMargin) {
 
         System.out.println("makeSpaceByScaling");
 
@@ -82,11 +82,9 @@ public class DisplacementHandler {
             this.scale(map, scaleFactor);
         }
 
-        consumer.accept(null);
-
         // repeat if space issue is not yet solved
         if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved())) {
-            this.makeSpaceByScaling(map, routeMargin, edgeMargin, consumer);
+            this.makeSpaceByScaling(map, routeMargin, edgeMargin);
         }
 
     }
