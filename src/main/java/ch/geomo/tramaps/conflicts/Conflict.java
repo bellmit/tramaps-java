@@ -1,10 +1,9 @@
 package ch.geomo.tramaps.conflicts;
 
 import ch.geomo.tramaps.conflicts.buffer.EdgeBuffer;
-import ch.geomo.tramaps.conflicts.buffer.NodeBuffer;
-import ch.geomo.tramaps.geo.MoveVector;
 import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
 import ch.geomo.tramaps.geo.Axis;
+import ch.geomo.tramaps.geo.MoveVector;
 import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.geo.util.PolygonUtil;
 import ch.geomo.tramaps.graph.Edge;
@@ -16,11 +15,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.conflicts.ConflictType.EDGE_EDGE;
-import static ch.geomo.tramaps.conflicts.ConflictType.NODE_EDGE;
-import static ch.geomo.tramaps.conflicts.ConflictType.NODE_NODE;
+import static ch.geomo.tramaps.conflicts.ConflictType.*;
 
-public class Conflict {
+public class Conflict implements Comparable<Conflict> {
 
     private final ElementBuffer bufferA;
     private final ElementBuffer bufferB;
@@ -96,7 +93,7 @@ public class Conflict {
     }
 
     public double getBestMoveLengthAlongAnAxis() {
-        return Math.ceil(getBestMoveVectorAlongAnAxis().length()*100000)/100000;
+        return Math.ceil(getBestMoveVectorAlongAnAxis().length() * 100000) / 100000;
     }
 
     @NotNull
@@ -104,10 +101,12 @@ public class Conflict {
         return bestMoveVectorAlongAnAxis;
     }
 
+    @NotNull
     public Vector2D getXAxisMoveVector() {
         return xAxisMoveVector;
     }
 
+    @NotNull
     public Vector2D getYAxisMoveVector() {
         return yAxisMoveVector;
     }
@@ -121,14 +120,17 @@ public class Conflict {
         return solved;
     }
 
+    @NotNull
     public ElementBuffer getBufferA() {
         return bufferA;
     }
 
+    @NotNull
     public ElementBuffer getBufferB() {
         return bufferB;
     }
 
+    @NotNull
     public ConflictType getConflictType() {
         return conflictType;
     }
@@ -138,14 +140,41 @@ public class Conflict {
     public Stream<Edge> getEdges() {
         return Stream.of(getBufferA(), getBufferB())
                 .filter(buf -> buf.getElement() instanceof EdgeBuffer)
-                .map(buf -> (Edge) ((EdgeBuffer)buf.getElement()).getElement());
+                .map(buf -> (Edge) buf.getElement());
     }
 
     @NotNull
     public Stream<Node> getNodes() {
         return Stream.of(getBufferA(), getBufferB())
-                .filter(buf -> buf.getElement() instanceof NodeBuffer)
-                .map(buf -> (Node)((NodeBuffer)buf.getElement()).getElement());
+                .filter(buf -> buf.getElement() instanceof Node)
+                .map(buf -> (Node) buf.getElement());
+    }
+
+    @Override
+    public int compareTo(@NotNull Conflict o) {
+        if (this.getMoveVector().equals(o.getMoveVector())) {
+            // same move vector
+            // TODO distinct conflicts in order to reproduce same sequence
+        }
+        double l1 = o.getBestMoveVectorAlongAnAxis().length();
+        double l2 = this.getBestMoveVectorAlongAnAxis().length();
+        if (l1 == l2) {
+            l1 = l1 + o.getMoveVector().length();
+            l2 = l2 + this.getMoveVector().length();
+        }
+        if (l1 == l2) {
+            // same distance
+            double x1 = o.getMoveVector().getX();
+            double x2 = this.getMoveVector().getX();
+            if (x1 == x2) {
+                double y1 = o.getMoveVector().getY();
+                double y2 = this.getMoveVector().getY();
+                return Double.compare(y1, y2);
+            }
+            // same distance but different directions
+            return Double.compare(x1, x2);
+        }
+        return Double.compare(l2, l1);
     }
 
 }

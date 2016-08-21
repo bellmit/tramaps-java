@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Stage;
 
@@ -76,7 +77,7 @@ public class MainApp extends Application {
         // start drawing at the top left
         context.translate(-bbox.getMinX() + 50, -bbox.getMinY() + 50);
 
-        int max = (int) Math.ceil(Math.max(bbox.getMaxX(), bbox.getMaxY()))+1000;
+        int max = (int) Math.ceil(Math.max(bbox.getMaxX(), bbox.getMaxY())) + 1000;
         for (int i = -max, j = 0; i < max; i = i + 25, j = j + 25) {
             context.setStroke(j % 100 == 0 ? Color.GRAY : Color.LIGHTGRAY);
             context.strokeLine(i, 0, i, max * 2);
@@ -88,7 +89,16 @@ public class MainApp extends Application {
             context.setLineWidth(width);
             context.setStroke(Color.rgb(139, 187, 206, 0.5d));
             context.setLineCap(StrokeLineCap.BUTT);
-            context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
+            if (edge.getVertices().isEmpty()) {
+                context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
+            }
+            else {
+                context.beginPath();
+                context.moveTo(edge.getNodeA().getX(), edge.getNodeA().getY());
+                context.lineTo(edge.getVertices().get(0).getX(), edge.getVertices().get(0).getY());
+                context.lineTo(edge.getNodeB().getX(), edge.getNodeB().getY());
+                context.stroke();
+            }
         });
         this.map.getNodes().forEach(node -> {
             Envelope station = node.getSignature().getGeometry().getEnvelopeInternal();
@@ -100,7 +110,16 @@ public class MainApp extends Application {
         this.map.getEdges().forEach(edge -> {
             context.setLineWidth(1);
             context.setStroke(Color.BLACK);
-            context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
+            if (edge.getVertices().isEmpty()) {
+                context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
+            }
+            else {
+                context.beginPath();
+                context.moveTo(edge.getNodeA().getX(), edge.getNodeA().getY());
+                context.lineTo(edge.getVertices().get(0).getX(), edge.getVertices().get(0).getY());
+                context.lineTo(edge.getNodeB().getX(), edge.getNodeB().getY());
+                context.stroke();
+            }
         });
         context.translate(-5, -5);
         this.map.getNodes().forEach(node -> {

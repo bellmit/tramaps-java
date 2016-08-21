@@ -28,33 +28,13 @@ public class MetroMap extends Graph {
      */
     @NotNull
     public Stream<Conflict> evaluateConflicts(double routeMargin, double edgeMargin, boolean biggestConflictFirst) {
-        return new ConflictFinder(routeMargin, edgeMargin).getConflicts(getEdges(), getNodes()).stream()
+        return new ConflictFinder(routeMargin, edgeMargin)
+                .getConflicts(getEdges(), getNodes()).stream()
                 .sorted((c1, c2) -> {
-                    double l1 = c1.getBestMoveVectorAlongAnAxis().length();
-                    double l2 = c2.getBestMoveVectorAlongAnAxis().length();
-                    if (l1 == l2) {
-                        l1 = l1 + c1.getMoveVector().length();
-                        l2 = l2 + c2.getMoveVector().length();
-                    }
-                    if (l1 == l2) {
-                        // same distance but different directions
-                        double x1 = c1.getMoveVector().getX();
-                        double x2 = c2.getMoveVector().getX();
-                        if (x1 == x2) {
-                            return Double.compare(c1.getMoveVector().getY(), c2.getMoveVector().getY());
-                        }
-                        return Double.compare(x1, x2);
-                    }
-                    if (!biggestConflictFirst) {
-                        return Double.compare(l1, l2);
-                    }
-                    return Double.compare(l2, l1);
+                    Conflict conflict1 = biggestConflictFirst ? c2 : c1;
+                    Conflict conflict2 = biggestConflictFirst ? c1 : c2;
+                    return conflict1.compareTo(conflict2);
                 });
-    }
-
-    @NotNull
-    public List<Conflict> evaluateConflicts(double routeMargin, double edgeMargin) {
-        return new ConflictFinder(routeMargin, edgeMargin).getConflictList(getEdges(), getNodes());
     }
 
     @NotNull

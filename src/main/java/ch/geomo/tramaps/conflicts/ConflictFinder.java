@@ -45,11 +45,11 @@ public class ConflictFinder {
     @NotNull
     public Set<Conflict> getConflicts(@NotNull Set<Edge> edges, @NotNull Set<Node> nodes) {
 
-        Set<ElementBuffer> edgeBuffers = edges.parallelStream()
+        Set<ElementBuffer> edgeBuffers = edges.stream()
                 .map(edge -> new EdgeBuffer(edge, this.routeMargin, this.edgeMargin))
                 .collect(Collectors.toSet());
 
-        Set<ElementBuffer> nodeBuffers = nodes.parallelStream()
+        Set<ElementBuffer> nodeBuffers = nodes.stream()
                 .map(node -> new NodeBuffer(node, this.edgeMargin))
                 .collect(Collectors.toSet());
 

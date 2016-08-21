@@ -4,6 +4,8 @@ import ch.geomo.tramaps.conflicts.Conflict;
 import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
 import ch.geomo.tramaps.geo.Axis;
 import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.graph.Edge;
+import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.MetroMap;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -11,6 +13,7 @@ import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
 import com.vividsolutions.jts.math.Vector2D;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -90,6 +93,7 @@ public class DisplacementHandler {
 
     public void makeSpaceByDisplacement(MetroMap map, double routeMargin, double edgeMargin) {
         this.makeSpaceByDisplacement(map, routeMargin, edgeMargin, 0);
+        this.correctMap(map);
     }
 
     public void makeSpaceByDisplacement(MetroMap map, double routeMargin, double edgeMargin, int count) {
@@ -97,7 +101,7 @@ public class DisplacementHandler {
         count++;
 
         List<Conflict> conflicts = map.evaluateConflicts(routeMargin, edgeMargin, true)
-                .peek(conflict -> System.out.println(conflict.getBestMoveVectorAlongAnAxis().length() + " / " + conflict.getMoveVector().length() + " / " + Arrays.asList(conflict.getBufferA().getElement(), conflict.getBufferB().getElement())))
+                .peek(conflict -> System.out.println(conflict.getBestMoveLengthAlongAnAxis() + ", " + conflict.getConflictType()))
                 .collect(Collectors.toList());
 
         System.out.println("Iteration: " + count);
@@ -128,8 +132,6 @@ public class DisplacementHandler {
                         .forEach(node -> node.setY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
             }
 
-            this.correctMap(map);
-
             if (count < 100) {
                 makeSpaceByDisplacement(map, routeMargin, edgeMargin, count);
             }
@@ -139,7 +141,9 @@ public class DisplacementHandler {
     }
 
     private void correctMap(MetroMap map) {
-        System.out.println("Non-Octilinear Edges:" + map.evaluateNonOctilinearEdges().count());
+        Set<Edge> edges = map.evaluateNonOctilinearEdges().collect(Collectors.toSet());
+        System.out.println("Non-Octilinear Edges: " + edges.size());
+        edges.forEach(Edge::repairEdge);
     }
 
 }

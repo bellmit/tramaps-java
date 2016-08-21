@@ -4,6 +4,7 @@ import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.util.tuple.Pair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +20,8 @@ public class Edge extends Observable implements Observer, GraphElement {
     private Set<Route> routes;
     private int angleToXAxis;
 
+    private List<Point> vertices;
+
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
         this.nodeA.addAdjacentEdge(this);
@@ -27,6 +30,7 @@ public class Edge extends Observable implements Observer, GraphElement {
         this.nodeB.addAdjacentEdge(this);
         this.nodeB.addObserver(this);
         this.routes = new HashSet<>();
+        this.vertices = new ArrayList<>();
         this.updateLineString();
     }
 
@@ -47,9 +51,14 @@ public class Edge extends Observable implements Observer, GraphElement {
         return nodeB;
     }
 
+    public List<Point> getVertices() {
+        return vertices;
+    }
+
     private void updateLineString() {
         this.lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
-        this.angleToXAxis = (int)Math.ceil(GeomUtil.getAngleToXAxisAsDegree(this.lineString));
+        // this.lineString = GeomUtil.createLineString(this.getNodeA().getPoint(), this.vertices, this.getNodeB().getPoint());
+        this.angleToXAxis = (int) Math.ceil(GeomUtil.getAngleToXAxisAsDegree(GeomUtil.createLineString(this.getNodeA(), this.getNodeB())));
         this.setChanged();
         this.notifyObservers();
     }
@@ -119,6 +128,25 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public boolean isNonOctilinear() {
         return !this.isOctilinear();
+    }
+
+    public void repairEdge() {
+        if (isNonOctilinear()) {
+            vertices.clear();
+            Node nodeA = this.getNodeA();
+            Node nodeB = this.getNodeB();
+            double dx = Math.abs(nodeA.getX() - nodeB.getX());
+            double dy = Math.abs(nodeA.getY() - nodeB.getY());
+            if (dx < dy) {
+                Point vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY()+dx));
+                vertices.add(vertex);
+            }
+            else {
+                Point vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX()+dy), nodeA.getY());
+                vertices.add(vertex);
+            }
+            updateLineString();
+        }
     }
 
 }
