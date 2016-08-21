@@ -15,7 +15,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Stage;
@@ -24,14 +23,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
-import java.util.function.Consumer;
 
-public class MainApp extends Application {
+public class MainScaleApp extends Application {
 
     private MetroMap map;
-
     private Stage stage;
-    private BorderPane layout;
 
     private double edgeMargin = 25;
     private double routeMargin = 5;
@@ -48,25 +44,34 @@ public class MainApp extends Application {
 
     public void initLayout() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainApp.class.getClassLoader().getResource("tramaps.fxml"));
-        this.layout = loader.load();
+        loader.setLocation(MainScaleApp.class.getClassLoader().getResource("tramaps.fxml"));
     }
 
     public void draw() {
         Group group = new Group();
         Envelope bbox = this.map.getBoundingBox();
-        Canvas canvas = new Canvas(bbox.getWidth()*3, bbox.getHeight()*3);
+
+        Canvas canvas = new Canvas(bbox.getWidth()+100, bbox.getHeight()+100);
         GraphicsContext context = canvas.getGraphicsContext2D();
-        this.drawMetroMap(context);
-        canvas.setTranslateX(bbox.getMinX());
-        canvas.setTranslateY(-bbox.getMinY()*2);
-        canvas.setRotate(270);
+
+        this.drawMetroMap(context, bbox);
+
+        // hack -> to be removed
+        group.setRotate(270);
+        canvas.setTranslateX(bbox.getMinY()/2);
+        canvas.setTranslateY(-bbox.getMinX()/2);
+
         group.getChildren().add(canvas);
+
         this.stage.setScene(new Scene(group));
         this.stage.show();
+
     }
 
-    private void drawMetroMap(GraphicsContext context) {
+    private void drawMetroMap(GraphicsContext context, Envelope bbox) {
+
+        // start drawing at the top left
+        context.translate(-bbox.getMinX()+50, -bbox.getMinY()+50);
 
         this.map.getEdges().forEach(edge -> {
             double width = edge.getEdgeWidth(this.routeMargin);
@@ -167,7 +172,7 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        MainApp.launch(args);
+        MainScaleApp.launch(args);
     }
 
 }

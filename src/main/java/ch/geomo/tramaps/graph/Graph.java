@@ -1,6 +1,6 @@
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.map.StationSignature;
 import ch.geomo.util.tuple.Pair;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -34,9 +34,10 @@ public class Graph {
     }
 
     @NotNull
-    private Set<Geometry> getNodeGeometries() {
-        return edges.stream()
-                .map(Edge::getLineString)
+    private Set<Geometry> getSignatureGeometries() {
+        return nodes.stream()
+                .map(Node::getSignature)
+                .map(StationSignature::getGeometry)
                 .collect(Collectors.toSet());
     }
 
@@ -61,7 +62,7 @@ public class Graph {
     }
 
     public Envelope getBoundingBox() {
-        GeometryCollection geometryCollection = createCollection(getEdgeGeometries(), getNodeGeometries());
+        GeometryCollection geometryCollection = createCollection(getEdgeGeometries(), getSignatureGeometries());
         return geometryCollection.getEnvelopeInternal();
     }
 
