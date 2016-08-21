@@ -24,6 +24,7 @@ public class MoveVector extends Vector2D {
         this.lineString = lineString;
     }
 
+    @NotNull
     @SuppressWarnings("unused")
     public LineString getLineString() {
         return lineString;

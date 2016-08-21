@@ -2,7 +2,9 @@ package ch.geomo.tramaps.graph;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface GraphElement {
 
@@ -16,9 +18,11 @@ public interface GraphElement {
         return false;
     }
 
-    boolean isAdjacent(Edge edge);
+    @Contract("null->false")
+    boolean isAdjacent(@Nullable Edge edge);
 
-    boolean isAdjacent(Node node);
+    @Contract("null->false")
+    boolean isAdjacent(@Nullable Node node);
 
     @NotNull
     Geometry getGeometry();

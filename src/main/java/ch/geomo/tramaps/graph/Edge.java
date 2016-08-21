@@ -4,7 +4,9 @@ import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.util.tuple.Pair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -15,6 +17,7 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     private LineString lineString;
     private Set<Route> routes;
+    private int angleToXAxis;
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
@@ -46,6 +49,7 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     private void updateLineString() {
         this.lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
+        this.angleToXAxis = (int)Math.ceil(GeomUtil.getAngleToXAxisAsDegree(this.lineString));
         this.setChanged();
         this.notifyObservers();
     }
@@ -74,15 +78,21 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     @Override
-    public boolean isAdjacent(Edge edge) {
+    @Contract("null->false")
+    public boolean isAdjacent(@Nullable Edge edge) {
+        if (edge == null) {
+            return false;
+        }
         return getNodeA().getAdjacentEdges().contains(edge) || getNodeB().getAdjacentEdges().contains(edge);
     }
 
     @Override
-    public boolean isAdjacent(Node node) {
+    @Contract("null->false")
+    public boolean isAdjacent(@Nullable Node node) {
         return getNodeA().equals(node) || getNodeB().equals(node);
     }
 
+    @NotNull
     public LineString getLineString() {
         return this.lineString;
     }
@@ -102,4 +112,13 @@ public class Edge extends Observable implements Observer, GraphElement {
     public String toString() {
         return lineString.toString();
     }
+
+    public boolean isOctilinear() {
+        return angleToXAxis % 45 == 0;
+    }
+
+    public boolean isNonOctilinear() {
+        return !this.isOctilinear();
+    }
+
 }

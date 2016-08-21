@@ -3,7 +3,7 @@ package ch.geomo.tramaps;
 import ch.geomo.tramaps.conflicts.Conflict;
 import ch.geomo.tramaps.conflicts.ConflictFinder;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.test.SimpleExampleMetroMap;
+import ch.geomo.tramaps.test.ExampleMetroMap;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Set;
 
-public class MainScaleApp extends Application {
+public class MainApp extends Application {
 
     private MetroMap map;
     private Stage stage;
@@ -31,14 +31,15 @@ public class MainScaleApp extends Application {
         this.stage = primaryStage;
         this.stage.setTitle("Tramaps GUI");
         this.initLayout();
-        this.map = new SimpleExampleMetroMap();
-        this.scale();
+        this.map = new ExampleMetroMap();
+//        this.scale();
+        this.displace();
         this.draw();
     }
 
     public void initLayout() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(MainScaleApp.class.getClassLoader().getResource("tramaps.fxml"));
+        loader.setLocation(MainApp.class.getClassLoader().getResource("tramaps.fxml"));
     }
 
     public void draw() {
@@ -50,14 +51,22 @@ public class MainScaleApp extends Application {
 
         this.drawMetroMap(context, bbox);
 
+        double scale = 600 / bbox.getHeight();
+        canvas.setScaleX(scale);
+        canvas.setScaleY(scale);
+
         // hack -> to be removed
         group.setRotate(270);
-        canvas.setTranslateX(bbox.getMinY() / 2);
-        canvas.setTranslateY(-bbox.getMinX() / 2);
+
+        canvas.setTranslateX(50);
+        canvas.setTranslateY(-bbox.getMinX() + 50);
 
         group.getChildren().add(canvas);
 
+        group.setAutoSizeChildren(true);
         this.stage.setScene(new Scene(group));
+//        this.stage.setHeight(600);
+//        this.stage.setWidth(600/bbox.getWidth()*bbox.getHeight());
         this.stage.show();
 
     }
@@ -66,6 +75,13 @@ public class MainScaleApp extends Application {
 
         // start drawing at the top left
         context.translate(-bbox.getMinX() + 50, -bbox.getMinY() + 50);
+
+        int max = (int) Math.ceil(Math.max(bbox.getMaxX(), bbox.getMaxY()))+1000;
+        for (int i = -max, j = 0; i < max; i = i + 25, j = j + 25) {
+            context.setStroke(j % 100 == 0 ? Color.GRAY : Color.LIGHTGRAY);
+            context.strokeLine(i, 0, i, max * 2);
+            context.strokeLine(0, i, max * 2, i);
+        }
 
         this.map.getEdges().forEach(edge -> {
             double width = edge.getEdgeWidth(this.routeMargin);
@@ -113,7 +129,13 @@ public class MainScaleApp extends Application {
     }
 
     public void scaleSubGraphs() {
-        // TODO
+        DisplacementHandler handler = new DisplacementHandler();
+        System.out.println("Before Sub Graph Scaling:");
+        System.out.println(map);
+        handler.makeSpaceByScalingSubGraphs(map, this.routeMargin, this.edgeMargin);
+        System.out.println("Scaled Map:");
+        System.out.println(map);
+        System.out.println("Finish");
     }
 
     public void displace() {
@@ -127,7 +149,7 @@ public class MainScaleApp extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        MainScaleApp.launch(args);
+        MainApp.launch(args);
     }
 
 }

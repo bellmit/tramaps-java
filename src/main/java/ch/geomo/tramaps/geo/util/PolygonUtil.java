@@ -6,7 +6,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.lang.Float.NEGATIVE_INFINITY;
+import static java.lang.Float.NaN;
+import static java.lang.Float.POSITIVE_INFINITY;
 
 public final class PolygonUtil {
 
@@ -31,16 +37,18 @@ public final class PolygonUtil {
         LineString scaledLineString = GeomUtil.createLineString(parallelTo.getStartPoint(), GeomUtil.createPoint(scaleTransformation.transform(parallelTo.getEndPoint())));
 
         return Arrays.stream(inPolygon.getCoordinates())
+                .sequential()
                 // create a parallel line for each vertex
                 .map(vertex -> {
                     AffineTransformation translateTransformation = new AffineTransformation();
                     translateTransformation.translate(vertex.x - scaledLineString.getCentroid().getX(), vertex.y - scaledLineString.getCentroid().getY());
                     return translateTransformation.transform(scaledLineString);
                 })
+                .filter(Geometry::isValid)
                 // get line string within polygon
+                .filter(inPolygon::intersects)
                 .map(inPolygon::intersection)
                 .filter(geom -> geom instanceof LineString && !geom.isEmpty())
-                // .peek(System.out::println)
                 .map(geom -> (LineString) geom);
 
     }
@@ -51,7 +59,10 @@ public final class PolygonUtil {
      */
     @NotNull
     public static Optional<LineString> findLongestParallelLineString(@NotNull Polygon inPolygon, @NotNull LineString parallelTo) {
-        return PolygonUtil.findParallelLineString(inPolygon, parallelTo)
+        Set<LineString> lines = PolygonUtil.findParallelLineString(inPolygon, parallelTo)
+                .collect(Collectors.toSet());
+
+        return lines.stream()
                 .max((l1, l2) -> Double.compare(l1.getLength(), l2.getLength()));
     }
 

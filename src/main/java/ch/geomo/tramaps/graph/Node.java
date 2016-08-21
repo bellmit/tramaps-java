@@ -6,7 +6,9 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,7 +22,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private final StationSignature signature;
     private final Set<Edge> adjacentEdges;
 
-    public Node(Point point) {
+    public Node(@NotNull Point point) {
         this.point = point;
         this.adjacentEdges = new HashSet<>();
         this.signature = new StationSignature(this);
@@ -31,7 +33,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return this.adjacentEdges;
     }
 
-    public void addAdjacentEdge(Edge edge) {
+    public void addAdjacentEdge(@NotNull Edge edge) {
         if (this.equals(edge.getNodeA()) || this.equals(edge.getNodeB())) {
             this.adjacentEdges.add(edge);
         }
@@ -49,16 +51,22 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     @Override
-    public boolean isAdjacent(Edge edge) {
+    @Contract("null->false")
+    public boolean isAdjacent(@Nullable Edge edge) {
+        if (edge == null) {
+            return false;
+        }
         return this.getAdjacentEdges().contains(edge);
     }
 
     @Override
-    public boolean isAdjacent(Node node) {
+    @Contract("null->false")
+    public boolean isAdjacent(@Nullable Node node) {
         return this.getAdjacentEdges().stream()
                 .anyMatch(edge -> edge.isAdjacent(node));
     }
 
+    @NotNull
     public StationSignature getSignature() {
         return signature;
     }
@@ -105,4 +113,5 @@ public class Node extends Observable implements GraphElement, NodePoint {
     public String toString() {
         return point.toString();
     }
+
 }

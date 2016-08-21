@@ -11,9 +11,9 @@ import javafx.scene.paint.Color;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class SimpleExampleMetroMap extends MetroMap {
+public class ExampleMetroMap extends MetroMap {
 
-    public SimpleExampleMetroMap() {
+    public ExampleMetroMap() {
 
         Node a = new Node(GeomUtil.createPoint(new Coordinate(150, 200)));
         Node b = new Node(GeomUtil.createPoint(new Coordinate(150, 100)));
@@ -24,6 +24,9 @@ public class SimpleExampleMetroMap extends MetroMap {
         Node g = new Node(GeomUtil.createPoint(new Coordinate(100, 300)));
         Node h = new Node(GeomUtil.createPoint(new Coordinate(100, 200)));
         Node i = new Node(GeomUtil.createPoint(new Coordinate(100, 150)));
+
+        Node j = new Node(GeomUtil.createPoint(new Coordinate(150, 250)));
+        Node k = new Node(GeomUtil.createPoint(new Coordinate(160, 250)));
 
         Edge ab = new Edge(a, b);
         Edge bc = new Edge(b, c);
@@ -36,6 +39,8 @@ public class SimpleExampleMetroMap extends MetroMap {
         Edge hi = new Edge(h, i);
         Edge ib = new Edge(i, b);
         Edge ia = new Edge(i, a);
+        Edge aj = new Edge(a, j);
+        Edge jk = new Edge(j, k);
 
         Route line1 = new Route(20, Color.BLUE);
         Route line2 = new Route(20, Color.RED);
@@ -56,9 +61,11 @@ public class SimpleExampleMetroMap extends MetroMap {
         hi.setRoutes(Arrays.asList(line1, line3, line6));
         ib.setRoutes(Collections.singletonList(line6));
         ia.setRoutes(Arrays.asList(line1, line4, line5));
+        aj.setRoutes(Collections.singletonList(line5));
+        jk.setRoutes(Collections.singletonList(line5));
 
-        this.getNodes().addAll(Arrays.asList(a, b, c, d, e, f, g, h, i));
-        this.getEdges().addAll(Arrays.asList(ab, bc, cd, de, ef, fg, gh, ha, hi, ib, ia));
+        this.getNodes().addAll(Arrays.asList(a, b, c, d, e, f, g, h, i, j, k));
+        this.getEdges().addAll(Arrays.asList(ab, bc, cd, de, ef, fg, gh, ha, hi, ib, ia, aj, jk));
 
     }
 

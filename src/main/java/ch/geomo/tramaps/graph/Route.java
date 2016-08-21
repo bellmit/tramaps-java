@@ -13,6 +13,7 @@ public class Route {
         this.lineColor = lineColor;
     }
 
+    @NotNull
     public Color getLineColor() {
         return lineColor;
     }

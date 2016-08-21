@@ -24,6 +24,12 @@ public final class GeomUtil {
         return (Polygon) geom.buffer(distance);
     }
 
+    @NotNull
+    public static Point createPoint(double x, double y) {
+        return JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(x, y));
+    }
+
+    @NotNull
     public static Point createPoint(@NotNull Coordinate coordinate) {
         return JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
     }
@@ -31,6 +37,11 @@ public final class GeomUtil {
     @NotNull
     public static Point createPoint(@NotNull Geometry geometry) {
         return JTSFactoryFinder.getGeometryFactory().createPoint(geometry.getCoordinate());
+    }
+
+    @NotNull
+    public static GeometryCollection createCollection(@NotNull Stream<Geometry> stream) {
+        return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(stream.toArray(Geometry[]::new));
     }
 
     @NotNull
@@ -71,8 +82,7 @@ public final class GeomUtil {
         return Math.toDegrees(angle);
     }
 
-    public static double getAngleToXAxis(@NotNull LineString lineString) {
-        // TODO
-        return 0;
+    public static double getAngleToXAxisAsDegree(@NotNull LineString lineString) {
+        return getAngleBetweenAsDegree(NodePoint.of(lineString.getStartPoint()), NodePoint.of(lineString.getEndPoint()), NodePoint.of(lineString.getStartPoint().getX(), 5d));
     }
 }

@@ -61,6 +61,7 @@ public class Graph {
         return null;
     }
 
+    @NotNull
     public Envelope getBoundingBox() {
         GeometryCollection geometryCollection = createCollection(getEdgeGeometries(), getSignatureGeometries());
         return geometryCollection.getEnvelopeInternal();

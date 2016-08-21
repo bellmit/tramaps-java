@@ -9,7 +9,9 @@ import ch.geomo.tramaps.util.CollectionUtil;
 import ch.geomo.util.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -34,6 +36,10 @@ public class ConflictFinder {
     public ConflictFinder(double routeMargin, double edgeMargin) {
         this.routeMargin = routeMargin;
         this.edgeMargin = edgeMargin;
+    }
+
+    public List<Conflict> getConflictList(@NotNull Set<Edge> edges, @NotNull Set<Node> nodes) {
+        return new ArrayList<>(getConflicts(edges, nodes));
     }
 
     @NotNull
