@@ -15,11 +15,8 @@ import com.vividsolutions.jts.geom.util.AffineTransformation;
 import com.vividsolutions.jts.math.Vector2D;
 
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toSet;
 
 public class DisplacementHandler {
 
@@ -44,7 +41,7 @@ public class DisplacementHandler {
         double scaleFactorAlongX = (mapWidth + maxMoveX) / mapWidth;
         double scaleFactorAlongY = (mapHeight + maxMoveY) / mapHeight;
 
-        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY)*1000)/1000;
+        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY) * 1000) / 1000;
 
     }
 
