@@ -7,10 +7,7 @@ import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.MetroMap;
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
@@ -93,15 +90,15 @@ public class DisplacementHandler {
 
     public void makeSpaceByDisplacement(MetroMap map, double routeMargin, double edgeMargin) {
         this.makeSpaceByDisplacement(map, routeMargin, edgeMargin, 0);
-        this.correctMap(map);
+        // this.correctMap(map);
     }
 
     public void makeSpaceByDisplacement(MetroMap map, double routeMargin, double edgeMargin, int count) {
 
         count++;
 
-        List<Conflict> conflicts = map.evaluateConflicts(routeMargin, edgeMargin, true)
-                .peek(conflict -> System.out.println(conflict.getBestMoveLengthAlongAnAxis() + ", " + conflict.getConflictType()))
+        List<Conflict> conflicts = map.evaluateConflicts(routeMargin, edgeMargin, false)
+                // .peek(conflict -> System.out.println(conflict.getBestMoveLengthAlongAnAxis() + ", " + conflict.getConflictType()))
                 .collect(Collectors.toList());
 
         System.out.println("Iteration: " + count);
@@ -116,21 +113,15 @@ public class DisplacementHandler {
             if (conflict.getBestMoveVectorAxis() == Axis.X) {
                 map.getNodes().stream()
                         .filter(node -> node.getPoint().getX() > centroid.getX())
-//                        .filter(node -> node.getAdjacentEdges().size() > 1 || node.getAdjacentEdges().stream()
-//                                .findFirst()
-//                                .map(edge -> edge.getOtherNode(node).getX() > centroid.getX())
-//                                .orElse(true))
                         .forEach(node -> node.setX(node.getX() + conflict.getBestMoveLengthAlongAnAxis()));
             }
             else {
                 map.getNodes().stream()
                         .filter(node -> node.getPoint().getY() > centroid.getY())
-//                        .filter(node -> node.getAdjacentEdges().size() > 1 || node.getAdjacentEdges().stream()
-//                                .findFirst()
-//                                .map(edge -> edge.getOtherNode(node).getY() > centroid.getY())
-//                                .orElse(true))
                         .forEach(node -> node.setY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
             }
+
+            correctMap(map, conflict);
 
             if (count < 100) {
                 makeSpaceByDisplacement(map, routeMargin, edgeMargin, count);
@@ -140,10 +131,13 @@ public class DisplacementHandler {
 
     }
 
-    private void correctMap(MetroMap map) {
+    private void correctMap(MetroMap map, Conflict conflict) {
         Set<Edge> edges = map.evaluateNonOctilinearEdges().collect(Collectors.toSet());
         System.out.println("Non-Octilinear Edges: " + edges.size());
-        edges.forEach(Edge::repairEdge);
+        LineString g = conflict.getG();
+        edges.forEach(edge -> {
+            edge.repairEdge(conflict.getBestMoveLengthAlongAnAxis());
+        });
     }
 
 }

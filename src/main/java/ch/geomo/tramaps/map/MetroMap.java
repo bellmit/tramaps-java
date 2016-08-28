@@ -33,6 +33,9 @@ public class MetroMap extends Graph {
                 .sorted((c1, c2) -> {
                     Conflict conflict1 = biggestConflictFirst ? c2 : c1;
                     Conflict conflict2 = biggestConflictFirst ? c1 : c2;
+//                    if (conflict1.getConflictType() != conflict2.getConflictType()) {
+//                        return conflict1.getConflictType().compareTo(conflict2.getConflictType());
+//                    }
                     return conflict1.compareTo(conflict2);
                 });
     }

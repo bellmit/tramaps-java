@@ -128,9 +128,15 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public boolean isNonOctilinear() {
         return !this.isOctilinear();
+//        boolean result = !this.isOctilinear();
+//        if (result) {
+//            System.out.println(angleToXAxis%45);
+//        }
+//        return result;
     }
 
-    public void repairEdge() {
+    public void repairEdge(double correctionDistance) {
+        // TODO find an algorithm to evaluate a vertex in a way that this edge has a octilinear direction
         if (isNonOctilinear()) {
             vertices.clear();
             Node nodeA = this.getNodeA();
@@ -138,12 +144,24 @@ public class Edge extends Observable implements Observer, GraphElement {
             double dx = Math.abs(nodeA.getX() - nodeB.getX());
             double dy = Math.abs(nodeA.getY() - nodeB.getY());
             if (dx < dy) {
-                Point vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY()+dx));
-                vertices.add(vertex);
+                Point vertex;
+                if (nodeA.getY() < nodeB.getY()) {
+                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() - dx));
+                }
+                else {
+                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() + dx));
+                }
+                //vertices.add(vertex);
             }
             else {
-                Point vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX()+dy), nodeA.getY());
-                vertices.add(vertex);
+                Point vertex;
+                if (nodeA.getX() < nodeB.getX()) {
+                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() + dy), nodeA.getY());
+                }
+                else {
+                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() - dy), nodeA.getY());
+                }
+                //vertices.add(vertex);
             }
             updateLineString();
         }

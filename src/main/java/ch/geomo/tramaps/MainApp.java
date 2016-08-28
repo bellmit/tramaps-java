@@ -2,6 +2,7 @@ package ch.geomo.tramaps;
 
 import ch.geomo.tramaps.conflicts.Conflict;
 import ch.geomo.tramaps.conflicts.ConflictFinder;
+import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.test.ExampleMetroMap;
 import com.vividsolutions.jts.geom.Envelope;
@@ -72,6 +73,19 @@ public class MainApp extends Application {
 
     }
 
+    private void drawEdge(Edge edge, GraphicsContext context) {
+        if (edge.getVertices().isEmpty()) {
+            context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
+        }
+        else {
+            context.beginPath();
+            context.moveTo(edge.getNodeA().getX(), edge.getNodeA().getY());
+            context.lineTo(edge.getVertices().get(0).getX(), edge.getVertices().get(0).getY());
+            context.lineTo(edge.getNodeB().getX(), edge.getNodeB().getY());
+            context.stroke();
+        }
+    }
+
     private void drawMetroMap(GraphicsContext context, Envelope bbox) {
 
         // start drawing at the top left
@@ -85,20 +99,11 @@ public class MainApp extends Application {
         }
 
         this.map.getEdges().forEach(edge -> {
-            double width = edge.getEdgeWidth(this.routeMargin);
+            double width = edge.getEdgeWidth(routeMargin);
             context.setLineWidth(width);
             context.setStroke(Color.rgb(139, 187, 206, 0.5d));
             context.setLineCap(StrokeLineCap.BUTT);
-            if (edge.getVertices().isEmpty()) {
-                context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
-            }
-            else {
-                context.beginPath();
-                context.moveTo(edge.getNodeA().getX(), edge.getNodeA().getY());
-                context.lineTo(edge.getVertices().get(0).getX(), edge.getVertices().get(0).getY());
-                context.lineTo(edge.getNodeB().getX(), edge.getNodeB().getY());
-                context.stroke();
-            }
+            drawEdge(edge, context);
         });
         this.map.getNodes().forEach(node -> {
             Envelope station = node.getSignature().getGeometry().getEnvelopeInternal();
@@ -110,16 +115,7 @@ public class MainApp extends Application {
         this.map.getEdges().forEach(edge -> {
             context.setLineWidth(1);
             context.setStroke(Color.BLACK);
-            if (edge.getVertices().isEmpty()) {
-                context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
-            }
-            else {
-                context.beginPath();
-                context.moveTo(edge.getNodeA().getX(), edge.getNodeA().getY());
-                context.lineTo(edge.getVertices().get(0).getX(), edge.getVertices().get(0).getY());
-                context.lineTo(edge.getNodeB().getX(), edge.getNodeB().getY());
-                context.stroke();
-            }
+            drawEdge(edge, context);
         });
         context.translate(-5, -5);
         this.map.getNodes().forEach(node -> {

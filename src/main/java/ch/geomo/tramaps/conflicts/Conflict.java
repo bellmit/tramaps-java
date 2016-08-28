@@ -8,7 +8,9 @@ import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.geo.util.PolygonUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +32,8 @@ public class Conflict implements Comparable<Conflict> {
     private Vector2D yAxisMoveVector;
 
     private Axis bestMoveVectorAxis;
+
+    private LineString g;
 
     private ConflictType conflictType;
     private boolean solved = false;
@@ -76,6 +80,14 @@ public class Conflict implements Comparable<Conflict> {
             bestMoveVectorAxis = Axis.Y;
         }
 
+        Point centroid = conflictPolygon.getCentroid();
+        if (bestMoveVectorAxis == Axis.X) {
+            g = GeomUtil.createLineString(new Coordinate(centroid.getX(), -1000000), new Coordinate(centroid.getX(), 1000000));
+        }
+        else {
+            g = GeomUtil.createLineString(new Coordinate(-1000000, centroid.getY()), new Coordinate(1000000, centroid.getY()));
+        }
+
         if (conflictPolygon.isEmpty()) {
             solved = true;
         }
@@ -114,6 +126,11 @@ public class Conflict implements Comparable<Conflict> {
     @NotNull
     public Axis getBestMoveVectorAxis() {
         return bestMoveVectorAxis;
+    }
+
+    @NotNull
+    public LineString getG() {
+        return g;
     }
 
     public boolean isSolved() {
