@@ -8,6 +8,7 @@ public interface Direction {
     /**
      * @return the angle of the direction
      */
+    @SuppressWarnings("unused")
     double getAngle();
 
     /**
@@ -29,6 +30,7 @@ public interface Direction {
     }
 
     @NotNull
+    @SuppressWarnings("unused")
     OctilinearDirection toOctilinearDirection();
 
 }

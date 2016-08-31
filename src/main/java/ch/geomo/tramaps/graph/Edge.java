@@ -73,6 +73,7 @@ public class Edge extends Observable implements Observer, GraphElement {
         this.routes = new HashSet<>(routes);
     }
 
+    @SuppressWarnings("unused")
     public void addRoute(@NotNull Route route) {
         routes.add(route);
     }
@@ -187,6 +188,17 @@ public class Edge extends Observable implements Observer, GraphElement {
     @SuppressWarnings("unused")
     public boolean isDiagonal() {
         return direction.isDiagonal();
+    }
+
+    @NotNull
+    @SuppressWarnings("unused")
+    public Direction getDirection() {
+        return direction;
+    }
+
+    @SuppressWarnings("unused")
+    public double getAngle() {
+        return direction.getAngle();
     }
 
     @Override
