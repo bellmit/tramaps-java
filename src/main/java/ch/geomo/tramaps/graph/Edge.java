@@ -89,13 +89,12 @@ public class Edge extends Observable implements Observer, GraphElement {
         return nodePair;
     }
 
-    @Nullable
-    @SuppressWarnings("unused")
+    /**
+     *@throws NoSuchElementException if given node is not an end node of this edge
+     */
+    @NotNull
     public Node getOtherNode(@NotNull Node node) {
-        if (nodePair.contains(node)) {
-            return nodePair.getOtherValue(node);
-        }
-        return null;
+        return nodePair.getOtherValue(node);
     }
 
     @Override
@@ -211,6 +210,18 @@ public class Edge extends Observable implements Observer, GraphElement {
     @Contract("->false")
     public boolean isNode() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // TODO
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        // TODO
+        return super.hashCode();
     }
 
 }

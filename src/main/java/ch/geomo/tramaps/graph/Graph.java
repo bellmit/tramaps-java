@@ -22,9 +22,23 @@ public class Graph {
         nodes = new HashSet<>();
     }
 
-    /**
-     *
-     */
+    public Graph(@NotNull Graph graph) {
+        this(graph.getEdges(), graph.getNodes());
+    }
+
+    public Graph(@NotNull Collection<Edge> edges, @NotNull Collection<Node> nodes) {
+        this.edges = new HashSet<>(edges);
+        this.nodes = new HashSet<>(nodes);
+    }
+
+    public void addEdges(@NotNull Collection<Edge> edges) {
+        this.edges.addAll(edges);
+    }
+
+    public void addNodes(@NotNull Collection<Node> nodes) {
+        this.nodes.addAll(nodes);
+    }
+
     @NotNull
     private Set<Geometry> getEdgeGeometries() {
         return edges.stream()
