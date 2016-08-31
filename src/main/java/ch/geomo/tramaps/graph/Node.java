@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.map.SquareStationSignature;
-import ch.geomo.tramaps.map.NodeSignature;
+import ch.geomo.tramaps.map.signature.SquareStationSignature;
+import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -140,11 +140,13 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     @Override
+    @Contract("->false")
     public boolean isEdge() {
         return false;
     }
 
     @Override
+    @Contract("->true")
     public boolean isNode() {
         return true;
     }

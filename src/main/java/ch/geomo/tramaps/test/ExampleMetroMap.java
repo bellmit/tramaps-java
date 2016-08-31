@@ -5,7 +5,7 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.RectangleStationSignature;
+import ch.geomo.tramaps.map.signature.RectangleStationSignature;
 import com.vividsolutions.jts.geom.Coordinate;
 import javafx.scene.paint.Color;
 

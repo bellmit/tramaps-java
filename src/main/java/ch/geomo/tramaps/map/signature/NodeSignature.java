@@ -1,4 +1,4 @@
-package ch.geomo.tramaps.map;
+package ch.geomo.tramaps.map.signature;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;

@@ -1,4 +1,4 @@
-package ch.geomo.tramaps.map;
+package ch.geomo.tramaps.map.signature;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
@@ -11,17 +11,16 @@ import java.util.Observer;
 
 /**
  * A simple implementation of a station signature. The signature's form
- * is a rectangle.
+ * is a square.
  */
-public class RectangleStationSignature extends NodeSignature {
+public class SquareStationSignature extends NodeSignature {
 
-    private static final double MIN_SIDE_LENGTH = 20d;
     private static final double ROUTE_MARGIN = 5d;
 
     private final Node node;
     private Polygon signature;
 
-    public RectangleStationSignature(@NotNull Node node) {
+    public SquareStationSignature(@NotNull Node node) {
         this.node = node;
         node.addObserver(this);
         updateSignature();
@@ -33,16 +32,10 @@ public class RectangleStationSignature extends NodeSignature {
      */
     private void updateSignature() {
         double width = node.getAdjacentEdges().stream()
-                .filter(edge -> !edge.isHorizontal())
                 .map(edge -> edge.getEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
-        double height = node.getAdjacentEdges().stream()
-                .filter(edge -> !edge.isVertical())
-                .map(edge -> edge.getEdgeWidth(ROUTE_MARGIN))
-                .max(Double::compare)
-                .orElse(ROUTE_MARGIN);
-        signature = GeomUtil.createPolygon(node.getPoint(), Math.max(width, MIN_SIDE_LENGTH), Math.max(height, MIN_SIDE_LENGTH));
+        signature = GeomUtil.createBuffer(node.getPoint(), width / 2, false);
         setChanged();
         notifyObservers();
     }

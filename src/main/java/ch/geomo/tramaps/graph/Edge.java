@@ -77,13 +77,16 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     @NotNull
-    public Pair<Node> getNodeTuple() {
+    public Pair<Node> getNodePair() {
         return Pair.of(nodeA, nodeB);
     }
 
-    @NotNull
+    @Nullable
     public Node getOtherNode(@NotNull Node node) {
-        return this.getNodeTuple().getOtherValue(node);
+        if (getNodePair().contains(node)) {
+            return getNodePair().getOtherValue(node);
+        }
+        return null;
     }
 
     @Override
@@ -189,11 +192,13 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     @Override
+    @Contract("->true")
     public boolean isEdge() {
         return true;
     }
 
     @Override
+    @Contract("->false")
     public boolean isNode() {
         return false;
     }
