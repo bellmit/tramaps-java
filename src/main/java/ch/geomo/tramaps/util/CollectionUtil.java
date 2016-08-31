@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.util;
 
-import ch.geomo.util.tuple.Pair;
+import ch.geomo.util.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +19,12 @@ public final class CollectionUtil {
     private CollectionUtil() {
     }
 
+    /**
+     * Creates a {@link Set} of {@link Pair} without {@link Pair}s filtered by
+     * given {@link Predicate}.
+     *
+     * @return a filtered {@link Set} or {@link Pair}
+     */
     @NotNull
     public static <T> Set<Pair<T>> makePairs(@Nullable Collection<T> items, @NotNull Predicate<Pair<T>> filterPredicate) {
 

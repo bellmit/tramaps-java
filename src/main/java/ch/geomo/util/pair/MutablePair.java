@@ -2,21 +2,21 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.util.tuple;
+package ch.geomo.util.pair;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 /**
- * An immutable tuple implementation.
+ * An immutable pair implementation.
  */
-public class ImmutablePair<T> implements Pair<T> {
+public class MutablePair<T> implements Pair<T> {
 
     private T first;
     private T second;
 
-    public ImmutablePair(@Nullable T first, @Nullable T second) {
+    public MutablePair(@Nullable T first, @Nullable T second) {
         this.first = first;
         this.second = second;
     }
@@ -31,14 +31,31 @@ public class ImmutablePair<T> implements Pair<T> {
         return second;
     }
 
+    public void setFirst(T first) {
+        this.first = first;
+    }
+
+    public void setSecond(T second) {
+        this.second = second;
+    }
+
+    public void set(int index, T value) {
+        if (index == 0) {
+            first = value;
+        }
+        else {
+            second = value;
+        }
+    }
+
     @Override
     public boolean equals(Object obj) {
 
-        if (obj == null || !(obj instanceof ImmutablePair)) {
+        if (obj == null || !(obj instanceof MutablePair)) {
             return false;
         }
 
-        ImmutablePair tuple = (ImmutablePair) obj;
+        MutablePair tuple = (MutablePair) obj;
         return Objects.equals(getFirst(), tuple.getFirst()) && Objects.equals(getSecond(), tuple.getSecond())
                 || Objects.equals(getSecond(), tuple.getFirst()) && Objects.equals(getFirst(), tuple.getSecond());
 

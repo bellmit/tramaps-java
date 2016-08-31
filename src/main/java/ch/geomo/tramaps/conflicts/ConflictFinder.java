@@ -6,7 +6,7 @@ import ch.geomo.tramaps.conflicts.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.util.CollectionUtil;
-import ch.geomo.util.tuple.Pair;
+import ch.geomo.util.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

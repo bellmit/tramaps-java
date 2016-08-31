@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.map.NodeSignature;
-import ch.geomo.util.tuple.Pair;
+import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
