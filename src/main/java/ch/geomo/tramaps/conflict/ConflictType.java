@@ -1,4 +1,4 @@
-package ch.geomo.tramaps.conflicts;
+package ch.geomo.tramaps.conflict;
 
 public enum ConflictType {
 

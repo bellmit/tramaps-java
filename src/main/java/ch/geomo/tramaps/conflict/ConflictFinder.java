@@ -1,8 +1,8 @@
-package ch.geomo.tramaps.conflicts;
+package ch.geomo.tramaps.conflict;
 
-import ch.geomo.tramaps.conflicts.buffer.EdgeBuffer;
-import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
-import ch.geomo.tramaps.conflicts.buffer.NodeBuffer;
+import ch.geomo.tramaps.conflict.buffer.EdgeBuffer;
+import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
+import ch.geomo.tramaps.conflict.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.util.CollectionUtil;

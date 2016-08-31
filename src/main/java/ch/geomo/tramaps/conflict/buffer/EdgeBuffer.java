@@ -1,8 +1,7 @@
-package ch.geomo.tramaps.conflicts.buffer;
+package ch.geomo.tramaps.conflict.buffer;
 
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
-import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.geo.util.GeomUtil;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;

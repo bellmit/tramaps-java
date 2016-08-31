@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.map.displacement;
 
-import ch.geomo.tramaps.conflicts.Conflict;
-import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
+import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geo.Axis;
 import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.map.MetroMap;

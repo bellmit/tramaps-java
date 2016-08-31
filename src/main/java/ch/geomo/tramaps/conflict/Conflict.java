@@ -1,7 +1,7 @@
-package ch.geomo.tramaps.conflicts;
+package ch.geomo.tramaps.conflict;
 
-import ch.geomo.tramaps.conflicts.buffer.EdgeBuffer;
-import ch.geomo.tramaps.conflicts.buffer.ElementBuffer;
+import ch.geomo.tramaps.conflict.buffer.EdgeBuffer;
+import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geo.Axis;
 import ch.geomo.tramaps.geo.MoveVector;
 import ch.geomo.tramaps.geo.util.GeomUtil;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.conflicts.ConflictType.*;
+import static ch.geomo.tramaps.conflict.ConflictType.*;
 
 public class Conflict implements Comparable<Conflict> {
 
@@ -171,7 +171,7 @@ public class Conflict implements Comparable<Conflict> {
     public int compareTo(@NotNull Conflict o) {
         if (this.getMoveVector().equals(o.getMoveVector())) {
             // same move vector
-            // TODO distinct conflicts in order to reproduce same sequence
+            // TODO distinct conflict in order to reproduce same sequence
         }
         double l1 = o.getBestMoveVectorAlongAnAxis().length();
         double l2 = this.getBestMoveVectorAlongAnAxis().length();

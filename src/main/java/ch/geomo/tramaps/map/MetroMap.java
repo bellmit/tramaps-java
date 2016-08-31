@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.map;
 
-import ch.geomo.tramaps.conflicts.Conflict;
-import ch.geomo.tramaps.conflicts.ConflictFinder;
+import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.conflict.ConflictFinder;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class MetroMap extends Graph {
 
     /**
-     * @return a sorted {@link Stream} of conflicts
+     * @return a sorted {@link Stream} of conflict
      */
     @NotNull
     public Stream<Conflict> evaluateConflicts(double routeMargin, double edgeMargin, boolean biggestConflictFirst) {

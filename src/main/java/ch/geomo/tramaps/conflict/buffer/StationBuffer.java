@@ -1,4 +1,4 @@
-package ch.geomo.tramaps.conflicts.buffer;
+package ch.geomo.tramaps.conflict.buffer;
 
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.geo.util.GeomUtil;

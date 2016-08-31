@@ -1,6 +1,6 @@
 package ch.geomo.tramaps.map.displacement;
 
-import ch.geomo.tramaps.conflicts.Conflict;
+import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geo.Axis;
 import ch.geomo.tramaps.map.MetroMap;
 import com.vividsolutions.jts.geom.Point;

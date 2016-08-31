@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.map;
 
-import ch.geomo.tramaps.conflicts.Conflict;
-import ch.geomo.tramaps.conflicts.ConflictFinder;
+import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.conflict.ConflictFinder;
 import ch.geomo.tramaps.graph.Edge;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.scene.canvas.GraphicsContext;
