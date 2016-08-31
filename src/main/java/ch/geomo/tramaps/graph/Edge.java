@@ -58,7 +58,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     private void updateLineString() {
         this.lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
         // this.lineString = GeomUtil.createLineString(this.getNodeA().getPoint(), this.vertices, this.getNodeB().getPoint());
-        this.angleToXAxis = (int) Math.ceil(GeomUtil.getAngleToXAxisAsDegree(GeomUtil.createLineString(this.getNodeA(), this.getNodeB())));
+        this.angleToXAxis = (int) Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
         this.setChanged();
         this.notifyObservers();
     }

@@ -97,7 +97,7 @@ public class DisplacementHandler {
 
         count++;
 
-        List<Conflict> conflicts = map.evaluateConflicts(routeMargin, edgeMargin, false)
+        List<Conflict> conflicts = map.evaluateConflicts(routeMargin, edgeMargin, true)
                 // .peek(conflict -> System.out.println(conflict.getBestMoveLengthAlongAnAxis() + ", " + conflict.getConflictType()))
                 .collect(Collectors.toList());
 
@@ -121,7 +121,7 @@ public class DisplacementHandler {
                         .forEach(node -> node.setY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
             }
 
-            correctMap(map, conflict);
+            correctMap(map);
 
             if (count < 100) {
                 makeSpaceByDisplacement(map, routeMargin, edgeMargin, count);
@@ -131,13 +131,8 @@ public class DisplacementHandler {
 
     }
 
-    private void correctMap(MetroMap map, Conflict conflict) {
-        Set<Edge> edges = map.evaluateNonOctilinearEdges().collect(Collectors.toSet());
-        System.out.println("Non-Octilinear Edges: " + edges.size());
-        LineString g = conflict.getG();
-        edges.forEach(edge -> {
-            edge.repairEdge(conflict.getBestMoveLengthAlongAnAxis());
-        });
+    private void correctMap(MetroMap map) {
+        System.out.println("Non-Octilinear Edges:" + map.evaluateNonOctilinearEdges().count());
     }
 
 }

@@ -28,8 +28,7 @@ public class MetroMap extends Graph {
      */
     @NotNull
     public Stream<Conflict> evaluateConflicts(double routeMargin, double edgeMargin, boolean biggestConflictFirst) {
-        return new ConflictFinder(routeMargin, edgeMargin)
-                .getConflicts(getEdges(), getNodes()).stream()
+        return new ConflictFinder(routeMargin, edgeMargin).getConflicts(getEdges(), getNodes()).stream()
                 .sorted((c1, c2) -> {
                     Conflict conflict1 = biggestConflictFirst ? c2 : c1;
                     Conflict conflict2 = biggestConflictFirst ? c1 : c2;
