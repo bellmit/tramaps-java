@@ -1,5 +1,6 @@
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.map.SquareStationSignature;
 import ch.geomo.tramaps.map.StationSignature;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -10,10 +11,11 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Node extends Observable implements GraphElement, NodePoint {
 
@@ -22,47 +24,71 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private final StationSignature signature;
     private final Set<Edge> adjacentEdges;
 
+    /**
+     * Creates a new instance of {@link Node} using a {@link SquareStationSignature}
+     * instance.
+     *
+     * @see Node#Node(Point, Function)
+     */
     public Node(@NotNull Point point) {
-        this.point = point;
-        this.adjacentEdges = new HashSet<>();
-        this.signature = new StationSignature(this);
+        this(point, SquareStationSignature::new);
     }
 
+    /**
+     * Creates a new instance of {@link Node} using a custom {@link StationSignature}
+     * instance.
+     */
+    public Node(@NotNull Point point, @NotNull Function<Node, StationSignature> stationSignatureFactory) {
+        this.point = point;
+        adjacentEdges = new HashSet<>();
+        signature = stationSignatureFactory.apply(this);
+    }
+
+    /**
+     * @return all adjacent edges
+     */
     @NotNull
     public Set<Edge> getAdjacentEdges() {
-        return this.adjacentEdges;
+        return adjacentEdges;
     }
 
+    /**
+     * Adds a new adjacent edge but ignores given edge if neither node A nor
+     * node B is equals to this instance.
+     */
     public void addAdjacentEdge(@NotNull Edge edge) {
         if (this.equals(edge.getNodeA()) || this.equals(edge.getNodeB())) {
-            this.adjacentEdges.add(edge);
+            adjacentEdges.add(edge);
         }
     }
 
+    /**
+     * @return the nodes point
+     */
     @NotNull
     public Point getPoint() {
-        return this.point;
+        return point;
     }
 
+    /**
+     * @see #getPoint()
+     */
     @NotNull
     @Override
     public Geometry getGeometry() {
-        return this.point;
+        return getPoint();
     }
 
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Edge edge) {
-        if (edge == null) {
-            return false;
-        }
-        return this.getAdjacentEdges().contains(edge);
+        return edge != null && getAdjacentEdges().contains(edge);
     }
 
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Node node) {
-        return this.getAdjacentEdges().stream()
+        return getAdjacentEdges().stream()
                 .anyMatch(edge -> edge.isAdjacent(node));
     }
 
@@ -73,40 +99,40 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     @Override
     public double getX() {
-        return this.getCoordinate().x;
+        return getCoordinate().x;
     }
 
     @Override
     public double getY() {
-        return this.getCoordinate().y;
+        return getCoordinate().y;
     }
 
     @NotNull
     public Coordinate getCoordinate() {
-        return this.point.getCoordinate();
+        return point.getCoordinate();
     }
 
     public void setPoint(@NotNull Point point) {
         this.point = point;
-        this.notifyObservers();
+        notifyObservers();
     }
 
     public void setCoordinate(@NotNull Coordinate coordinate) {
         this.point = JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
-        this.setChanged();
-        this.notifyObservers();
+        setChanged();
+        notifyObservers();
     }
 
     public void setCoordinate(double x, double y) {
-        this.setCoordinate(new Coordinate(x, y));
+        setCoordinate(new Coordinate(x, y));
     }
 
     public void setX(double x) {
-        this.setCoordinate(new Coordinate(x, this.getCoordinate().y));
+        setCoordinate(new Coordinate(x, this.getCoordinate().y));
     }
 
     public void setY(double y) {
-        this.setCoordinate(new Coordinate(this.getCoordinate().x, y));
+        setCoordinate(new Coordinate(this.getCoordinate().x, y));
     }
 
     @Override

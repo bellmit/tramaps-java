@@ -3,6 +3,7 @@ package ch.geomo.tramaps.geo.util;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
+import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,23 +13,47 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Provides helper methods for creating and manipulating geometries.
+ */
 public final class GeomUtil {
 
     private GeomUtil() {
     }
 
-    public static Polygon createBuffer(Geometry geom, double distance, boolean useSquareEndCap) {
+    @NotNull
+    public static Polygon createBuffer(@NotNull Geometry geom, double distance, boolean useSquareEndCap) {
         if (useSquareEndCap) {
             return (Polygon) geom.buffer(distance, BufferParameters.DEFAULT_QUADRANT_SEGMENTS, BufferParameters.CAP_SQUARE);
         }
         return (Polygon) geom.buffer(distance);
     }
 
+    /**
+     * @return a polygon with given centroid, width and height
+     */
+    @NotNull
+    public static Polygon createPolygon(@NotNull Point centroid, double width, double height) {
+        Coordinate a = new Coordinate(centroid.getX() - width / 2, centroid.getY() - height / 2);
+        Coordinate b = new Coordinate(centroid.getX() - width / 2, centroid.getY() + height / 2);
+        Coordinate c = new Coordinate(centroid.getX() + width / 2, centroid.getY() + height / 2);
+        Coordinate d = new Coordinate(centroid.getX() + width / 2, centroid.getY() - height / 2);
+        Polygon polygon = JTSFactoryFinder.getGeometryFactory().createPolygon(new Coordinate[] {a, b, c, d, a});
+        System.out.println(polygon);
+        return polygon;
+    }
+
+    /**
+     * @return a point with given x- and y-values
+     */
     @NotNull
     public static Point createPoint(double x, double y) {
         return JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(x, y));
     }
 
+    /**
+     * @return a point with given coordinate
+     */
     @NotNull
     public static Point createPoint(@NotNull Coordinate coordinate) {
         return JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
@@ -39,11 +64,17 @@ public final class GeomUtil {
         return JTSFactoryFinder.getGeometryFactory().createPoint(geometry.getCoordinate());
     }
 
+    /**
+     * @return an instance of {@link GeometryCollection} with geometries provided by given {@link Stream}
+     */
     @NotNull
     public static GeometryCollection createCollection(@NotNull Stream<Geometry> stream) {
         return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(stream.toArray(Geometry[]::new));
     }
 
+    /**
+     * @return an instance of {@link GeometryCollection} with values of given {@link Collection}s
+     */
     @NotNull
     @SafeVarargs
     public static GeometryCollection createCollection(@NotNull Collection<Geometry>... collections) {

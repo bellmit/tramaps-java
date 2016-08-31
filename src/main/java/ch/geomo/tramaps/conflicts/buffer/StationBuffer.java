@@ -8,7 +8,7 @@ public class StationBuffer extends NodeBuffer {
 
     public StationBuffer(@NotNull Node node, double margin) {
         super(node, margin);
-        this.node.getSignature().addObserver(this);
+        node.getSignature().addObserver(this);
     }
 
     @Override

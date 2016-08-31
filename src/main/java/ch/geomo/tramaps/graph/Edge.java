@@ -167,4 +167,25 @@ public class Edge extends Observable implements Observer, GraphElement {
         }
     }
 
+    /**
+     * @return true if vertical to x-axis
+     */
+    public boolean isVertical() {
+        return angleToXAxis % 180 == 0;
+    }
+
+    /**
+     * @return true if horizontal to x-axis
+     */
+    public boolean isHorizontal() {
+        return angleToXAxis % 90 == 0 && !isVertical();
+    }
+
+    /**
+     * @return true if neither vertical nor horizontal to x-axis but octliniear
+     */
+    public boolean isDiagonal() {
+        return isOctilinear() && !isVertical() && !isHorizontal();
+    }
+
 }

@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.stage.Stage;
 
@@ -34,8 +33,8 @@ public class MainApp extends Application {
         this.stage.setTitle("Tramaps GUI");
         this.initLayout();
         this.map = new ExampleMetroMap();
-//        this.scale();
-        this.displace();
+        this.scale();
+//        this.displace();
         this.draw();
     }
 

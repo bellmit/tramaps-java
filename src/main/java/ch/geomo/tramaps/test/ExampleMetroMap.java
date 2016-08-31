@@ -5,6 +5,7 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.map.MetroMap;
+import ch.geomo.tramaps.map.RectangleStationSignature;
 import com.vividsolutions.jts.geom.Coordinate;
 import javafx.scene.paint.Color;
 
@@ -15,18 +16,18 @@ public class ExampleMetroMap extends MetroMap {
 
     public ExampleMetroMap() {
 
-        Node a = new Node(GeomUtil.createPoint(new Coordinate(150, 200)));
-        Node b = new Node(GeomUtil.createPoint(new Coordinate(150, 100)));
-        Node c = new Node(GeomUtil.createPoint(new Coordinate(200, 100)));
-        Node d = new Node(GeomUtil.createPoint(new Coordinate(200, 150)));
-        Node e = new Node(GeomUtil.createPoint(new Coordinate(200, 250)));
-        Node f = new Node(GeomUtil.createPoint(new Coordinate(150, 300)));
-        Node g = new Node(GeomUtil.createPoint(new Coordinate(100, 300)));
-        Node h = new Node(GeomUtil.createPoint(new Coordinate(100, 200)));
-        Node i = new Node(GeomUtil.createPoint(new Coordinate(100, 150)));
+        Node a = new Node(GeomUtil.createPoint(new Coordinate(150, 200)), RectangleStationSignature::new);
+        Node b = new Node(GeomUtil.createPoint(new Coordinate(150, 100)), RectangleStationSignature::new);
+        Node c = new Node(GeomUtil.createPoint(new Coordinate(200, 100)), RectangleStationSignature::new);
+        Node d = new Node(GeomUtil.createPoint(new Coordinate(200, 150)), RectangleStationSignature::new);
+        Node e = new Node(GeomUtil.createPoint(new Coordinate(200, 250)), RectangleStationSignature::new);
+        Node f = new Node(GeomUtil.createPoint(new Coordinate(150, 300)), RectangleStationSignature::new);
+        Node g = new Node(GeomUtil.createPoint(new Coordinate(100, 300)), RectangleStationSignature::new);
+        Node h = new Node(GeomUtil.createPoint(new Coordinate(100, 200)), RectangleStationSignature::new);
+        Node i = new Node(GeomUtil.createPoint(new Coordinate(100, 150)), RectangleStationSignature::new);
 
-        Node j = new Node(GeomUtil.createPoint(new Coordinate(150, 250)));
-        Node k = new Node(GeomUtil.createPoint(new Coordinate(160, 250)));
+        Node j = new Node(GeomUtil.createPoint(new Coordinate(150, 250)), RectangleStationSignature::new);
+        Node k = new Node(GeomUtil.createPoint(new Coordinate(160, 250)), RectangleStationSignature::new);
 
         Edge ab = new Edge(a, b);
         Edge bc = new Edge(b, c);
