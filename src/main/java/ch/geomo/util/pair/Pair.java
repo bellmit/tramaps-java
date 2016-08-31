@@ -15,6 +15,8 @@ import java.util.stream.Stream;
 /**
  * Represents a pair of one type. Two pairs are always are equal if both of the first pair values
  * are equals in any combination to the other pair's values.
+ *
+ * @see java.util.Map.Entry for pairs of different types
  */
 public interface Pair<T> {
 

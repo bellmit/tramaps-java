@@ -9,12 +9,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
- * An immutable pair implementation.
+ * An implementation of a mutable pair.
  */
 public class MutablePair<T> implements Pair<T> {
 
     private T first;
     private T second;
+
+    public MutablePair() {
+    }
 
     public MutablePair(@Nullable T first, @Nullable T second) {
         this.first = first;
@@ -22,24 +25,40 @@ public class MutablePair<T> implements Pair<T> {
     }
 
     @Nullable
+    @Override
     public T getFirst() {
         return first;
     }
 
     @Nullable
+    @Override
     public T getSecond() {
         return second;
     }
 
-    public void setFirst(T first) {
+    /**
+     * Sets/updates the first value.
+     */
+    public void setFirst(@Nullable T first) {
         this.first = first;
     }
 
-    public void setSecond(T second) {
+    /**
+     * Sets/updates the second value.
+     */
+    public void setSecond(@Nullable T second) {
         this.second = second;
     }
 
-    public void set(int index, T value) {
+    /**
+     * Sets/updates the value at given index.
+     *
+     * @throws IndexOutOfBoundsException if index is neither 1 or 0
+     */
+    public void set(int index, @Nullable T value) {
+        if (index < 0 || index > 1) {
+            throw new IndexOutOfBoundsException("An index > 1 or < 0 is not allowed.");
+        }
         if (index == 0) {
             first = value;
         }
@@ -68,7 +87,7 @@ public class MutablePair<T> implements Pair<T> {
 
     @Override
     public String toString() {
-        return first + "/" + second;
+        return "Pair: [" + first + ", " + second + "]";
     }
 
 }
