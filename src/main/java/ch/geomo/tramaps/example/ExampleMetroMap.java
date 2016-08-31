@@ -1,4 +1,4 @@
-package ch.geomo.tramaps.test;
+package ch.geomo.tramaps.example;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
