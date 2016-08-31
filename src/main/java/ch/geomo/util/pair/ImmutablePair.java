@@ -16,6 +16,14 @@ public class ImmutablePair<T> implements Pair<T> {
     private T first;
     private T second;
 
+    @SuppressWarnings("unused")
+    public ImmutablePair(@Nullable Pair<T> pair) {
+        if (pair != null) {
+            this.first = pair.getFirst();
+            this.second = pair.getSecond();
+        }
+    }
+
     public ImmutablePair(@Nullable T first, @Nullable T second) {
         this.first = first;
         this.second = second;
@@ -51,7 +59,7 @@ public class ImmutablePair<T> implements Pair<T> {
 
     @Override
     public String toString() {
-        return first + "/" + second;
+        return "ImmutablePair: [" + first + ", " + second + "]";
     }
 
 }

@@ -4,6 +4,7 @@
 
 package ch.geomo.util.pair;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -16,7 +17,16 @@ public class MutablePair<T> implements Pair<T> {
     private T first;
     private T second;
 
+    @SuppressWarnings("unused")
     public MutablePair() {
+    }
+
+    @SuppressWarnings("unused")
+    public MutablePair(@Nullable Pair<T> pair) {
+        if (pair != null) {
+            this.first = pair.getFirst();
+            this.second = pair.getSecond();
+        }
     }
 
     public MutablePair(@Nullable T first, @Nullable T second) {
@@ -39,6 +49,7 @@ public class MutablePair<T> implements Pair<T> {
     /**
      * Sets/updates the first value.
      */
+    @SuppressWarnings("unused")
     public void setFirst(@Nullable T first) {
         this.first = first;
     }
@@ -46,6 +57,7 @@ public class MutablePair<T> implements Pair<T> {
     /**
      * Sets/updates the second value.
      */
+    @SuppressWarnings("unused")
     public void setSecond(@Nullable T second) {
         this.second = second;
     }
@@ -87,7 +99,7 @@ public class MutablePair<T> implements Pair<T> {
 
     @Override
     public String toString() {
-        return "Pair: [" + first + ", " + second + "]";
+        return "MutablePair: [" + first + ", " + second + "]";
     }
 
 }

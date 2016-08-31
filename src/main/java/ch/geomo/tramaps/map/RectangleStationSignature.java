@@ -53,7 +53,7 @@ public class RectangleStationSignature extends NodeSignature {
     @NotNull
     @Override
     public Geometry getConvexHull() {
-        return this.signature.convexHull();
+        return signature.convexHull();
     }
 
     /**
@@ -62,7 +62,7 @@ public class RectangleStationSignature extends NodeSignature {
     @NotNull
     @Override
     public Polygon getGeometry() {
-        return this.signature;
+        return signature;
     }
 
     /**

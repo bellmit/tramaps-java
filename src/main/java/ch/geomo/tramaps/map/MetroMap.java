@@ -32,9 +32,4 @@ public class MetroMap extends Graph {
                 .filter(Edge::isNonOctilinear);
     }
 
-    @Override
-    public String toString() {
-        return "Edges: " + getEdges() + "\n" + "Nodes: " + getNodes();
-    }
-
 }
