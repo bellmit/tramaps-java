@@ -1,6 +1,9 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.graph.util.AnyDirection;
+import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
@@ -16,10 +19,13 @@ public class Edge extends Observable implements Observer, GraphElement {
     private Node nodeA;
     private Node nodeB;
     private Pair<Node> nodePair;
-    private Set<Route> routes;
-    private int angleToXAxis;
-    private List<Point> vertices;
+
     private LineString lineString;
+    private List<Point> vertices;
+
+    private Set<Route> routes;
+
+    private Direction direction;
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
@@ -31,6 +37,7 @@ public class Edge extends Observable implements Observer, GraphElement {
         routes = new HashSet<>();
         vertices = new ArrayList<>();
         nodePair = Pair.of(nodeA, nodeB);
+        updateLineString();
     }
 
     public double getEdgeWidth(double routeMargin) {
@@ -57,10 +64,9 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     private void updateLineString() {
         lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
-        // this.lineString = GeomUtil.createLineString(this.getNodeA().getPoint(), this.vertices, this.getNodeB().getPoint());
-        angleToXAxis = (int) Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
-        this.setChanged();
-        this.notifyObservers();
+        direction = AnyDirection.fromAngle(Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString)));
+        setChanged();
+        notifyObservers();
     }
 
     public void setRoutes(@NotNull Collection<Route> routes) {
@@ -68,7 +74,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     public void addRoute(@NotNull Route route) {
-        this.routes.add(route);
+        routes.add(route);
     }
 
     @NotNull
@@ -77,15 +83,16 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     @NotNull
+    @SuppressWarnings("unused")
     private Pair<Node> getNodePair() {
         return nodePair;
     }
 
     @Nullable
+    @SuppressWarnings("unused")
     public Node getOtherNode(@NotNull Node node) {
-        Pair<Node> pair = Pair.of(nodeA, nodeB);
-        if (getNodePair().contains(node)) {
-            return getNodePair().getOtherValue(node);
+        if (nodePair.contains(node)) {
+            return nodePair.getOtherValue(node);
         }
         return null;
     }
@@ -93,32 +100,29 @@ public class Edge extends Observable implements Observer, GraphElement {
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Edge edge) {
-        if (edge == null) {
-            return false;
-        }
-        return getNodeA().getAdjacentEdges().contains(edge) || getNodeB().getAdjacentEdges().contains(edge);
+        return edge != null && (getNodeA().getAdjacentEdges().contains(edge) || getNodeB().getAdjacentEdges().contains(edge));
     }
 
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Node node) {
-        return getNodeA().equals(node) || getNodeB().equals(node);
+        return nodeA.equals(node) || nodeB.equals(node);
     }
 
     @NotNull
     public LineString getLineString() {
-        return this.lineString;
+        return lineString;
     }
 
     @NotNull
     @Override
     public Geometry getGeometry() {
-        return this.lineString;
+        return lineString;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        this.updateLineString();
+        updateLineString();
     }
 
     @NotNull
@@ -127,12 +131,8 @@ public class Edge extends Observable implements Observer, GraphElement {
         return lineString.toString();
     }
 
-    public boolean isOctilinear() {
-        return angleToXAxis % 45 == 0;
-    }
-
     public boolean isNonOctilinear() {
-        return !this.isOctilinear();
+        return !OctilinearDirection.isOctilinear(direction);
     }
 
     public void repairEdge(double correctionDistance) {
@@ -171,14 +171,14 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return true if vertical to x-axis
      */
     public boolean isVertical() {
-        return angleToXAxis % 180 == 0;
+        return direction.isVertical();
     }
 
     /**
      * @return true if horizontal to x-axis
      */
     public boolean isHorizontal() {
-        return angleToXAxis % 90 == 0 && !isVertical();
+        return direction.isHorizontal();
     }
 
     /**
@@ -186,7 +186,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      */
     @SuppressWarnings("unused")
     public boolean isDiagonal() {
-        return isOctilinear() && !isVertical() && !isHorizontal();
+        return direction.isDiagonal();
     }
 
     @Override

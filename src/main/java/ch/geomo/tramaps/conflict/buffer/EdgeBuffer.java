@@ -19,33 +19,33 @@ public class EdgeBuffer implements ElementBuffer, Observer {
 
     public EdgeBuffer(@NotNull Edge edge, double routeMargin, double edgeMargin) {
         this.edge = edge;
-        this.edge.addObserver(this);
+        edge.addObserver(this);
         this.routeMargin = routeMargin;
         this.edgeMargin = edgeMargin;
-        this.updateBuffer();
+        updateBuffer();
     }
 
     @Override
     public void updateBuffer() {
-        double width = this.edge.getEdgeWidth(this.routeMargin) + this.edgeMargin * 2;
-        this.buffer = GeomUtil.createBuffer(this.edge.getLineString(), width / 2, true);
+        double width = edge.getEdgeWidth(routeMargin) + edgeMargin * 2;
+        buffer = GeomUtil.createBuffer(edge.getLineString(), width / 2, true);
     }
 
     @NotNull
     @Override
     public Polygon getBuffer() {
-        return this.buffer;
+        return buffer;
     }
 
     @NotNull
     @Override
     public GraphElement getElement() {
-        return this.edge;
+        return edge;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        this.updateBuffer();
+        updateBuffer();
     }
 
 }
