@@ -1,18 +1,20 @@
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.SquareStationSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Observable;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -37,10 +39,40 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * Creates a new instance of {@link Node} using a custom {@link NodeSignature}
      * instance.
      */
-    public Node(@NotNull Point point, @NotNull Function<Node, NodeSignature> stationSignatureFactory) {
+    public Node(@NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         this.point = point;
         adjacentEdges = new HashSet<>();
-        signature = stationSignatureFactory.apply(this);
+        signature = nodeSignatureFactory.apply(this);
+    }
+
+    public Node(int x, int y) {
+        this(GeomUtil.createPoint(x, y));
+    }
+
+    public Node(int x, int y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
+        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
+    }
+
+    public void createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes, @Nullable Graph graph) {
+        Edge edge = new Edge(this, node);
+        edge.addRoutes(routes);
+        adjacentEdges.add(edge);
+        if (graph != null) {
+            graph.addEdges(edge);
+        }
+        addObserver(edge);
+        setChanged();
+        notifyObservers();
+    }
+
+    public void removeAdjacentEdge(@NotNull Edge edge, @Nullable Graph graph) {
+        adjacentEdges.remove(edge);
+        deleteObserver(edge);
+        if (graph != null) {
+            graph.removeEdges(edge);
+        }
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -59,6 +91,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
         if (this.equals(edge.getNodeA()) || this.equals(edge.getNodeB())) {
             adjacentEdges.add(edge);
         }
+        this.addObserver(edge);
     }
 
     /**
@@ -84,7 +117,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     @NotNull
-    public NodeSignature getSignature() {
+    public NodeSignature getNodeSignature() {
         return signature;
     }
 
@@ -104,7 +137,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     public void setCoordinate(@NotNull Coordinate coordinate) {
-        this.point = JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
+        this.point = GeomUtil.createPoint(coordinate);
         setChanged();
         notifyObservers();
     }
@@ -114,11 +147,11 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     public void setX(double x) {
-        setCoordinate(new Coordinate(x, getCoordinate().y));
+        setCoordinate(x, getY());
     }
 
     public void setY(double y) {
-        setCoordinate(new Coordinate(getCoordinate().x, y));
+        setCoordinate(getX(), y);
     }
 
     @NotNull
@@ -144,7 +177,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
      */
     @NotNull
     public Point toPoint() {
-        return JTSFactoryFinder.getGeometryFactory().createPoint(point.getCoordinate());
+        return GeomUtil.clonePoint(point);
     }
 
     /**
@@ -171,6 +204,11 @@ public class Node extends Observable implements GraphElement, NodePoint {
     @NotNull
     public Coordinate toCoordinate() {
         return new Coordinate(point.getCoordinate());
+    }
+
+    public void destroy(@Nullable Graph graph) {
+        getAdjacentEdges()
+                .forEach(edge -> removeAdjacentEdge(edge, graph));
     }
 
 }

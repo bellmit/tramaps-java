@@ -7,19 +7,20 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
+import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
 public class DisplaceHandler implements MakeSpaceHandler {
 
+    private static final int MAX_ITERATIONS = 100;
     private static final double MAX_ADJUSTMENT_COSTS = 25;
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
 
@@ -33,6 +34,38 @@ public class DisplaceHandler implements MakeSpaceHandler {
         return OctilinearDirection.NORTH;
     }
 
+    private void mergeNodes(@NotNull Node fixedNode, @NotNull Node obsoleteNode, @NotNull MetroMap map) {
+
+        // add adjacent edges to fixed node
+        obsoleteNode.getAdjacentEdges().forEach(edge -> {
+            Node otherNode = edge.getOtherNode(obsoleteNode);
+            fixedNode.createAdjacentEdgeTo(otherNode, edge.getRoutes(), map);
+        });
+
+        // merge duplicate edges
+        // TODO find duplicates, merge routes and remove one of the duplicated edges
+
+        // remove obsolete nodes
+        obsoleteNode.destroy(map);
+
+    }
+
+    private void createBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
+
+        // create new bend node
+        // TODO calculate position
+        Node node = new Node(1, 1, BendNodeSignature::new);
+        map.addNodes(node);
+
+        // create two new edges
+        edge.getNodeA().createAdjacentEdgeTo(node, edge.getRoutes(), map);
+        edge.getNodeB().createAdjacentEdgeTo(node, edge.getRoutes(), map);
+
+        // remove old edge
+        edge.destroy(map);
+
+    }
+
     /**
      * Listing 6
      */
@@ -40,19 +73,18 @@ public class DisplaceHandler implements MakeSpaceHandler {
 
         OctilinearDirection movedDirection = moveNode(edge, moveableNode, lastMoveDirection);
 
-        Set<Edge> nonOctilinearAdjacentEdges = moveableNode.getAdjacentEdges().stream()
+        moveableNode.getAdjacentEdges().stream()
                 .filter(Edge::isNonOctilinear)
-                .filter(edge::equals)
-                .collect(Collectors.toSet());
-
-        for (Edge nonOctilinearEdge : nonOctilinearAdjacentEdges) {
-            Node otherNode = edge.getOtherNode(moveableNode);
-            correctEdge(nonOctilinearEdge, otherNode, movedDirection);
-        }
+                .filter(edge::isNotEquals)
+                .forEach(nonOctilinearEdge -> {
+                    Node otherNode = edge.getOtherNode(moveableNode);
+                    correctEdge(nonOctilinearEdge, otherNode, movedDirection);
+                });
 
     }
 
     private double calculateDisplacementCosts(@NotNull Graph graph) {
+        // TODO wird das überhaupt benötigt?
         return graph.getNodes().size();
     }
 
@@ -130,7 +162,7 @@ public class DisplaceHandler implements MakeSpaceHandler {
 
             correctMap(map);
 
-            if (count < 100) {
+            if (count < MAX_ITERATIONS) {
                 makeSpace(map, routeMargin, edgeMargin, count);
             }
 

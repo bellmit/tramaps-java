@@ -30,10 +30,8 @@ public class Edge extends Observable implements Observer, GraphElement {
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
         nodeA.addAdjacentEdge(this);
-        nodeA.addObserver(this);
         this.nodeB = nodeB;
         nodeB.addAdjacentEdge(this);
-        nodeB.addObserver(this);
         routes = new HashSet<>();
         vertices = new ArrayList<>();
         nodePair = Pair.of(nodeA, nodeB);
@@ -69,8 +67,8 @@ public class Edge extends Observable implements Observer, GraphElement {
         notifyObservers();
     }
 
-    public void setRoutes(@NotNull Collection<Route> routes) {
-        this.routes = new HashSet<>(routes);
+    public void addRoutes(@NotNull Collection<Route> routes) {
+        this.routes.addAll(routes);
     }
 
     @SuppressWarnings("unused")
@@ -90,7 +88,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     *@throws NoSuchElementException if given node is not an end node of this edge
+     * @throws NoSuchElementException if given node is not an end node of this edge
      */
     @NotNull
     public Node getOtherNode(@NotNull Node node) {
@@ -212,6 +210,11 @@ public class Edge extends Observable implements Observer, GraphElement {
         return false;
     }
 
+    @Contract("null->true")
+    public boolean isNotEquals(@Nullable Edge edge) {
+        return !this.equals(edge);
+    }
+
     @Override
     public boolean equals(Object obj) {
         // TODO
@@ -222,6 +225,12 @@ public class Edge extends Observable implements Observer, GraphElement {
     public int hashCode() {
         // TODO
         return super.hashCode();
+    }
+
+    public void destroy(@Nullable Graph graph) {
+        getNodeA().removeAdjacentEdge(this, graph);
+        getNodeB().removeAdjacentEdge(this, graph);
+        deleteObservers();
     }
 
 }

@@ -62,6 +62,14 @@ public final class GeomUtil {
     }
 
     /**
+     * @return a new instance of {@link Point} with x- and y-values of given {@link Point}
+     */
+    @NotNull
+    public static Point clonePoint(@NotNull Point point) {
+        return createPoint(point.getX(), point.getY());
+    }
+
+    /**
      * @return an instance of {@link GeometryCollection} with geometries provided by given {@link Stream}
      */
     @NotNull

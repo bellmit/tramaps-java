@@ -31,8 +31,23 @@ public class Graph {
         this.nodes = new HashSet<>(nodes);
     }
 
+    public void addEdges(@NotNull Edge... edges) {
+        addEdges(Arrays.asList(edges));
+    }
+
+    public void removeEdges(@NotNull Edge... edges) {
+        Arrays.stream(edges)
+                .forEach(edge -> {
+                    edge.destroy(this);
+                });
+    }
+
     public void addEdges(@NotNull Collection<Edge> edges) {
         this.edges.addAll(edges);
+    }
+
+    public void addNodes(@NotNull Node... nodes) {
+        addNodes(Arrays.asList(nodes));
     }
 
     public void addNodes(@NotNull Collection<Node> nodes) {
@@ -52,7 +67,7 @@ public class Graph {
     @NotNull
     private Set<Geometry> getNodeSignatureGeometries() {
         return nodes.stream()
-                .map(Node::getSignature)
+                .map(Node::getNodeSignature)
                 .map(NodeSignature::getGeometry)
                 .collect(Collectors.toSet());
     }

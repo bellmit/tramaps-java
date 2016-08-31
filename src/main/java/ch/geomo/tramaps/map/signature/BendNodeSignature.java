@@ -7,20 +7,13 @@ import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Observable;
-import java.util.Observer;
 
-/**
- * A simple implementation of a station signature. The signature's form
- * is a square.
- */
-public class SquareStationSignature extends NodeSignature {
-
-    private static final double ROUTE_MARGIN = 5d;
+public class BendNodeSignature extends NodeSignature {
 
     private final Node node;
     private Polygon signature;
 
-    public SquareStationSignature(@NotNull Node node) {
+    public BendNodeSignature(@NotNull Node node) {
         this.node = node;
         node.addObserver(this);
         updateSignature();
@@ -31,27 +24,17 @@ public class SquareStationSignature extends NodeSignature {
      * x- and y-value where changed.
      */
     protected void updateSignature() {
-        double width = node.getAdjacentEdges().stream()
-                .map(edge -> edge.getEdgeWidth(ROUTE_MARGIN))
-                .max(Double::compare)
-                .orElse(ROUTE_MARGIN);
-        signature = GeomUtil.createBuffer(node.getPoint(), width / 2, false);
+        signature = GeomUtil.createPolygon(node.getPoint(), 2, 2);
         setChanged();
         notifyObservers();
     }
 
-    /**
-     * @see NodeSignature#getConvexHull()
-     */
     @NotNull
     @Override
     public Geometry getConvexHull() {
-        return signature.convexHull();
+        return getGeometry().convexHull();
     }
 
-    /**
-     * @see NodeSignature#getGeometry()
-     */
     @NotNull
     @Override
     public Polygon getGeometry() {

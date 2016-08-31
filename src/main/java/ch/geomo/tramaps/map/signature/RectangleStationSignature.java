@@ -31,7 +31,7 @@ public class RectangleStationSignature extends NodeSignature {
      * Updates the signature properties. Recalculates the signature geometry if the node's
      * x- and y-value where changed.
      */
-    private void updateSignature() {
+    protected void updateSignature() {
         double width = node.getAdjacentEdges().stream()
                 .filter(edge -> !edge.isHorizontal())
                 .map(edge -> edge.getEdgeWidth(ROUTE_MARGIN))
@@ -63,14 +63,6 @@ public class RectangleStationSignature extends NodeSignature {
     @Override
     public Polygon getGeometry() {
         return signature;
-    }
-
-    /**
-     * @see Observer#update(Observable, Object)
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        this.updateSignature();
     }
 
 }

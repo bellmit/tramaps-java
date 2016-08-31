@@ -25,4 +25,15 @@ public abstract class NodeSignature extends Observable implements Observer {
     @NotNull
     public abstract Polygon getGeometry();
 
+    protected abstract void updateSignature();
+
+    /**
+     * @see Observer#update(Observable, Object)
+     */
+    @Override
+    public void update(Observable o, Object arg) {
+        updateSignature();
+    }
+
+
 }

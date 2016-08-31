@@ -65,7 +65,7 @@ public class MetroMapDrawer {
             drawEdge(edge, context);
         });
         map.getNodes().forEach(node -> {
-            Envelope station = node.getSignature().getGeometry().getEnvelopeInternal();
+            Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
             context.setFill(Color.BLACK);
             context.fillRoundRect(station.getMinX() - 5, station.getMinY() - 5, station.getWidth() + 10, station.getHeight() + 10, 25, 25);
             context.setFill(Color.WHITE);
