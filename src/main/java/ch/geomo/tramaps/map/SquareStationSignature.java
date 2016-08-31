@@ -13,7 +13,7 @@ import java.util.Observer;
  * A simple implementation of a station signature. The signature's form
  * is a square.
  */
-public class SquareStationSignature extends StationSignature {
+public class SquareStationSignature extends NodeSignature {
 
     private static final double ROUTE_MARGIN = 5d;
 
@@ -41,7 +41,7 @@ public class SquareStationSignature extends StationSignature {
     }
 
     /**
-     * @see StationSignature#getConvexHull()
+     * @see NodeSignature#getConvexHull()
      */
     @NotNull
     @Override
@@ -50,7 +50,7 @@ public class SquareStationSignature extends StationSignature {
     }
 
     /**
-     * @see StationSignature#getGeometry()
+     * @see NodeSignature#getGeometry()
      */
     @NotNull
     @Override

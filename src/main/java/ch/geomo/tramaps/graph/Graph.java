@@ -1,7 +1,6 @@
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.map.SquareStationSignature;
-import ch.geomo.tramaps.map.StationSignature;
+import ch.geomo.tramaps.map.NodeSignature;
 import ch.geomo.util.tuple.Pair;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -34,21 +33,27 @@ public class Graph {
     }
 
     /**
-     * Collects signature geometries of all stations/nodes.
+     * @return a {@link Set} of the node signature's geometries
      */
     @NotNull
     private Set<Geometry> getNodeSignatureGeometries() {
         return nodes.stream()
                 .map(Node::getSignature)
-                .map(StationSignature::getGeometry)
+                .map(NodeSignature::getGeometry)
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * @return all edges of this graph
+     */
     @NotNull
     public Set<Edge> getEdges() {
         return edges;
     }
 
+    /**
+     * @return all nodes of this graph
+     */
     @NotNull
     public Set<Node> getNodes() {
         return nodes;
@@ -64,10 +69,15 @@ public class Graph {
         return null;
     }
 
+    /**
+     * @return a bounding box of all edge and node signatures
+     * @see #getEdgeGeometries()
+     * @see #getNodeSignatureGeometries()
+     */
     @NotNull
     public Envelope getBoundingBox() {
-        GeometryCollection geometryCollection = createCollection(getEdgeGeometries(), getNodeSignatureGeometries());
-        return geometryCollection.getEnvelopeInternal();
+        GeometryCollection collection = createCollection(getEdgeGeometries(), getNodeSignatureGeometries());
+        return collection.getEnvelopeInternal();
     }
 
 }

@@ -188,4 +188,14 @@ public class Edge extends Observable implements Observer, GraphElement {
         return isOctilinear() && !isVertical() && !isHorizontal();
     }
 
+    @Override
+    public boolean isEdge() {
+        return true;
+    }
+
+    @Override
+    public boolean isNode() {
+        return false;
+    }
+
 }

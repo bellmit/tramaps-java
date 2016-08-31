@@ -6,14 +6,17 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Represents a {@link Node} or an {@link Edge} of a {@link Graph}.
+ */
 public interface GraphElement {
 
     default boolean isAdjacent(GraphElement element) {
         if (element instanceof Edge) {
-            return isAdjacent((Edge)element);
+            return isAdjacent((Edge) element);
         }
-        if (element instanceof Node) {
-            return isAdjacent((Node)element);
+        else if (element instanceof Node) {
+            return isAdjacent((Node) element);
         }
         return false;
     }
@@ -31,5 +34,9 @@ public interface GraphElement {
     default Point getCentroid() {
         return this.getGeometry().getCentroid();
     }
+
+    boolean isEdge();
+
+    boolean isNode();
 
 }

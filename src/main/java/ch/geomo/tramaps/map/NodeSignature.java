@@ -8,9 +8,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Represents a signature of a station.
+ * Represents a signature of a node.
  */
-public abstract class StationSignature extends Observable implements Observer {
+public abstract class NodeSignature extends Observable implements Observer {
 
     /**
      * @return the convex hull of the signature's geometry

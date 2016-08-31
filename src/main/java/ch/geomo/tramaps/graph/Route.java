@@ -13,13 +13,19 @@ public class Route {
         this.lineColor = lineColor;
     }
 
+    /**
+     * @return the route's line color
+     */
     @NotNull
     public Color getLineColor() {
         return lineColor;
     }
 
+    /**
+     * @return the route's line width
+     */
     public double getLineWidth() {
-        return this.lineWidth;
+        return lineWidth;
     }
 
 }

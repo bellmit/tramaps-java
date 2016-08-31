@@ -1,10 +1,8 @@
 package ch.geomo.tramaps.map;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +13,7 @@ import java.util.Observer;
  * A simple implementation of a station signature. The signature's form
  * is a rectangle.
  */
-public class RectangleStationSignature extends StationSignature {
+public class RectangleStationSignature extends NodeSignature {
 
     private static final double MIN_SIDE_LENGTH = 20d;
     private static final double ROUTE_MARGIN = 5d;
@@ -50,7 +48,7 @@ public class RectangleStationSignature extends StationSignature {
     }
 
     /**
-     * @see StationSignature#getConvexHull()
+     * @see NodeSignature#getConvexHull()
      */
     @NotNull
     @Override
@@ -59,7 +57,7 @@ public class RectangleStationSignature extends StationSignature {
     }
 
     /**
-     * @see StationSignature#getGeometry()
+     * @see NodeSignature#getGeometry()
      */
     @NotNull
     @Override

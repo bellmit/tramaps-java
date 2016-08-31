@@ -1,7 +1,7 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.map.SquareStationSignature;
-import ch.geomo.tramaps.map.StationSignature;
+import ch.geomo.tramaps.map.NodeSignature;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -15,13 +15,12 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class Node extends Observable implements GraphElement, NodePoint {
 
     private Point point;
 
-    private final StationSignature signature;
+    private final NodeSignature signature;
     private final Set<Edge> adjacentEdges;
 
     /**
@@ -35,10 +34,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Creates a new instance of {@link Node} using a custom {@link StationSignature}
+     * Creates a new instance of {@link Node} using a custom {@link NodeSignature}
      * instance.
      */
-    public Node(@NotNull Point point, @NotNull Function<Node, StationSignature> stationSignatureFactory) {
+    public Node(@NotNull Point point, @NotNull Function<Node, NodeSignature> stationSignatureFactory) {
         this.point = point;
         adjacentEdges = new HashSet<>();
         signature = stationSignatureFactory.apply(this);
@@ -93,7 +92,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     @NotNull
-    public StationSignature getSignature() {
+    public NodeSignature getSignature() {
         return signature;
     }
 
@@ -138,6 +137,16 @@ public class Node extends Observable implements GraphElement, NodePoint {
     @Override
     public String toString() {
         return point.toString();
+    }
+
+    @Override
+    public boolean isEdge() {
+        return false;
+    }
+
+    @Override
+    public boolean isNode() {
+        return true;
     }
 
 }
