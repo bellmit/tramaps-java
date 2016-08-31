@@ -2,7 +2,7 @@
  * Copyright (c) 2016 by Thomas Zuberbühler
  */
 
-package ch.geomo.tramaps.util;
+package ch.geomo.util;
 
 import ch.geomo.util.pair.Pair;
 import org.jetbrains.annotations.NotNull;
