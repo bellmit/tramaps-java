@@ -15,30 +15,29 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     private Node nodeA;
     private Node nodeB;
-
-    private LineString lineString;
+    private Pair<Node> nodePair;
     private Set<Route> routes;
     private int angleToXAxis;
-
     private List<Point> vertices;
+    private LineString lineString;
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
-        this.nodeA.addAdjacentEdge(this);
-        this.nodeA.addObserver(this);
+        nodeA.addAdjacentEdge(this);
+        nodeA.addObserver(this);
         this.nodeB = nodeB;
-        this.nodeB.addAdjacentEdge(this);
-        this.nodeB.addObserver(this);
-        this.routes = new HashSet<>();
-        this.vertices = new ArrayList<>();
-        this.updateLineString();
+        nodeB.addAdjacentEdge(this);
+        nodeB.addObserver(this);
+        routes = new HashSet<>();
+        vertices = new ArrayList<>();
+        nodePair = Pair.of(nodeA, nodeB);
     }
 
     public double getEdgeWidth(double routeMargin) {
-        double width = this.getRoutes().stream()
+        double width = getRoutes().stream()
                 .mapToDouble(Route::getLineWidth)
                 .sum();
-        return width + routeMargin * (this.getRoutes().size() - 2);
+        return width + routeMargin * (getRoutes().size() - 2);
     }
 
     @NotNull
@@ -51,14 +50,15 @@ public class Edge extends Observable implements Observer, GraphElement {
         return nodeB;
     }
 
+    @NotNull
     public List<Point> getVertices() {
         return vertices;
     }
 
     private void updateLineString() {
-        this.lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
+        lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
         // this.lineString = GeomUtil.createLineString(this.getNodeA().getPoint(), this.vertices, this.getNodeB().getPoint());
-        this.angleToXAxis = (int) Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
+        angleToXAxis = (int) Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
         this.setChanged();
         this.notifyObservers();
     }
@@ -77,12 +77,13 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     @NotNull
-    public Pair<Node> getNodePair() {
-        return Pair.of(nodeA, nodeB);
+    private Pair<Node> getNodePair() {
+        return nodePair;
     }
 
     @Nullable
     public Node getOtherNode(@NotNull Node node) {
+        Pair<Node> pair = Pair.of(nodeA, nodeB);
         if (getNodePair().contains(node)) {
             return getNodePair().getOtherValue(node);
         }
@@ -120,6 +121,7 @@ public class Edge extends Observable implements Observer, GraphElement {
         this.updateLineString();
     }
 
+    @NotNull
     @Override
     public String toString() {
         return lineString.toString();
@@ -131,11 +133,6 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public boolean isNonOctilinear() {
         return !this.isOctilinear();
-//        boolean result = !this.isOctilinear();
-//        if (result) {
-//            System.out.println(angleToXAxis%45);
-//        }
-//        return result;
     }
 
     public void repairEdge(double correctionDistance) {
@@ -187,6 +184,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if neither vertical nor horizontal to x-axis but octliniear
      */
+    @SuppressWarnings("unused")
     public boolean isDiagonal() {
         return isOctilinear() && !isVertical() && !isHorizontal();
     }

@@ -7,6 +7,7 @@ package ch.geomo.util.point;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -41,14 +42,16 @@ public class ImmutableNodePoint implements NodePoint {
         this.y = y;
     }
 
+    @NotNull
     @Override
-    public Coordinate getCoordinate() {
+    public Coordinate toCoordinate() {
         return new Coordinate(x, y);
     }
 
+    @NotNull
     @Override
-    public Point getPoint() {
-        return JTSFactoryFinder.getGeometryFactory().createPoint(getCoordinate());
+    public Point toPoint() {
+        return JTSFactoryFinder.getGeometryFactory().createPoint(toCoordinate());
     }
 
     @Override

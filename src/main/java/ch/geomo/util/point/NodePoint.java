@@ -9,41 +9,63 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 public interface NodePoint {
 
     /**
-     * Get X coordinate.
+     * @return x-value
      */
     double getX();
 
     /**
-     * Gets Y coordinate.
+     * @return y-value
      */
     double getY();
 
-    Coordinate getCoordinate();
+    /**
+     * Creates a new instance of {@link Coordinate} based on this {@link NodePoint} instance.
+     *
+     * @return an instance of {@link Coordinate}
+     */
+    @NotNull
+    Coordinate toCoordinate();
 
     /**
-     * Calculates the distance between this point and the other given point.
+     * Creates a new instance of {@link Point} based on this {@link NodePoint} instance.
+     *
+     * @return an instance of {@link Point}
+     */
+    @NotNull
+    Point toPoint();
+
+    /**
+     * @return distance between this point and the other given point
      */
     default double calculateDistanceTo(@NotNull NodePoint point) {
         return calculateDistanceTo(point.getX(), point.getY());
     }
 
+    /**
+     * @return distance between this point and the other given coordinate
+     */
     default double calculateDistanceTo(double x, double y) {
         return calculateDistanceTo(new Coordinate(x, y));
     }
 
-    default double calculateDistanceTo(Coordinate coordinate) {
-        return getCoordinate().distance(coordinate);
+    /**
+     * @return distance between this point and the other given coordinate
+     */
+    default double calculateDistanceTo(@NotNull Coordinate coordinate) {
+        return toCoordinate().distance(coordinate);
     }
 
     /**
-     * Calculates the angle between three points while current point is the center point of a circle.
+     * @return angle between three points while current point is the center point of a circle
      */
+    @SuppressWarnings("unused")
     default double calculateAngleBetween(@NotNull NodePoint p1, @NotNull NodePoint p2) {
         return GeomUtil.getAngleBetween(this, p1, p2);
     }
@@ -53,20 +75,22 @@ public interface NodePoint {
         return new ImmutableNodePoint(x, y);
     }
 
-    @NotNull
-    static NodePoint of(Point point) {
+    @Contract("null->null")
+    static NodePoint of(@Nullable Point point) {
+        if (point == null) {
+            return null;
+        }
         return NodePoint.of(point.getX(), point.getY());
     }
 
     /**
-     * Casts a {@link Set} of instances implementing {@link NodePoint} to a {@link Set} of {@link NodePoint}s.
+     * Helper method to hide warnings. Casts a {@link Set} of instances implementing {@link NodePoint} to a {@link Set}
+     * of {@link NodePoint}s.
      */
     @Contract(pure = true)
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "unused"})
     static <N extends NodePoint>Set<NodePoint> cast(Set<N> col) {
         return (Set<NodePoint>)col;
     }
-
-    Point getPoint();
 
 }

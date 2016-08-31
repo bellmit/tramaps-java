@@ -62,14 +62,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the nodes point
-     */
-    @NotNull
-    public Point getPoint() {
-        return point;
-    }
-
-    /**
      * @see #getPoint()
      */
     @NotNull
@@ -106,11 +98,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return getCoordinate().y;
     }
 
-    @NotNull
-    public Coordinate getCoordinate() {
-        return point.getCoordinate();
-    }
-
     public void setPoint(@NotNull Point point) {
         this.point = point;
         notifyObservers();
@@ -127,13 +114,14 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     public void setX(double x) {
-        setCoordinate(new Coordinate(x, this.getCoordinate().y));
+        setCoordinate(new Coordinate(x, getCoordinate().y));
     }
 
     public void setY(double y) {
-        setCoordinate(new Coordinate(this.getCoordinate().x, y));
+        setCoordinate(new Coordinate(getCoordinate().x, y));
     }
 
+    @NotNull
     @Override
     public String toString() {
         return point.toString();
@@ -149,6 +137,40 @@ public class Node extends Observable implements GraphElement, NodePoint {
     @Contract("->true")
     public boolean isNode() {
         return true;
+    }
+
+    /**
+     * @return a <b>new</b> instance of {@link Point}
+     */
+    @NotNull
+    public Point toPoint() {
+        return JTSFactoryFinder.getGeometryFactory().createPoint(point.getCoordinate());
+    }
+
+    /**
+     * @return the nodes point (the <b>same</b> instance)
+     * @see #toPoint() if you need a new instance
+     */
+    @NotNull
+    public Point getPoint() {
+        return point;
+    }
+
+    /**
+     * @return the nodes coordinate (the <b>same</b> instance)
+     * @see #toCoordinate() if you need a new instance
+     */
+    @NotNull
+    public Coordinate getCoordinate() {
+        return point.getCoordinate();
+    }
+
+    /**
+     * @return a <b>new</b> instance of {@link Coordinate}
+     */
+    @NotNull
+    public Coordinate toCoordinate() {
+        return new Coordinate(point.getCoordinate());
     }
 
 }

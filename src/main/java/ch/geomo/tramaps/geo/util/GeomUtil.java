@@ -3,7 +3,6 @@ package ch.geomo.tramaps.geo.util;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
-import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -99,7 +98,7 @@ public final class GeomUtil {
 
     @NotNull
     public static LineString createLineString(@NotNull NodePoint nodeA, @NotNull NodePoint nodeB) {
-        return createLineString(nodeA.getCoordinate(), nodeB.getCoordinate());
+        return createLineString(nodeA.toCoordinate(), nodeB.toCoordinate());
     }
 
     /**

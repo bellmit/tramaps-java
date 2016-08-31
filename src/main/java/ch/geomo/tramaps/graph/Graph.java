@@ -80,6 +80,7 @@ public class Graph {
         return collection.getEnvelopeInternal();
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Graph: [ Edges: " + getEdges() + "\n         " + "Nodes: " + getNodes() + " ]";
