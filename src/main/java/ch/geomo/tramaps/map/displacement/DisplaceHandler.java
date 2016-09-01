@@ -9,14 +9,12 @@ import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
-import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -32,12 +30,11 @@ public class DisplaceHandler implements MakeSpaceHandler {
         System.out.println("Non-Octilinear Edges:" + map.evaluateNonOctilinearEdges().count());
     }
 
-    @NotNull
-    private OctilinearDirection moveNode(@NotNull Edge edge, @NotNull Node moveableNode, @Nullable OctilinearDirection lastMoveDirection) {
-        // TODO
-        return OctilinearDirection.NORTH;
-    }
-
+    /**
+     * Merges two points. First given {@link Point} will be kept while the second {@link Point} will be
+     * removed. Adjacent edges will be transferred. Possible duplications (edges with
+     * same nodes) removed.
+     */
     private void mergeNodes(@NotNull Node fixedNode, @NotNull Node obsoleteNode, @NotNull MetroMap map) {
 
         // add adjacent edges to fixed node
@@ -65,7 +62,9 @@ public class DisplaceHandler implements MakeSpaceHandler {
     }
 
     /**
-     * Evaluates an octilinear bend coordinate for given {@link Edge}.
+     * Evaluates a coordinate which allows an octilinear bend in given {@link Edge}.
+     *
+     * @return the evaluated {@link Coordinate}
      */
     @NotNull
     private Coordinate evaluateOctilinearBendCoordinate(@NotNull Edge edge) {
@@ -99,8 +98,7 @@ public class DisplaceHandler implements MakeSpaceHandler {
      * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance
      * will be destroyed.
      *
-     * @return the bend node
-     * @see Node#getAdjacentEdges() to receive the newly created edges
+     * @return the created bend node
      */
     @NotNull
     private Node introduceBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
@@ -117,14 +115,30 @@ public class DisplaceHandler implements MakeSpaceHandler {
         // remove old edge
         edge.delete();
 
+        // numbers of nodes has changed, edge cache must be flagged for rebuild
+        map.updateGraph();
+
         return node;
 
     }
 
     /**
-     * Listing 6
+     * Moves given {@link Node} in a certain direction to correct the given {@link Edge}'s
+     * octilinearity. Prefers to move in the given (last) move direction if two choices
+     * are equal weighted.
+     *
+     * @return the applied move direction
      */
-    private void correctEdge(@NotNull Edge edge, @NotNull Node moveableNode, @Nullable OctilinearDirection lastMoveDirection) {
+    @NotNull
+    private OctilinearDirection moveNode(@NotNull Edge edge, @NotNull Node moveableNode, @Nullable OctilinearDirection lastMoveDirection) {
+        // TODO
+        return OctilinearDirection.NORTH;
+    }
+
+    /**
+     * Corrects the direction of given {@link Edge} recursively by moving the given {@link Node}.
+     */
+    private void correctEdgeDirection(@NotNull Edge edge, @NotNull Node moveableNode, @Nullable OctilinearDirection lastMoveDirection) {
 
         OctilinearDirection movedDirection = moveNode(edge, moveableNode, lastMoveDirection);
 
@@ -133,7 +147,7 @@ public class DisplaceHandler implements MakeSpaceHandler {
                 .filter(edge::isNotEquals)
                 .forEach(nonOctilinearEdge -> {
                     Node otherNode = edge.getOtherNode(moveableNode);
-                    correctEdge(nonOctilinearEdge, otherNode, movedDirection);
+                    correctEdgeDirection(nonOctilinearEdge, otherNode, movedDirection);
                 });
 
     }
