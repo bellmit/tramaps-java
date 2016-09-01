@@ -16,7 +16,6 @@ public class ImmutablePair<T> implements Pair<T> {
     private T first;
     private T second;
 
-    @SuppressWarnings("unused")
     public ImmutablePair(@Nullable Pair<T> pair) {
         if (pair != null) {
             this.first = pair.getFirst();

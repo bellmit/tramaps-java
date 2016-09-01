@@ -17,8 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.conflict.ConflictType.*;
-
 public class Conflict implements Comparable<Conflict> {
 
     private final ElementBuffer bufferA;
@@ -35,7 +33,6 @@ public class Conflict implements Comparable<Conflict> {
 
     private LineString g;
 
-    private ConflictType conflictType;
     private boolean solved = false;
 
     public Conflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
@@ -44,17 +41,10 @@ public class Conflict implements Comparable<Conflict> {
         updateConflict();
     }
 
-    private void updateConflictType() {
-        long nodeCount = getNodes().count();
-        conflictType = (nodeCount == 2 ? NODE_NODE : (nodeCount == 1 ? NODE_EDGE : EDGE_EDGE));
-    }
-
     public void updateConflict() {
 
         // create conflict polygon
         conflictPolygon = (Polygon) bufferA.getBuffer().intersection(bufferB.getBuffer());
-
-        updateConflictType();
 
         // create line q
         LineString q = GeomUtil.createLineString(bufferA.getElement().getCentroid(), bufferB.getElement().getCentroid());
@@ -145,11 +135,6 @@ public class Conflict implements Comparable<Conflict> {
     @NotNull
     public ElementBuffer getBufferB() {
         return bufferB;
-    }
-
-    @NotNull
-    public ConflictType getConflictType() {
-        return conflictType;
     }
 
     @NotNull

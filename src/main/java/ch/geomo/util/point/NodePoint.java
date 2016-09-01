@@ -89,7 +89,7 @@ public interface NodePoint {
      * of {@link NodePoint}s.
      */
     @Contract(pure = true)
-    @SuppressWarnings({"unchecked", "unused"})
+    @SuppressWarnings("unchecked")
     static <N extends NodePoint>Set<NodePoint> cast(Set<N> col) {
         return (Set<NodePoint>)col;
     }

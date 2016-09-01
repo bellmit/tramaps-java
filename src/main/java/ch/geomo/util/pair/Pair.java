@@ -48,7 +48,6 @@ public interface Pair<T> {
      * @return false if element is equals to null at the given index
      * @throws IndexOutOfBoundsException if index is neither 1 or 0
      */
-    @SuppressWarnings("unused")
     default boolean isNull(int index) {
         return get(index) == null;
     }
@@ -87,7 +86,6 @@ public interface Pair<T> {
      *
      * @throws NoSuchElementException if no shared value was found
      */
-    @SuppressWarnings("unused")
     default T getSharedValue(Pair<T> otherPair) {
         return otherPair.stream()
                 .filter(this::contains)
@@ -98,7 +96,6 @@ public interface Pair<T> {
     /**
      * @return true if at least one of the two element of given pair is also contained of this instance
      */
-    @SuppressWarnings("unused")
     default boolean hasSharedValue(Pair<T> otherPair) {
         return otherPair.stream()
                 .anyMatch(this::contains);
@@ -141,7 +138,6 @@ public interface Pair<T> {
      * @see org.apache.commons.lang3.tuple.Pair
      */
     @NotNull
-    @SuppressWarnings("unused")
     static <T> Set<Pair<T>> from(Collection<org.apache.commons.lang3.tuple.Pair<T, T>> pairs) {
         if (pairs == null) {
             return Collections.emptySet();
@@ -155,7 +151,6 @@ public interface Pair<T> {
      * @return a {@link Set} of {@link ImmutablePair} with given collections
      */
     @NotNull
-    @SuppressWarnings("unused")
     static <T> Set<Pair<T>> from(Collection<T> col1, Collection<T> col2) {
         if (col1 == null || col2 == null) {
             return Collections.emptySet();
@@ -185,7 +180,6 @@ public interface Pair<T> {
      * @return a Apache Commons Pair instance
      * @see org.apache.commons.lang3.tuple.Pair
      */
-    @SuppressWarnings("unused")
     default org.apache.commons.lang3.tuple.Pair toPair() {
         return org.apache.commons.lang3.tuple.Pair.of(getFirst(), getSecond());
     }

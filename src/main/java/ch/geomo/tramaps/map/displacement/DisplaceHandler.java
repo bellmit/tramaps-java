@@ -2,7 +2,6 @@ package ch.geomo.tramaps.map.displacement;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geo.Axis;
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
@@ -19,9 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.Vector;
 import java.util.stream.Collectors;
 
 public class DisplaceHandler implements MakeSpaceHandler {
@@ -174,10 +171,6 @@ public class DisplaceHandler implements MakeSpaceHandler {
     private Pair<Graph> getSubGraphsFor(@NotNull Conflict conflict, @NotNull MetroMap map) {
         // TODO
         return Pair.of(null, null);
-    }
-
-    private boolean isSimpleCorrectionPossible(@NotNull Edge edge, @NotNull Node moveableNode) {
-        return false;
     }
 
     /**

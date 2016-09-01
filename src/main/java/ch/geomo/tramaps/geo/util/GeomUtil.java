@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -97,11 +96,6 @@ public final class GeomUtil {
     @NotNull
     public static LineString createLineString(@NotNull Point pointA, @NotNull Point pointB) {
         return createLineString(pointA.getCoordinate(), pointB.getCoordinate());
-    }
-
-    @NotNull
-    public static LineString createLineString(@NotNull Point pointA, @NotNull List<Point> vertices, @NotNull Point pointB) {
-        return createLineString(Stream.concat(Stream.concat(Stream.of(pointA.getCoordinate()), vertices.stream().map(v -> v.getCoordinate())), Stream.of(pointB.getCoordinate())).toArray(size -> new Coordinate[size]));
     }
 
     @NotNull

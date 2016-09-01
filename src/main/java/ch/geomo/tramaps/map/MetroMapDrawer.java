@@ -23,7 +23,6 @@ public class MetroMapDrawer {
         this.edgeMargin = edgeMargin;
     }
 
-    @SuppressWarnings("unused")
     public void setMetroMap(@Nullable MetroMap map) {
         this.map = map;
     }
