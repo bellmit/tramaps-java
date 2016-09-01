@@ -1,7 +1,6 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.map.signature.NodeSignature;
-import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -12,57 +11,85 @@ import java.util.stream.Collectors;
 
 import static ch.geomo.tramaps.geo.util.GeomUtil.createCollection;
 
+/**
+ * A container representing a graph.
+ */
 public class Graph {
 
-    private Set<Edge> edges;
     private Set<Node> nodes;
 
+    /**
+     * Cache with all edges received from nodes. Initialized once with
+     * {@link #buildEdgeCache()} when accessing. Invoke {@link #updateGraph()}
+     * to flag for a rebuild when accessing next time.
+     */
+    private Set<Edge> edgeCache;
+
+    /**
+     * Creates a new instance of a {@link Graph} without nodes.
+     */
     public Graph() {
-        edges = new HashSet<>();
-        nodes = new HashSet<>();
-    }
-
-    public Graph(@NotNull Graph graph) {
-        this(graph.getEdges(), graph.getNodes());
-    }
-
-    public Graph(@NotNull Collection<Edge> edges, @NotNull Collection<Node> nodes) {
-        this.edges = new HashSet<>(edges);
-        this.nodes = new HashSet<>(nodes);
-    }
-
-    public void addEdges(@NotNull Edge... edges) {
-        addEdges(Arrays.asList(edges));
-    }
-
-    public void removeEdges(@NotNull Edge... edges) {
-        Arrays.stream(edges)
-                .forEach(edge -> {
-                    edge.destroy(this);
-                });
-    }
-
-    public void addEdges(@NotNull Collection<Edge> edges) {
-        this.edges.addAll(edges);
-    }
-
-    public void addNodes(@NotNull Node... nodes) {
-        addNodes(Arrays.asList(nodes));
-    }
-
-    public void addNodes(@NotNull Collection<Node> nodes) {
-        this.nodes.addAll(nodes);
-    }
-
-    @NotNull
-    private Set<Geometry> getEdgeGeometries() {
-        return edges.stream()
-            .map(Edge::getLineString)
-            .collect(Collectors.toSet());
+        this(Collections.emptyList());
     }
 
     /**
-     * @return a {@link Set} of the node signature's geometries
+     * Copy constructor. Creates a new instance of a {@link Graph} with the
+     * nodes of the given {@link Graph}.
+     */
+    public Graph(@NotNull Graph graph) {
+        this(graph.getNodes());
+    }
+
+    /**
+     * Creates a new instance of a {@link Graph} with given edges and nodes.
+     */
+    public Graph(@NotNull Collection<Node> nodes) {
+        this.nodes = new HashSet<>(nodes);
+        edgeCache = null;
+    }
+
+    private void buildEdgeCache() {
+        edgeCache = nodes.stream()
+                .flatMap(node -> node.getAdjacentEdges().stream())
+                .distinct()
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Adds given nodes to this {@link Graph} instance.
+     */
+    public void addNodes(@NotNull Node... nodes) {
+        this.nodes.addAll(Arrays.asList(nodes));
+        edgeCache = null;
+    }
+
+    /**
+     * Removes given nodes from this {@link Graph} instance.
+     */
+    public void removeNodes(@NotNull Node... nodes) {
+        this.nodes.removeAll(Arrays.asList(nodes));
+        edgeCache = null;
+    }
+
+    /**
+     * @return a {@link Set} with all edge's geometries
+     */
+    @NotNull
+    private Set<Geometry> getEdgeGeometries() {
+        return getEdgeCache().stream()
+                .map(Edge::getLineString)
+                .collect(Collectors.toSet());
+    }
+
+    private Set<Edge> getEdgeCache() {
+        if (edgeCache == null) {
+            buildEdgeCache();
+        }
+        return edgeCache;
+    }
+
+    /**
+     * @return a {@link Set} with all node signature's geometries
      */
     @NotNull
     private Set<Geometry> getNodeSignatureGeometries() {
@@ -73,32 +100,28 @@ public class Graph {
     }
 
     /**
-     * @return all edges of this graph
+     * Gets all edges of this graph.
+     *
+     * @return an unmodifiable {@link Set} of all edges
      */
     @NotNull
     public Set<Edge> getEdges() {
-        return edges;
+        return Collections.unmodifiableSet(getEdgeCache());
     }
 
     /**
-     * @return all nodes of this graph
+     * Gets all nodes of this graph.
+     *
+     * @return an unmodifiable {@link Set} of all nodes
      */
     @NotNull
     public Set<Node> getNodes() {
-        return nodes;
-    }
-
-    public Set<Node> getBridgeEdges() {
-        // TODO
-        return null;
-    }
-
-    public Map<Edge, Pair<Graph>> getSubGraphsByLeavingOut(Set<Edge> edges) {
-        // TODO
-        return null;
+        return Collections.unmodifiableSet(nodes);
     }
 
     /**
+     * Calculates the bounding box with a collection of all edge and node signature geometries.
+     *
      * @return a bounding box of all edge and node signatures
      * @see #getEdgeGeometries()
      * @see #getNodeSignatureGeometries()
@@ -109,10 +132,24 @@ public class Graph {
         return collection.getEnvelopeInternal();
     }
 
+    /**
+     * @return a string representation of this graph
+     */
     @NotNull
     @Override
     public String toString() {
         return "Graph: [ Edges: " + getEdges() + "\n         " + "Nodes: " + getNodes() + " ]";
+    }
+
+    /**
+     * Reset and flags edge cache for a rebuild. Removes deleted nodes returning true
+     * when invoking {@link Node#isDeleted()}.
+     */
+    public void updateGraph() {
+        // remove deleted nodes
+        nodes.removeIf(Node::isDeleted);
+        // reset edge cache -> will be created again when accessing next time
+        edgeCache = null;
     }
 
 }

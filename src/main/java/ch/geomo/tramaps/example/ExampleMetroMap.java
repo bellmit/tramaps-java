@@ -65,8 +65,7 @@ public class ExampleMetroMap extends MetroMap {
         aj.addRoutes(line5);
         jk.addRoutes(line5);
 
-        getNodes().addAll(Arrays.asList(a, b, c, d, e, f, g, h, i, j, k));
-        getEdges().addAll(Arrays.asList(ab, bc, cd, de, ef, fg, gh, ha, hi, ib, ia, aj, jk));
+        addNodes(a, b, c, d, e, f, g, h, i, j, k);
 
     }
 

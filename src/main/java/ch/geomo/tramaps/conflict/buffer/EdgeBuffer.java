@@ -27,7 +27,7 @@ public class EdgeBuffer implements ElementBuffer, Observer {
 
     @Override
     public void updateBuffer() {
-        double width = edge.getEdgeWidth(routeMargin) + edgeMargin * 2;
+        double width = edge.calculateEdgeWidth(routeMargin) + edgeMargin * 2;
         buffer = GeomUtil.createBuffer(edge.getLineString(), width / 2, true);
     }
 

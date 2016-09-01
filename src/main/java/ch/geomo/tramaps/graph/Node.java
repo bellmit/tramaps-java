@@ -21,6 +21,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private final NodeSignature signature;
     private final Set<Edge> adjacentEdges;
 
+    private boolean deleted = false;
+
     /**
      * Creates a new instance of {@link Node} using a {@link SquareStationSignature}
      * instance.
@@ -49,13 +51,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * Creates a new adjacent edge between this and the given node. Subscribes immediately
      * the new edge as an {@link java.util.Observer}.
      */
-    public void createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes, @Nullable Graph graph) {
+    public void createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes) {
         Edge edge = new Edge(this, node);
         edge.addRoutes(routes);
         adjacentEdges.add(edge);
-        if (graph != null) {
-            graph.addEdges(edge);
-        }
         addObserver(edge);
         setChanged();
         notifyObservers();
@@ -76,19 +75,13 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     /**
      * Removes an adjacent edge. Nodes will be untouched. Unsubscribe the edge
-     * as an {@link Observer}. To remove a node {@link #destroy(Graph)} should
-     * be invoked instead.
-     *
-     * @see #destroy(Graph)
+     * as an {@link Observer}.
      */
-    public void removeAdjacentEdge(@NotNull Edge edge, @Nullable Graph graph) {
+    public void removeAdjacentEdge(@NotNull Edge edge) {
         if (!isAdjacent(edge)) {
             return;
         }
         adjacentEdges.remove(edge);
-        if (graph != null) {
-            graph.removeEdges(edge);
-        }
         deleteObserver(edge);
         setChanged();
         notifyObservers();
@@ -143,7 +136,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the x-value of this node
+     * @return the x-value of this node's position/coordinate
      */
     @Override
     public double getX() {
@@ -151,47 +144,71 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the y-value of this node
+     * @return the y-value of this node's position/coordinate
      */
     @Override
     public double getY() {
         return point.getY();
     }
 
+    /**
+     * Updates the node's position/coordinate and notifies Observers.
+     */
     public void updatePosition(@NotNull Point point) {
         this.point = point;
         setChanged();
         notifyObservers();
     }
 
+    /**
+     * Updates the node's position/coordinate and notifies Observers.
+     */
     public void updatePosition(@NotNull Coordinate coordinate) {
         updatePosition(GeomUtil.createPoint(coordinate));
     }
 
+    /**
+     * Updates the node's position/coordinate and notifies Observers.
+     */
     public void updatePosition(double x, double y) {
         updatePosition(GeomUtil.createPoint(x, y));
     }
 
+    /**
+     * Updates the x-value of the node's position/coordinate and notifies Observers.
+     */
     public void updateX(double x) {
         updatePosition(x, getY());
     }
 
+    /**
+     * Updates the y-value of the node's position/coordinate and notifies Observers.
+     */
     public void updateY(double y) {
         updatePosition(getX(), y);
     }
 
+    /**
+     * @return the string representation of this node
+     */
     @NotNull
     @Override
     public String toString() {
-        return point.toString();
+        return "Node: {" + point.toString() + "}";
     }
 
+    /**
+     * @return false since this implementation of {@link GraphElement} is a point ;-)
+     */
     @Override
     @Contract("->false")
     public boolean isEdge() {
         return false;
     }
 
+    /**
+     * @return true since this implementation of {@link GraphElement} is a point ;-)
+     */
     @Override
     @Contract("->true")
     public boolean isNode() {
@@ -199,15 +216,22 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
+     * Returns a <b>new</b> instance of the encapsulated {@link Point} representation
+     * of this node. Implemented to satisfy {@link NodePoint} interface.
+     *
      * @return a <b>new</b> instance of {@link Point}
      */
     @NotNull
+    @Override
     public Point toPoint() {
         return GeomUtil.clonePoint(point);
     }
 
     /**
-     * @return the nodes point (the <b>same</b> instance)
+     * Returns the <b>same</b> instance of the encapsulated {@link Point} representation
+     * of this node.
+     *
+     * @return the nodes point (<b>same</b> instance)
      * @see #toPoint() if you need a new instance
      */
     @NotNull
@@ -216,7 +240,22 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the nodes coordinate (the <b>same</b> instance)
+     * Returns a <b>new</b> instance of the encapsulated {@link Point#getCoordinate()}
+     * representation of this node. Implemented to satisfy {@link NodePoint} interface.
+     *
+     * @return a <b>new</b> instance of {@link Coordinate}
+     */
+    @NotNull
+    @Override
+    public Coordinate toCoordinate() {
+        return new Coordinate(point.getCoordinate());
+    }
+
+    /**
+     * Returns a <b>same</b> instance of the encapsulated {@link Point#getCoordinate()}
+     * representation of this node.
+     *
+     * @return the nodes coordinate (<b>same</b> instance)
      * @see #toCoordinate() if you need a new instance
      */
     @NotNull
@@ -224,20 +263,24 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return point.getCoordinate();
     }
 
-    /**
-     * @return a <b>new</b> instance of {@link Coordinate}
-     */
-    @NotNull
-    public Coordinate toCoordinate() {
-        return new Coordinate(point.getCoordinate());
+    @Override
+    public boolean isDeleted() {
+        return deleted;
     }
 
     /**
-     * Destroys this instance. Removes all edges and unsubscribes them.
+     * Deletes this instance. Removes all edges and unsubscribes observers.
      */
-    public void destroy(@Nullable Graph graph) {
-        getAdjacentEdges()
-                .forEach(edge -> removeAdjacentEdge(edge, graph));
+    @Override
+    public void delete() {
+        // remove adjacent nodes
+        getAdjacentEdges().forEach(Edge::delete);
+        deleted = true;
+        // notify observers a last time
+        setChanged();
+        notifyObservers();
+        // unsubscribe all observers
+        deleteObservers();
     }
 
     /**

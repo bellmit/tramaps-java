@@ -6,9 +6,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Observable;
-import java.util.Observer;
-
 /**
  * A simple implementation of a station signature. The signature's form
  * is a rectangle.
@@ -34,12 +31,12 @@ public class RectangleStationSignature extends NodeSignature {
     protected void updateSignature() {
         double width = node.getAdjacentEdges().stream()
                 .filter(edge -> !edge.isHorizontal())
-                .map(edge -> edge.getEdgeWidth(ROUTE_MARGIN))
+                .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
         double height = node.getAdjacentEdges().stream()
                 .filter(edge -> !edge.isVertical())
-                .map(edge -> edge.getEdgeWidth(ROUTE_MARGIN))
+                .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
         signature = GeomUtil.createPolygon(node.getPoint(), Math.max(width, MIN_SIDE_LENGTH), Math.max(height, MIN_SIDE_LENGTH));

@@ -5,6 +5,7 @@
 package ch.geomo.util.point;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.graph.Graph;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;

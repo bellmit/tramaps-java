@@ -29,16 +29,7 @@ public class MetroMapDrawer {
     }
 
     private void drawEdge(@NotNull Edge edge, @NotNull GraphicsContext context) {
-        if (edge.getVertices().isEmpty()) {
-            context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
-        }
-        else {
-            context.beginPath();
-            context.moveTo(edge.getNodeA().getX(), edge.getNodeA().getY());
-            context.lineTo(edge.getVertices().get(0).getX(), edge.getVertices().get(0).getY());
-            context.lineTo(edge.getNodeB().getX(), edge.getNodeB().getY());
-            context.stroke();
-        }
+        context.strokeLine(edge.getNodeA().getX(), edge.getNodeA().getY(), edge.getNodeB().getX(), edge.getNodeB().getY());
     }
 
     public void draw(@NotNull GraphicsContext context, @NotNull Envelope bbox) {
@@ -58,7 +49,7 @@ public class MetroMapDrawer {
         }
 
         map.getEdges().forEach(edge -> {
-            double width = edge.getEdgeWidth(routeMargin);
+            double width = edge.calculateEdgeWidth(routeMargin);
             context.setLineWidth(width);
             context.setStroke(Color.rgb(139, 187, 206, 0.5d));
             context.setLineCap(StrokeLineCap.BUTT);

@@ -19,13 +19,15 @@ public class Edge extends Observable implements Observer, GraphElement {
     private Node nodeA;
     private Node nodeB;
     private Pair<Node> nodePair;
-
     private LineString lineString;
-
     private Set<Route> routes;
-
     private Direction direction;
 
+    private boolean deleted;
+
+    /**
+     * Creates a new instance of {@link Edge} with given nodes.
+     */
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
         this.nodeB = nodeB;
@@ -36,23 +38,38 @@ public class Edge extends Observable implements Observer, GraphElement {
         updateLineString();
     }
 
-    public double getEdgeWidth(double routeMargin) {
+    /**
+     * Calculates the edge width of this edge using given margin between
+     * the routes.
+     *
+     * @return the width of this edge
+     */
+    public double calculateEdgeWidth(double routeMargin) {
         double width = getRoutes().stream()
                 .mapToDouble(Route::getLineWidth)
                 .sum();
         return width + routeMargin * (getRoutes().size() - 2);
     }
 
+    /**
+     * @return the first node of this edge
+     */
     @NotNull
     public Node getNodeA() {
         return nodeA;
     }
 
+    /**
+     * @return the second node of this edge
+     */
     @NotNull
     public Node getNodeB() {
         return nodeB;
     }
 
+    /**
+     * Updates the {@link LineString} representation and notifies Observers.
+     */
     private void updateLineString() {
         lineString = GeomUtil.createLineString(nodeA, nodeB);
         double angle = Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
@@ -61,12 +78,20 @@ public class Edge extends Observable implements Observer, GraphElement {
         notifyObservers();
     }
 
+    /**
+     * Adds given routes to this edge and notifies Observers. Ignores
+     * duplicated routes.
+     */
     public void addRoutes(@NotNull Collection<Route> routes) {
         this.routes.addAll(routes);
         setChanged();
         notifyObservers();
     }
 
+    /**
+     * Adds given routes to this edge and notifies Observers. Ignores
+     * duplicated routes.
+     */
     public void addRoutes(@NotNull Route... routes) {
         addRoutes(Arrays.asList(routes));
     }
@@ -159,12 +184,18 @@ public class Edge extends Observable implements Observer, GraphElement {
         return direction.getAngle();
     }
 
+    /**
+     * @return true since this implementation of {@link GraphElement} is an edge ;-)
+     */
     @Override
     @Contract("->true")
     public boolean isEdge() {
         return true;
     }
 
+    /**
+     * @return false since this implementation of {@link GraphElement} is an edge ;-)
+     */
     @Override
     @Contract("->false")
     public boolean isNode() {
@@ -188,9 +219,26 @@ public class Edge extends Observable implements Observer, GraphElement {
         return super.hashCode();
     }
 
-    public void destroy(@Nullable Graph graph) {
-        getNodeA().removeAdjacentEdge(this, graph);
-        getNodeB().removeAdjacentEdge(this, graph);
+    /**
+     * @return true if given edge has the same nodes than this instance
+     */
+    public boolean equalNodes(Edge edge) {
+        return this.getNodeA().isAdjacent(edge) && this.getNodeB().isAdjacent(edge);
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void delete() {
+        // remove from adjacent nodes
+        getNodeA().removeAdjacentEdge(this);
+        getNodeB().removeAdjacentEdge(this);
+        deleted = true;
+        // notify observers a last time
+        setChanged();
+        notifyObservers();
+        // unsubscribe all observers
         deleteObservers();
     }
 

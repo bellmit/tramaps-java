@@ -26,9 +26,23 @@ public interface Pair<T> {
     T getFirst();
 
     /**
+     * Alias for {@link #getFirst()}.
+     */
+    default T first() {
+        return getFirst();
+    }
+
+    /**
      * @return the second value
      */
     T getSecond();
+
+    /**
+     * Alias for {@link #getSecond()}.
+     */
+    default T second() {
+        return getSecond();
+    }
 
     /**
      * @return false if element is equals to null at the given index

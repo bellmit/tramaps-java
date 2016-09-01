@@ -5,15 +5,18 @@ import ch.geomo.tramaps.geo.Axis;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
+import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -40,14 +43,24 @@ public class DisplaceHandler implements MakeSpaceHandler {
         // add adjacent edges to fixed node
         obsoleteNode.getAdjacentEdges().forEach(edge -> {
             Node otherNode = edge.getOtherNode(obsoleteNode);
-            fixedNode.createAdjacentEdgeTo(otherNode, edge.getRoutes(), map);
+            fixedNode.createAdjacentEdgeTo(otherNode, edge.getRoutes());
         });
 
         // merge duplicate edges
-        // TODO find duplicates, merge routes and remove one of the duplicated edges
+        fixedNode.getAdjacentEdges().stream()
+                .flatMap(e1 -> fixedNode.getAdjacentEdges().stream()
+                        .map(e2 -> Pair.of(e1, e2)))
+                .filter(p -> p.first().equalNodes(p.second()))
+                .forEach(p -> {
+                    Set<Route> routes = p.second().getRoutes();
+                    p.first().addRoutes(routes);
+                });
 
-        // remove obsolete nodes
-        obsoleteNode.destroy(map);
+        // remove obsolete nodes and it's adjacent edges
+        obsoleteNode.delete();
+
+        // numbers of nodes and edges may have changed
+        map.updateGraph();
 
     }
 
@@ -98,11 +111,11 @@ public class DisplaceHandler implements MakeSpaceHandler {
         map.addNodes(node);
 
         // create two new edges
-        edge.getNodeA().createAdjacentEdgeTo(node, edge.getRoutes(), map);
-        edge.getNodeB().createAdjacentEdgeTo(node, edge.getRoutes(), map);
+        edge.getNodeA().createAdjacentEdgeTo(node, edge.getRoutes());
+        edge.getNodeB().createAdjacentEdgeTo(node, edge.getRoutes());
 
         // remove old edge
-        edge.destroy(map);
+        edge.delete();
 
         return node;
 

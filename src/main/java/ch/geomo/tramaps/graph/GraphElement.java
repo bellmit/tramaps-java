@@ -39,4 +39,14 @@ public interface GraphElement {
 
     boolean isNode();
 
+    /**
+     * @return true if this {@link GraphElement} was previously deleted
+     */
+    boolean isDeleted();
+
+    /**
+     * Deletes this {@link GraphElement} instance.
+     */
+    void delete();
+
 }

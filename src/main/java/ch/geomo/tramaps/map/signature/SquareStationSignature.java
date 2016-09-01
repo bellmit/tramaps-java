@@ -6,9 +6,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Observable;
-import java.util.Observer;
-
 /**
  * A simple implementation of a station signature. The signature's form
  * is a square.
@@ -32,7 +29,7 @@ public class SquareStationSignature extends NodeSignature {
      */
     protected void updateSignature() {
         double width = node.getAdjacentEdges().stream()
-                .map(edge -> edge.getEdgeWidth(ROUTE_MARGIN))
+                .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
         signature = GeomUtil.createBuffer(node.getPoint(), width / 2, false);
