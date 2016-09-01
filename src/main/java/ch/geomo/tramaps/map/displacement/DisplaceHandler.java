@@ -2,6 +2,7 @@ package ch.geomo.tramaps.map.displacement;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geo.Axis;
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
@@ -49,6 +50,38 @@ public class DisplaceHandler implements MakeSpaceHandler {
         obsoleteNode.destroy(map);
 
     }
+
+//    public void repairEdge(double correctionDistance) {
+//        // TODO find an algorithm to evaluate a vertex in a way that this edge has a octilinear direction
+//        if (isNonOctilinear()) {
+//            vertices.clear();
+//            Node nodeA = this.getNodeA();
+//            Node nodeB = this.getNodeB();
+//            double dx = Math.abs(nodeA.getX() - nodeB.getX());
+//            double dy = Math.abs(nodeA.getY() - nodeB.getY());
+//            if (dx < dy) {
+//                Point vertex;
+//                if (nodeA.getY() < nodeB.getY()) {
+//                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() - dx));
+//                }
+//                else {
+//                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() + dx));
+//                }
+//                //vertices.add(vertex);
+//            }
+//            else {
+//                Point vertex;
+//                if (nodeA.getX() < nodeB.getX()) {
+//                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() + dy), nodeA.getY());
+//                }
+//                else {
+//                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() - dy), nodeA.getY());
+//                }
+//                //vertices.add(vertex);
+//            }
+//            updateLineString();
+//        }
+//    }
 
     private void createBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
 

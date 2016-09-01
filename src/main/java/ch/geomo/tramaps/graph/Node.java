@@ -12,10 +12,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Observable;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 public class Node extends Observable implements GraphElement, NodePoint {
@@ -53,6 +50,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
         this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
     }
 
+    /**
+     * Creates a new adjacent edge between this and the given node. Subscribes immediately
+     * the new edge as an {@link java.util.Observer}.
+     */
     public void createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes, @Nullable Graph graph) {
         Edge edge = new Edge(this, node);
         edge.addRoutes(routes);
@@ -65,33 +66,49 @@ public class Node extends Observable implements GraphElement, NodePoint {
         notifyObservers();
     }
 
+    /**
+     * Adds a new adjacent edge but ignores given edge if neither node A nor
+     * node B is equals to this instance. Subscribes the given edge as an
+     * {@link Observer} but does not notify the other observers!
+     */
+    void addAdjacentEdge(@NotNull Edge edge) { // package-private
+        if (!this.equals(edge.getNodeA()) && !this.equals(edge.getNodeB())) {
+            return;
+        }
+        adjacentEdges.add(edge);
+        addObserver(edge);
+    }
+
+    /**
+     * Removes an adjacent edge. Nodes will be untouched. Unsubscribe the edge
+     * as an {@link Observer}. To remove a node {@link #destroy(Graph)} should
+     * be invoked instead.
+     *
+     * @see #destroy(Graph)
+     */
     public void removeAdjacentEdge(@NotNull Edge edge, @Nullable Graph graph) {
+
+        if (!isAdjacent(edge)) {
+            return;
+        }
+
         adjacentEdges.remove(edge);
-        deleteObserver(edge);
         if (graph != null) {
             graph.removeEdges(edge);
         }
+        deleteObserver(edge);
         setChanged();
         notifyObservers();
+
     }
 
     /**
-     * @return all adjacent edges
+     * @return an unmodifiable {@link Set} of all adjacent edges
      */
     @NotNull
     public Set<Edge> getAdjacentEdges() {
-        return adjacentEdges;
-    }
-
-    /**
-     * Adds a new adjacent edge but ignores given edge if neither node A nor
-     * node B is equals to this instance.
-     */
-    public void addAdjacentEdge(@NotNull Edge edge) {
-        if (this.equals(edge.getNodeA()) || this.equals(edge.getNodeB())) {
-            adjacentEdges.add(edge);
-        }
-        this.addObserver(edge);
+        // unmodifiable in order to avoid side effects
+        return Collections.unmodifiableSet(adjacentEdges);
     }
 
     /**
@@ -133,17 +150,16 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     public void setPoint(@NotNull Point point) {
         this.point = point;
-        notifyObservers();
-    }
-
-    public void setCoordinate(@NotNull Coordinate coordinate) {
-        this.point = GeomUtil.createPoint(coordinate);
         setChanged();
         notifyObservers();
     }
 
+    public void setCoordinate(@NotNull Coordinate coordinate) {
+        setPoint(GeomUtil.createPoint(coordinate));
+    }
+
     public void setCoordinate(double x, double y) {
-        setCoordinate(new Coordinate(x, y));
+        setPoint(GeomUtil.createPoint(x, y));
     }
 
     public void setX(double x) {
@@ -206,6 +222,9 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return new Coordinate(point.getCoordinate());
     }
 
+    /**
+     * Destroys this instance. Removes all edges and unsubscribes them.
+     */
     public void destroy(@Nullable Graph graph) {
         getAdjacentEdges()
                 .forEach(edge -> removeAdjacentEdge(edge, graph));

@@ -51,19 +51,19 @@ public class ExampleMetroMap extends MetroMap {
         Route line6 = new Route(20, Color.MAGENTA);
         Route line7 = new Route(20, Color.BLACK);
 
-        ab.addRoutes(Arrays.asList(line1, line2, line3, line4, line5));
-        bc.addRoutes(Arrays.asList(line1, line2, line4, line5));
-        cd.addRoutes(Arrays.asList(line1, line2, line4, line5));
-        de.addRoutes(Arrays.asList(line1, line2, line4, line5));
-        ef.addRoutes(Arrays.asList(line1, line2, line4, line5, line6));
-        fg.addRoutes(Arrays.asList(line1, line6));
-        gh.addRoutes(Arrays.asList(line1, line6));
-        ha.addRoutes(Arrays.asList(line1, line2, line3, line6, line7));
-        hi.addRoutes(Arrays.asList(line1, line3, line6));
-        ib.addRoutes(Collections.singletonList(line6));
-        ia.addRoutes(Arrays.asList(line1, line4, line5));
-        aj.addRoutes(Collections.singletonList(line5));
-        jk.addRoutes(Collections.singletonList(line5));
+        ab.addRoutes(line1, line2, line3, line4, line5);
+        bc.addRoutes(line1, line2, line4, line5);
+        cd.addRoutes(line1, line2, line4, line5);
+        de.addRoutes(line1, line2, line4, line5);
+        ef.addRoutes(line1, line2, line4, line5, line6);
+        fg.addRoutes(line1, line6);
+        gh.addRoutes(line1, line6);
+        ha.addRoutes(line1, line2, line3, line6, line7);
+        hi.addRoutes(line1, line3, line6);
+        ib.addRoutes(line6);
+        ia.addRoutes(line1, line4, line5);
+        aj.addRoutes(line5);
+        jk.addRoutes(line5);
 
         getNodes().addAll(Arrays.asList(a, b, c, d, e, f, g, h, i, j, k));
         getEdges().addAll(Arrays.asList(ab, bc, cd, de, ef, fg, gh, ha, hi, ib, ia, aj, jk));

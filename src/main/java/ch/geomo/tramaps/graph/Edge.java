@@ -29,8 +29,8 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
         this.nodeA = nodeA;
-        nodeA.addAdjacentEdge(this);
         this.nodeB = nodeB;
+        nodeA.addAdjacentEdge(this);
         nodeB.addAdjacentEdge(this);
         routes = new HashSet<>();
         vertices = new ArrayList<>();
@@ -69,22 +69,21 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public void addRoutes(@NotNull Collection<Route> routes) {
         this.routes.addAll(routes);
+        setChanged();
+        notifyObservers();
     }
 
-    @SuppressWarnings("unused")
-    public void addRoute(@NotNull Route route) {
-        routes.add(route);
+    public void addRoutes(@NotNull Route... routes) {
+        addRoutes(Arrays.asList(routes));
     }
 
+    /**
+     * @return an unmodifiable {@link Set} with all routes
+     */
     @NotNull
     public Set<Route> getRoutes() {
-        return routes;
-    }
-
-    @NotNull
-    @SuppressWarnings("unused")
-    private Pair<Node> getNodePair() {
-        return nodePair;
+        // unmodifiable in order to avoid side effects
+        return Collections.unmodifiableSet(routes);
     }
 
     /**
@@ -131,38 +130,6 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public boolean isNonOctilinear() {
         return !OctilinearDirection.isOctilinear(direction);
-    }
-
-    public void repairEdge(double correctionDistance) {
-        // TODO find an algorithm to evaluate a vertex in a way that this edge has a octilinear direction
-        if (isNonOctilinear()) {
-            vertices.clear();
-            Node nodeA = this.getNodeA();
-            Node nodeB = this.getNodeB();
-            double dx = Math.abs(nodeA.getX() - nodeB.getX());
-            double dy = Math.abs(nodeA.getY() - nodeB.getY());
-            if (dx < dy) {
-                Point vertex;
-                if (nodeA.getY() < nodeB.getY()) {
-                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() - dx));
-                }
-                else {
-                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() + dx));
-                }
-                //vertices.add(vertex);
-            }
-            else {
-                Point vertex;
-                if (nodeA.getX() < nodeB.getX()) {
-                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() + dy), nodeA.getY());
-                }
-                else {
-                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() - dy), nodeA.getY());
-                }
-                //vertices.add(vertex);
-            }
-            updateLineString();
-        }
     }
 
     /**
