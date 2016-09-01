@@ -59,14 +59,6 @@ public enum OctilinearDirection implements Direction {
     }
 
     /**
-     * @return true if given angle is octilinear
-     */
-    @Contract(pure = true)
-    public static boolean isOctilinear(double angle) {
-        return angle % 45 == 0;
-    }
-
-    /**
      * Finds the octilinear direction for given angle. If angle is not a multiple
      * of 45 degree, an octilinear direction will be evaluated using
      * {@link AnyDirection#toOctilinearDirection()}.
@@ -81,7 +73,7 @@ public enum OctilinearDirection implements Direction {
         return Arrays.stream(values())
                 .filter(direction -> direction.angle == angle)
                 .findFirst()
-                .orElse(new AnyDirection(angle).toOctilinearDirection());
+                .orElseGet(() -> new AnyDirection(angle).toOctilinearDirection());
     }
 
     /**

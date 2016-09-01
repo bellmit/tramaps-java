@@ -55,9 +55,8 @@ public class AnyDirection implements Direction {
      */
     @NotNull
     public static Direction fromAngle(double angle) {
-        Direction direction = OctilinearDirection.fromAngle(angle);
-        if (direction != null) {
-            return direction;
+        if (Direction.isOctilinear(angle)) {
+            return OctilinearDirection.fromAngle(angle);
         }
         return new AnyDirection(angle);
     }

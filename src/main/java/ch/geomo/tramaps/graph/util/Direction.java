@@ -44,4 +44,12 @@ public interface Direction {
     @NotNull
     Direction oppositeDirection();
 
+    /**
+     * @return true if given angle is octilinear
+     */
+    @Contract(pure = true)
+    static boolean isOctilinear(double angle) {
+        return angle % 45 == 0;
+    }
+
 }
