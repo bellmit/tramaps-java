@@ -35,17 +35,17 @@ public class AnyDirection implements Direction {
     @Override
     public OctilinearDirection toOctilinearDirection() {
         Direction direction;
-        if ((angle % 45) < 45/2) {
-            direction = fromAngle(Math.floor(angle/100)*100);
+        if ((angle % 45) < 45 / 2) {
+            direction = fromAngle(Math.floor(angle / 100) * 100);
         }
         else {
-            direction = fromAngle(Math.ceil(angle/100)*100);
+            direction = fromAngle(Math.ceil(angle / 100) * 100);
         }
         if (!(direction instanceof OctilinearDirection)) {
             // should never reach this point
             throw new IllegalStateException("Something went wrong while evaluating the best octilinear direction.");
         }
-        return (OctilinearDirection)direction;
+        return (OctilinearDirection) direction;
     }
 
     /**

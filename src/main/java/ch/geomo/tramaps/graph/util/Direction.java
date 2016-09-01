@@ -2,7 +2,6 @@ package ch.geomo.tramaps.graph.util;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public interface Direction {
 

@@ -176,7 +176,7 @@ public class DisplaceHandler implements MakeSpaceHandler {
     /**
      * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} of traversed
      * nodes is needed to avoid correction circles.
-     *
+     * <p>
      * Note: The {@link List} of traversed nodes is not synchronized.
      */
     private double calculateAdjustmentCosts(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull List<Node> traversedNodes) {

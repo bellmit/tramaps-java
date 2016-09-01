@@ -10,10 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.lang.Float.NEGATIVE_INFINITY;
-import static java.lang.Float.NaN;
-import static java.lang.Float.POSITIVE_INFINITY;
-
 public final class PolygonUtil {
 
     private PolygonUtil() {

@@ -5,7 +5,6 @@
 package ch.geomo.util.point;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.tramaps.graph.Graph;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
@@ -90,8 +89,8 @@ public interface NodePoint {
      */
     @Contract(pure = true)
     @SuppressWarnings("unchecked")
-    static <N extends NodePoint>Set<NodePoint> cast(Set<N> col) {
-        return (Set<NodePoint>)col;
+    static <N extends NodePoint> Set<NodePoint> cast(Set<N> col) {
+        return (Set<NodePoint>) col;
     }
 
 }

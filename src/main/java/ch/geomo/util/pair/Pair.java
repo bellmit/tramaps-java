@@ -177,6 +177,7 @@ public interface Pair<T> {
 
     /**
      * Converts given {@link Pair} instance to an instance of {@link org.apache.commons.lang3.tuple.Pair}.
+     *
      * @return a Apache Commons Pair instance
      * @see org.apache.commons.lang3.tuple.Pair
      */

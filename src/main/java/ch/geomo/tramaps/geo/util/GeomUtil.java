@@ -36,7 +36,7 @@ public final class GeomUtil {
         Coordinate b = new Coordinate(centroid.getX() - width / 2, centroid.getY() + height / 2);
         Coordinate c = new Coordinate(centroid.getX() + width / 2, centroid.getY() + height / 2);
         Coordinate d = new Coordinate(centroid.getX() + width / 2, centroid.getY() - height / 2);
-        return JTSFactoryFinder.getGeometryFactory().createPolygon(new Coordinate[] {a, b, c, d, a});
+        return JTSFactoryFinder.getGeometryFactory().createPolygon(new Coordinate[]{a, b, c, d, a});
     }
 
     /**

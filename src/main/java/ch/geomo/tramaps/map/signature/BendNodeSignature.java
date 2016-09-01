@@ -6,8 +6,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Observable;
-
 public class BendNodeSignature extends NodeSignature {
 
     private final Node node;

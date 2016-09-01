@@ -9,9 +9,6 @@ import ch.geomo.tramaps.map.signature.RectangleStationSignature;
 import com.vividsolutions.jts.geom.Coordinate;
 import javafx.scene.paint.Color;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 public class ExampleMetroMap extends MetroMap {
 
     public ExampleMetroMap() {

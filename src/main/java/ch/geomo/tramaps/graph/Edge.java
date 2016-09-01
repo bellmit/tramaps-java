@@ -7,7 +7,6 @@ import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -193,8 +192,8 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      * @return the direction of this edge from <b>node A or B depending on the node</b>
+     * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     public Direction getDirection(@NotNull Node node) {
         if (nodeA.equals(node)) {
