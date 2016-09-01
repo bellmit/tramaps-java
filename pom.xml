@@ -19,7 +19,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <geotools.version>15-SNAPSHOT</geotools.version>
+    <geotools.version>16-SNAPSHOT</geotools.version>
     <commons-lang.version>3.4</commons-lang.version>
     <junit-version>4.11</junit-version>
     <supercsv-version>2.4.0</supercsv-version>
