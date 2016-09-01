@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
+ */
+
 package ch.geomo.tramaps.graph.util;
 
 import org.jetbrains.annotations.Contract;
