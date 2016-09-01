@@ -2,7 +2,6 @@ package ch.geomo.tramaps.graph.util;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
@@ -37,23 +36,44 @@ public enum OctilinearDirection implements Direction {
         return this == NORTH || this == SOUTH;
     }
 
+    /**
+     * Returns the closest octilinear direction for this direction. Since
+     * this implementation of {@link Direction} is always octilinear, the
+     * current instance will always be returned.
+     *
+     * @return current instance
+     */
     @NotNull
     @Override
-    @Contract(pure = true)
+    @Contract(value = "->!null", pure = true)
     public OctilinearDirection toOctilinearDirection() {
-        return this; // :-)
+        return this; // just satisfying interface :-)
     }
 
+    /**
+     * @return true if given {@link Direction} is an instance of {@link OctilinearDirection}
+     */
     @Contract(value = "null -> false", pure = true)
     public static boolean isOctilinear(Direction direction) {
         return direction instanceof OctilinearDirection;
     }
 
+    /**
+     * @return true if given angle is octilinear
+     */
+    @Contract(pure = true)
     public static boolean isOctilinear(double angle) {
-        return isOctilinear(fromAngle(angle));
+        return angle % 45 == 0;
     }
 
-    @Nullable
+    /**
+     * Finds the octilinear direction for given angle. If angle is not a multiple
+     * of 45 degree, an octilinear direction will be evaluated using
+     * {@link AnyDirection#toOctilinearDirection()}.
+     *
+     * @return the octilinear direction for given angle
+     */
+    @NotNull
     public static OctilinearDirection fromAngle(double angle) {
         if (angle == 360) {
             return NORTH;
@@ -61,7 +81,15 @@ public enum OctilinearDirection implements Direction {
         return Arrays.stream(values())
                 .filter(direction -> direction.angle == angle)
                 .findFirst()
-                .orElse(null);
+                .orElse(new AnyDirection(angle).toOctilinearDirection());
+    }
+
+    /**
+     * @return the opposite direction of this direction
+     */
+    @NotNull
+    public Direction oppositeDirection() {
+        return fromAngle(Math.abs(360 - angle));
     }
 
 }

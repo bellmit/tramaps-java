@@ -168,18 +168,30 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if neither vertical nor horizontal to x-axis but octliniear
      */
-    @SuppressWarnings("unused")
     public boolean isDiagonal() {
         return direction.isDiagonal();
     }
 
+    /**
+     * @return the direction of this edge from <b>node A</b>
+     * @see #getDirection(boolean)
+     */
     @NotNull
-    @SuppressWarnings("unused")
     public Direction getDirection() {
-        return direction;
+        return getDirection(true);
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * @return the direction of this edge from <b>node A or B depending on the flag</b>
+     */
+    @NotNull
+    public Direction getDirection(boolean nodeA) {
+        if (nodeA) {
+            return direction;
+        }
+        return direction.oppositeDirection();
+    }
+
     public double getAngle() {
         return direction.getAngle();
     }

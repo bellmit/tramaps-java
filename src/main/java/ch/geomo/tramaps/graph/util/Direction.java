@@ -2,13 +2,13 @@ package ch.geomo.tramaps.graph.util;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface Direction {
 
     /**
      * @return the angle of the direction
      */
-    @SuppressWarnings("unused")
     double getAngle();
 
     /**
@@ -29,8 +29,19 @@ public interface Direction {
         return !isHorizontal() && !isVertical();
     }
 
+    /**
+     * Returns the closest octilinear direction for this direction. Depending on
+     * the implementation the angle will be rounded up or down.
+     *
+     * @return the closest octilinear direction
+     */
     @NotNull
-    @SuppressWarnings("unused")
     OctilinearDirection toOctilinearDirection();
+
+    /**
+     * @return the opposite direction
+     */
+    @NotNull
+    Direction oppositeDirection();
 
 }

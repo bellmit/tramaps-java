@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 public class AnyDirection implements Direction {
 
     private double angle;
+    private Direction oppositeDirection;
 
     protected AnyDirection(double angle) {
         this.angle = angle % 360;
@@ -23,6 +24,13 @@ public class AnyDirection implements Direction {
         return angle % 90 == 0 && !isVertical();
     }
 
+    /**
+     * Returns the closest octilinear direction for this direction. Rounds to the
+     * octilinear angle which is closer to the angle of this instance. Rounds up
+     * if the distance to both possible octilinear angle is exactly half of 45 degree.
+     *
+     * @return the closest octilinear direction
+     */
     @NotNull
     @Override
     public OctilinearDirection toOctilinearDirection() {
@@ -40,6 +48,11 @@ public class AnyDirection implements Direction {
         return (OctilinearDirection)direction;
     }
 
+    /**
+     * Creates a {@link Direction} instance with given angle. Returns a instance of
+     * {@link OctilinearDirection} if the given angle is a multiple of 45 degree.
+     * Otherwise an instance of {@link AnyDirection} will be returned.
+     */
     @NotNull
     public static Direction fromAngle(double angle) {
         Direction direction = OctilinearDirection.fromAngle(angle);
@@ -47,6 +60,19 @@ public class AnyDirection implements Direction {
             return direction;
         }
         return new AnyDirection(angle);
+    }
+
+    /**
+     * @return the opposite direction
+     */
+    @NotNull
+    @Override
+    public Direction oppositeDirection() {
+        if (oppositeDirection == null) {
+            // calculate once when accessing first time
+            oppositeDirection = fromAngle(Math.abs(360 - angle));
+        }
+        return oppositeDirection;
     }
 
 }
