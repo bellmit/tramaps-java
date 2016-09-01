@@ -21,7 +21,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     private Pair<Node> nodePair;
 
     private LineString lineString;
-    private List<Point> vertices;
 
     private Set<Route> routes;
 
@@ -33,7 +32,6 @@ public class Edge extends Observable implements Observer, GraphElement {
         nodeA.addAdjacentEdge(this);
         nodeB.addAdjacentEdge(this);
         routes = new HashSet<>();
-        vertices = new ArrayList<>();
         nodePair = Pair.of(nodeA, nodeB);
         updateLineString();
     }
@@ -55,14 +53,10 @@ public class Edge extends Observable implements Observer, GraphElement {
         return nodeB;
     }
 
-    @NotNull
-    public List<Point> getVertices() {
-        return vertices;
-    }
-
     private void updateLineString() {
-        lineString = GeomUtil.createLineString(this.getNodeA(), this.getNodeB());
-        direction = AnyDirection.fromAngle(Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString)));
+        lineString = GeomUtil.createLineString(nodeA, nodeB);
+        double angle = Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
+        direction = AnyDirection.fromAngle(angle);
         setChanged();
         notifyObservers();
     }

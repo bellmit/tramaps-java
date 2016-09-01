@@ -42,8 +42,8 @@ public class MainApp extends Application {
 
         this.map = new ExampleMetroMap();
 
-        this.makeSpace(ScaleHandler::new);
-//        this.makeSpace(DisplaceHandler::new);
+        // this.makeSpace(ScaleHandler::new);
+        this.makeSpace(DisplaceHandler::new);
 
         this.draw();
 

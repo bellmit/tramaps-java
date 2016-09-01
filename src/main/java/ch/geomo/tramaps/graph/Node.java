@@ -1,9 +1,8 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.signature.SquareStationSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
+import ch.geomo.tramaps.map.signature.SquareStationSignature;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -42,12 +41,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
         signature = nodeSignatureFactory.apply(this);
     }
 
-    public Node(int x, int y) {
-        this(GeomUtil.createPoint(x, y));
-    }
-
-    public Node(int x, int y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
+    public Node(@NotNull Coordinate coordinate, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
+        this(GeomUtil.createPoint(coordinate), nodeSignatureFactory);
     }
 
     /**
@@ -87,11 +82,9 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * @see #destroy(Graph)
      */
     public void removeAdjacentEdge(@NotNull Edge edge, @Nullable Graph graph) {
-
         if (!isAdjacent(edge)) {
             return;
         }
-
         adjacentEdges.remove(edge);
         if (graph != null) {
             graph.removeEdges(edge);
@@ -99,7 +92,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
         deleteObserver(edge);
         setChanged();
         notifyObservers();
-
     }
 
     /**
@@ -112,6 +104,9 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
+     * Returns the node's geometry. Alias for {@link #getPoint()} in order to
+     * satisfy {@link GraphElement}.
+     *
      * @see #getPoint()
      */
     @NotNull
@@ -120,12 +115,18 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return getPoint();
     }
 
+    /**
+     * @return true if given edge is adjacent to this point
+     */
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Edge edge) {
         return edge != null && getAdjacentEdges().contains(edge);
     }
 
+    /**
+     * @return true if given node is adjacent to this point
+     */
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Node node) {
@@ -133,41 +134,50 @@ public class Node extends Observable implements GraphElement, NodePoint {
                 .anyMatch(edge -> edge.isAdjacent(node));
     }
 
+    /**
+     * @return the node's signature
+     */
     @NotNull
     public NodeSignature getNodeSignature() {
         return signature;
     }
 
+    /**
+     * @return the x-value of this node
+     */
     @Override
     public double getX() {
-        return getCoordinate().x;
+        return point.getX();
     }
 
+    /**
+     * @return the y-value of this node
+     */
     @Override
     public double getY() {
-        return getCoordinate().y;
+        return point.getY();
     }
 
-    public void setPoint(@NotNull Point point) {
+    public void updatePosition(@NotNull Point point) {
         this.point = point;
         setChanged();
         notifyObservers();
     }
 
-    public void setCoordinate(@NotNull Coordinate coordinate) {
-        setPoint(GeomUtil.createPoint(coordinate));
+    public void updatePosition(@NotNull Coordinate coordinate) {
+        updatePosition(GeomUtil.createPoint(coordinate));
     }
 
-    public void setCoordinate(double x, double y) {
-        setPoint(GeomUtil.createPoint(x, y));
+    public void updatePosition(double x, double y) {
+        updatePosition(GeomUtil.createPoint(x, y));
     }
 
-    public void setX(double x) {
-        setCoordinate(x, getY());
+    public void updateX(double x) {
+        updatePosition(x, getY());
     }
 
-    public void setY(double y) {
-        setCoordinate(getX(), y);
+    public void updateY(double y) {
+        updatePosition(getX(), y);
     }
 
     @NotNull
@@ -228,6 +238,13 @@ public class Node extends Observable implements GraphElement, NodePoint {
     public void destroy(@Nullable Graph graph) {
         getAdjacentEdges()
                 .forEach(edge -> removeAdjacentEdge(edge, graph));
+    }
+
+    /**
+     * @return the degree of this node
+     */
+    public int getDegree() {
+        return adjacentEdges.size();
     }
 
 }

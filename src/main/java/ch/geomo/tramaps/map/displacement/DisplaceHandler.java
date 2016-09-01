@@ -2,7 +2,6 @@ package ch.geomo.tramaps.map.displacement;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geo.Axis;
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
@@ -10,6 +9,7 @@ import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.pair.Pair;
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,43 +51,50 @@ public class DisplaceHandler implements MakeSpaceHandler {
 
     }
 
-//    public void repairEdge(double correctionDistance) {
-//        // TODO find an algorithm to evaluate a vertex in a way that this edge has a octilinear direction
-//        if (isNonOctilinear()) {
-//            vertices.clear();
-//            Node nodeA = this.getNodeA();
-//            Node nodeB = this.getNodeB();
-//            double dx = Math.abs(nodeA.getX() - nodeB.getX());
-//            double dy = Math.abs(nodeA.getY() - nodeB.getY());
-//            if (dx < dy) {
-//                Point vertex;
-//                if (nodeA.getY() < nodeB.getY()) {
-//                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() - dx));
-//                }
-//                else {
-//                    vertex = GeomUtil.createPoint(nodeA.getX(), Math.ceil(nodeA.getY() + dx));
-//                }
-//                //vertices.add(vertex);
-//            }
-//            else {
-//                Point vertex;
-//                if (nodeA.getX() < nodeB.getX()) {
-//                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() + dy), nodeA.getY());
-//                }
-//                else {
-//                    vertex = GeomUtil.createPoint(Math.ceil(nodeA.getX() - dy), nodeA.getY());
-//                }
-//                //vertices.add(vertex);
-//            }
-//            updateLineString();
-//        }
-//    }
+    /**
+     * Evaluates an octilinear bend coordinate for given {@link Edge}.
+     */
+    @NotNull
+    private Coordinate evaluateOctilinearBendCoordinate(@NotNull Edge edge) {
 
-    private void createBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
+        Node nodeA = edge.getNodeA();
+        Node nodeB = edge.getNodeB();
+
+        double relX = nodeB.getX() / nodeA.getX();
+        double relY = nodeB.getY() / nodeB.getY();
+
+        if (relX < relY) {
+            if (nodeA.getDegree() > nodeB.getDegree()) {
+                double y = nodeA.getX() / nodeB.getX() * nodeB.getY();
+                return new Coordinate(nodeB.getX(), y);
+            }
+            double y = nodeB.getX() / nodeA.getX() * nodeA.getY();
+            return new Coordinate(nodeA.getX(), y);
+        }
+
+        // relX > relY
+        if (nodeA.getDegree() > nodeB.getDegree()) {
+            double x = nodeA.getY() / nodeB.getY() * nodeB.getX();
+            return new Coordinate(x, nodeB.getY());
+        }
+        double x = nodeB.getY() / nodeA.getY() * nodeA.getX();
+        return new Coordinate(x, nodeA.getY());
+
+    }
+
+    /**
+     * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance
+     * will be destroyed.
+     *
+     * @return the bend node
+     * @see Node#getAdjacentEdges() to receive the newly created edges
+     */
+    @NotNull
+    private Node introduceBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
 
         // create new bend node
-        // TODO calculate position
-        Node node = new Node(1, 1, BendNodeSignature::new);
+        Coordinate coordinate = evaluateOctilinearBendCoordinate(edge);
+        Node node = new Node(coordinate, BendNodeSignature::new);
         map.addNodes(node);
 
         // create two new edges
@@ -96,6 +103,8 @@ public class DisplaceHandler implements MakeSpaceHandler {
 
         // remove old edge
         edge.destroy(map);
+
+        return node;
 
     }
 
@@ -185,12 +194,12 @@ public class DisplaceHandler implements MakeSpaceHandler {
             if (conflict.getBestMoveVectorAxis() == Axis.X) {
                 map.getNodes().stream()
                         .filter(node -> node.getPoint().getX() > centroid.getX())
-                        .forEach(node -> node.setX(node.getX() + conflict.getBestMoveLengthAlongAnAxis()));
+                        .forEach(node -> node.updateX(node.getX() + conflict.getBestMoveLengthAlongAnAxis()));
             }
             else {
                 map.getNodes().stream()
                         .filter(node -> node.getPoint().getY() > centroid.getY())
-                        .forEach(node -> node.setY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
+                        .forEach(node -> node.updateY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
             }
 
             correctMap(map);

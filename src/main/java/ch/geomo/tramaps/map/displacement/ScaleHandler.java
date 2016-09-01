@@ -48,7 +48,7 @@ public class ScaleHandler implements MakeSpaceHandler {
 
         map.getNodes().forEach(node -> {
             Geometry geom = scaleTransformation.transform(node.getGeometry());
-            node.setCoordinate(geom.getCoordinate());
+            node.updatePosition(geom.getCoordinate());
         });
 
     }
