@@ -2,13 +2,16 @@ package ch.geomo.tramaps.map.displacement;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geo.Axis;
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
+import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
+import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
@@ -16,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -33,9 +37,16 @@ public class DisplaceHandler implements MakeSpaceHandler {
     /**
      * Merges two points. First given {@link Point} will be kept while the second {@link Point} will be
      * removed. Adjacent edges will be transferred. Possible duplications (edges with
-     * same nodes) removed.
+     * same nodes) removed. Both nodes must be a bend node otherwise nothing will be merged.
+     *
+     * @return true if merged
      */
-    private void mergeNodes(@NotNull Node fixedNode, @NotNull Node obsoleteNode, @NotNull MetroMap map) {
+    private boolean mergeBendNodes(@NotNull Node fixedNode, @NotNull Node obsoleteNode, @NotNull MetroMap map) {
+
+        if (!(fixedNode.getNodeSignature() instanceof BendNodeSignature) && !(obsoleteNode.getNodeSignature() instanceof BendNodeSignature)) {
+            // merging not possible
+            return false;
+        }
 
         // add adjacent edges to fixed node
         obsoleteNode.getAdjacentEdges().forEach(edge -> {
@@ -58,6 +69,8 @@ public class DisplaceHandler implements MakeSpaceHandler {
 
         // numbers of nodes and edges may have changed
         map.updateGraph();
+
+        return true;
 
     }
 
@@ -163,11 +176,17 @@ public class DisplaceHandler implements MakeSpaceHandler {
         return Pair.of(null, null);
     }
 
+    private boolean isSimpleCorrectionPossible(@NotNull Edge edge, @NotNull Node moveableNode) {
+        return false;
+    }
+
     /**
-     * Listing 5
-     * Vector -> synchronized !
+     * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} of traversed
+     * nodes is needed to avoid correction circles.
+     *
+     * Note: The {@link List} of traversed nodes is not synchronized.
      */
-    private double calculateAdjustmentCosts(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull Vector<Node> traversedNodes) {
+    private double calculateAdjustmentCosts(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull List<Node> traversedNodes) {
 
         if (traversedNodes.contains(node)) {
             return CORRECT_CIRCLE_PENALTY;
@@ -184,11 +203,34 @@ public class DisplaceHandler implements MakeSpaceHandler {
                 .collect(Collectors.toSet());
 
         boolean simpleAdjustmentPossible = adjacentEdges.stream()
-                // TODO evaluate simple adjustment
-                .noneMatch(edge -> false);
+                .noneMatch(edge -> {
+                    Direction connectionEdgeDirection = connectionEdge.getDirection(node);
+                    Direction edgeDirection = edge.getDirection(node);
+                    return !edgeDirection.equals(connectionEdgeDirection.oppositeDirection());
+                });
 
         if (simpleAdjustmentPossible) {
-            return 1;
+
+            if (adjacentEdges.size() == 1) {
+                // if D1, D2 or D3 with only one adjacent edge
+                return 1;
+            }
+            if (adjacentEdges.size() == 2) {
+
+                // TODO simplifying logic/refactoring required
+                boolean simpleConstellation = CollectionUtil.makePairs(adjacentEdges, null).stream()
+                        // it's a simple constellation when the angle between every pair of
+                        // edges is a multiple of 180 degree
+                        .map(pair -> Math.abs(pair.first().getAngle() - pair.second().getAngle()))
+                        .allMatch(angle -> angle % 180 == 0);
+
+                // if D1, D2 or D3 with two adjacent edge
+                if (simpleConstellation) {
+                    return 1;
+                }
+
+            }
+
         }
 
         double costs = 1 + adjacentEdges.size();

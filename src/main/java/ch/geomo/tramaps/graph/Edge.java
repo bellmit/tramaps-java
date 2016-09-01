@@ -192,6 +192,20 @@ public class Edge extends Observable implements Observer, GraphElement {
         return direction.oppositeDirection();
     }
 
+    /**
+     * @throws IllegalArgumentException if given node is neither equal to node A nor node B
+     * @return the direction of this edge from <b>node A or B depending on the node</b>
+     */
+    public Direction getDirection(@NotNull Node node) {
+        if (nodeA.equals(node)) {
+            return getDirection(true);
+        }
+        else if (nodeB.equals(node)) {
+            return getDirection(false);
+        }
+        throw new IllegalArgumentException("Node must be equals to node A or B.");
+    }
+
     public double getAngle() {
         return direction.getAngle();
     }
