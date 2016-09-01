@@ -26,7 +26,7 @@ public class BendNodeSignature extends NodeSignature {
      * x- and y-value where changed.
      */
     protected void updateSignature() {
-        signature = GeomUtil.createPolygon(node.getPoint(), 2, 2);
+        signature = GeomUtil.createPolygon(node.getPoint(), 0.0001, 0.0001);
         setChanged();
         notifyObservers();
     }

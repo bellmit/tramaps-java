@@ -9,6 +9,7 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
 import ch.geomo.tramaps.map.displacement.DisplaceHandler;
 import ch.geomo.tramaps.map.displacement.MakeSpaceHandler;
+import ch.geomo.tramaps.map.displacement.ScaleHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

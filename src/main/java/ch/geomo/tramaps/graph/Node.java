@@ -5,6 +5,8 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.tramaps.map.signature.SquareStationSignature;
 import ch.geomo.util.point.NodePoint;
@@ -17,13 +19,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Node extends Observable implements GraphElement, NodePoint {
 
     private Point point;
 
-    private final NodeSignature signature;
-    private final Set<Edge> adjacentEdges;
+    private NodeSignature signature;
+    private Set<Edge> adjacentEdges;
 
     private boolean deleted = false;
 
@@ -292,6 +295,19 @@ public class Node extends Observable implements GraphElement, NodePoint {
      */
     public int getDegree() {
         return adjacentEdges.size();
+    }
+
+    /**
+     * @return all directions of the adjacent edges using given {@link Edge} as {@link OctilinearDirection#NORTH}
+     */
+    @NotNull
+    public Set<OctilinearDirection> getAdjacentEdgeDirections(@NotNull Edge startingEdge) {
+        return adjacentEdges.stream()
+                .map(edge -> {
+                    OctilinearDirection nullDirection = startingEdge.getDirection(this).toOctilinear();
+                    return edge.getDirection(this).toOctilinear().rotate(nullDirection);
+                })
+                .collect(Collectors.toSet());
     }
 
 }

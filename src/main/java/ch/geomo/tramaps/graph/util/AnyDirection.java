@@ -37,7 +37,7 @@ public class AnyDirection implements Direction {
      */
     @NotNull
     @Override
-    public OctilinearDirection toOctilinearDirection() {
+    public OctilinearDirection toOctilinear() {
         Direction direction;
         if ((angle % 45) < 45 / 2) {
             direction = fromAngle(Math.floor(angle / 100) * 100);
@@ -47,6 +47,7 @@ public class AnyDirection implements Direction {
         }
         if (!(direction instanceof OctilinearDirection)) {
             // should never reach this point
+            System.out.println(direction);
             throw new IllegalStateException("Something went wrong while evaluating the best octilinear direction.");
         }
         return (OctilinearDirection) direction;
@@ -70,12 +71,17 @@ public class AnyDirection implements Direction {
      */
     @NotNull
     @Override
-    public Direction oppositeDirection() {
+    public Direction opposite() {
         if (oppositeDirection == null) {
             // calculate once when accessing first time
             oppositeDirection = fromAngle(Math.abs(360 - angle));
         }
         return oppositeDirection;
+    }
+
+    @Override
+    public String toString() {
+        return "Direction: {" + angle + " degree}";
     }
 
 }

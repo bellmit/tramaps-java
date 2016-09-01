@@ -192,7 +192,7 @@ public class Edge extends Observable implements Observer, GraphElement {
         if (nodeA) {
             return direction;
         }
-        return direction.oppositeDirection();
+        return direction.opposite();
     }
 
     /**

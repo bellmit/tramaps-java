@@ -6,6 +6,7 @@ package ch.geomo.tramaps.graph.util;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
@@ -50,7 +51,7 @@ public enum OctilinearDirection implements Direction {
     @NotNull
     @Override
     @Contract(value = "->!null", pure = true)
-    public OctilinearDirection toOctilinearDirection() {
+    public OctilinearDirection toOctilinear() {
         return this; // just satisfying interface :-)
     }
 
@@ -58,34 +59,40 @@ public enum OctilinearDirection implements Direction {
      * @return true if given {@link Direction} is an instance of {@link OctilinearDirection}
      */
     @Contract(value = "null -> false", pure = true)
-    public static boolean isOctilinear(Direction direction) {
+    public static boolean isOctilinear(@Nullable Direction direction) {
         return direction instanceof OctilinearDirection;
     }
 
     /**
      * Finds the octilinear direction for given angle. If angle is not a multiple
      * of 45 degree, an octilinear direction will be evaluated using
-     * {@link AnyDirection#toOctilinearDirection()}.
+     * {@link AnyDirection#toOctilinear()}.
      *
      * @return the octilinear direction for given angle
      */
     @NotNull
     public static OctilinearDirection fromAngle(double angle) {
-        if (angle == 360) {
-            return NORTH;
-        }
         return Arrays.stream(values())
-                .filter(direction -> direction.angle == angle)
+                .filter(direction -> direction.angle == (angle % 360))
                 .findFirst()
-                .orElseGet(() -> new AnyDirection(angle).toOctilinearDirection());
+                .orElseGet(() -> new AnyDirection(angle).toOctilinear());
     }
 
     /**
      * @return the opposite direction of this direction
      */
     @NotNull
-    public Direction oppositeDirection() {
+    public Direction opposite() {
         return fromAngle(Math.abs(360 - angle));
     }
 
+    @NotNull
+    public OctilinearDirection rotate(@NotNull OctilinearDirection nullDirection) {
+        return fromAngle(getAngle() + nullDirection.getAngle());
+    }
+
+    @Override
+    public String toString() {
+        return "Direction: {" + super.toString() + ", " + angle + " degree}";
+    }
 }

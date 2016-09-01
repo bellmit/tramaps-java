@@ -39,13 +39,20 @@ public interface Direction {
      * @return the closest octilinear direction
      */
     @NotNull
-    OctilinearDirection toOctilinearDirection();
+    OctilinearDirection toOctilinear();
 
     /**
      * @return the opposite direction
      */
     @NotNull
-    Direction oppositeDirection();
+    Direction opposite();
+
+    /**
+     * @return true if given {@link Direction} is the opposite direction of this instance
+     */
+    default boolean isOpposite(@NotNull Direction direction) {
+        return this.opposite().equals(direction);
+    }
 
     /**
      * @return true if given angle is octilinear

@@ -21,6 +21,8 @@ import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,7 +34,10 @@ public class DisplaceHandler implements MakeSpaceHandler {
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
 
     private void correctMap(MetroMap map) {
-        System.out.println("Non-Octilinear Edges:" + map.evaluateNonOctilinearEdges().count());
+        System.out.println("Non-Octilinear Edges: " + map.evaluateNonOctilinearEdges().count());
+        map.getEdges().stream()
+                .filter(edge -> !Direction.isOctilinear(edge.getAngle()))
+                .forEach(edge -> introduceBendNode(edge, map));
     }
 
     /**
@@ -86,25 +91,46 @@ public class DisplaceHandler implements MakeSpaceHandler {
         Node nodeA = edge.getNodeA();
         Node nodeB = edge.getNodeB();
 
+//        double dx = edge.getNodeA().getX() - edge.getNodeB().getX();
+//        double dy = edge.getNodeA().getY() - edge.getNodeB().getY();
+//
+//        if (Math.abs(dx) < Math.abs(dy)) {
+//            if (edge.getNodeA().getY() < edge.getNodeB().getY()) {
+//                return new Coordinate(edge.getNodeA().getX()-Math.abs(dy), edge.getNodeA().getY());
+//            }
+//            else {
+//                return new Coordinate(edge.getNodeB().getX()+Math.abs(dy), edge.getNodeB().getY());
+//            }
+//        }
+//        else {
+//            if (edge.getNodeA().getX() < edge.getNodeB().getX()) {
+//                return new Coordinate(edge.getNodeB().getX(), edge.getNodeB().getY()-Math.abs(dx));
+//            }
+//            else {
+//                return new Coordinate(edge.getNodeA().getX(), edge.getNodeA().getY()+Math.abs(dx));
+//            }
+//        }
+
+
         double relX = nodeB.getX() / nodeA.getX();
         double relY = nodeB.getY() / nodeB.getY();
 
         if (relX < relY) {
-            if (nodeA.getDegree() > nodeB.getDegree()) {
+            if (nodeA.getDegree() < nodeB.getDegree()) {
                 double y = nodeA.getX() / nodeB.getX() * nodeB.getY();
-                return new Coordinate(nodeB.getX(), y);
+                return new Coordinate(nodeA.getX(), y);
             }
             double y = nodeB.getX() / nodeA.getX() * nodeA.getY();
-            return new Coordinate(nodeA.getX(), y);
+            return new Coordinate(nodeB.getX(), y);
         }
 
         // relX > relY
-        if (nodeA.getDegree() > nodeB.getDegree()) {
+        if (nodeA.getDegree() < nodeB.getDegree()) {
             double x = nodeA.getY() / nodeB.getY() * nodeB.getX();
-            return new Coordinate(x, nodeB.getY());
+            return new Coordinate(x, nodeA.getY());
         }
         double x = nodeB.getY() / nodeA.getY() * nodeA.getX();
-        return new Coordinate(x, nodeA.getY());
+        return new Coordinate(x, nodeB.getY());
 
     }
 
@@ -145,8 +171,13 @@ public class DisplaceHandler implements MakeSpaceHandler {
      */
     @NotNull
     private OctilinearDirection moveNode(@NotNull Edge edge, @NotNull Node moveableNode, @Nullable OctilinearDirection lastMoveDirection) {
-        // TODO
+
+        if (isSimpleNode(edge, moveableNode)) {
+            // TODO
+        }
+
         return OctilinearDirection.NORTH;
+
     }
 
     /**
@@ -177,6 +208,29 @@ public class DisplaceHandler implements MakeSpaceHandler {
         return Pair.of(null, null);
     }
 
+    private boolean isSimpleNode(@NotNull Edge connectionEdge, @NotNull Node node) {
+
+        List<OctilinearDirection> directions = new ArrayList<>(node.getAdjacentEdgeDirections(connectionEdge));
+
+        if (directions.stream().allMatch(d -> d == connectionEdge.getDirection().toOctilinear().opposite())) {
+            return false;
+        }
+
+        if (directions.size() == 1) {
+            return true;
+        }
+        else if (directions.size() == 2) {
+            return CollectionUtil.makePairs(directions, null).stream()
+                    // it's a simple constellation when the angle between every pair of
+                    // edges is a multiple of 180 degree
+                    .map(pair -> Math.abs(pair.first().getAngle() - pair.second().getAngle()))
+                    .allMatch(angle -> angle % 180 == 0);
+        }
+
+        return false;
+
+    }
+
     /**
      * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} of traversed
      * nodes is needed to avoid correction circles.
@@ -199,35 +253,8 @@ public class DisplaceHandler implements MakeSpaceHandler {
                 .filter(edge -> !edge.equals(connectionEdge))
                 .collect(Collectors.toSet());
 
-        boolean simpleAdjustmentPossible = adjacentEdges.stream()
-                .noneMatch(edge -> {
-                    Direction connectionEdgeDirection = connectionEdge.getDirection(node);
-                    Direction edgeDirection = edge.getDirection(node);
-                    return !edgeDirection.equals(connectionEdgeDirection.oppositeDirection());
-                });
-
-        if (simpleAdjustmentPossible) {
-
-            if (adjacentEdges.size() == 1) {
-                // if D1, D2 or D3 with only one adjacent edge
-                return 1;
-            }
-            if (adjacentEdges.size() == 2) {
-
-                // TODO simplifying logic/refactoring required
-                boolean simpleConstellation = CollectionUtil.makePairs(adjacentEdges, null).stream()
-                        // it's a simple constellation when the angle between every pair of
-                        // edges is a multiple of 180 degree
-                        .map(pair -> Math.abs(pair.first().getAngle() - pair.second().getAngle()))
-                        .allMatch(angle -> angle % 180 == 0);
-
-                // if D1, D2 or D3 with two adjacent edge
-                if (simpleConstellation) {
-                    return 1;
-                }
-
-            }
-
+        if (isSimpleNode(connectionEdge, node)) {
+            return 1;
         }
 
         double costs = 1 + adjacentEdges.size();
@@ -268,8 +295,6 @@ public class DisplaceHandler implements MakeSpaceHandler {
                         .forEach(node -> node.updateY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
             }
 
-            correctMap(map);
-
             if (count < MAX_ITERATIONS) {
                 makeSpace(map, routeMargin, edgeMargin, count);
             }
@@ -281,6 +306,7 @@ public class DisplaceHandler implements MakeSpaceHandler {
     @Override
     public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
         this.makeSpace(map, routeMargin, edgeMargin, 0);
+        correctMap(map);
         System.out.println(map);
     }
 
