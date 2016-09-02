@@ -22,7 +22,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -305,7 +304,7 @@ public class DisplaceHandler implements MakeSpaceHandler {
 
     @Override
     public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
-        this.makeSpace(map, routeMargin, edgeMargin, 0);
+        makeSpace(map, routeMargin, edgeMargin, 0);
         correctMap(map);
         System.out.println(map);
     }

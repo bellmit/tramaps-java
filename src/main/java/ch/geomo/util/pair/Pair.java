@@ -125,12 +125,13 @@ public interface Pair<T> {
      * @return a new {@link ImmutablePair} with given Apache Commons Pair instance
      * @see org.apache.commons.lang3.tuple.Pair
      */
+    @Nullable
     @Contract("null -> null")
     static <T> Pair<T> from(@Nullable org.apache.commons.lang3.tuple.Pair<T, T> pair) {
         if (pair == null) {
             return null;
         }
-        return new ImmutablePair<T>(pair.getLeft(), pair.getRight());
+        return new ImmutablePair<>(pair.getLeft(), pair.getRight());
     }
 
     /**

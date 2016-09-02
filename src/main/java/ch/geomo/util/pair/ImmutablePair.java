@@ -18,8 +18,8 @@ public class ImmutablePair<T> implements Pair<T> {
 
     public ImmutablePair(@Nullable Pair<T> pair) {
         if (pair != null) {
-            this.first = pair.getFirst();
-            this.second = pair.getSecond();
+            first = pair.getFirst();
+            second = pair.getSecond();
         }
     }
 

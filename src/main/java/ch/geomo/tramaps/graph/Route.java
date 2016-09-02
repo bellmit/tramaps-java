@@ -50,11 +50,20 @@ public class Route {
         return name;
     }
 
-    @NotNull
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Route && Objects.equals(name, ((Route) obj).getName())
+                && Objects.equals(lineColor, ((Route) obj).getLineColor()) && lineWidth == ((Route) obj).getLineWidth();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, lineColor, lineWidth);
+    }
+
     @Override
     public String toString() {
-        String routeName = Objects.toString(this.name, "No Name");
-        return "Route: {" + routeName + ", " + lineColor + ", " + lineWidth + "}";
+        return "Route: {name= " + name + ", lineColor= " + lineColor + ", lineWidth= " + lineWidth + "}";
     }
 
 }

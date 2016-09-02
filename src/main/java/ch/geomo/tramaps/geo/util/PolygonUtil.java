@@ -27,7 +27,6 @@ public final class PolygonUtil {
     @NotNull
     public static Stream<LineString> findParallelLineString(@NotNull Polygon inPolygon, @NotNull LineString parallelTo) {
 
-        Point centroid = inPolygon.getCentroid();
         Envelope envelope = inPolygon.getEnvelopeInternal();
 
         // scale line string order to be long enough to intersect with the polygons exterior

@@ -72,21 +72,21 @@ public class ScaleHandler implements MakeSpaceHandler {
                     .map(ElementBuffer::getBuffer);
             GeometryCollection coll = GeomUtil.createCollection(buffers);
             Envelope bbox = coll.getEnvelopeInternal();
-            double scaleFactor = this.evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
+            double scaleFactor = evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
             System.out.println("scale factor: " + scaleFactor);
-            this.scale(map, scaleFactor);
+            scale(map, scaleFactor);
         }
 
         // repeat if space issue is not yet solved
         if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && count < 25) {
-            this.makeSpace(map, routeMargin, edgeMargin, count);
+            makeSpace(map, routeMargin, edgeMargin, count);
         }
 
     }
 
     @Override
     public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
-        this.makeSpace(map, routeMargin, edgeMargin, 0);
+        makeSpace(map, routeMargin, edgeMargin, 0);
         System.out.println(map);
     }
 

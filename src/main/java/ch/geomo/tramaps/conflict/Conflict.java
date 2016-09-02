@@ -142,7 +142,6 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     @NotNull
-    @SuppressWarnings("unused")
     public Stream<Edge> getEdges() {
         return Stream.of(getBufferA(), getBufferB())
                 .filter(buf -> buf.getElement() instanceof EdgeBuffer)
@@ -158,12 +157,12 @@ public class Conflict implements Comparable<Conflict> {
 
     @Override
     public int compareTo(@NotNull Conflict o) {
-        if (this.getMoveVector().equals(o.getMoveVector())) {
+        if (getMoveVector().equals(o.getMoveVector())) {
             // same move vector
             // TODO distinct conflict in order to reproduce same sequence
         }
         double l1 = o.getBestMoveVectorAlongAnAxis().length();
-        double l2 = this.getBestMoveVectorAlongAnAxis().length();
+        double l2 = getBestMoveVectorAlongAnAxis().length();
         if (l1 == l2) {
             l1 = l1 + o.getMoveVector().length();
             l2 = l2 + this.getMoveVector().length();

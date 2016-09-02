@@ -51,7 +51,7 @@ public interface Direction {
      * @return true if given {@link Direction} is the opposite direction of this instance
      */
     default boolean isOpposite(@NotNull Direction direction) {
-        return this.opposite().equals(direction);
+        return opposite().equals(direction);
     }
 
     /**

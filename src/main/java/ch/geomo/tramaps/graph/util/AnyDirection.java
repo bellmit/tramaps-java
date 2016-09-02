@@ -6,9 +6,11 @@ package ch.geomo.tramaps.graph.util;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class AnyDirection implements Direction {
 
-    private double angle;
+    private final double angle;
     private Direction oppositeDirection;
 
     protected AnyDirection(double angle) {
@@ -80,8 +82,18 @@ public class AnyDirection implements Direction {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        return obj instanceof AnyDirection && angle == ((AnyDirection) obj).getAngle();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAngle());
+    }
+
+    @Override
     public String toString() {
-        return "Direction: {" + angle + " degree}";
+        return "Direction: {angle= " + angle + "}";
     }
 
 }

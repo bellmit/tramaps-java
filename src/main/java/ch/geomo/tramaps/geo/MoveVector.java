@@ -23,7 +23,7 @@ public class MoveVector extends Vector2D {
 
     public MoveVector() {
         super(0, 0);
-        this.lineString = GeomUtil.createLineString();
+        lineString = GeomUtil.createLineString();
     }
 
     public MoveVector(@NotNull LineString lineString) {
@@ -39,7 +39,12 @@ public class MoveVector extends Vector2D {
 
     @NotNull
     public Vector2D getProjection(@NotNull Vector2D alongVector) {
-        return alongVector.multiply(this.dot(alongVector) / alongVector.dot(alongVector));
+        return alongVector.multiply(dot(alongVector) / alongVector.dot(alongVector));
+    }
+
+    @Override
+    public String toString() {
+        return "MoveVector: {x = " + getX() + ", y =" + getY() + "}";
     }
 
 }

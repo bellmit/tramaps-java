@@ -36,7 +36,7 @@ public interface GraphElement {
 
     @NotNull
     default Point getCentroid() {
-        return this.getGeometry().getCentroid();
+        return getGeometry().getCentroid();
     }
 
     boolean isEdge();

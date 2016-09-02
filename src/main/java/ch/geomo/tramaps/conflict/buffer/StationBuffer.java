@@ -17,7 +17,7 @@ public class StationBuffer extends NodeBuffer {
 
     @Override
     public void updateBuffer() {
-        this.buffer = GeomUtil.createBuffer(this.node.getNodeSignature().getConvexHull(), this.margin, true);
+        buffer = GeomUtil.createBuffer(node.getNodeSignature().getConvexHull(), margin, true);
     }
 
 }

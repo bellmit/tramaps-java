@@ -22,29 +22,29 @@ public class NodeBuffer implements ElementBuffer {
     public NodeBuffer(@NotNull Node node, double margin) {
         this.node = node;
         this.margin = margin;
-        this.updateBuffer();
+        updateBuffer();
     }
 
     @Override
     public void updateBuffer() {
-        this.buffer = GeomUtil.createBuffer(this.node.getNodeSignature().getGeometry(), 25, true);
+        buffer = GeomUtil.createBuffer(node.getNodeSignature().getGeometry(), 25, true);
     }
 
     @NotNull
     @Override
     public Polygon getBuffer() {
-        return this.buffer;
+        return buffer;
     }
 
     @NotNull
     @Override
     public GraphElement getElement() {
-        return this.node;
+        return node;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        this.updateBuffer();
+        updateBuffer();
     }
 
 }

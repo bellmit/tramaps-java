@@ -50,7 +50,7 @@ public class ConflictFinder {
     public Set<Conflict> getConflicts(@NotNull Set<Edge> edges, @NotNull Set<Node> nodes) {
 
         Set<ElementBuffer> edgeBuffers = edges.stream()
-                .map(edge -> new EdgeBuffer(edge, this.routeMargin, this.edgeMargin))
+                .map(edge -> new EdgeBuffer(edge, routeMargin, this.edgeMargin))
                 .collect(Collectors.toSet());
 
         Set<ElementBuffer> nodeBuffers = nodes.stream()

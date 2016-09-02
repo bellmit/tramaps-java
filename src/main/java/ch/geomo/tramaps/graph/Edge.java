@@ -17,13 +17,22 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+/**
+ * Represents an edge within a {@link Graph}. Each edge has a name, a position,
+ * a start node, an end node and a {@link Set} of routes. When comparing
+ * two edges, the position of the nodes won't be considered.
+ */
 public class Edge extends Observable implements Observer, GraphElement {
+
+    private String name;
 
     private Node nodeA;
     private Node nodeB;
     private Pair<Node> nodePair;
-    private LineString lineString;
+
     private Set<Route> routes;
+
+    private LineString lineString;
     private Direction direction;
 
     private boolean deleted;
@@ -41,6 +50,11 @@ public class Edge extends Observable implements Observer, GraphElement {
         updateLineString();
     }
 
+    public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull String name) {
+        this(nodeA, nodeB);
+        this.name = name;
+    }
+
     /**
      * Calculates the edge width of this edge using given margin between
      * the routes.
@@ -52,6 +66,21 @@ public class Edge extends Observable implements Observer, GraphElement {
                 .mapToDouble(Route::getLineWidth)
                 .sum();
         return width + routeMargin * (getRoutes().size() - 2);
+    }
+
+    /**
+     * @return the edge's name if available
+     */
+    @Nullable
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the edge's name.
+     */
+    public void setName(@Nullable String name) {
+        this.name = name;
     }
 
     /**
@@ -144,12 +173,6 @@ public class Edge extends Observable implements Observer, GraphElement {
         updateLineString();
     }
 
-    @NotNull
-    @Override
-    public String toString() {
-        return lineString.toString();
-    }
-
     public boolean isNonOctilinear() {
         return !OctilinearDirection.isOctilinear(direction);
     }
@@ -233,26 +256,14 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     @Contract("null->true")
     public boolean isNotEquals(@Nullable Edge edge) {
-        return !this.equals(edge);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        // TODO
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        // TODO
-        return super.hashCode();
+        return !equals(edge);
     }
 
     /**
      * @return true if given edge has the same nodes than this instance
      */
     public boolean equalNodes(Edge edge) {
-        return this.getNodeA().isAdjacent(edge) && this.getNodeB().isAdjacent(edge);
+        return getNodeA().isAdjacent(edge) && getNodeB().isAdjacent(edge);
     }
 
     public boolean isDeleted() {
@@ -269,6 +280,26 @@ public class Edge extends Observable implements Observer, GraphElement {
         notifyObservers();
         // unsubscribe all observers
         deleteObservers();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // TODO compare routes as well
+        return obj instanceof Edge
+                && Objects.equals(name, ((Edge) obj).name)
+                && nodeA.equals(((Edge) obj).nodeA)
+                && nodeB.equals(((Edge) obj).nodeB)
+                && deleted == ((Edge) obj).deleted;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, nodeA, nodeB, deleted);
+    }
+
+    @Override
+    public String toString() {
+        return "Edge: {name= " + getName() + ", nodeA= " + nodeA + ", nodeB= " + nodeB + "}";
     }
 
 }

@@ -93,6 +93,6 @@ public enum OctilinearDirection implements Direction {
 
     @Override
     public String toString() {
-        return "Direction: {" + super.toString() + ", " + angle + " degree}";
+        return "Direction: {" + super.toString() + ", angle= " + angle + "}";
     }
 }

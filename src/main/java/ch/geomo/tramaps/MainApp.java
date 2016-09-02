@@ -9,7 +9,6 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
 import ch.geomo.tramaps.map.displacement.DisplaceHandler;
 import ch.geomo.tramaps.map.displacement.MakeSpaceHandler;
-import ch.geomo.tramaps.map.displacement.ScaleHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -34,29 +33,29 @@ public class MainApp extends Application {
 
     private void makeSpace(@NotNull Supplier<MakeSpaceHandler> makeSpaceHandlerSupplier) {
         MakeSpaceHandler handler = makeSpaceHandlerSupplier.get();
-        handler.makeSpace(map, this.routeMargin, this.edgeMargin);
+        handler.makeSpace(map, routeMargin, edgeMargin);
     }
 
     @Override
     public void start(@NotNull Stage primaryStage) throws Exception {
 
-        this.stage = primaryStage;
-        this.stage.setTitle("Tramaps GUI");
-        this.initLayout();
+        stage = primaryStage;
+        stage.setTitle("Tramaps GUI");
+        initLayout();
 
-        this.map = new ExampleMetroMap();
+        map = new ExampleMetroMap();
 
         // this.makeSpace(ScaleHandler::new);
-        this.makeSpace(DisplaceHandler::new);
+        makeSpace(DisplaceHandler::new);
 
-        this.draw();
+        draw();
 
     }
 
     private void draw() {
 
         Group group = new Group();
-        Envelope bbox = this.map.getBoundingBox();
+        Envelope bbox = map.getBoundingBox();
 
         Canvas canvas = new Canvas(bbox.getWidth() + 100, bbox.getHeight() + 100);
         GraphicsContext context = canvas.getGraphicsContext2D();
@@ -78,17 +77,17 @@ public class MainApp extends Application {
         group.getChildren().add(canvas);
 
         group.setAutoSizeChildren(true);
-        this.stage.setScene(new Scene(group));
-        this.stage.show();
+        stage.setScene(new Scene(group));
+        stage.show();
 
     }
 
-    private void initLayout() throws IOException {
+    private void initLayout() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(MainApp.class.getClassLoader().getResource("tramaps.fxml"));
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String... args) throws IOException {
         MainApp.launch(args);
     }
 

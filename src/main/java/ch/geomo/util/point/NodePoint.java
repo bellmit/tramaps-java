@@ -75,6 +75,7 @@ public interface NodePoint {
         return new ImmutableNodePoint(x, y);
     }
 
+    @Nullable
     @Contract("null->null")
     static NodePoint of(@Nullable Point point) {
         if (point == null) {

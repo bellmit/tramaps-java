@@ -21,8 +21,8 @@ public class MutablePair<T> implements Pair<T> {
 
     public MutablePair(@Nullable Pair<T> pair) {
         if (pair != null) {
-            this.first = pair.getFirst();
-            this.second = pair.getSecond();
+            first = pair.getFirst();
+            second = pair.getSecond();
         }
     }
 

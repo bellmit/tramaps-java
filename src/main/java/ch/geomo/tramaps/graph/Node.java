@@ -5,8 +5,8 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.tramaps.map.signature.SquareStationSignature;
 import ch.geomo.util.point.NodePoint;
@@ -21,8 +21,14 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a node within a {@link Graph}. Each node has a name, a position and
+ * a {@link NodeSignature}. When comparing two nodes, the position won't be
+ * considered.
+ */
 public class Node extends Observable implements GraphElement, NodePoint {
 
+    private String name;
     private Point point;
 
     private NodeSignature signature;
@@ -31,13 +37,13 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private boolean deleted = false;
 
     /**
-     * Creates a new instance of {@link Node} using a {@link SquareStationSignature}
+     * Creates a new instance of {@link Node} using a {@link EmptyNodeSignature}
      * instance.
      *
      * @see Node#Node(Point, Function)
      */
     public Node(@NotNull Point point) {
-        this(point, SquareStationSignature::new);
+        this(point, EmptyNodeSignature::new);
     }
 
     /**
@@ -52,6 +58,14 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     public Node(@NotNull Coordinate coordinate, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         this(GeomUtil.createPoint(coordinate), nodeSignatureFactory);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -73,7 +87,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * {@link Observer} but does not notify the other observers!
      */
     void addAdjacentEdge(@NotNull Edge edge) { // package-private
-        if (!this.equals(edge.getNodeA()) && !this.equals(edge.getNodeB())) {
+        if (!equals(edge.getNodeA()) && !equals(edge.getNodeB())) {
             return;
         }
         adjacentEdges.add(edge);
@@ -196,15 +210,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the string representation of this node
-     */
-    @NotNull
-    @Override
-    public String toString() {
-        return "Node: {" + point.toString() + "}";
-    }
-
-    /**
      * @return false since this implementation of {@link GraphElement} is a point ;-)
      */
     @Override
@@ -308,6 +313,30 @@ public class Node extends Observable implements GraphElement, NodePoint {
                     return edge.getDirection(this).toOctilinear().rotate(nullDirection);
                 })
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // since a node is equals to the same node but at another position, position
+        // is not used to check equality
+        return obj instanceof Node
+                && Objects.equals(name, ((Node) obj).name)
+                // && point.getX() == ((Node) obj).getX()
+                // && point.getY() == ((Node) obj).getY()
+                && signature.equals(((Node) obj).signature)
+                && deleted == ((Node) obj).deleted;
+    }
+
+    @Override
+    public int hashCode() {
+        // hashCode and equals must be matching: a.equals(b) == (a.hashCode() == b.hashCode())
+        // therefore position of this node is transient and not used to calculate hash code
+        return Objects.hash(name, signature, deleted);
+    }
+
+    @Override
+    public String toString() {
+        return "Node: {name= " + name + ", point= " + point + "}";
     }
 
 }
