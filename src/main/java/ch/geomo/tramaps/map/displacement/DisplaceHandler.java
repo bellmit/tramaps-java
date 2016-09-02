@@ -17,12 +17,12 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.pair.Pair;
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -80,59 +80,6 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     }
 
-    /**
-     * Evaluates a coordinate which allows an octilinear bend in given {@link Edge}.
-     *
-     * @return the evaluated {@link Coordinate}
-     */
-    @NotNull
-    private Coordinate evaluateOctilinearBendCoordinate(@NotNull Edge edge) {
-
-        Node nodeA = edge.getNodeA();
-        Node nodeB = edge.getNodeB();
-
-//        double dx = edge.getNodeA().getX() - edge.getNodeB().getX();
-//        double dy = edge.getNodeA().getY() - edge.getNodeB().getY();
-//
-//        if (Math.abs(dx) < Math.abs(dy)) {
-//            if (edge.getNodeA().getY() < edge.getNodeB().getY()) {
-//                return new Coordinate(edge.getNodeA().getX()-Math.abs(dy), edge.getNodeA().getY());
-//            }
-//            else {
-//                return new Coordinate(edge.getNodeB().getX()+Math.abs(dy), edge.getNodeB().getY());
-//            }
-//        }
-//        else {
-//            if (edge.getNodeA().getX() < edge.getNodeB().getX()) {
-//                return new Coordinate(edge.getNodeB().getX(), edge.getNodeB().getY()-Math.abs(dx));
-//            }
-//            else {
-//                return new Coordinate(edge.getNodeA().getX(), edge.getNodeA().getY()+Math.abs(dx));
-//            }
-//        }
-
-
-        double relX = nodeB.getX() / nodeA.getX();
-        double relY = nodeB.getY() / nodeB.getY();
-
-        if (relX < relY) {
-            if (nodeA.getDegree() < nodeB.getDegree()) {
-                double y = nodeA.getX() / nodeB.getX() * nodeB.getY();
-                return new Coordinate(nodeA.getX(), y);
-            }
-            double y = nodeB.getX() / nodeA.getX() * nodeA.getY();
-            return new Coordinate(nodeB.getX(), y);
-        }
-
-        // relX > relY
-        if (nodeA.getDegree() < nodeB.getDegree()) {
-            double x = nodeA.getY() / nodeB.getY() * nodeB.getX();
-            return new Coordinate(x, nodeA.getY());
-        }
-        double x = nodeB.getY() / nodeA.getY() * nodeA.getX();
-        return new Coordinate(x, nodeB.getY());
-
-    }
 
     /**
      * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance
@@ -141,19 +88,26 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * @return the created bend node
      */
     @NotNull
-    private Node introduceBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
+    private Set<Node> introduceBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
 
-        // test
-        new CabelloEdge(edge, map, false);
+        // create cabello edge
+        CabelloEdge cabelloEdge = new CabelloEdge(edge, map, false);
+        Pair<Node> vertices = cabelloEdge.getVertices();
 
-        // create new bend node
-        Coordinate coordinate = evaluateOctilinearBendCoordinate(edge);
-        Node node = new Node(coordinate, BendNodeSignature::new);
-        map.addNodes(node);
-
-        // create two new edges
-        edge.getNodeA().createAdjacentEdgeTo(node, edge.getRoutes());
-        edge.getNodeB().createAdjacentEdgeTo(node, edge.getRoutes());
+        // only one vertex
+        if (vertices.second() == null) {
+            map.addNodes(vertices.first());
+            edge.getNodeA()
+                    .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
+                    .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
+        }
+        else {
+            map.addNodes(vertices.first(), vertices.second());
+            edge.getNodeA()
+                    .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
+                    .createAdjacentEdgeTo(vertices.second(), edge.getRoutes())
+                    .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
+        }
 
         // remove old edge
         edge.delete();
@@ -161,7 +115,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         // numbers of nodes has changed, edge cache must be flagged for rebuild
         map.updateGraph();
 
-        return node;
+        return new HashSet<>(vertices.toList());
 
     }
 

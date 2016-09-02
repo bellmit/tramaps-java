@@ -71,14 +71,17 @@ public class Node extends Observable implements GraphElement, NodePoint {
     /**
      * Creates a new adjacent edge between this and the given node. Subscribes immediately
      * the new edge as an {@link java.util.Observer}.
+     *
+     * @return the newly connected node (allows to chain this method)
      */
-    public void createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes) {
+    public Node createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes) {
         Edge edge = new Edge(this, node);
         edge.addRoutes(routes);
         adjacentEdges.add(edge);
         addObserver(edge);
         setChanged();
         notifyObservers();
+        return node;
     }
 
     /**

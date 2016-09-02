@@ -4,9 +4,14 @@
 
 package ch.geomo.util.pair;
 
+import ch.geomo.tramaps.graph.Node;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * An implementation of a mutable pair.

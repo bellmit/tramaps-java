@@ -20,6 +20,7 @@ import static ch.geomo.tramaps.geo.util.GeomUtil.createCollection;
  */
 public class Graph {
 
+    @NotNull
     private Set<Node> nodes;
 
     /**
@@ -63,7 +64,14 @@ public class Graph {
      * Adds given nodes to this {@link Graph} instance.
      */
     public void addNodes(@NotNull Node... nodes) {
-        this.nodes.addAll(Arrays.asList(nodes));
+        addNodes(Arrays.asList(nodes));
+    }
+
+    /**
+     * Adds given nodes to this {@link Graph} instance.
+     */
+    public void addNodes(@NotNull Collection<Node> nodes) {
+        this.nodes.addAll(nodes);
         edgeCache = null;
     }
 

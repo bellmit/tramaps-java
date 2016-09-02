@@ -4,6 +4,7 @@
 
 package ch.geomo.util.pair;
 
+import ch.geomo.tramaps.graph.Node;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -184,6 +185,13 @@ public interface Pair<T> {
      */
     default org.apache.commons.lang3.tuple.Pair toPair() {
         return org.apache.commons.lang3.tuple.Pair.of(getFirst(), getSecond());
+    }
+
+    @NotNull
+    default List<T> toList() {
+        return stream()
+                .filter(value -> value != null)
+                .collect(Collectors.toList());
     }
 
 }

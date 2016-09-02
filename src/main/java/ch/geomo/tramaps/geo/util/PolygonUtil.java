@@ -104,8 +104,10 @@ public final class PolygonUtil {
     public static GeometryCollection splitPolygon(@NotNull Geometry polygon, @NotNull Geometry lineString) {
         GeometryCollection lines;
         if (lineString instanceof GeometryCollection) {
-            // GeometryCollection boundaryLines = (GeometryCollection)polygon.getBoundary().union();
-            lines = createCollection();
+            Stream<Geometry> boundaryStream = Stream.of(polygon.getBoundary());
+            Stream<Geometry> lineStringStream = toStream((GeometryCollection) lineString);
+            lines = createCollection(Stream.concat(boundaryStream, lineStringStream));
+            System.out.println(lines);
         }
         else {
             lines = (GeometryCollection) polygon.getBoundary().union(lineString);
