@@ -11,7 +11,9 @@ import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -76,7 +78,7 @@ public final class GeomUtil {
      * @return an instance of {@link GeometryCollection} with geometries provided by given {@link Stream}
      */
     @NotNull
-    public static GeometryCollection createCollection(@NotNull Stream<Geometry> stream) {
+    public static GeometryCollection createCollection(@NotNull Stream<? extends Geometry> stream) {
         return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(stream.toArray(Geometry[]::new));
     }
 
@@ -85,11 +87,20 @@ public final class GeomUtil {
      */
     @NotNull
     @SafeVarargs
-    public static GeometryCollection createCollection(@NotNull Collection<Geometry>... collections) {
+    public static GeometryCollection createCollection(@NotNull Collection<? extends Geometry>... collections) {
         Collection<Geometry> merged = Stream.of(collections)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
         return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(merged.toArray(new Geometry[]{}));
+    }
+
+    @NotNull
+    public static Stream<Geometry> toStream(@NotNull GeometryCollection collection) {
+        List<Geometry> output = new ArrayList<>();
+        for (int i = 0; i < collection.getNumGeometries(); i++) {
+            output.add(collection.getGeometryN(i));
+        }
+        return output.stream();
     }
 
     @NotNull

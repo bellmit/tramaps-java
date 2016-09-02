@@ -97,4 +97,12 @@ public class MutablePair<T> implements Pair<T> {
         return "MutablePair: [" + first + ", " + second + "]";
     }
 
+    /**
+     * Sets first and second value to null.
+     */
+    public void clear() {
+        first = null;
+        second = null;
+    }
+
 }

@@ -8,7 +8,7 @@ import ch.geomo.tramaps.example.ExampleMetroMap;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
 import ch.geomo.tramaps.map.displacement.DisplaceHandler;
-import ch.geomo.tramaps.map.displacement.MakeSpaceHandler;
+import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -31,8 +31,8 @@ public class MainApp extends Application {
     private double edgeMargin = 25;
     private double routeMargin = 5;
 
-    private void makeSpace(@NotNull Supplier<MakeSpaceHandler> makeSpaceHandlerSupplier) {
-        MakeSpaceHandler handler = makeSpaceHandlerSupplier.get();
+    private void makeSpace(@NotNull Supplier<MetroMapLineSpaceHandler> makeSpaceHandlerSupplier) {
+        MetroMapLineSpaceHandler handler = makeSpaceHandlerSupplier.get();
         handler.makeSpace(map, routeMargin, edgeMargin);
     }
 

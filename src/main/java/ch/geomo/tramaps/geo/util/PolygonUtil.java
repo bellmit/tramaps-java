@@ -6,13 +6,16 @@ package ch.geomo.tramaps.geo.util;
 
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
+import com.vividsolutions.jts.geom.util.LineStringExtracter;
+import com.vividsolutions.jts.operation.polygonize.Polygonizer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static ch.geomo.tramaps.geo.util.GeomUtil.createCollection;
+import static ch.geomo.tramaps.geo.util.GeomUtil.toStream;
 
 public final class PolygonUtil {
 
@@ -63,6 +66,55 @@ public final class PolygonUtil {
 
         return lines.stream()
                 .max((l1, l2) -> Double.compare(l1.getLength(), l2.getLength()));
+    }
+
+    /**
+     * Creates polygons from given {@link LineString} or {@link GeometryCollection} of {@link LineString}.
+     * <p>
+     * Note: Returns an empty {@link GeometryCollection} if {@link Geometry} is not a {@link LineString}
+     * or a {@link GeometryCollection} of {@link LineString}.
+     *
+     * @return a {@link GeometryCollection} of polygons
+     * @see <a href="http://suite.opengeo.org/ee/docs/4.5/processing/wpsjava/index.html">OpenGeo Suite Enterprise Docs</a>
+     * @see <a href="http://gis.stackexchange.com/a/190002/21355">JTS: split arbitrary polygon by a line (stackoverflow.com)</a>
+     */
+    @NotNull
+    public static GeometryCollection polygonize(@NotNull Geometry geometry) {
+        @SuppressWarnings("unchecked")
+        List<LineString> lines = LineStringExtracter.getLines(geometry);
+        if (lines.isEmpty()) {
+            return createCollection();
+        }
+        Polygonizer polygonizer = new Polygonizer();
+        polygonizer.add(lines);
+        @SuppressWarnings("unchecked")
+        Collection<Polygon> polygonCollection = polygonizer.getPolygons();
+        return createCollection(polygonCollection);
+    }
+
+    /**
+     * Splits given polygon with given {@link LineString} or collection of {@link LineString}. Returns
+     * an empty {@link GeometryCollection}.
+     *
+     * @return a {@link GeometryCollection} of polygons
+     * @see <a href="http://suite.opengeo.org/ee/docs/4.5/processing/wpsjava/index.html">OpenGeo Suite Enterprise Docs</a>
+     * @see <a href="http://gis.stackexchange.com/a/190002/21355">JTS: split arbitrary polygon by a line (stackoverflow.com)</a>
+     */
+    @NotNull
+    public static GeometryCollection splitPolygon(@NotNull Geometry polygon, @NotNull Geometry lineString) {
+        GeometryCollection lines;
+        if (lineString instanceof GeometryCollection) {
+            // GeometryCollection boundaryLines = (GeometryCollection)polygon.getBoundary().union();
+            lines = createCollection();
+        }
+        else {
+            lines = (GeometryCollection) polygon.getBoundary().union(lineString);
+        }
+        Stream<Polygon> stream = toStream(polygonize(lines))
+                .map(geom -> (Polygon) geom)
+                // polygons which are inside the polygon
+                .filter(p -> polygon.contains(p.getInteriorPoint()));
+        return createCollection(stream);
     }
 
 }

@@ -10,6 +10,7 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
+import ch.geomo.tramaps.graph.layout.CabelloEdge;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class DisplaceHandler implements MakeSpaceHandler {
+public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     private static final int MAX_ITERATIONS = 100;
     private static final double MAX_ADJUSTMENT_COSTS = 25;
@@ -141,6 +142,9 @@ public class DisplaceHandler implements MakeSpaceHandler {
      */
     @NotNull
     private Node introduceBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
+
+        // test
+        new CabelloEdge(edge, map, false);
 
         // create new bend node
         Coordinate coordinate = evaluateOctilinearBendCoordinate(edge);

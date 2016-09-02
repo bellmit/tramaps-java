@@ -20,7 +20,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ScaleHandler implements MakeSpaceHandler {
+/**
+ * This {@link MetroMapLineSpaceHandler} implementation makes space by scaling the underlying
+ * graph of a metro map.
+ */
+public class ScaleHandler implements MetroMapLineSpaceHandler {
 
     private double evaluateScaleFactor(@NotNull Set<Conflict> conflicts, double mapWidth, double mapHeight) {
 

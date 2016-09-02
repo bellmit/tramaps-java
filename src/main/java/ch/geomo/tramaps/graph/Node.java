@@ -321,8 +321,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
         // is not used to check equality
         return obj instanceof Node
                 && Objects.equals(name, ((Node) obj).name)
-                // && point.getX() == ((Node) obj).getX()
-                // && point.getY() == ((Node) obj).getY()
                 && signature.equals(((Node) obj).signature)
                 && deleted == ((Node) obj).deleted;
     }
