@@ -4,16 +4,21 @@
 
 package ch.geomo.tramaps.graph.layout;
 
+import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
+import ch.geomo.util.MathUtil;
 import ch.geomo.util.pair.MutablePair;
 import ch.geomo.util.pair.Pair;
+import ch.geomo.util.point.NodePointXYComparator;
 import com.vividsolutions.jts.geom.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,8 +31,9 @@ import static ch.geomo.tramaps.geo.util.PolygonUtil.splitPolygon;
  */
 public class CabelloEdge implements Observer {
 
+    private static final Logger logger = Logger.getLogger(CabelloEdge.class.getName());
+
     private MutablePair<Node> vertices;
-    private Set<Edge> edges;
 
     private Graph graph;
     private Edge originalEdge;
@@ -39,7 +45,6 @@ public class CabelloEdge implements Observer {
             originalEdge.addObserver(this);
         }
         vertices = new MutablePair<>();
-        edges = new HashSet<>();
         updateCabelloEdge();
     }
 
@@ -55,14 +60,7 @@ public class CabelloEdge implements Observer {
         return vertices;
     }
 
-    public Set<Edge> getEdges() {
-        return Collections.unmodifiableSet(edges);
-    }
-
     private synchronized void updateCabelloEdge() {
-
-        vertices.clear();
-        edges.clear();
 
         Stream<LineString> edges = graph.getEdges().stream()
                 .filter(edge -> !edge.equals(originalEdge))
@@ -75,53 +73,122 @@ public class CabelloEdge implements Observer {
         toStream(polygons)
                 .filter(geom -> geom.relate(originalEdge.getGeometry(), "T********"))
                 .findFirst()
-                .map(geom -> (Polygon)geom)
-                .ifPresent(polygon -> {
-                    // TODO find octilinear edges for original edge
-                    Coordinate coordinate = evaluateOctilinearBendCoordinate(originalEdge);
-                    vertices.setFirst(new Node(coordinate, BendNodeSignature::new));
-                    // System.out.println(polygon);
-                });
+                .map(geom -> (Polygon) geom)
+                .ifPresent(this::createVertices);
+
+    }
+
+    /**
+     * Creates the vertices based on the original edge and checks the result
+     */
+    private void createVertices(@NotNull Polygon polygon) {
+
+        vertices.clear();
+
+        Node a = originalEdge.getNodeA();
+        Node b = originalEdge.getNodeB();
+
+        double dx = Math.abs(b.getX() - a.getX());
+        double dy = Math.abs(b.getY() - a.getY());
+
+        Node c = MathUtil.min(a, b, new NodePointXYComparator<>());
+        Node d = b.equals(c) ? a : b;
+
+        if (dx < dy) {
+
+            // check for a conflict with an adjacent and vertical edge of node C
+            boolean conflictFree = c.getAdjacentEdges().stream()
+                    .filter(Edge::isVertical)
+                    .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.NORTH.getAngle());
+
+            if (conflictFree) {
+                double y1 = c.getY() + dx;
+                Node node = new Node(c.getX(), y1, BendNodeSignature::new);
+                node.setName("-");
+                vertices.set(0, node);
+            }
+            else {
+
+                // check for a conflict with an adjacent and vertical edge of node D
+                conflictFree = d.getAdjacentEdges().stream()
+                        .filter(Edge::isVertical)
+                        .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.SOUTH.getAngle());
+
+                if (conflictFree) {
+                    double y1 = d.getY() - dx;
+                    Node node = new Node(c.getX(), y1, BendNodeSignature::new);
+                    node.setName("-");
+                    vertices.set(0, node);
+                }
+                else {
+
+                    double y1 = c.getY() + (dy / 2) + (dx / 2);
+                    Node node1 = new Node(c.getX(), y1, BendNodeSignature::new);
+                    node1.setName("-");
+                    vertices.set(0, node1);
+
+                    double y2 = c.getY() + (dy / 2) - (dx / 2);
+                    Node node2 = new Node(c.getX(), y2, BendNodeSignature::new);
+                    node2.setName("-");
+                    vertices.set(1, node2);
+
+                }
+
+            }
+
+        }
+        else {
+
+//            Node c = MathUtil.min(a, b, (n1, n2) -> Double.compare(n1.getX(), n2.getX()));
+//            Node d = b.equals(c) ? a : b;
+
+            // check for a conflict with an adjacent and vertical edge of node C
+            boolean conflictFree = c.getAdjacentEdges().stream()
+                    .filter(Edge::isHorizontal)
+                    .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.WEST.getAngle());
+
+            if (conflictFree) {
+                // OK
+                double x1 = d.getX() - dy;
+                Node node = new Node(x1, c.getY(), BendNodeSignature::new);
+                node.setName("-");
+                vertices.set(0, node);
+            }
+            else {
+
+                // check for a conflict with an adjacent and vertical edge of node D
+                conflictFree = d.getAdjacentEdges().stream()
+                        .filter(Edge::isHorizontal)
+                        .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.EAST.getAngle());
+
+                if (conflictFree) {
+                    double x1 = c.getX() + dy;
+                    Node node = new Node(x1, c.getY(), BendNodeSignature::new);
+                    node.setName("-");
+                    vertices.set(0, node);
+                }
+                else {
+
+                    double x1 = c.getX() + (dx / 2) + (dy / 2);
+                    Node node1 = new Node(x1, c.getY(), BendNodeSignature::new);
+                    node1.setName("-");
+                    vertices.set(0, node1);
+
+                    double x2 = c.getX() + (dx / 2) - (dy / 2);
+                    Node node2 = new Node(x2, c.getY(), BendNodeSignature::new);
+                    node2.setName("-");
+                    vertices.set(1, node2);
+
+                }
+
+            }
+        }
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
         updateCabelloEdge();
-    }
-
-
-    /**
-     * Evaluates a coordinate which allows an octilinear bend in given {@link Edge}.
-     *
-     * @return the evaluated {@link Coordinate}
-     */
-    @NotNull
-    private static Coordinate evaluateOctilinearBendCoordinate(@NotNull Edge edge) {
-
-        Node nodeA = edge.getNodeA();
-        Node nodeB = edge.getNodeB();
-
-        double relX = nodeB.getX() / nodeA.getX();
-        double relY = nodeB.getY() / nodeB.getY();
-
-        if (relX < relY) {
-            if (nodeA.getDegree() < nodeB.getDegree()) {
-                double y = nodeA.getX() / nodeB.getX() * nodeB.getY();
-                return new Coordinate(nodeA.getX(), y);
-            }
-            double y = nodeB.getX() / nodeA.getX() * nodeA.getY();
-            return new Coordinate(nodeB.getX(), y);
-        }
-
-        // relX > relY
-        if (nodeA.getDegree() < nodeB.getDegree()) {
-            double x = nodeA.getY() / nodeB.getY() * nodeB.getX();
-            return new Coordinate(x, nodeA.getY());
-        }
-        double x = nodeB.getY() / nodeA.getY() * nodeA.getX();
-        return new Coordinate(x, nodeB.getY());
-
     }
 
 }

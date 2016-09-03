@@ -12,23 +12,29 @@ import java.util.Arrays;
 
 public enum OctilinearDirection implements Direction {
 
-    NORTH(0d),
-    NORTH_EAST(45d),
-    EAST(90d),
-    SOUTH_EAST(135d),
-    SOUTH(180d),
-    SOUTH_WEST(225d),
-    WEST(270d),
-    NORTH_WEST(315d);
+    NORTH(0d, Alignment.HORIZONTAL),
+    NORTH_EAST(45d, Alignment.DIAGONAL_45),
+    EAST(90d, Alignment.VERTICAL),
+    SOUTH_EAST(135d, Alignment.DIAGONAL_125),
+    SOUTH(180d, Alignment.HORIZONTAL),
+    SOUTH_WEST(225d, Alignment.DIAGONAL_45),
+    WEST(270d, Alignment.VERTICAL),
+    NORTH_WEST(315d, Alignment.DIAGONAL_125);
 
-    private double angle;
+    private final double angle;
+    private final Alignment alignment;
 
-    OctilinearDirection(double angle) {
+    OctilinearDirection(double angle, Alignment alignment) {
         this.angle = angle;
+        this.alignment = alignment;
     }
 
     public double getAngle() {
         return angle;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
     }
 
     @Contract(pure = true)

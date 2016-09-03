@@ -94,6 +94,10 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         CabelloEdge cabelloEdge = new CabelloEdge(edge, map, false);
         Pair<Node> vertices = cabelloEdge.getVertices();
 
+//        System.out.println(edge.getNodeA());
+//        System.out.println(edge.getNodeB());
+//        vertices.stream().forEach(System.out::println);
+
         // only one vertex
         if (vertices.second() == null) {
             map.addNodes(vertices.first());

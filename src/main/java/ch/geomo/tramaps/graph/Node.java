@@ -47,6 +47,20 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
+     * @see #Node(Point)
+     */
+    public Node(double x, double y) {
+        this(GeomUtil.createPoint(x, y), EmptyNodeSignature::new);
+    }
+
+    /**
+     * @see #Node(Point, Function)
+     */
+    public Node(double x, double y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
+        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
+    }
+
+    /**
      * Creates a new instance of {@link Node} using a custom {@link NodeSignature}
      * instance.
      */
