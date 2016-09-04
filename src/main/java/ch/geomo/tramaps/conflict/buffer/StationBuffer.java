@@ -20,4 +20,9 @@ public class StationBuffer extends NodeBuffer {
         buffer = GeomUtil.createBuffer(node.getNodeSignature().getConvexHull(), margin, true);
     }
 
+    @Override
+    public String toString() {
+        return "StationBuffer: {node= " + node + ", buffer= " + buffer + "}";
+    }
+
 }

@@ -69,10 +69,17 @@ public interface Pair<T> {
     }
 
     /**
-     * @return a {@link Stream} for this pair
+     * @return a {@link Stream} for this pair, note: stream may contain null values!
      */
     default Stream<T> stream() {
         return Stream.of(getFirst(), getSecond());
+    }
+    /**
+     * @return a {@link Stream} for this pair without null value
+     */
+    default Stream<T> nonNullStream() {
+        return Stream.of(getFirst(), getSecond())
+                .filter(node -> node != null);
     }
 
     /**
@@ -192,6 +199,11 @@ public interface Pair<T> {
         return stream()
                 .filter(value -> value != null)
                 .collect(Collectors.toList());
+    }
+
+    @Contract(pure = true)
+    default boolean hasNonNullValues() {
+        return first() != null || second() != null;
     }
 
 }

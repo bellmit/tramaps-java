@@ -47,7 +47,7 @@ public class Edge extends Observable implements Observer, GraphElement {
         nodeB.addAdjacentEdge(this);
         routes = new HashSet<>();
         nodePair = Pair.of(nodeA, nodeB);
-        updateLineString();
+        updateEdge();
     }
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull String name) {
@@ -102,7 +102,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * Updates the {@link LineString} representation and notifies Observers.
      */
-    private void updateLineString() {
+    protected final void updateEdge() {
         lineString = GeomUtil.createLineString(nodeA, nodeB);
         double angle = Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
         direction = AnyDirection.fromAngle(angle);
@@ -170,7 +170,7 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     @Override
     public void update(Observable o, Object arg) {
-        updateLineString();
+        updateEdge();
     }
 
     public boolean isNonOctilinear() {
@@ -302,4 +302,8 @@ public class Edge extends Observable implements Observer, GraphElement {
         return "Edge: {name= " + getName() + ", nodeA= " + nodeA + ", nodeB= " + nodeB + "}";
     }
 
+    @Contract(pure = true)
+    public boolean hasRoutes() {
+        return !routes.isEmpty();
+    }
 }

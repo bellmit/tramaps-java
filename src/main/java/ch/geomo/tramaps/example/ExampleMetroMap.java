@@ -51,9 +51,14 @@ public class ExampleMetroMap extends MetroMap {
         Edge ha = new Edge(h, a);
         Edge hi = new Edge(h, i);
         Edge ib = new Edge(i, b);
-        Edge ia = new Edge(i, a);
+        //Edge ia = new Edge(i, a);
         Edge aj = new Edge(a, j);
         Edge jk = new Edge(j, k);
+
+        //Edge bd = new Edge(b, d);
+        //Edge ad = new Edge(a, d);
+        //Edge kd = new Edge(k, d);
+        //Edge kb = new Edge(k, b);
 
         Route line1 = new Route(20, Color.BLUE);
         Route line2 = new Route(20, Color.RED);
@@ -73,9 +78,10 @@ public class ExampleMetroMap extends MetroMap {
         ha.addRoutes(line1, line2, line3, line6, line7);
         hi.addRoutes(line1, line3, line6);
         //ib.addRoutes(line6);
-        ia.addRoutes(line1, line4, line5);
+        //ia.addRoutes(line1, line4, line5);
         aj.addRoutes(line5);
         jk.addRoutes(line5);
+        //kb.addRoutes(line1);
 
         addNodes(a, b, c, d, e, f, g, h, i, j, k);
 

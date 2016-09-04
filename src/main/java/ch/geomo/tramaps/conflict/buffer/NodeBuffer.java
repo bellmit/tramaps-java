@@ -43,6 +43,11 @@ public class NodeBuffer implements ElementBuffer {
     }
 
     @Override
+    public String toString() {
+        return "NodeBuffer: {node= " + node + ", buffer= " + buffer + "}";
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         updateBuffer();
     }

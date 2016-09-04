@@ -10,19 +10,20 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
-import ch.geomo.tramaps.graph.layout.CabelloEdge;
+import ch.geomo.tramaps.graph.layout.OctilinearEdge;
+import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.CollectionUtil;
+import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,11 +34,11 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     private static final double MAX_ADJUSTMENT_COSTS = 25;
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
 
-    private void correctMap(MetroMap map) {
+    private void correctNonOctilinearEdges(MetroMap map) {
         System.out.println("Non-Octilinear Edges: " + map.evaluateNonOctilinearEdges().count());
         map.getEdges().stream()
                 .filter(edge -> !Direction.isOctilinear(edge.getAngle()))
-                .forEach(edge -> introduceBendNode(edge, map));
+                .forEach(edge -> introduceOctilinearBendNodes(edge, map));
     }
 
     /**
@@ -84,42 +85,46 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     /**
      * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance
      * will be destroyed.
-     *
-     * @return the created bend node
      */
-    @NotNull
-    private Set<Node> introduceBendNode(@NotNull Edge edge, @NotNull MetroMap map) {
+    private void introduceOctilinearBendNodes(@NotNull Edge edge, @NotNull MetroMap map) {
 
-        // create cabello edge
-        CabelloEdge cabelloEdge = new CabelloEdge(edge, map, false);
-        Pair<Node> vertices = cabelloEdge.getVertices();
+        // create octilinear edge
+        OctilinearEdge octilinearEdge = new OctilinearEdgeBuilder()
+                .setOriginalEdge(edge)
+                .setGraph(map)
+                .build();
 
-//        System.out.println(edge.getNodeA());
-//        System.out.println(edge.getNodeB());
-//        vertices.stream().forEach(System.out::println);
+        Pair<Node> vertices = octilinearEdge.getVertices();
 
-        // only one vertex
-        if (vertices.second() == null) {
-            map.addNodes(vertices.first());
-            edge.getNodeA()
-                    .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
-                    .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
+        if (vertices.hasNonNullValues()) {
+
+            // only one vertex
+            if (vertices.second() == null) {
+                map.addNodes(vertices.first());
+                edge.getNodeA()
+                        .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
+                        .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
+            }
+            else {
+                map.addNodes(vertices.first(), vertices.second());
+                edge.getNodeA()
+                        .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
+                        .createAdjacentEdgeTo(vertices.second(), edge.getRoutes())
+                        .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
+            }
+
+            Loggers.info(this, "Octilinear edge created: " + edge);
+
+            // remove old edge
+            edge.delete();
+
+            // numbers of nodes has changed, edge cache must be flagged for rebuild
+            map.updateGraph();
+
         }
         else {
-            map.addNodes(vertices.first(), vertices.second());
-            edge.getNodeA()
-                    .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
-                    .createAdjacentEdgeTo(vertices.second(), edge.getRoutes())
-                    .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
+            Loggers.warning(this, "No octilinear edge created: " + edge);
         }
-
-        // remove old edge
-        edge.delete();
-
-        // numbers of nodes has changed, edge cache must be flagged for rebuild
-        map.updateGraph();
-
-        return new HashSet<>(vertices.toList());
 
     }
 
@@ -256,18 +261,26 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                         .forEach(node -> node.updateY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
             }
 
+            //correctNonOctilinearEdges(map);
+
             if (count < MAX_ITERATIONS) {
                 makeSpace(map, routeMargin, edgeMargin, count);
             }
+            else {
+                Loggers.warning(this, "Abort -> max. iteration reached!");
+            }
 
         }
+
+        map.evaluateConflicts(routeMargin, edgeMargin, true)
+                .forEach(c -> Loggers.warning(this, "Conflict not solved: " + c));
 
     }
 
     @Override
     public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
         makeSpace(map, routeMargin, edgeMargin, 0);
-        correctMap(map);
+        correctNonOctilinearEdges(map);
         System.out.println(map);
     }
 

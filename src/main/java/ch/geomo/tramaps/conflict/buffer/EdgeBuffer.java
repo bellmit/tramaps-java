@@ -52,4 +52,8 @@ public class EdgeBuffer implements ElementBuffer, Observer {
         updateBuffer();
     }
 
+    @Override
+    public String toString() {
+        return "EdgeBuffer: {edge= " + edge + ", buffer= " + buffer + "}";
+    }
 }

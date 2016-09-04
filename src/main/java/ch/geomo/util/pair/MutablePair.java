@@ -79,6 +79,15 @@ public class MutablePair<T> implements Pair<T> {
         }
     }
 
+    /**
+     * Swaps first with second value.
+     */
+    public void swapValues() {
+        T firstValue = first;
+        first = second;
+        second = firstValue;
+    }
+
     @Override
     public boolean equals(Object obj) {
 

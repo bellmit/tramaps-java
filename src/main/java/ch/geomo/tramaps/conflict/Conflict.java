@@ -156,6 +156,11 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     @Override
+    public String toString() {
+        return "Conflict: {bufferA= " + bufferA + ", bufferB= " + bufferB + "}";
+    }
+
+    @Override
     public int compareTo(@NotNull Conflict o) {
         if (getMoveVector().equals(o.getMoveVector())) {
             // same move vector

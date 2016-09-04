@@ -79,9 +79,14 @@ public enum OctilinearDirection implements Direction {
     @NotNull
     public static OctilinearDirection fromAngle(double angle) {
         return Arrays.stream(values())
-                .filter(direction -> direction.angle == (angle % 360))
+                .filter(direction -> direction.angle == ((angle+360) % 360))
                 .findFirst()
-                .orElseGet(() -> new AnyDirection(angle).toOctilinear());
+                .orElseGet(() -> {
+                    if (angle == -100) {
+                        System.out.println("here we go..");
+                    }
+                    return new AnyDirection(angle).toOctilinear();
+                });
     }
 
     /**
