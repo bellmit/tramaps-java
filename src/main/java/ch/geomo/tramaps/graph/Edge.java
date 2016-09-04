@@ -71,9 +71,10 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return the edge's name if available
      */
-    @Nullable
+    @NotNull
     public String getName() {
-        return name;
+        return Optional.ofNullable(name)
+                .orElse(getNodeA().getName() + " <-> " + getNodeB().getName());
     }
 
     /**
@@ -218,6 +219,16 @@ public class Edge extends Observable implements Observer, GraphElement {
         return direction.opposite();
     }
 
+    @Contract(pure = true)
+    public boolean hasDirectionOf(@NotNull Direction direction) {
+        return direction.getAngle() == getDirection().getAngle();
+    }
+
+    @Contract(pure = true)
+    public boolean hasOppositeDirectionOf(@NotNull Direction direction) {
+        return direction.isOpposite(getDirection());
+    }
+
     /**
      * @return the direction of this edge from <b>node A or B depending on the node</b>
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
@@ -229,7 +240,8 @@ public class Edge extends Observable implements Observer, GraphElement {
         else if (nodeB.equals(node)) {
             return getDirection(false);
         }
-        throw new IllegalArgumentException("Node must be equals to node A or B.");
+        String message = "Node " + node.getName() + " must be equals to an end node of " + getName() + ".";
+        throw new IllegalArgumentException(message);
     }
 
     public double getAngle() {
@@ -299,9 +311,7 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     @Override
     public String toString() {
-        String name = Optional.ofNullable(getName())
-                .orElse(getNodeA().getName() + " <-> " + getNodeB().getName());
-        return "Edge: {" + name + "}";
+        return "Edge: {" + getName() + "}";
     }
 
     @Contract(pure = true)

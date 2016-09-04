@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.graph.util;
 
+import ch.geomo.util.Contracts;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -41,18 +42,30 @@ public class AnyDirection implements Direction {
     @Override
     public OctilinearDirection toOctilinear() {
         Direction direction;
-        if ((angle % 45) < 45 / 2) {
-            direction = fromAngle(Math.floor(angle / 100) * 100);
+        double diff = angle % 45;
+        if (diff < 45 / 2) {
+            direction = fromAngle(angle - diff);
         }
         else {
-            direction = fromAngle(Math.ceil(angle / 100) * 100);
+            direction = fromAngle(angle + (45 - diff));
         }
-        if (!(direction instanceof OctilinearDirection)) {
-            // should never reach this point
-            System.out.println(direction);
-            throw new IllegalStateException("Something went wrong while evaluating the best octilinear direction.");
+        Contracts.test(direction, OctilinearDirection::isOctilinear, () -> "Direction " + direction + " is not octilinear!");
+        return direction.toOctilinear();
+    }
+
+    @NotNull
+    @Override
+    public OctilinearDirection toOrthogonal() {
+        Direction direction;
+        double diff = angle % 45;
+        if (diff < 45) {
+            direction = fromAngle(angle - diff);
         }
-        return (OctilinearDirection) direction;
+        else {
+            direction = fromAngle(angle + (90 - diff));
+        }
+        Contracts.test(direction, OctilinearDirection::isOctilinear, () -> "Direction " + direction + " is not octilinear!");
+        return direction.toOctilinear();
     }
 
     /**
@@ -93,7 +106,7 @@ public class AnyDirection implements Direction {
 
     @Override
     public String toString() {
-        return "Direction: {angle= " + angle + "}";
+        return angle + " degree";
     }
 
 }

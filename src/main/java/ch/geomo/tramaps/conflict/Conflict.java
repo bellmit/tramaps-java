@@ -12,6 +12,8 @@ import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.geo.util.PolygonUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.tramaps.map.MetroMap;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
@@ -19,6 +21,8 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Conflict implements Comparable<Conflict> {
@@ -27,13 +31,10 @@ public class Conflict implements Comparable<Conflict> {
     private final ElementBuffer bufferB;
 
     private Polygon conflictPolygon;
-    private MoveVector moveVector;
-    private Vector2D bestMoveVectorAlongAnAxis;
 
-    private Vector2D xAxisMoveVector;
-    private Vector2D yAxisMoveVector;
-
-    private Axis bestMoveVectorAxis;
+    private MoveVector displacementVector;
+    private Axis bestDisplacementAxis;
+    private Vector2D bestDisplacementVectorAlongAxis;
 
     private LineString g;
 
@@ -54,28 +55,25 @@ public class Conflict implements Comparable<Conflict> {
         LineString q = GeomUtil.createLineString(bufferA.getElement().getCentroid(), bufferB.getElement().getCentroid());
 
         // create exact move vector
-        moveVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, q)
+        displacementVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, q)
                 .map(MoveVector::new)
                 .orElse(new MoveVector());
 
         // evaluate best move vector along an axis
-        double angleX = moveVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
-        double angleY = moveVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
-
-        xAxisMoveVector = moveVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-        yAxisMoveVector = moveVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+        double angleX = displacementVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
+        double angleY = displacementVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
 
         if (angleY < angleX) {
-            bestMoveVectorAlongAnAxis = xAxisMoveVector;
-            bestMoveVectorAxis = Axis.X;
+            bestDisplacementVectorAlongAxis = displacementVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplacementAxis = Axis.X;
         }
         else {
-            bestMoveVectorAlongAnAxis = yAxisMoveVector;
-            bestMoveVectorAxis = Axis.Y;
+            bestDisplacementVectorAlongAxis = displacementVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplacementAxis = Axis.Y;
         }
 
         Point centroid = conflictPolygon.getCentroid();
-        if (bestMoveVectorAxis == Axis.X) {
+        if (bestDisplacementAxis == Axis.X) {
             g = GeomUtil.createLineString(new Coordinate(centroid.getX(), -1000000), new Coordinate(centroid.getX(), 1000000));
         }
         else {
@@ -94,32 +92,42 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     @NotNull
-    public MoveVector getMoveVector() {
-        return moveVector;
+    public MoveVector getDisplacementVector() {
+        return displacementVector;
     }
 
-    public double getBestMoveLengthAlongAnAxis() {
-        return Math.ceil(getBestMoveVectorAlongAnAxis().length() * 100000) / 100000;
-    }
-
-    @NotNull
-    public Vector2D getBestMoveVectorAlongAnAxis() {
-        return bestMoveVectorAlongAnAxis;
+    public double getBestDisplacementLengthAlongAxis() {
+        return Math.ceil(getBestDisplacementVectorAlongAxis().length() * 100000) / 100000;
     }
 
     @NotNull
-    public Vector2D getXAxisMoveVector() {
-        return xAxisMoveVector;
+    public Vector2D getBestDisplacementVectorAlongAxis() {
+        return bestDisplacementVectorAlongAxis;
     }
 
     @NotNull
-    public Vector2D getYAxisMoveVector() {
-        return yAxisMoveVector;
+    public Axis getBestDisplacementAxis() {
+        return bestDisplacementAxis;
     }
 
-    @NotNull
-    public Axis getBestMoveVectorAxis() {
-        return bestMoveVectorAxis;
+    /**
+     * @return best move direction along an axis
+     * @see OctilinearDirection#NORTH
+     * @see OctilinearDirection#EAST
+     */
+    public OctilinearDirection getBestDisplacementDirection() {
+        if (bestDisplacementAxis == Axis.X) {
+            return OctilinearDirection.NORTH;
+        }
+        return OctilinearDirection.EAST;
+    }
+
+    /**
+     * @return best move distance along the best move direction
+     * @see #getBestDisplacementDirection()
+     */
+    public double getBestDisplacementLength() {
+        return getBestDisplacementLengthAlongAxis();
     }
 
     @NotNull
@@ -162,23 +170,23 @@ public class Conflict implements Comparable<Conflict> {
 
     @Override
     public int compareTo(@NotNull Conflict o) {
-        if (getMoveVector().equals(o.getMoveVector())) {
+        if (getDisplacementVector().equals(o.getDisplacementVector())) {
             // same move vector
             // TODO distinct conflict in order to reproduce same sequence
         }
-        double l1 = o.getBestMoveVectorAlongAnAxis().length();
-        double l2 = getBestMoveVectorAlongAnAxis().length();
+        double l1 = o.getBestDisplacementVectorAlongAxis().length();
+        double l2 = getBestDisplacementVectorAlongAxis().length();
         if (l1 == l2) {
-            l1 = l1 + o.getMoveVector().length();
-            l2 = l2 + this.getMoveVector().length();
+            l1 = l1 + o.getDisplacementVector().length();
+            l2 = l2 + this.getDisplacementVector().length();
         }
         if (l1 == l2) {
             // same distance
-            double x1 = o.getMoveVector().getX();
-            double x2 = this.getMoveVector().getX();
+            double x1 = o.getDisplacementVector().getX();
+            double x2 = this.getDisplacementVector().getX();
             if (x1 == x2) {
-                double y1 = o.getMoveVector().getY();
-                double y2 = this.getMoveVector().getY();
+                double y1 = o.getDisplacementVector().getY();
+                double y2 = this.getDisplacementVector().getY();
                 return Double.compare(y1, y2);
             }
             // same distance but different directions

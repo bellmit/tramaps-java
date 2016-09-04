@@ -7,7 +7,6 @@ package ch.geomo.tramaps.map.displacement;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geo.Axis;
 import ch.geomo.tramaps.graph.Edge;
-import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
@@ -16,29 +15,88 @@ import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
-import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 100;
-    private static final double MAX_ADJUSTMENT_COSTS = 25;
+    private static final int MAX_ITERATIONS = 500;
+    private static final double MAX_ADJUSTMENT_COSTS = 5;
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
 
-    private void correctNonOctilinearEdges(MetroMap map) {
-        System.out.println("Non-Octilinear Edges: " + map.evaluateNonOctilinearEdges().count());
+    @NotNull
+    private List<Node> evaluateMoveableNodes(@NotNull Node firstNode, @NotNull MetroMap map, @NotNull Conflict conflict, @NotNull OctilinearDirection displacementDirection) {
+
+        Point centroid = conflict.getG().getCentroid();
+
+        if (displacementDirection == OctilinearDirection.NORTH) {
+            return map.getNodes().stream()
+                    .filter(node -> {
+                        if (firstNode.getX() < centroid.getX()) {
+                            return node.getX() < centroid.getX();
+                        }
+                        return node.getX() > centroid.getX();
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        return map.getNodes().stream()
+                .filter(node -> {
+                    if (firstNode.getY() < centroid.getY()) {
+                        return node.getY() < centroid.getY();
+                    }
+                    return node.getY() > centroid.getY();
+                })
+                .collect(Collectors.toList());
+
+    }
+
+    private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull MetroMap map, @NotNull Conflict conflict, @NotNull OctilinearDirection displacementDirection) {
+
+        Loggers.info(this, "Correct edge " + edge.getName() + ".");
+
+        DisplaceGuard guardA = new DisplaceGuard(map, conflict, evaluateMoveableNodes(edge.getNodeA(), map, conflict, displacementDirection));
+        DisplaceGuard guardB = new DisplaceGuard(map, conflict, evaluateMoveableNodes(edge.getNodeB(), map, conflict, displacementDirection));
+
+        double scoreNodeA = calculateAdjustmentCosts(edge, edge.getNodeA(), guardA);
+        double scoreNodeB = calculateAdjustmentCosts(edge, edge.getNodeB(), guardB);
+
+        Loggers.info(this, "Adjustment Costs for nodes: [" + scoreNodeA + "/" + scoreNodeB + "]");
+
+        correctEdgeByIntroducingBendNodes(edge, map);
+
+        if (scoreNodeA > MAX_ADJUSTMENT_COSTS && scoreNodeB > MAX_ADJUSTMENT_COSTS) {
+            correctEdgeByIntroducingBendNodes(edge, map);
+        }
+        else {
+            OctilinearDirection lastMoveDirection = conflict.getBestDisplacementDirection();
+            if (scoreNodeA < scoreNodeB) {
+                correctEdgeByMovingNode(edge, edge.getNodeA(), lastMoveDirection, guardA.reuse());
+            }
+            else {
+                correctEdgeByMovingNode(edge, edge.getNodeB(), lastMoveDirection, guardB.reuse());
+            }
+        }
+
+    }
+
+    private void correctNonOctilinearEdges(@NotNull MetroMap map, @NotNull Conflict conflict, @NotNull OctilinearDirection displacementDirection) {
+
+        Loggers.info(this, "Non-Octilinear edges: " + map.evaluateNonOctilinearEdges().count());
         map.getEdges().stream()
                 .filter(edge -> !Direction.isOctilinear(edge.getAngle()))
-                .forEach(edge -> introduceOctilinearBendNodes(edge, map));
+                .forEach(edge -> correctNonOctilinearEdge(edge, map, conflict, displacementDirection));
+
+        map.getEdges().stream()
+                .filter(edge -> !Direction.isOctilinear(edge.getAngle()))
+                .forEach(edge -> System.out.println(edge));
+
     }
 
     /**
@@ -86,7 +144,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance
      * will be destroyed.
      */
-    private void introduceOctilinearBendNodes(@NotNull Edge edge, @NotNull MetroMap map) {
+    private void correctEdgeByIntroducingBendNodes(@NotNull Edge edge, @NotNull MetroMap map) {
 
         // create octilinear edge
         OctilinearEdge octilinearEdge = new OctilinearEdgeBuilder()
@@ -136,64 +194,95 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * @return the applied move direction
      */
     @NotNull
-    private OctilinearDirection moveNode(@NotNull Edge edge, @NotNull Node moveableNode, @Nullable OctilinearDirection lastMoveDirection) {
+    private OctilinearDirection moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, double displacementLength, @NotNull OctilinearDirection lastMoveDirection) {
 
-        if (isSimpleNode(edge, moveableNode)) {
-            // TODO
+        Direction moveDirection = lastMoveDirection;
+
+        if (isSimpleNode(connectionEdge, moveableNode)) {
+
+            if (moveableNode.getDegree() == 1) {
+                moveDirection = lastMoveDirection;
+            }
+            else {
+
+                // get first edge
+                Edge adjacentEdge = moveableNode.getAdjacentEdgeStream(connectionEdge)
+                        .findFirst()
+                        // should never reach this point
+                        .orElseThrow(IllegalStateException::new);
+
+                Direction direction = adjacentEdge.getDirection(moveableNode);
+                if (!OctilinearDirection.isOctilinear(direction)) {
+                    System.out.println("shiit");
+                }
+                double angle = direction.getAngleTo(connectionEdge.getDirection());
+                if ((angle > 45 && angle < 135) || (angle > 225 && angle < 315)) {
+                    direction = direction.opposite();
+                }
+                moveDirection =  direction;
+
+            }
+
         }
 
-        return OctilinearDirection.NORTH;
+
+        Loggers.info(this, "Move node " + moveableNode.getName() + " to " + moveDirection + " (" + displacementLength + ").");
+
+        OctilinearDirection octilinearMoveDirection = moveDirection.toOctilinear();
+        moveableNode.move(octilinearMoveDirection, displacementLength);
+        return octilinearMoveDirection;
 
     }
 
     /**
      * Corrects the direction of given {@link Edge} recursively by moving the given {@link Node}.
      */
-    private void correctEdgeDirection(@NotNull Edge edge, @NotNull Node moveableNode, @Nullable OctilinearDirection lastMoveDirection) {
+    private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull OctilinearDirection lastMoveDirection, @NotNull DisplaceGuard guard) {
 
-        OctilinearDirection movedDirection = moveNode(edge, moveableNode, lastMoveDirection);
+        if (guard.isNotMoveable(moveableNode)) {
+            Loggers.warning(this, "Node " + moveableNode.getName() + " cannot be moved!");
+            return;
+        }
 
-        moveableNode.getAdjacentEdges().stream()
+        if (guard.hasAlreadyVisited(moveableNode)) {
+            Loggers.warning(this, "Correct edge aborted due to a second visit of node " + moveableNode.getName() + "!");
+            return;
+        }
+        guard.visited(moveableNode);
+
+        OctilinearDirection movedDirection = moveNode(edge, moveableNode, guard.getMoveDistance(), lastMoveDirection);
+
+        List<Edge> nonOctilinearEdges = moveableNode.getAdjacentEdges().stream()
                 .filter(Edge::isNonOctilinear)
                 .filter(edge::isNotEquals)
-                .forEach(nonOctilinearEdge -> {
-                    Node otherNode = edge.getOtherNode(moveableNode);
-                    correctEdgeDirection(nonOctilinearEdge, otherNode, movedDirection);
-                });
+                .collect(Collectors.toList());
 
-    }
+        for (Edge nonOctilinearEdge : nonOctilinearEdges) {
+            Node otherNode = nonOctilinearEdge.getOtherNode(moveableNode);
+            correctEdgeByMovingNode(nonOctilinearEdge, otherNode, movedDirection, guard);
+        }
 
-    private double calculateDisplacementCosts(@NotNull Graph graph) {
-        // TODO wird das überhaupt benötigt?
-        return graph.getNodes().size();
-    }
-
-    @NotNull
-    private Pair<Graph> getSubGraphsFor(@NotNull Conflict conflict, @NotNull MetroMap map) {
-        // TODO
-        return Pair.of(null, null);
     }
 
     private boolean isSimpleNode(@NotNull Edge connectionEdge, @NotNull Node node) {
 
-        List<OctilinearDirection> directions = new ArrayList<>(node.getAdjacentEdgeDirections(connectionEdge));
+        Direction originalDirection = connectionEdge.getDirection(node).toOctilinear();
 
-        if (directions.stream().allMatch(d -> d == connectionEdge.getDirection().toOctilinear().opposite())) {
+        List<Direction> directions = node.getAdjacentEdgeStream(connectionEdge)
+                .map(Edge::getDirection)
+                .collect(Collectors.toList());
+
+        if (directions.size() == 0) {
+            return true;
+        }
+        else if (directions.size() > 2) {
+            return false;
+        }
+        else if (directions.stream().anyMatch(originalDirection::isOpposite)) {
             return false;
         }
 
-        if (directions.size() == 1) {
-            return true;
-        }
-        else if (directions.size() == 2) {
-            return CollectionUtil.makePairs(directions, null).stream()
-                    // it's a simple constellation when the angle between every pair of
-                    // edges is a multiple of 180 degree
-                    .map(pair -> Math.abs(pair.first().getAngle() - pair.second().getAngle()))
-                    .allMatch(angle -> angle % 180 == 0);
-        }
-
-        return false;
+        return directions.size() == 1 || directions.get(0).isOpposite(directions.get(1));
 
     }
 
@@ -203,13 +292,13 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * <p>
      * Note: The {@link List} of traversed nodes is not synchronized.
      */
-    private double calculateAdjustmentCosts(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull List<Node> traversedNodes) {
+    private double calculateAdjustmentCosts(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull DisplaceGuard guard) {
 
-        if (traversedNodes.contains(node)) {
+        if (guard.isNotMoveable(node) || guard.hasAlreadyVisited(node)) {
             return CORRECT_CIRCLE_PENALTY;
         }
 
-        traversedNodes.add(node);
+        guard.visited(node);
 
         if (node.getAdjacentEdges().size() == 1) {
             return 0;
@@ -227,7 +316,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         for (Edge adjacentEdge : adjacentEdges) {
             Node otherNode = adjacentEdge.getOtherNode(node);
-            costs = costs + calculateAdjustmentCosts(adjacentEdge, otherNode, traversedNodes);
+            costs = costs + calculateAdjustmentCosts(adjacentEdge, otherNode, guard);
         }
 
         return costs;
@@ -250,18 +339,20 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
             Point centroid = conflict.getConflictPolygon().getCentroid();
 
-            if (conflict.getBestMoveVectorAxis() == Axis.X) {
+            if (conflict.getBestDisplacementAxis() == Axis.X) {
                 map.getNodes().stream()
                         .filter(node -> node.getPoint().getX() > centroid.getX())
-                        .forEach(node -> node.updateX(node.getX() + conflict.getBestMoveLengthAlongAnAxis()));
+                        .forEach(node -> node.updateX(node.getX() + conflict.getBestDisplacementLengthAlongAxis()));
+
+                correctNonOctilinearEdges(map, conflict, OctilinearDirection.NORTH);
             }
             else {
                 map.getNodes().stream()
                         .filter(node -> node.getPoint().getY() > centroid.getY())
-                        .forEach(node -> node.updateY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
-            }
+                        .forEach(node -> node.updateY(node.getY() + conflict.getBestDisplacementLengthAlongAxis()));
 
-            // correctNonOctilinearEdges(map);
+                correctNonOctilinearEdges(map, conflict, OctilinearDirection.WEST);
+            }
 
             if (count < MAX_ITERATIONS) {
                 makeSpace(map, routeMargin, edgeMargin, count);
@@ -281,7 +372,6 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
         Loggers.info(this, "Initial Map: " + map);
         makeSpace(map, routeMargin, edgeMargin, 0);
-        correctNonOctilinearEdges(map);
         Loggers.info(this, "Result Map: " + map);
     }
 

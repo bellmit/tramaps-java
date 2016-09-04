@@ -32,6 +32,9 @@ public interface Direction {
         return !isHorizontal() && !isVertical();
     }
 
+    @NotNull
+    OctilinearDirection toOrthogonal();
+
     /**
      * Returns the closest octilinear direction for this direction. Depending on
      * the implementation the angle will be rounded up or down.
@@ -60,6 +63,17 @@ public interface Direction {
     @Contract(pure = true)
     static boolean isOctilinear(double angle) {
         return angle % 45 == 0;
+    }
+
+    /**
+     * @return the angle between given direction and this instance (clockwise)
+     */
+    default double getAngleTo(Direction direction) {
+        double diff = direction.getAngle() - getAngle();
+        if (diff < 0) {
+            return 360 + diff;
+        }
+        return diff;
     }
 
 }

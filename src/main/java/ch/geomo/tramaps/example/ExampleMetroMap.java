@@ -27,7 +27,7 @@ public class ExampleMetroMap extends MetroMap {
         Node h = new Node(GeomUtil.createPoint(new Coordinate(100, 200)), RectangleStationSignature::new);
         Node i = new Node(GeomUtil.createPoint(new Coordinate(100, 150)), RectangleStationSignature::new);
         Node j = new Node(GeomUtil.createPoint(new Coordinate(150, 250)), RectangleStationSignature::new);
-        Node k = new Node(GeomUtil.createPoint(new Coordinate(160, 250)), RectangleStationSignature::new);
+        Node k = new Node(GeomUtil.createPoint(new Coordinate(160, 240)), RectangleStationSignature::new);
 
         a.setName("A");
         b.setName("B");
@@ -50,7 +50,7 @@ public class ExampleMetroMap extends MetroMap {
         Edge gh = new Edge(g, h);
         Edge ha = new Edge(h, a);
         Edge hi = new Edge(h, i);
-        Edge ib = new Edge(i, b);
+        //Edge ib = new Edge(i, b);
         //Edge ia = new Edge(i, a);
         Edge aj = new Edge(a, j);
         Edge jk = new Edge(j, k);

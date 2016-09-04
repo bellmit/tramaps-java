@@ -32,8 +32,8 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
         double maxMoveY = 0d;
 
         for (Conflict conflict : conflicts) {
-            Axis axis = conflict.getBestMoveVectorAxis();
-            Vector2D v = conflict.getBestMoveVectorAlongAnAxis();
+            Axis axis = conflict.getBestDisplacementAxis();
+            Vector2D v = conflict.getBestDisplacementVectorAlongAxis();
             if (axis == Axis.X) {
                 maxMoveX = Math.max(maxMoveX, v.length());
             }

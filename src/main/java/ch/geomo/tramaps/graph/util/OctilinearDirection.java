@@ -61,6 +61,14 @@ public enum OctilinearDirection implements Direction {
         return this; // just satisfying interface :-)
     }
 
+    @Override
+    public @NotNull OctilinearDirection toOrthogonal() {
+        if (angle % 90 == 0) {
+             return this;
+        }
+        return fromAngle(angle + 45);
+    }
+
     /**
      * @return true if given {@link Direction} is an instance of {@link OctilinearDirection}
      */
@@ -79,14 +87,9 @@ public enum OctilinearDirection implements Direction {
     @NotNull
     public static OctilinearDirection fromAngle(double angle) {
         return Arrays.stream(values())
-                .filter(direction -> direction.angle == ((angle+360) % 360))
+                .filter(direction -> direction.angle == (angle+360) % 360)
                 .findFirst()
-                .orElseGet(() -> {
-                    if (angle == -100) {
-                        System.out.println("here we go..");
-                    }
-                    return new AnyDirection(angle).toOctilinear();
-                });
+                .orElseThrow(IllegalStateException::new);
     }
 
     /**
@@ -94,7 +97,24 @@ public enum OctilinearDirection implements Direction {
      */
     @NotNull
     public Direction opposite() {
-        return fromAngle(Math.abs(360 - angle));
+        switch (this) {
+            case NORTH_EAST:
+                return SOUTH_WEST;
+            case EAST:
+                return WEST;
+            case SOUTH_EAST:
+                return NORTH_WEST;
+            case SOUTH:
+                return NORTH;
+            case SOUTH_WEST:
+                return NORTH_EAST;
+            case WEST:
+                return EAST;
+            case NORTH_WEST:
+                return SOUTH_EAST;
+            default:
+                return SOUTH;
+        }
     }
 
     @NotNull
@@ -102,8 +122,4 @@ public enum OctilinearDirection implements Direction {
         return fromAngle(getAngle() + nullDirection.getAngle());
     }
 
-    @Override
-    public String toString() {
-        return "Direction: {" + super.toString() + ", angle= " + angle + "}";
-    }
 }

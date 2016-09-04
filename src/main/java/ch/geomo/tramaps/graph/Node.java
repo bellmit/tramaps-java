@@ -5,6 +5,7 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Represents a node within a {@link Graph}. Each node has a name, a position and
@@ -134,6 +136,11 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return Collections.unmodifiableSet(adjacentEdges);
     }
 
+    public Stream<Edge> getAdjacentEdgeStream(Edge without) {
+        return adjacentEdges.stream()
+                .filter(edge -> !edge.equals(without));
+    }
+
     /**
      * Returns the node's geometry. Alias for {@link #getPoint()} in order to
      * satisfy {@link GraphElement}.
@@ -210,6 +217,40 @@ public class Node extends Observable implements GraphElement, NodePoint {
      */
     public void updatePosition(double x, double y) {
         updatePosition(GeomUtil.createPoint(x, y));
+    }
+
+    public void move(@NotNull OctilinearDirection direction, double moveLength) {
+
+        double x = getX();
+        double y = getY();
+
+        switch(direction) {
+            case NORTH:
+            case NORTH_EAST:
+            case NORTH_WEST:
+                x = x + moveLength;
+                break;
+            case SOUTH:
+            case SOUTH_EAST:
+            case SOUTH_WEST:
+                x = x - moveLength;
+        }
+
+        switch (direction) {
+            case EAST:
+            case NORTH_EAST:
+            case SOUTH_EAST:
+                y = y + moveLength;
+                break;
+            case WEST:
+            case NORTH_WEST:
+            case SOUTH_WEST:
+                y = y - moveLength;
+                break;
+        }
+
+        updatePosition(x, y);
+
     }
 
     /**
