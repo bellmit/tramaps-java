@@ -44,7 +44,7 @@ public class NodeBuffer implements ElementBuffer {
 
     @Override
     public String toString() {
-        return "NodeBuffer: {node= " + node + ", buffer= " + buffer + "}";
+        return "NodeBuffer: {" + node + "}";
     }
 
     @Override

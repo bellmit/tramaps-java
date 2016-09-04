@@ -351,7 +351,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     @Override
     public String toString() {
-        return "Node: {name= " + name + ", point= " + point + "}";
+        return "Node: " + name;
     }
 
 }

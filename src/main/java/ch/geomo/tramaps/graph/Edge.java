@@ -299,7 +299,9 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     @Override
     public String toString() {
-        return "Edge: {name= " + getName() + ", nodeA= " + nodeA + ", nodeB= " + nodeB + "}";
+        String name = Optional.ofNullable(getName())
+                .orElse(getNodeA().getName() + " <-> " + getNodeB().getName());
+        return "Edge: {" + name + "}";
     }
 
     @Contract(pure = true)

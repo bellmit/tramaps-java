@@ -22,7 +22,7 @@ public class StationBuffer extends NodeBuffer {
 
     @Override
     public String toString() {
-        return "StationBuffer: {node= " + node + ", buffer= " + buffer + "}";
+        return "StationBuffer: {node= " + node + "}";
     }
 
 }

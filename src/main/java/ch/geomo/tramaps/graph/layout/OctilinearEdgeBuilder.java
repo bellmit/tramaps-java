@@ -50,6 +50,7 @@ public class OctilinearEdgeBuilder {
         return this;
     }
 
+    @NotNull
     public OctilinearEdge build() {
         createNodes();
         OctilinearEdge octilinearEdge = new OctilinearEdge(originalEdge);
@@ -105,7 +106,7 @@ public class OctilinearEdgeBuilder {
             if (conflictFree) {
                 double y1 = d.getY() - dx;
                 Node node = new Node(c.getX(), y1, BendNodeSignature::new);
-                node.setName("-");
+                node.setName(a.getName() + "-" + b.getName());
                 vertices.set(0, node);
             }
             else {
@@ -118,19 +119,19 @@ public class OctilinearEdgeBuilder {
                 if (conflictFree) {
                     double y1 = d.getY() - dx;
                     Node node = new Node(c.getX(), y1, BendNodeSignature::new);
-                    node.setName("-");
+                    node.setName(a.getName() + "-" + b.getName());
                     vertices.set(0, node);
                 }
                 else {
 
                     double y1 = c.getY() + (dy / 2) + (dx / 2);
                     Node node1 = new Node(c.getX(), y1, BendNodeSignature::new);
-                    node1.setName("-");
+                    node1.setName(a.getName() + "-*" + b.getName());
                     vertices.set(0, node1);
 
                     double y2 = c.getY() + (dy / 2) - (dx / 2);
                     Node node2 = new Node(c.getX(), y2, BendNodeSignature::new);
-                    node2.setName("-");
+                    node2.setName(a.getName() + "*-" + b.getName());
                     vertices.set(1, node2);
 
                 }
@@ -152,7 +153,7 @@ public class OctilinearEdgeBuilder {
                 // OK
                 double x1 = c.getX() + dy;
                 Node node = new Node(x1, c.getY(), BendNodeSignature::new);
-                node.setName("-");
+                node.setName(a.getName() + "-" + b.getName());
                 vertices.set(0, node);
             }
             else {
@@ -165,19 +166,19 @@ public class OctilinearEdgeBuilder {
                 if (conflictFree) {
                     double x1 = d.getX() - dy;
                     Node node = new Node(x1, c.getY(), BendNodeSignature::new);
-                    node.setName("-");
+                    node.setName(a.getName() + "-" + b.getName());
                     vertices.set(0, node);
                 }
                 else {
 
                     double x1 = c.getX() + (dx / 2) + (dy / 2);
                     Node node1 = new Node(x1, c.getY(), BendNodeSignature::new);
-                    node1.setName("-");
+                    node1.setName(a.getName() + "-*" + b.getName());
                     vertices.set(0, node1);
 
                     double x2 = c.getX() + (dx / 2) - (dy / 2);
                     Node node2 = new Node(x2, c.getY(), BendNodeSignature::new);
-                    node2.setName("-");
+                    node2.setName(a.getName() + "-*" + b.getName());
                     vertices.set(1, node2);
 
                 }

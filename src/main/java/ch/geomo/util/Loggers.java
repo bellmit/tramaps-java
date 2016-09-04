@@ -6,9 +6,11 @@ package ch.geomo.util;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -22,6 +24,14 @@ public final class Loggers {
 
     private Loggers() {
         cache = new HashMap<>();
+        // currently not working standalone -> log file won't be found when running standalone
+        System.setProperty("java.util.logging.config.file", "./src/main/resources/logging.properties");
+        try {
+            LogManager.getLogManager().readConfiguration();
+        }
+        catch (IOException e) {
+            Logger.getGlobal().severe("Cannot read Logger configuration!");
+        }
     }
 
     public static Loggers getInstance() {

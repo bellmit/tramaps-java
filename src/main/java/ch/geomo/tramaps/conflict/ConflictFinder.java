@@ -6,6 +6,7 @@ package ch.geomo.tramaps.conflict;
 
 import ch.geomo.tramaps.conflict.buffer.EdgeBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
+import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
 import ch.geomo.tramaps.conflict.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
@@ -26,12 +27,21 @@ public class ConflictFinder {
      * Returns true if both elements are not equal and not adjacent or at least one element is a node.
      */
     private final static Predicate<Pair<ElementBuffer>> CONFLICT_PAIR_PREDICATE = (Pair<ElementBuffer> pair) -> {
-        if (pair.getFirst() == pair.getSecond()) {
+
+        ElementBufferPair bufferPair = new ElementBufferPair(pair);
+
+        if (bufferPair.hasEqualElements()) {
             return false;
         }
-        boolean adjacent = pair.getFirst().getElement().isAdjacent(pair.getSecond().getElement());
-        return !adjacent || pair.stream()
-                .anyMatch(buffer -> buffer.getElement() instanceof NodeBuffer);
+        else if (bufferPair.hasBendNode()) {
+            return false;
+        }
+        else if (!bufferPair.hasAdjacentElements()) {
+            return true;
+        }
+
+        return bufferPair.isNodePair();
+
     };
 
     private final double routeMargin;
@@ -40,10 +50,6 @@ public class ConflictFinder {
     public ConflictFinder(double routeMargin, double edgeMargin) {
         this.routeMargin = routeMargin;
         this.edgeMargin = edgeMargin;
-    }
-
-    public List<Conflict> getConflictList(@NotNull Set<Edge> edges, @NotNull Set<Node> nodes) {
-        return new ArrayList<>(getConflicts(edges, nodes));
     }
 
     @NotNull

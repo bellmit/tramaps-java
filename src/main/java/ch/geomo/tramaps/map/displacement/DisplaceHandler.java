@@ -261,7 +261,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                         .forEach(node -> node.updateY(node.getY() + conflict.getBestMoveLengthAlongAnAxis()));
             }
 
-            //correctNonOctilinearEdges(map);
+            // correctNonOctilinearEdges(map);
 
             if (count < MAX_ITERATIONS) {
                 makeSpace(map, routeMargin, edgeMargin, count);
@@ -279,9 +279,10 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     @Override
     public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
+        Loggers.info(this, "Initial Map: " + map);
         makeSpace(map, routeMargin, edgeMargin, 0);
         correctNonOctilinearEdges(map);
-        System.out.println(map);
+        Loggers.info(this, "Result Map: " + map);
     }
 
 }

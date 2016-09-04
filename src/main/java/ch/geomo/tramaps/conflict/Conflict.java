@@ -157,7 +157,7 @@ public class Conflict implements Comparable<Conflict> {
 
     @Override
     public String toString() {
-        return "Conflict: {bufferA= " + bufferA + ", bufferB= " + bufferB + "}";
+        return "Conflict: {" + bufferA + ", " + bufferB + "}";
     }
 
     @Override
