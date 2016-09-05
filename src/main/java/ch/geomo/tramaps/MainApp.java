@@ -67,10 +67,11 @@ public class MainApp extends Application {
 
         double scale = 600 / bbox.getHeight();
         canvas.setScaleX(scale);
-        canvas.setScaleY(-scale);
+//        canvas.setScaleY(-scale);
+        canvas.setScaleY(scale);
 
         // hack -> to be removed
-        group.setRotate(270);
+//        group.setRotate(270);
 
         canvas.setTranslateX(50);
         canvas.setTranslateY(-bbox.getMinX() + 50);

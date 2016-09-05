@@ -4,11 +4,12 @@
 
 package ch.geomo.tramaps.map.signature;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * A simple implementation of a station signature. The signature's form
@@ -43,7 +44,7 @@ public class RectangleStationSignature extends NodeSignature {
                 .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
-        signature = GeomUtil.createPolygon(node.getPoint(), Math.max(width, MIN_SIDE_LENGTH), Math.max(height, MIN_SIDE_LENGTH));
+        signature = getGeomUtil().createPolygon(node.getPoint(), Math.max(width, MIN_SIDE_LENGTH), Math.max(height, MIN_SIDE_LENGTH));
         setChanged();
         notifyObservers();
     }

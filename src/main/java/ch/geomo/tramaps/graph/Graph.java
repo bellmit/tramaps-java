@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static ch.geomo.tramaps.geo.util.GeomUtil.createCollection;
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * A container representing a graph.
@@ -143,7 +143,7 @@ public class Graph {
      */
     @NotNull
     public Envelope getBoundingBox() {
-        GeometryCollection collection = createCollection(getEdgeGeometries(), getNodeSignatureGeometries());
+        GeometryCollection collection = getGeomUtil().createCollection(getEdgeGeometries(), getNodeSignatureGeometries());
         return collection.getEnvelopeInternal();
     }
 

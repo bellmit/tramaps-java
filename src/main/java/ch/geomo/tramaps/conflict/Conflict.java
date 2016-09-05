@@ -6,14 +6,12 @@ package ch.geomo.tramaps.conflict;
 
 import ch.geomo.tramaps.conflict.buffer.EdgeBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.tramaps.geo.Axis;
-import ch.geomo.tramaps.geo.MoveVector;
-import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.tramaps.geo.util.PolygonUtil;
+import ch.geomo.tramaps.geom.Axis;
+import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.tramaps.geom.util.PolygonUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
-import ch.geomo.tramaps.map.MetroMap;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
@@ -21,9 +19,9 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class Conflict implements Comparable<Conflict> {
 
@@ -52,7 +50,7 @@ public class Conflict implements Comparable<Conflict> {
         conflictPolygon = (Polygon) bufferA.getBuffer().intersection(bufferB.getBuffer());
 
         // create line q
-        LineString q = GeomUtil.createLineString(bufferA.getElement().getCentroid(), bufferB.getElement().getCentroid());
+        LineString q = getGeomUtil().createLineString(bufferA.getElement().getCentroid(), bufferB.getElement().getCentroid());
 
         // create exact move vector
         displacementVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, q)
@@ -74,10 +72,10 @@ public class Conflict implements Comparable<Conflict> {
 
         Point centroid = conflictPolygon.getCentroid();
         if (bestDisplacementAxis == Axis.X) {
-            g = GeomUtil.createLineString(new Coordinate(centroid.getX(), -1000000), new Coordinate(centroid.getX(), 1000000));
+            g = getGeomUtil().createLineString(new Coordinate(centroid.getX(), -1000000), new Coordinate(centroid.getX(), 1000000));
         }
         else {
-            g = GeomUtil.createLineString(new Coordinate(-1000000, centroid.getY()), new Coordinate(1000000, centroid.getY()));
+            g = getGeomUtil().createLineString(new Coordinate(-1000000, centroid.getY()), new Coordinate(1000000, centroid.getY()));
         }
 
         if (conflictPolygon.isEmpty()) {

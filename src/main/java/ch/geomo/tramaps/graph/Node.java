@@ -4,7 +4,6 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
@@ -20,6 +19,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Represents a node within a {@link Graph}. Each node has a name, a position and
@@ -50,14 +51,14 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * @see #Node(Point)
      */
     public Node(double x, double y) {
-        this(GeomUtil.createPoint(x, y), EmptyNodeSignature::new);
+        this(getGeomUtil().createPoint(x, y), EmptyNodeSignature::new);
     }
 
     /**
      * @see #Node(Point, Function)
      */
     public Node(double x, double y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
+        this(getGeomUtil().createPoint(x, y), nodeSignatureFactory);
     }
 
     /**
@@ -71,7 +72,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     public Node(@NotNull Coordinate coordinate, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(GeomUtil.createPoint(coordinate), nodeSignatureFactory);
+        this(getGeomUtil().createPoint(coordinate), nodeSignatureFactory);
     }
 
     public String getName() {
@@ -208,14 +209,14 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * Updates the node's position/coordinate and notifies Observers.
      */
     public void updatePosition(@NotNull Coordinate coordinate) {
-        updatePosition(GeomUtil.createPoint(coordinate));
+        updatePosition(getGeomUtil().createPoint(coordinate));
     }
 
     /**
      * Updates the node's position/coordinate and notifies Observers.
      */
     public void updatePosition(double x, double y) {
-        updatePosition(GeomUtil.createPoint(x, y));
+        updatePosition(getGeomUtil().createPoint(x, y));
     }
 
     public void move(@NotNull OctilinearDirection direction, double moveLength) {
@@ -293,7 +294,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     @NotNull
     @Override
     public Point toPoint() {
-        return GeomUtil.clonePoint(point);
+        return getGeomUtil().clonePoint(point);
     }
 
     /**

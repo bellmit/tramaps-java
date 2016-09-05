@@ -20,9 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.geo.util.GeomUtil.createCollection;
-import static ch.geomo.tramaps.geo.util.GeomUtil.toStream;
-import static ch.geomo.tramaps.geo.util.PolygonUtil.splitPolygon;
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
+import static ch.geomo.tramaps.geom.util.PolygonUtil.splitPolygon;
 
 /**
  * Represents an originalEdge which is octilinear and has one or two additional nodes.
@@ -67,9 +66,9 @@ public class OctilinearEdgeBuilder {
 
         Geometry bbox = originalEdge.getLineString().getEnvelope();
 
-        GeometryCollection polygons = splitPolygon(bbox, createCollection(edges));
+        GeometryCollection polygons = splitPolygon(bbox, getGeomUtil().createCollection(edges));
 
-        toStream(polygons)
+        getGeomUtil().toStream(polygons)
                 .filter(geom -> geom.relate(originalEdge.getGeometry(), "T********"))
                 .findFirst()
                 .map(geom -> (Polygon) geom)

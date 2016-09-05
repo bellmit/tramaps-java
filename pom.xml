@@ -53,7 +53,7 @@
     </dependency>
     <dependency>
       <groupId>org.geotools</groupId>
-      <!-- required dependency for geo referencing -->
+      <!-- required dependency for geom referencing -->
       <artifactId>gt-epsg-hsql</artifactId>
       <version>${geotools.version}</version>
     </dependency>

@@ -6,8 +6,7 @@ package ch.geomo.tramaps.map.displacement;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.tramaps.geo.Axis;
-import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.map.MetroMap;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -19,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * This {@link MetroMapLineSpaceHandler} implementation makes space by scaling the underlying
@@ -74,7 +75,7 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
             Stream<Geometry> buffers = conflicts.stream()
                     .flatMap(conflict -> Stream.of(conflict.getBufferA(), conflict.getBufferB()))
                     .map(ElementBuffer::getBuffer);
-            GeometryCollection coll = GeomUtil.createCollection(buffers);
+            GeometryCollection coll = getGeomUtil().createCollection(buffers);
             Envelope bbox = coll.getEnvelopeInternal();
             double scaleFactor = evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
             System.out.println("scale factor: " + scaleFactor);

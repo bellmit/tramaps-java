@@ -2,12 +2,13 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.geo;
+package ch.geomo.tramaps.geom;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * An implementation of {@link Vector2D} providing constructor to create a vector with a {@link LineString}.
@@ -23,7 +24,7 @@ public class MoveVector extends Vector2D {
 
     public MoveVector() {
         super(0, 0);
-        lineString = GeomUtil.createLineString();
+        lineString = getGeomUtil().createLineString();
     }
 
     public MoveVector(@NotNull LineString lineString) {

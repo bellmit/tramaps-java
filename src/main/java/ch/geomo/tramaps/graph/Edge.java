@@ -4,7 +4,6 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
@@ -18,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Represents an edge within a {@link Graph}. Each edge has a name, a position,
@@ -113,7 +114,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return the angle between Y axis and this edge (starting north, clockwise)
      */
     private double calculateAngle() {
-        double angle = GeomUtil.getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX() + 5d, nodeA.getY()), nodeB);
+        double angle = getGeomUtil().getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX() + 5d, nodeA.getY()), nodeB);
         return (angle + 360) % 360;
     }
 
@@ -121,7 +122,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * Updates the {@link LineString} representation and notifies Observers.
      */
     protected final void updateEdge() {
-        lineString = GeomUtil.createLineString(nodeA, nodeB);
+        lineString = getGeomUtil().createLineString(nodeA, nodeB);
         double angle = calculateAngle();
         direction = AnyDirection.fromAngle(angle);
         Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");

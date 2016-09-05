@@ -4,7 +4,6 @@
 
 package ch.geomo.tramaps.graph.layout;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.util.pair.MutablePair;
@@ -15,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Observable;
 import java.util.stream.Stream;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class OctilinearEdge extends Edge {
 
@@ -36,7 +37,7 @@ public class OctilinearEdge extends Edge {
         Coordinate[] coordinates = getNodeStream()
                 .map(Node::getCoordinate)
                 .toArray(Coordinate[]::new);
-        lineString = GeomUtil.createLineString(coordinates);
+        lineString = getGeomUtil().createLineString(coordinates);
         updateEdge();
     }
 

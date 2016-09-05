@@ -4,11 +4,13 @@
 
 package ch.geomo.tramaps.map.signature;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Null object implementation of a {@link NodeSignature}.
@@ -29,7 +31,7 @@ public class EmptyNodeSignature extends NodeSignature {
      * x- and y-value where changed.
      */
     protected void updateSignature() {
-        signature = GeomUtil.createPolygon(node.getPoint(), 0.0001, 0.0001);
+        signature = getGeomUtil().createPolygon(node.getPoint(), 0.0001, 0.0001);
         setChanged();
         notifyObservers();
     }

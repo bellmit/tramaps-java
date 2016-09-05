@@ -4,7 +4,6 @@
 
 package ch.geomo.util.point;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
@@ -12,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public interface NodePoint {
 
@@ -67,7 +68,7 @@ public interface NodePoint {
      */
     @SuppressWarnings("unused")
     default double calculateAngleBetween(@NotNull NodePoint p1, @NotNull NodePoint p2) {
-        return GeomUtil.getAngleBetween(this, p1, p2);
+        return getGeomUtil().getAngleBetween(this, p1, p2);
     }
 
     @NotNull

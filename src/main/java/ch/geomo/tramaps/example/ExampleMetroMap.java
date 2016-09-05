@@ -4,7 +4,6 @@
 
 package ch.geomo.tramaps.example;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
@@ -13,21 +12,24 @@ import ch.geomo.tramaps.map.signature.RectangleStationSignature;
 import com.vividsolutions.jts.geom.Coordinate;
 import javafx.scene.paint.Color;
 
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
+
 public class ExampleMetroMap extends MetroMap {
 
     public ExampleMetroMap() {
 
-        Node a = new Node(GeomUtil.createPoint(new Coordinate(150, 200)), RectangleStationSignature::new);
-        Node b = new Node(GeomUtil.createPoint(new Coordinate(150, 100)), RectangleStationSignature::new);
-        Node c = new Node(GeomUtil.createPoint(new Coordinate(200, 100)), RectangleStationSignature::new);
-        Node d = new Node(GeomUtil.createPoint(new Coordinate(200, 150)), RectangleStationSignature::new);
-        Node e = new Node(GeomUtil.createPoint(new Coordinate(200, 250)), RectangleStationSignature::new);
-        Node f = new Node(GeomUtil.createPoint(new Coordinate(150, 300)), RectangleStationSignature::new);
-        Node g = new Node(GeomUtil.createPoint(new Coordinate(100, 300)), RectangleStationSignature::new);
-        Node h = new Node(GeomUtil.createPoint(new Coordinate(100, 200)), RectangleStationSignature::new);
-        Node i = new Node(GeomUtil.createPoint(new Coordinate(100, 150)), RectangleStationSignature::new);
-        Node j = new Node(GeomUtil.createPoint(new Coordinate(150, 250)), RectangleStationSignature::new);
-        Node k = new Node(GeomUtil.createPoint(new Coordinate(160, 250)), RectangleStationSignature::new);
+        Node a = new Node(getGeomUtil().createPoint(new Coordinate(150, 200)), RectangleStationSignature::new);
+        Node b = new Node(getGeomUtil().createPoint(new Coordinate(150, 100)), RectangleStationSignature::new);
+        Node c = new Node(getGeomUtil().createPoint(new Coordinate(200, 100)), RectangleStationSignature::new);
+        Node d = new Node(getGeomUtil().createPoint(new Coordinate(200, 150)), RectangleStationSignature::new);
+        Node e = new Node(getGeomUtil().createPoint(new Coordinate(200, 250)), RectangleStationSignature::new);
+        Node f = new Node(getGeomUtil().createPoint(new Coordinate(150, 300)), RectangleStationSignature::new);
+        Node g = new Node(getGeomUtil().createPoint(new Coordinate(100, 300)), RectangleStationSignature::new);
+        Node h = new Node(getGeomUtil().createPoint(new Coordinate(100, 200)), RectangleStationSignature::new);
+        Node i = new Node(getGeomUtil().createPoint(new Coordinate(100, 150)), RectangleStationSignature::new);
+        Node j = new Node(getGeomUtil().createPoint(new Coordinate(150, 250)), RectangleStationSignature::new);
+        Node k = new Node(getGeomUtil().createPoint(new Coordinate(160, 250)), RectangleStationSignature::new);
+        Node l = new Node(getGeomUtil().createPoint(new Coordinate(400, 300)), RectangleStationSignature::new);
 
         a.setName("A");
         b.setName("B");
@@ -40,6 +42,7 @@ public class ExampleMetroMap extends MetroMap {
         i.setName("I");
         j.setName("J");
         k.setName("K");
+        l.setName("L");
 
         Edge ab = new Edge(a, b);
         Edge bc = new Edge(b, c);
@@ -54,6 +57,7 @@ public class ExampleMetroMap extends MetroMap {
         //Edge ia = new Edge(i, a);
         Edge aj = new Edge(a, j);
         Edge jk = new Edge(j, k);
+//        Edge lc = new Edge(l, c);
 
         //Edge bd = new Edge(b, d);
         //Edge ad = new Edge(a, d);
@@ -81,9 +85,10 @@ public class ExampleMetroMap extends MetroMap {
         //ia.addRoutes(line1, line4, line5);
         aj.addRoutes(line5);
         jk.addRoutes(line5);
+//        lc.addRoutes(line1, line3);
         //kb.addRoutes(line1);
 
-        addNodes(a, b, c, d, e, f, g, h, i, j, k);
+        addNodes(a, b, c, d, e, f, g, h, i, j, k, l);
 
     }
 

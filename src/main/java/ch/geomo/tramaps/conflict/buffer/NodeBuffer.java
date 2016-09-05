@@ -4,13 +4,14 @@
 
 package ch.geomo.tramaps.conflict.buffer;
 
-import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Observable;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class NodeBuffer implements ElementBuffer {
 
@@ -27,7 +28,7 @@ public class NodeBuffer implements ElementBuffer {
 
     @Override
     public void updateBuffer() {
-        buffer = GeomUtil.createBuffer(node.getNodeSignature().getGeometry(), 25, true);
+        buffer = getGeomUtil().createBuffer(node.getNodeSignature().getGeometry(), 25, true);
     }
 
     @NotNull

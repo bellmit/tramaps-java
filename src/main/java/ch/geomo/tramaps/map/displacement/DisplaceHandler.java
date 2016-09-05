@@ -5,7 +5,7 @@
 package ch.geomo.tramaps.map.displacement;
 
 import ch.geomo.tramaps.conflict.Conflict;
-import ch.geomo.tramaps.geo.Axis;
+import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
