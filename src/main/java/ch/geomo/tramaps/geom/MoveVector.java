@@ -21,16 +21,16 @@ public class MoveVector extends Vector2D {
     public static final Vector2D VECTOR_ALONG_X_AXIS = new Vector2D(1, 0);
     public static final Vector2D VECTOR_ALONG_Y_AXIS = new Vector2D(0, 1);
 
-    private final LineString lineString;
-
     public MoveVector() {
         super(0, 0);
-        lineString = getGeomUtil().createLineString();
     }
 
     public MoveVector(@NotNull LineString lineString) {
         super(lineString.getStartPoint().getCoordinate(), lineString.getEndPoint().getCoordinate());
-        this.lineString = lineString;
+    }
+
+    public MoveVector(@NotNull Vector2D vector2D) {
+        super(vector2D.getX(), vector2D.getY());
     }
 
     @Override
@@ -44,14 +44,8 @@ public class MoveVector extends Vector2D {
     }
 
     @NotNull
-    @SuppressWarnings("unused")
-    public LineString getLineString() {
-        return lineString;
-    }
-
-    @NotNull
-    public Vector2D getProjection(@NotNull Vector2D alongVector) {
-        return alongVector.multiply(dot(alongVector) / alongVector.dot(alongVector));
+    public MoveVector getProjection(@NotNull Vector2D alongVector) {
+        return new MoveVector(alongVector.multiply(dot(alongVector) / alongVector.dot(alongVector)));
     }
 
     @Override

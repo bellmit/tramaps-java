@@ -17,6 +17,7 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,25 +36,25 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     @NotNull
     private List<Node> evaluateMoveableNodes(@NotNull Node firstNode, @NotNull MetroMap map, @NotNull Conflict conflict, @NotNull OctilinearDirection displacementDirection) {
 
-        Point centroid = conflict.getG().getCentroid();
+        Coordinate centroid = conflict.getDisplaceStartPoint();
 
         if (displacementDirection == NORTH) {
             return map.getNodes().stream()
                     .filter(node -> {
-                        if (firstNode.getX() < centroid.getX()) {
-                            return node.getX() < centroid.getX();
+                        if (firstNode.getX() < centroid.x) {
+                            return node.getX() < centroid.x;
                         }
-                        return node.getX() > centroid.getX();
+                        return node.getX() > centroid.x;
                     })
                     .collect(Collectors.toList());
         }
 
         return map.getNodes().stream()
                 .filter(node -> {
-                    if (firstNode.getY() < centroid.getY()) {
-                        return node.getY() < centroid.getY();
+                    if (firstNode.getY() < centroid.y) {
+                        return node.getY() < centroid.y;
                     }
-                    return node.getY() > centroid.getY();
+                    return node.getY() > centroid.y;
                 })
                 .collect(Collectors.toList());
 
@@ -75,7 +76,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         if (scoreNodeA > MAX_ADJUSTMENT_COSTS && scoreNodeB > MAX_ADJUSTMENT_COSTS) {
             Loggers.info(this, "Adjustment Costs too high... a bend is required!");
-            correctEdgeByIntroducingBendNodes(edge, map);
+//            correctEdgeByIntroducingBendNodes(edge, map);
         }
         else {
             OctilinearDirection lastMoveDirection = conflict.getBestDisplacementDirection();
@@ -285,7 +286,11 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             }
             else {
                 Loggers.info(this, "Handle Single Node " + moveableNode.getName() + "...");
+                Node otherNode = connectionEdge.getOtherNode(moveableNode);
+                double dx = Math.abs(moveableNode.getX() - otherNode.getX());
+                double dy = Math.abs(moveableNode.getY() - otherNode.getY());
                 moveDirection = getMoveDirectionForSingleNode(lastMoveDirection, octilinearConnectionEdgeDirection);
+                moveDistance = dx - dy;
             }
 
         }
@@ -329,34 +334,24 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     private OctilinearDirection getMoveDirectionForSingleNode(@NotNull OctilinearDirection lastMoveDirection, @NotNull OctilinearDirection octilinearConnectionEdgeDirection) {
 
-        OctilinearDirection moveDirection;
+        OctilinearDirection moveDirection = lastMoveDirection;
 
         switch (lastMoveDirection) {
             case NORTH:
-            case SOUTH: {
+            case SOUTH:
+            case WEST:
+            case EAST: {
                 switch (octilinearConnectionEdgeDirection) {
                     case NORTH_WEST:
-                    case NORTH_EAST: {
-                        moveDirection = SOUTH;
+                    case SOUTH_EAST: {
+                        moveDirection = NORTH;
                         break;
                     }
                     default: {
-                        moveDirection = NORTH;
+                        moveDirection = SOUTH;
                     }
                 }
                 break;
-            }
-            default: {
-                switch (octilinearConnectionEdgeDirection) {
-                    case NORTH_WEST:
-                    case NORTH_EAST: {
-                        moveDirection = EAST;
-                        break;
-                    }
-                    default: {
-                        moveDirection = WEST;
-                    }
-                }
             }
         }
 
@@ -503,6 +498,8 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     public void makeSpace(@NotNull MetroMap map) {
         Loggers.info(this, "Initial Map: " + map);
         makeSpace(map, 0);
+//        map.evaluateNonOctilinearEdges()
+//                .forEach(edge -> correctEdgeByIntroducingBendNodes(edge, map));
         map.evaluateConflicts(true)
                 .forEach(c -> Loggers.warning(this, "Conflict not solved: " + c));
         Loggers.info(this, "Result Map: " + map);

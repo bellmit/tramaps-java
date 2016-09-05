@@ -4,25 +4,24 @@
 
 package ch.geomo.tramaps.conflict;
 
-import ch.geomo.tramaps.conflict.buffer.EdgeBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
 import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.geom.util.PolygonUtil;
-import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Loggers;
+import ch.geomo.util.MathUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
+import com.vividsolutions.jts.operation.distance.DistanceOp;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
@@ -33,10 +32,11 @@ public class Conflict implements Comparable<Conflict> {
     private Polygon conflictPolygon;
 
     private MoveVector displacementVector;
+    private MoveVector bestDisplacementVector;
     private Axis bestDisplacementAxis;
-    private Vector2D bestDisplacementVector;
 
-    private LineString g;
+    private Coordinate[] closestPointToA;
+    private Coordinate[] closestPointToB;
 
     private ConflictType conflictType;
     private boolean solved = false;
@@ -44,11 +44,13 @@ public class Conflict implements Comparable<Conflict> {
     public Conflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
         buffers = new ElementBufferPair(bufferA, bufferB);
         initConflict();
-        updateConflict();
+        evaluateConflictType();
     }
 
-    private void initConflict() {
-        // initialize conflict types
+    /**
+     * Evaluates the conflict type.
+     */
+    private void evaluateConflictType() {
         if (buffers.isNodePair() && buffers.hasAdjacentElements()) {
             conflictType = ConflictType.ADJACENT_NODE_NODE;
         }
@@ -63,16 +65,29 @@ public class Conflict implements Comparable<Conflict> {
         }
     }
 
-    public void updateConflict() {
+    /**
+     * @return polygon of the intersecting area of both buffers
+     */
+    @NotNull
+    private Polygon createConflictPolygon() {
+        return (Polygon) getBufferA().getBuffer().intersection(getBufferB().getBuffer());
+    }
+
+    /**
+     * @return the {@link LineString} between the buffer element's centroid
+     */
+    @NotNull
+    private LineString createQ() {
+        return getGeomUtil().createLineString(getBufferA().getElement().getCentroid(), getBufferB().getElement().getCentroid());
+    }
+
+    private void initConflict() {
 
         // create conflict polygon
-        conflictPolygon = (Polygon) getBufferA().getBuffer().intersection(getBufferB().getBuffer());
-
-        // create line q
-        LineString q = getGeomUtil().createLineString(getBufferA().getElement().getCentroid(), getBufferB().getElement().getCentroid());
+        conflictPolygon = createConflictPolygon();
 
         // create exact move vector
-        displacementVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, q)
+        displacementVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, createQ())
                 .map(MoveVector::new)
                 .orElse(new MoveVector());
 
@@ -89,18 +104,8 @@ public class Conflict implements Comparable<Conflict> {
             bestDisplacementAxis = Axis.Y;
         }
 
-        // make precise
-        double x = getGeomUtil().makePrecise(bestDisplacementVector.getX());
-        double y = getGeomUtil().makePrecise(bestDisplacementVector.getY());
-        bestDisplacementVector = new Vector2D(x, y);
-
-        Point centroid = conflictPolygon.getCentroid();
-        if (bestDisplacementAxis == Axis.X) {
-            g = getGeomUtil().createLineString(new Coordinate(centroid.getX(), -1000000), new Coordinate(centroid.getX(), 1000000));
-        }
-        else {
-            g = getGeomUtil().createLineString(new Coordinate(-1000000, centroid.getY()), new Coordinate(1000000, centroid.getY()));
-        }
+        closestPointToA = DistanceOp.nearestPoints(conflictPolygon, getBufferA().getElement().getCentroid());
+        closestPointToB = DistanceOp.nearestPoints(conflictPolygon, getBufferB().getElement().getCentroid());
 
         if (conflictPolygon.isEmpty()) {
             solved = true;
@@ -123,8 +128,8 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     public int getBestDisplacementLengthAlongAxis() {
-        // working with int values only
-        return (int)Math.ceil(getBestDisplacementVectorAlongAxis().length());
+        // we do work with int values only
+        return (int) Math.ceil(getBestDisplacementVectorAlongAxis().length());
     }
 
     @NotNull
@@ -158,10 +163,33 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     @NotNull
-    public LineString getG() {
-        return g;
+    public Coordinate getDisplaceStartPoint() {
+        switch (conflictType) {
+            case NODE_NODE:
+            case ADJACENT_NODE_NODE: {
+                return conflictPolygon.getCentroid().getCoordinate();
+            }
+            case EDGE_EDGE: {
+                if (closestPointToA[0].distance(closestPointToA[1]) < closestPointToB[0].distance(closestPointToB[1])) {
+                    return closestPointToA[0];
+                }
+                return closestPointToB[0];
+            }
+            case NODE_EDGE: {
+                if (getBufferA().getElement() instanceof Node) {
+                    return closestPointToA[0];
+                }
+                return closestPointToB[0];
+            }
+            default: {
+                return conflictPolygon.getCentroid().getCoordinate();
+            }
+        }
     }
 
+    /**
+     * @return true if solved
+     */
     public boolean isSolved() {
         return solved;
     }
@@ -174,20 +202,6 @@ public class Conflict implements Comparable<Conflict> {
     @NotNull
     public ElementBuffer getBufferB() {
         return buffers.second();
-    }
-
-    @NotNull
-    public Stream<Edge> getEdges() {
-        return Stream.of(getBufferA(), getBufferB())
-                .filter(buf -> buf.getElement() instanceof EdgeBuffer)
-                .map(buf -> (Edge) buf.getElement());
-    }
-
-    @NotNull
-    public Stream<Node> getNodes() {
-        return Stream.of(getBufferA(), getBufferB())
-                .filter(buf -> buf.getElement() instanceof Node)
-                .map(buf -> (Node) buf.getElement());
     }
 
     @Override
