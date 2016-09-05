@@ -50,7 +50,7 @@ public class ExampleMetroMap extends MetroMap {
         Edge gh = new Edge(g, h);
         Edge ha = new Edge(h, a);
         Edge hi = new Edge(h, i);
-        //Edge ib = new Edge(i, b);
+        Edge ib = new Edge(i, b);
         //Edge ia = new Edge(i, a);
         Edge aj = new Edge(a, j);
         Edge jk = new Edge(j, k);
@@ -77,7 +77,7 @@ public class ExampleMetroMap extends MetroMap {
         gh.addRoutes(line1, line6);
         ha.addRoutes(line1, line2, line3, line6, line7);
         hi.addRoutes(line1, line3, line6);
-        //ib.addRoutes(line6);
+        ib.addRoutes(line6);
         //ia.addRoutes(line1, line4, line5);
         aj.addRoutes(line5);
         jk.addRoutes(line5);
