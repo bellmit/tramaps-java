@@ -86,13 +86,18 @@ public class MetroMapDrawer {
                     context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
                 });
 
-
         map.getNodes().forEach(node -> {
             Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
             context.setStroke(Color.BLACK);
             context.setLineWidth(1);
             context.strokeText(node.getName(), station.getMinX() - 20, station.getMaxY() + 20);
         });
+
+//        map.getNodes().forEach(node -> {
+//            context.setStroke(Color.BLACK);
+//            context.setLineWidth(1);
+//            context.strokeText(node.getName(), node.getX() - 10, node.getY() + 10);
+//        });
 
     }
 

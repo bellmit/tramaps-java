@@ -57,7 +57,7 @@ public class MainApp extends Application {
         Group group = new Group();
         Envelope bbox = map.getBoundingBox();
 
-        Canvas canvas = new Canvas(bbox.getWidth() + 100, bbox.getHeight() + 100);
+        Canvas canvas = new Canvas(bbox.getWidth() + 300, bbox.getHeight() + 300);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
         MetroMapDrawer drawer = new MetroMapDrawer(routeMargin, edgeMargin);
@@ -66,10 +66,10 @@ public class MainApp extends Application {
 
         double scale = 600 / bbox.getHeight();
         canvas.setScaleX(scale);
-        canvas.setScaleY(scale);
+        canvas.setScaleY(-scale);
 
         // hack -> to be removed
-        //group.setRotate(270);
+        group.setRotate(270);
 
         canvas.setTranslateX(50);
         canvas.setTranslateY(-bbox.getMinX() + 50);
@@ -79,6 +79,7 @@ public class MainApp extends Application {
         group.setAutoSizeChildren(true);
         stage.setScene(new Scene(group));
         stage.show();
+        //System.exit(0);
 
     }
 

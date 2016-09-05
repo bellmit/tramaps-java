@@ -66,6 +66,13 @@ public interface Direction {
     }
 
     /**
+     * @return true if angle of this instance is octilinear
+     */
+    default boolean isOctilinear() {
+        return getAngle() % 45 == 0;
+    }
+
+    /**
      * @return the angle between given direction and this instance (clockwise)
      */
     default double getAngleTo(Direction direction) {

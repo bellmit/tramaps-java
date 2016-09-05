@@ -107,7 +107,6 @@ public final class PolygonUtil {
             Stream<Geometry> boundaryStream = Stream.of(polygon.getBoundary());
             Stream<Geometry> lineStringStream = toStream((GeometryCollection) lineString);
             lines = createCollection(Stream.concat(boundaryStream, lineStringStream));
-            System.out.println(lines);
         }
         else {
             lines = (GeometryCollection) polygon.getBoundary().union(lineString);

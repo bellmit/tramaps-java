@@ -5,6 +5,7 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.map.signature.NodeSignature;
+import ch.geomo.util.point.NodePointDistanceComparator;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -128,7 +129,9 @@ public class Graph {
      */
     @NotNull
     public Set<Node> getNodes() {
-        return Collections.unmodifiableSet(nodes);
+        return nodes.stream()
+                .sorted(new NodePointDistanceComparator<>())
+                .collect(Collectors.toSet());
     }
 
     /**

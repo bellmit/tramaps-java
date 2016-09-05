@@ -101,7 +101,7 @@ public class OctilinearEdgeBuilder {
             // check for a conflict with an adjacent and vertical edge of node C
             boolean conflictFree = c.getAdjacentEdges().stream()
                     .filter(Edge::isVertical)
-                    .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.NORTH.getAngle());
+                    .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.NORTH.getAngle());
 
             if (conflictFree) {
                 double y1 = d.getY() - dx;
@@ -114,7 +114,7 @@ public class OctilinearEdgeBuilder {
                 // check for a conflict with an adjacent and vertical edge of node D
                 conflictFree = d.getAdjacentEdges().stream()
                         .filter(Edge::isVertical)
-                        .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.SOUTH.getAngle());
+                        .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.SOUTH.getAngle());
 
                 if (conflictFree) {
                     double y1 = d.getY() - dx;
@@ -147,7 +147,7 @@ public class OctilinearEdgeBuilder {
             // check for a conflict with an adjacent and vertical edge of node C
             boolean conflictFree = c.getAdjacentEdges().stream()
                     .filter(Edge::isHorizontal)
-                    .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.WEST.getAngle());
+                    .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.WEST.getAngle());
 
             if (conflictFree) {
                 // OK
@@ -161,7 +161,7 @@ public class OctilinearEdgeBuilder {
                 // check for a conflict with an adjacent and vertical edge of node D
                 conflictFree = d.getAdjacentEdges().stream()
                         .filter(Edge::isHorizontal)
-                        .noneMatch(edge -> edge.getDirection().getAngle() == OctilinearDirection.EAST.getAngle());
+                        .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.EAST.getAngle());
 
                 if (conflictFree) {
                     double x1 = d.getX() - dy;

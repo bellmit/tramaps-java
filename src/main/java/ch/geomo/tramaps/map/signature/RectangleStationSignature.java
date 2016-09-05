@@ -34,12 +34,12 @@ public class RectangleStationSignature extends NodeSignature {
      */
     protected void updateSignature() {
         double width = node.getAdjacentEdges().stream()
-                .filter(edge -> !edge.isHorizontal())
+                .filter(edge -> !edge.isVertical())
                 .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
         double height = node.getAdjacentEdges().stream()
-                .filter(edge -> !edge.isVertical())
+                .filter(edge -> !edge.isHorizontal())
                 .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);

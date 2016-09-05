@@ -8,7 +8,9 @@ import ch.geomo.tramaps.geo.util.GeomUtil;
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
+import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.Contract;
@@ -35,12 +37,15 @@ public class Edge extends Observable implements Observer, GraphElement {
     private LineString lineString;
     private Direction direction;
 
+    private Direction originalDirection;
+
     private boolean deleted;
 
     /**
      * Creates a new instance of {@link Edge} with given nodes.
      */
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
+
         this.nodeA = nodeA;
         this.nodeB = nodeB;
         nodeA.addAdjacentEdge(this);
@@ -48,6 +53,10 @@ public class Edge extends Observable implements Observer, GraphElement {
         routes = new HashSet<>();
         nodePair = Pair.of(nodeA, nodeB);
         updateEdge();
+
+        // cache original direction of this edge
+        originalDirection = AnyDirection.fromAngle(calculateAngle());
+
     }
 
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull String name) {
@@ -101,12 +110,21 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
+     * @return the angle between Y axis and this edge (starting north, clockwise)
+     */
+    private double calculateAngle() {
+        double angle = GeomUtil.getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX() + 5d, nodeA.getY()), nodeB);
+        return (angle + 360) % 360;
+    }
+
+    /**
      * Updates the {@link LineString} representation and notifies Observers.
      */
     protected final void updateEdge() {
         lineString = GeomUtil.createLineString(nodeA, nodeB);
-        double angle = Math.ceil(GeomUtil.getAngleToXAxisAsDegree(lineString));
+        double angle = calculateAngle();
         direction = AnyDirection.fromAngle(angle);
+        Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");
         setChanged();
         notifyObservers();
     }
@@ -200,52 +218,49 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return the direction of this edge from <b>node A</b>
-     * @see #getDirection(boolean)
+     * @see #getDirection(Node)
+     * @see #getOriginalDirection(Node)
      */
     @NotNull
-    public Direction getDirection() {
-        return getDirection(true);
-    }
-
-    /**
-     * @return the direction of this edge from <b>node A or B depending on the flag</b>
-     */
-    @NotNull
-    public Direction getDirection(boolean nodeA) {
-        if (nodeA) {
+    private Direction getDirection(@Nullable Node node, @NotNull Direction direction) {
+        if (node == null || nodeA.equals(node)) {
             return direction;
         }
-        return direction.opposite();
-    }
-
-    @Contract(pure = true)
-    public boolean hasDirectionOf(@NotNull Direction direction) {
-        return direction.getAngle() == getDirection().getAngle();
-    }
-
-    @Contract(pure = true)
-    public boolean hasOppositeDirectionOf(@NotNull Direction direction) {
-        return direction.isOpposite(getDirection());
-    }
-
-    /**
-     * @return the direction of this edge from <b>node A or B depending on the node</b>
-     * @throws IllegalArgumentException if given node is neither equal to node A nor node B
-     */
-    public Direction getDirection(@NotNull Node node) {
-        if (nodeA.equals(node)) {
-            return getDirection(true);
-        }
         else if (nodeB.equals(node)) {
-            return getDirection(false);
+            return direction.opposite();
         }
         String message = "Node " + node.getName() + " must be equals to an end node of " + getName() + ".";
         throw new IllegalArgumentException(message);
     }
 
-    public double getAngle() {
-        return direction.getAngle();
+    /**
+     * @return the <b>current</b> direction of this edge from <b>node A or B depending on the node</b>,
+     * returns the current direction of node A if null is passed
+     * @throws IllegalArgumentException if given node is neither equal to node A nor node B
+     */
+    @NotNull
+    public Direction getDirection(@Nullable Node node) {
+        return getDirection(node, direction);
+    }
+
+    /**
+     * @return the <b>original</b> direction of this edge from <b>node A or B depending on the node</b>,
+     * returns the original direction of node A if null is passed
+     * @throws IllegalArgumentException if given node is neither equal to node A nor node B
+     */
+    @NotNull
+    public Direction getOriginalDirection(@Nullable Node node) {
+        return getDirection(node, originalDirection);
+    }
+
+    @Contract(pure = true)
+    public boolean hasDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
+        return direction.getAngle() == getDirection(startNode).getAngle();
+    }
+
+    @Contract(pure = true)
+    public boolean hasOppositeDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
+        return direction.isOpposite(getDirection(startNode));
     }
 
     /**

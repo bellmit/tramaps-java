@@ -5,11 +5,9 @@
 package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.geo.util.GeomUtil;
-import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
-import ch.geomo.tramaps.map.signature.SquareStationSignature;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -136,7 +134,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return Collections.unmodifiableSet(adjacentEdges);
     }
 
-    public Stream<Edge> getAdjacentEdgeStream(Edge without) {
+    @NotNull
+    public Stream<Edge> getAdjacentEdgeStream(@NotNull Edge without) {
         return adjacentEdges.stream()
                 .filter(edge -> !edge.equals(without));
     }
@@ -224,7 +223,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
         double x = getX();
         double y = getY();
 
-        switch(direction) {
+        switch (direction) {
             case NORTH:
             case NORTH_EAST:
             case NORTH_WEST:
@@ -392,7 +391,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     @Override
     public String toString() {
-        return "Node: " + name;
+        return "Node: " + name + "(" + getX() + "/" + getY() + ")";
     }
 
 }

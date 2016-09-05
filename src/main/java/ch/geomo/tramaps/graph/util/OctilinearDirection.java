@@ -96,7 +96,7 @@ public enum OctilinearDirection implements Direction {
      * @return the opposite direction of this direction
      */
     @NotNull
-    public Direction opposite() {
+    public OctilinearDirection opposite() {
         switch (this) {
             case NORTH_EAST:
                 return SOUTH_WEST;

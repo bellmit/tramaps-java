@@ -132,7 +132,4 @@ public final class GeomUtil {
         return Math.toDegrees(angle);
     }
 
-    public static double getAngleToXAxisAsDegree(@NotNull LineString lineString) {
-        return getAngleBetweenAsDegree(NodePoint.of(lineString.getStartPoint()), NodePoint.of(lineString.getEndPoint()), NodePoint.of(lineString.getStartPoint().getX(), 5d));
-    }
 }
