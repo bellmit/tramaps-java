@@ -28,7 +28,7 @@ public class DisplaceGuard {
         traversedNodes = new ArrayList<>();
     }
 
-    public double getMoveDistance() {
+    public int getMoveDistance() {
         return conflict.getBestDisplacementLength();
     }
 

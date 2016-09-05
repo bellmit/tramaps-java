@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  */
 public enum GeomUtil {
 
-    TRAMAPS(new PrecisionModel(1000));
+    TRAMAPS(new PrecisionModel(100));
 
     private final PrecisionModel precisionModel;
     private final GeometryFactory geometryFactory;

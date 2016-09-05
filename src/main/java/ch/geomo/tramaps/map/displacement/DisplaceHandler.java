@@ -75,7 +75,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         if (scoreNodeA > MAX_ADJUSTMENT_COSTS && scoreNodeB > MAX_ADJUSTMENT_COSTS) {
             Loggers.info(this, "Adjustment Costs too high... a bend is required!");
-//            correctEdgeByIntroducingBendNodes(edge, map);
+            correctEdgeByIntroducingBendNodes(edge, map);
         }
         else {
             OctilinearDirection lastMoveDirection = conflict.getBestDisplacementDirection();
@@ -197,7 +197,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * @return the applied move direction
      */
     @NotNull
-    private OctilinearDirection moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, double lastMoveDistance, @NotNull OctilinearDirection lastMoveDirection, @NotNull MetroMap map) {
+    private OctilinearDirection moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, int lastMoveDistance, @NotNull OctilinearDirection lastMoveDirection, @NotNull MetroMap map) {
 
         Direction moveDirection = lastMoveDirection;
         double moveDistance = lastMoveDistance;
@@ -504,13 +504,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         Loggers.info(this, "Initial Map: " + map);
         makeSpace(map, 0);
         map.evaluateConflicts(true)
-                .forEach(c -> {
-                    Loggers.warning(this, "Conflict not solved: " + c);
-                    System.out.println(c.getBestDisplacementLength());
-                    System.out.println(c.getDisplacementVector().getX());
-                    System.out.println(c.getDisplacementVector().getY());
-                    System.out.println(c.getDisplacementVector().length());
-                });
+                .forEach(c -> Loggers.warning(this, "Conflict not solved: " + c));
         Loggers.info(this, "Result Map: " + map);
     }
 

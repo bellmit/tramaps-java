@@ -28,8 +28,6 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class Conflict implements Comparable<Conflict> {
 
-    private final static double MIN_DISPLACEMENT_LENGTH = 0.2d;
-
     private ElementBufferPair buffers;
 
     private Polygon conflictPolygon;
@@ -104,7 +102,7 @@ public class Conflict implements Comparable<Conflict> {
             g = getGeomUtil().createLineString(new Coordinate(-1000000, centroid.getY()), new Coordinate(1000000, centroid.getY()));
         }
 
-        if (conflictPolygon.isEmpty() || getBestDisplacementLength() < MIN_DISPLACEMENT_LENGTH) {
+        if (conflictPolygon.isEmpty()) {
             solved = true;
         }
 
@@ -124,8 +122,9 @@ public class Conflict implements Comparable<Conflict> {
         return displacementVector;
     }
 
-    public double getBestDisplacementLengthAlongAxis() {
-        return getGeomUtil().makePrecise(getBestDisplacementVectorAlongAxis().length());
+    public int getBestDisplacementLengthAlongAxis() {
+        // working with int values only
+        return (int)Math.ceil(getBestDisplacementVectorAlongAxis().length());
     }
 
     @NotNull
@@ -154,7 +153,7 @@ public class Conflict implements Comparable<Conflict> {
      * @return best move distance along the best move direction
      * @see #getBestDisplacementDirection()
      */
-    public double getBestDisplacementLength() {
+    public int getBestDisplacementLength() {
         return getBestDisplacementLengthAlongAxis();
     }
 
