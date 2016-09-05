@@ -333,4 +333,9 @@ public class Edge extends Observable implements Observer, GraphElement {
     public boolean hasRoutes() {
         return !routes.isEmpty();
     }
+
+    public double getLength() {
+        return lineString.getLength();
+    }
+
 }

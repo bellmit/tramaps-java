@@ -74,7 +74,8 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         Loggers.info(this, "Adjustment Costs for nodes: [" + scoreNodeA + "/" + scoreNodeB + "]");
 
         if (scoreNodeA > MAX_ADJUSTMENT_COSTS && scoreNodeB > MAX_ADJUSTMENT_COSTS) {
-            correctEdgeByIntroducingBendNodes(edge, map);
+            Loggers.info(this, "Adjustment Costs too high... a bend is required!");
+//            correctEdgeByIntroducingBendNodes(edge, map);
         }
         else {
             OctilinearDirection lastMoveDirection = conflict.getBestDisplacementDirection();
@@ -196,7 +197,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * @return the applied move direction
      */
     @NotNull
-    private OctilinearDirection moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, double lastMoveDistance, @NotNull OctilinearDirection lastMoveDirection) {
+    private OctilinearDirection moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, double lastMoveDistance, @NotNull OctilinearDirection lastMoveDirection, @NotNull MetroMap map) {
 
         Direction moveDirection = lastMoveDirection;
         double moveDistance = lastMoveDistance;
@@ -224,7 +225,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
                     switch (firstAdjacentEdgeDirection) {
                         case SOUTH: {
-                            if (angle > 315 || angle < 90) {
+                            if (angle > 315 || angle < 45) {
                                 moveDirection = NORTH;
                             }
                             else {
@@ -233,7 +234,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                             break;
                         }
                         case NORTH: {
-                            if (angle > 315 || angle < 90) {
+                            if (angle > 315 || angle < 45) {
                                 moveDirection = SOUTH;
                             }
                             else {
@@ -242,7 +243,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                             break;
                         }
                         case EAST: {
-                            if (angle > 315 || angle < 90) {
+                            if ((angle > 45 && angle < 90) || (angle > 135 && angle < 180) || (angle > 225 && angle < 270) || angle > 335) {
                                 moveDirection = WEST;
                             }
                             else {
@@ -250,7 +251,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                             }
                         }
                         case WEST: {
-                            if (angle > 315 || angle < 90) {
+                            if ((angle > 45 && angle < 90) || (angle > 135 && angle < 180) || (angle > 225 && angle < 270) || angle > 335) {
                                 moveDirection = EAST;
                             }
                             else {
@@ -275,6 +276,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
                 }
                 else {
+                    Loggers.info(this, "Do not move Node " + moveableNode.getName() + ".");
                     moveDirection = firstAdjacentEdgeDirection.opposite();
                     moveDistance = 0d;
                 }
@@ -283,14 +285,38 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         }
         else {
+            Loggers.info(this, "Node " + moveableNode.getName() + " is too complex to move!");
             moveDistance = 0d;
         }
 
-        Loggers.info(this, "Move node " + moveableNode.getName() + " to " + moveDirection + " (" + moveDistance + ").");
-
+        final double correctDistance = moveDistance;
         OctilinearDirection octilinearMoveDirection = moveDirection.toOctilinear();
-        moveableNode.move(octilinearMoveDirection, moveDistance);
-        Loggers.info(this, "New position for " + moveableNode + ".");
+
+        boolean isMoveable = moveableNode.getAdjacentEdgeStream(connectionEdge)
+                .noneMatch(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection && adjEdge.getLength() < correctDistance);
+
+//        System.out.println(correctDistance);
+//
+//        moveableNode.getAdjacentEdgeStream(connectionEdge)
+//                .filter(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection)
+//                .peek(e -> System.out.println(e.getLength()))
+//                .filter(adjEdge -> adjEdge.getLength() < correctDistance)
+//                .map(adjEdge -> adjEdge.getOtherNode(moveableNode))
+//                .forEach(node -> {
+//                    Loggers.info(this, "Correction would produce an intersection with another node... Move other node too.");
+//                    node.move(octilinearMoveDirection, correctDistance);
+//                    Loggers.info(this, "New position for " + moveableNode + ".");
+//                });
+
+        if (isMoveable) {
+            Loggers.info(this, "Apply correction: Move node " + moveableNode.getName() + " to " + moveDirection + " (" + correctDistance + ").");
+            moveableNode.move(octilinearMoveDirection, correctDistance);
+            Loggers.info(this, "New position for " + moveableNode + ".");
+        }
+        else {
+            Loggers.info(this, "Node " + moveableNode.getName() + " is not moveable!");
+        }
+
         return octilinearMoveDirection;
 
     }
@@ -311,7 +337,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         }
         guard.visited(moveableNode);
 
-        OctilinearDirection movedDirection = moveNode(edge, moveableNode, guard.getMoveDistance(), lastMoveDirection);
+        OctilinearDirection movedDirection = moveNode(edge, moveableNode, guard.getMoveDistance(), lastMoveDirection, guard.getMetroMap());
 
         List<Edge> nonOctilinearEdges = moveableNode.getAdjacentEdges().stream()
                 .filter(Edge::isNonOctilinear)
@@ -416,7 +442,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 correctNonOctilinearEdges(map, conflict, WEST);
             }
 
-            if (count < MAX_ITERATIONS) {
+            if (count <= MAX_ITERATIONS) {
                 makeSpace(map, routeMargin, edgeMargin, count);
             }
             else {

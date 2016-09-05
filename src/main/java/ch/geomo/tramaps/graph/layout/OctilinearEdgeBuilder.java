@@ -78,6 +78,14 @@ public class OctilinearEdgeBuilder {
 
     }
 
+    private Node getNodeA() {
+        return originalEdge.getNodeA();
+    }
+
+    private Node getNodeB() {
+        return originalEdge.getNodeB();
+    }
+
     /**
      * Creates the vertices based on the original edge and checks the result
      */
@@ -87,8 +95,8 @@ public class OctilinearEdgeBuilder {
 
         vertices.clear();
 
-        Node a = originalEdge.getNodeA();
-        Node b = originalEdge.getNodeB();
+        Node a = getNodeA();
+        Node b = getNodeB();
 
         double dx = Math.abs(b.getX() - a.getX());
         double dy = Math.abs(b.getY() - a.getY());
@@ -101,26 +109,32 @@ public class OctilinearEdgeBuilder {
             // check for a conflict with an adjacent and vertical edge of node C
             boolean conflictFree = c.getAdjacentEdges().stream()
                     .filter(Edge::isVertical)
-                    .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.NORTH.getAngle());
+                    .map(edge -> edge.getDirection(c).toOctilinear())
+                    .noneMatch(direction -> {
+                        if (c.getY() < d.getY()) {
+                            return direction == OctilinearDirection.NORTH;
+                        }
+                        return direction == OctilinearDirection.SOUTH;
+                    });
 
             if (conflictFree) {
-                double y1 = d.getY() - dx;
-                Node node = new Node(c.getX(), y1, BendNodeSignature::new);
-                node.setName(a.getName() + "-" + b.getName());
-                vertices.set(0, node);
+                createBendNodeWithValueY(c, d, dx);
             }
             else {
 
                 // check for a conflict with an adjacent and vertical edge of node D
                 conflictFree = d.getAdjacentEdges().stream()
                         .filter(Edge::isVertical)
-                        .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.SOUTH.getAngle());
+                        .map(edge -> edge.getDirection(d).toOctilinear())
+                        .noneMatch(direction -> {
+                            if (c.getY() < d.getY()) {
+                                return direction == OctilinearDirection.SOUTH;
+                            }
+                            return direction == OctilinearDirection.NORTH;
+                        });
 
                 if (conflictFree) {
-                    double y1 = d.getY() - dx;
-                    Node node = new Node(c.getX(), y1, BendNodeSignature::new);
-                    node.setName(a.getName() + "-" + b.getName());
-                    vertices.set(0, node);
+                    createBendNodeWithValueY(d, c, -dx);
                 }
                 else {
 
@@ -147,37 +161,44 @@ public class OctilinearEdgeBuilder {
             // check for a conflict with an adjacent and vertical edge of node C
             boolean conflictFree = c.getAdjacentEdges().stream()
                     .filter(Edge::isHorizontal)
-                    .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.WEST.getAngle());
+                    .map(edge -> edge.getDirection(c).toOctilinear())
+                    .noneMatch(direction -> {
+                        if (c.getX() < d.getX()) {
+                            return direction == OctilinearDirection.EAST;
+                        }
+                        return direction == OctilinearDirection.WEST;
+                    });
 
             if (conflictFree) {
-                // OK
-                double x1 = c.getX() + dy;
-                Node node = new Node(x1, c.getY(), BendNodeSignature::new);
-                node.setName(a.getName() + "-" + b.getName());
-                vertices.set(0, node);
+                createBendNodeWithValueX(c, d, dy);
             }
             else {
 
                 // check for a conflict with an adjacent and vertical edge of node D
                 conflictFree = d.getAdjacentEdges().stream()
                         .filter(Edge::isHorizontal)
-                        .noneMatch(edge -> edge.getDirection(c).getAngle() == OctilinearDirection.EAST.getAngle());
+                        .map(edge -> edge.getDirection(d).toOctilinear())
+                        .noneMatch(direction -> {
+                            if (c.getX() < d.getX()) {
+                                return direction == OctilinearDirection.WEST;
+                            }
+                            return direction == OctilinearDirection.EAST;
+                        });
 
                 if (conflictFree) {
-                    double x1 = d.getX() - dy;
-                    Node node = new Node(x1, c.getY(), BendNodeSignature::new);
-                    node.setName(a.getName() + "-" + b.getName());
-                    vertices.set(0, node);
+                    createBendNodeWithValueX(d, c, -dy);
                 }
                 else {
 
-                    double x1 = c.getX() + (dx / 2) + (dy / 2);
-                    Node node1 = new Node(x1, c.getY(), BendNodeSignature::new);
+                    double x = d.getX() + (dx / 2);
+                    double y1 = d.getY() - dy;
+                    double y2 = c.getY() + dy;
+
+                    Node node1 = new Node(x, y1, BendNodeSignature::new);
                     node1.setName(a.getName() + "-*" + b.getName());
                     vertices.set(0, node1);
 
-                    double x2 = c.getX() + (dx / 2) - (dy / 2);
-                    Node node2 = new Node(x2, c.getY(), BendNodeSignature::new);
+                    Node node2 = new Node(x, y2, BendNodeSignature::new);
                     node2.setName(a.getName() + "-*" + b.getName());
                     vertices.set(1, node2);
 
@@ -186,6 +207,20 @@ public class OctilinearEdgeBuilder {
             }
         }
 
+    }
+
+    private void createBendNodeWithValueX(Node start, Node end, double diff) {
+        double x1 = end.getX() - diff;
+        Node node = new Node(x1, start.getY(), BendNodeSignature::new);
+        node.setName(getNodeA().getName() + "-" + getNodeB().getName());
+        vertices.set(0, node);
+    }
+
+    private void createBendNodeWithValueY(Node start, Node end, double diff) {
+        double y1 = end.getY() - diff;
+        Node node = new Node(start.getX(), y1, BendNodeSignature::new);
+        node.setName(getNodeA().getName() + "-" + getNodeB().getName());
+        vertices.set(0, node);
     }
 
 

@@ -80,7 +80,6 @@ public class MetroMapDrawer {
         context.translate(5, 5);
         map.evaluateConflicts(routeMargin, edgeMargin, true)
                 .forEach(conflict -> {
-                    Loggers.warning(this, conflict.toString());
                     context.setFill(Color.rgb(240, 88, 88, 0.4));
                     Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();
                     context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
