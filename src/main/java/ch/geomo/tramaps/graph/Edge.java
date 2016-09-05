@@ -116,10 +116,10 @@ public class Edge extends Observable implements Observer, GraphElement {
     private double calculateAngle() {
         double angle = getGeomUtil().getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX() + 5d, nodeA.getY()), nodeB);
         angle = (angle + 360) % 360;
-        // we do accept an imprecision of 1 degree
-        if (angle % 45 < 1 || angle % 45 > 44) {
-            return Math.round(angle / 45) * 45;
-        }
+//        // we do accept an imprecision of 1 degree
+//        if (angle % 45 < 0.5 || angle % 45 > 44.5) {
+//            return Math.round(angle / 45) * 45;
+//        }
         return angle;
     }
 

@@ -34,13 +34,13 @@ public class MetroMapDrawer {
         }
 
         // start drawing at the top left
-        context.translate(-bbox.getMinX() + 50, -bbox.getMinY() + 50);
+        context.translate(-bbox.getMinX() + 150, -bbox.getMinY() + 150);
 
         int max = (int) Math.ceil(Math.max(bbox.getMaxX(), bbox.getMaxY())) + 1000;
         for (int i = -max, j = 0; i < max; i = i + 25, j = j + 25) {
             context.setStroke(j % 100 == 0 ? Color.GRAY : Color.LIGHTGRAY);
-            context.strokeLine(i, 0, i, max * 2);
-            context.strokeLine(0, i, max * 2, i);
+            context.strokeLine(i, -max, i, max * 2);
+            context.strokeLine(-max, i, max * 2, i);
         }
 
         map.getEdges().stream()
@@ -82,7 +82,7 @@ public class MetroMapDrawer {
             Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
             context.setStroke(Color.BLACK);
             context.setLineWidth(1);
-            context.strokeText(node.getName(), station.getMinX() - 20, station.getMaxY() + 20);
+            context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", station.getMinX() - 50, station.getMaxY() + 20);
         });
 
 //        map.getNodes().forEach(node -> {
