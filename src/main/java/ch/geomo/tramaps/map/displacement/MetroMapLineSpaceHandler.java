@@ -9,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface MetroMapLineSpaceHandler {
 
-    void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin);
+    void makeSpace(@NotNull MetroMap map);
 
 }

@@ -7,7 +7,7 @@ package ch.geomo.tramaps.geom.util;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
-import org.geotools.geometry.jts.JTSFactoryFinder;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,14 +18,55 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Provides helper methods for creating and manipulating geometries.
+ * Provides helper methods for creating and manipulating geometries. It's a Singleton implementation.
  */
 public enum GeomUtil {
 
-    INSTANCE;
+    TRAMAPS(new PrecisionModel(1000));
 
+    private final PrecisionModel precisionModel;
+    private final GeometryFactory geometryFactory;
+
+    GeomUtil(@NotNull PrecisionModel precisionModel) {
+        geometryFactory = new GeometryFactory(precisionModel);
+        this.precisionModel = precisionModel;
+    }
+
+    @NotNull
     public static GeomUtil getGeomUtil() {
-        return INSTANCE;
+        return TRAMAPS;
+    }
+
+    @NotNull
+    public static GeomUtil get() {
+        return getGeomUtil();
+    }
+
+    @NotNull
+    public GeometryFactory getGeometryFactory() {
+        return geometryFactory;
+    }
+
+    @NotNull
+    public PrecisionModel getPrecisionModel() {
+        return precisionModel;
+    }
+
+    /**
+     * @return the same instance of coordinate but made precise
+     */
+    @NotNull
+    public Coordinate makePrecise(@NotNull Coordinate coordinate) {
+        getPrecisionModel().makePrecise(coordinate);
+        return coordinate;
+    }
+
+    /**
+     * @return the same instance of coordinate but made precise
+     */
+    @NotNull
+    public double makePrecise(@NotNull double value) {
+        return getPrecisionModel().makePrecise(value);
     }
 
     @NotNull
@@ -36,16 +77,31 @@ public enum GeomUtil {
         return (Polygon) geom.buffer(distance);
     }
 
+    @NotNull
+    public Coordinate createCoordinate(double x, double y) {
+        return makePrecise(new Coordinate(x, y));
+    }
+
+    @Nullable
+    @Contract("null->null")
+    public Coordinate createCoordinate(@Nullable Coordinate coordinate) {
+        if (coordinate == null) {
+            return null;
+        }
+        // use copy-constructor in order to modify and return a new instance
+        return makePrecise(new Coordinate(coordinate));
+    }
+
     /**
      * @return a polygon with given centroid, width and height
      */
     @NotNull
     public Polygon createPolygon(@NotNull Point centroid, double width, double height) {
-        Coordinate a = new Coordinate(centroid.getX() - width / 2, centroid.getY() - height / 2);
-        Coordinate b = new Coordinate(centroid.getX() - width / 2, centroid.getY() + height / 2);
-        Coordinate c = new Coordinate(centroid.getX() + width / 2, centroid.getY() + height / 2);
-        Coordinate d = new Coordinate(centroid.getX() + width / 2, centroid.getY() - height / 2);
-        return JTSFactoryFinder.getGeometryFactory().createPolygon(new Coordinate[]{a, b, c, d, a});
+        Coordinate a = createCoordinate(centroid.getX() - width / 2, centroid.getY() - height / 2);
+        Coordinate b = createCoordinate(centroid.getX() - width / 2, centroid.getY() + height / 2);
+        Coordinate c = createCoordinate(centroid.getX() + width / 2, centroid.getY() + height / 2);
+        Coordinate d = createCoordinate(centroid.getX() + width / 2, centroid.getY() - height / 2);
+        return geometryFactory.createPolygon(new Coordinate[]{a, b, c, d, a});
     }
 
     /**
@@ -53,7 +109,7 @@ public enum GeomUtil {
      */
     @NotNull
     public Point createPoint(double x, double y) {
-        return JTSFactoryFinder.getGeometryFactory().createPoint(new Coordinate(x, y));
+        return geometryFactory.createPoint(createCoordinate(x, y));
     }
 
     /**
@@ -61,12 +117,12 @@ public enum GeomUtil {
      */
     @NotNull
     public Point createPoint(@NotNull Coordinate coordinate) {
-        return JTSFactoryFinder.getGeometryFactory().createPoint(coordinate);
+        return geometryFactory.createPoint(createCoordinate(coordinate));
     }
 
     @NotNull
     public Point createPoint(@NotNull Geometry geometry) {
-        return JTSFactoryFinder.getGeometryFactory().createPoint(geometry.getCoordinate());
+        return geometryFactory.createPoint(geometry.getCoordinate());
     }
 
     /**
@@ -82,7 +138,7 @@ public enum GeomUtil {
      */
     @NotNull
     public GeometryCollection createCollection(@NotNull Stream<? extends Geometry> stream) {
-        return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(stream.toArray(Geometry[]::new));
+        return geometryFactory.createGeometryCollection(stream.toArray(Geometry[]::new));
     }
 
     /**
@@ -94,7 +150,7 @@ public enum GeomUtil {
         Collection<Geometry> merged = Stream.of(collections)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
-        return JTSFactoryFinder.getGeometryFactory().createGeometryCollection(merged.toArray(new Geometry[]{}));
+        return geometryFactory.createGeometryCollection(merged.toArray(new Geometry[]{}));
     }
 
     @NotNull
@@ -108,7 +164,12 @@ public enum GeomUtil {
 
     @NotNull
     public LineString createLineString(@Nullable Coordinate... points) {
-        return JTSFactoryFinder.getGeometryFactory().createLineString(points);
+        if (points == null) {
+            return geometryFactory.createLineString((Coordinate[]) null);
+        }
+        return geometryFactory.createLineString(Stream.of(points)
+                .map(this::createCoordinate)
+                .toArray(Coordinate[]::new));
     }
 
     @NotNull

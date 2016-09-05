@@ -18,15 +18,8 @@ import java.util.logging.Logger;
 public class MetroMapDrawer {
 
     private MetroMap map;
-    private double routeMargin;
-    private double edgeMargin;
 
-    public MetroMapDrawer(double routeMargin, double edgeMargin) {
-        this.routeMargin = routeMargin;
-        this.edgeMargin = edgeMargin;
-    }
-
-    public void setMetroMap(@Nullable MetroMap map) {
+    public MetroMapDrawer(MetroMap map) {
         this.map = map;
     }
 
@@ -53,7 +46,7 @@ public class MetroMapDrawer {
         map.getEdges().stream()
                 .filter(Edge::hasRoutes)
                 .forEach(edge -> {
-                    double width = edge.calculateEdgeWidth(routeMargin);
+                    double width = edge.calculateEdgeWidth(map.getRouteMargin());
                     context.setLineWidth(width);
                     context.setStroke(Color.rgb(139, 187, 206, 0.5d));
                     context.setLineCap(StrokeLineCap.BUTT);
@@ -78,7 +71,7 @@ public class MetroMapDrawer {
         });
 
         context.translate(5, 5);
-        map.evaluateConflicts(routeMargin, edgeMargin, true)
+        map.evaluateConflicts(true)
                 .forEach(conflict -> {
                     context.setFill(Color.rgb(240, 88, 88, 0.4));
                     Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();

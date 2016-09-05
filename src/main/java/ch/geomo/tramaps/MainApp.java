@@ -26,15 +26,11 @@ import java.util.function.Supplier;
 public class MainApp extends Application {
 
     private MetroMap map;
-
     private Stage stage;
-
-    private double edgeMargin = 25;
-    private double routeMargin = 5;
 
     private void makeSpace(@NotNull Supplier<MetroMapLineSpaceHandler> makeSpaceHandlerSupplier) {
         MetroMapLineSpaceHandler handler = makeSpaceHandlerSupplier.get();
-        handler.makeSpace(map, routeMargin, edgeMargin);
+        handler.makeSpace(map);
     }
 
     @Override
@@ -44,9 +40,9 @@ public class MainApp extends Application {
         stage.setTitle("Tramaps GUI");
         initLayout();
 
-        map = new ExampleMetroMap();
+        map = new ExampleMetroMap(5, 25);
 
-        //makeSpace(ScaleHandler::new);
+//        makeSpace(ScaleHandler::new);
         makeSpace(DisplaceHandler::new);
 
         draw();
@@ -61,8 +57,7 @@ public class MainApp extends Application {
         Canvas canvas = new Canvas(bbox.getWidth() + 300, bbox.getHeight() + 300);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        MetroMapDrawer drawer = new MetroMapDrawer(routeMargin, edgeMargin);
-        drawer.setMetroMap(map);
+        MetroMapDrawer drawer = new MetroMapDrawer(map);
         drawer.draw(context, bbox);
 
         double scale = 600 / bbox.getHeight();

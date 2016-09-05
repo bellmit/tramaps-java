@@ -8,10 +8,7 @@ import ch.geomo.util.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -60,6 +57,26 @@ public final class CollectionUtil {
                 .distinct()
                 .collect(Collectors.toSet());
 
+    }
+
+    /**
+     * Sorts the given {@link List} and returns the sorted {@link List} again.
+     * @see Collections#sort(List)
+     */
+    @NotNull
+    public static <T extends Comparable<? super T>>List<T> sort(@NotNull List<T> list) {
+        Collections.sort(list);
+        return list;
+    }
+
+    /**
+     * Reverses the given {@link List} and returns the sorted {@link List} again.
+     * @see Collections#sort(List)
+     */
+    @NotNull
+    public static <T extends Comparable<? super T>>List<T> reverse(@NotNull List<T> list) {
+        Collections.reverse(list);
+        return list;
     }
 
 }

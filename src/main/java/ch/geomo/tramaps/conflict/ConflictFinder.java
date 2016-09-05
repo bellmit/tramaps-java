@@ -53,14 +53,14 @@ public class ConflictFinder {
     }
 
     @NotNull
-    public Set<Conflict> getConflicts(@NotNull Set<Edge> edges, @NotNull Set<Node> nodes) {
+    public List<Conflict> getConflicts(@NotNull Set<Edge> edges, @NotNull Set<Node> nodes) {
 
         Set<ElementBuffer> edgeBuffers = edges.stream()
-                .map(edge -> new EdgeBuffer(edge, routeMargin, this.edgeMargin))
+                .map(edge -> new EdgeBuffer(edge, routeMargin, edgeMargin))
                 .collect(Collectors.toSet());
 
         Set<ElementBuffer> nodeBuffers = nodes.stream()
-                .map(node -> new NodeBuffer(node, this.edgeMargin))
+                .map(node -> new NodeBuffer(node, edgeMargin))
                 .collect(Collectors.toSet());
 
         Set<ElementBuffer> buffers = new HashSet<>(edgeBuffers);
@@ -71,7 +71,10 @@ public class ConflictFinder {
         return pairs.stream()
                 .filter(tuple -> tuple.getFirst().getBuffer().relate(tuple.getSecond().getBuffer(), "T********"))
                 .map(tuple -> new Conflict(tuple.getFirst(), tuple.getSecond()))
-                .collect(Collectors.toSet());
+                .filter(conflict -> !conflict.isSolved())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
 
     }
 

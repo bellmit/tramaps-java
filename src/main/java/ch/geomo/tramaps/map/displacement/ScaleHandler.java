@@ -15,6 +15,7 @@ import com.vividsolutions.jts.geom.util.AffineTransformation;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,7 +28,7 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class ScaleHandler implements MetroMapLineSpaceHandler {
 
-    private double evaluateScaleFactor(@NotNull Set<Conflict> conflicts, double mapWidth, double mapHeight) {
+    private double evaluateScaleFactor(@NotNull List<Conflict> conflicts, double mapWidth, double mapHeight) {
 
         double maxMoveX = 0d;
         double maxMoveY = 0d;
@@ -62,14 +63,13 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
 
     }
 
-    private void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin, int count) {
+    private void makeSpace(@NotNull MetroMap map, int count) {
 
         count++;
 
         System.out.println("makeSpaceByScaling");
 
-        Set<Conflict> conflicts = map.evaluateConflicts(routeMargin, edgeMargin, false)
-                .collect(Collectors.toSet());
+        List<Conflict> conflicts = map.evaluateConflicts(false);
 
         if (!conflicts.isEmpty()) {
             Stream<Geometry> buffers = conflicts.stream()
@@ -84,14 +84,14 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
 
         // repeat if space issue is not yet solved
         if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && count < 25) {
-            makeSpace(map, routeMargin, edgeMargin, count);
+            makeSpace(map, count);
         }
 
     }
 
     @Override
-    public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
-        makeSpace(map, routeMargin, edgeMargin, 0);
+    public void makeSpace(@NotNull MetroMap map) {
+        makeSpace(map, 0);
         System.out.println(map);
     }
 

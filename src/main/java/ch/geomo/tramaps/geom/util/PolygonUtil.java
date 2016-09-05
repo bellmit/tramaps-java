@@ -10,8 +10,10 @@ import com.vividsolutions.jts.geom.util.LineStringExtracter;
 import com.vividsolutions.jts.operation.polygonize.Polygonizer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
@@ -50,7 +52,7 @@ public final class PolygonUtil {
                 .filter(inPolygon::intersects)
                 .map(inPolygon::intersection)
                 .filter(geom -> geom instanceof LineString && !geom.isEmpty())
-                .map(geom -> (LineString) geom);
+                .map(geom -> (LineString)geom);
 
     }
 
@@ -60,10 +62,7 @@ public final class PolygonUtil {
      */
     @NotNull
     public static Optional<LineString> findLongestParallelLineString(@NotNull Polygon inPolygon, @NotNull LineString parallelTo) {
-        Set<LineString> lines = PolygonUtil.findParallelLineString(inPolygon, parallelTo)
-                .collect(Collectors.toSet());
-
-        return lines.stream()
+        return PolygonUtil.findParallelLineString(inPolygon, parallelTo)
                 .max((l1, l2) -> Double.compare(l1.getLength(), l2.getLength()));
     }
 

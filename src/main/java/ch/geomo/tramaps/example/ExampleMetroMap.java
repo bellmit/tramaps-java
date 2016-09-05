@@ -16,7 +16,9 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class ExampleMetroMap extends MetroMap {
 
-    public ExampleMetroMap() {
+    public ExampleMetroMap(double routeMargin, double edgeMargin) {
+
+        super(routeMargin, edgeMargin);
 
         Node a = new Node(getGeomUtil().createPoint(new Coordinate(150, 200)), RectangleStationSignature::new);
         Node b = new Node(getGeomUtil().createPoint(new Coordinate(150, 100)), RectangleStationSignature::new);
@@ -29,7 +31,7 @@ public class ExampleMetroMap extends MetroMap {
         Node i = new Node(getGeomUtil().createPoint(new Coordinate(100, 150)), RectangleStationSignature::new);
         Node j = new Node(getGeomUtil().createPoint(new Coordinate(150, 250)), RectangleStationSignature::new);
         Node k = new Node(getGeomUtil().createPoint(new Coordinate(160, 250)), RectangleStationSignature::new);
-        Node l = new Node(getGeomUtil().createPoint(new Coordinate(400, 300)), RectangleStationSignature::new);
+        Node l = new Node(getGeomUtil().createPoint(new Coordinate(300, 200)), RectangleStationSignature::new);
 
         a.setName("A");
         b.setName("B");
@@ -88,7 +90,8 @@ public class ExampleMetroMap extends MetroMap {
 //        lc.addRoutes(line1, line3);
         //kb.addRoutes(line1);
 
-        addNodes(a, b, c, d, e, f, g, h, i, j, k, l);
+        addNodes(a, b, c, d, e, f, g, h, i, j, k);
+//        addNodes(a, b, c, d, e, f, g, h, i, j, k, l);
 
     }
 

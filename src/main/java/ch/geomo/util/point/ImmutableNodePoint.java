@@ -6,10 +6,11 @@ package ch.geomo.util.point;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
-import org.geotools.geometry.jts.JTSFactoryFinder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Immutable implementation of {@link NodePoint}.
@@ -51,7 +52,7 @@ public class ImmutableNodePoint implements NodePoint {
     @NotNull
     @Override
     public Point toPoint() {
-        return JTSFactoryFinder.getGeometryFactory().createPoint(toCoordinate());
+        return getGeomUtil().createPoint(toCoordinate());
     }
 
     @Override

@@ -65,4 +65,8 @@ public class ElementBufferPair implements Pair<ElementBuffer> {
                 .anyMatch(node -> node.getNodeSignature() instanceof BendNodeSignature);
     }
 
+    public boolean isEdgePair() {
+        return first instanceof EdgeBuffer && second instanceof EdgeBuffer;
+    }
+
 }

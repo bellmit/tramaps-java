@@ -202,6 +202,8 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         Direction moveDirection = lastMoveDirection;
         double moveDistance = lastMoveDistance;
 
+        OctilinearDirection octilinearConnectionEdgeDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
+
         if (isSimpleNode(connectionEdge, moveableNode)) {
 
             Loggers.info(this, "Move node " + moveableNode.getName() + ".");
@@ -216,7 +218,6 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                         .orElseThrow(IllegalStateException::new);
 
                 OctilinearDirection firstAdjacentEdgeDirection = adjacentEdge.getOriginalDirection(moveableNode).toOctilinear();
-                OctilinearDirection octilinearConnectionEdgeDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
 
                 // angle between first adjacent edge and the non-octilinear direction of the connection edge
                 double angle = firstAdjacentEdgeDirection.getAngleTo(connectionEdge.getDirection(moveableNode));
@@ -282,6 +283,10 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 }
 
             }
+            else {
+                Loggers.info(this, "Handle Single Node " + moveableNode.getName() + "...");
+                moveDirection = getMoveDirectionForSingleNode(lastMoveDirection, octilinearConnectionEdgeDirection);
+            }
 
         }
         else {
@@ -308,8 +313,9 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 //                    Loggers.info(this, "New position for " + moveableNode + ".");
 //                });
 
+        isMoveable = true;
         if (isMoveable) {
-            Loggers.info(this, "Apply correction: Move node " + moveableNode.getName() + " to " + moveDirection + " (" + correctDistance + ").");
+            Loggers.info(this, "Apply correction: Move node " + moveableNode.getName() + " to " + moveDirection + " (Length=" + correctDistance + ").");
             moveableNode.move(octilinearMoveDirection, correctDistance);
             Loggers.info(this, "New position for " + moveableNode + ".");
         }
@@ -318,6 +324,46 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         }
 
         return octilinearMoveDirection;
+
+    }
+
+    private OctilinearDirection getMoveDirectionForSingleNode(@NotNull OctilinearDirection lastMoveDirection, @NotNull OctilinearDirection octilinearConnectionEdgeDirection) {
+
+        OctilinearDirection moveDirection;
+
+        switch (lastMoveDirection) {
+            case NORTH:
+            case SOUTH: {
+                switch (octilinearConnectionEdgeDirection) {
+                    case NORTH_WEST:
+                    case NORTH_EAST: {
+                        moveDirection = SOUTH;
+                        break;
+                    }
+                    default: {
+                        moveDirection = NORTH;
+                    }
+                }
+                break;
+            }
+            default: {
+                switch (octilinearConnectionEdgeDirection) {
+                    case NORTH_WEST:
+                    case NORTH_EAST: {
+                        moveDirection = EAST;
+                        break;
+                    }
+                    default: {
+                        moveDirection = WEST;
+                    }
+                }
+            }
+        }
+
+        if (lastMoveDirection == EAST || lastMoveDirection == SOUTH) {
+            return moveDirection.opposite();
+        }
+        return moveDirection;
 
     }
 
@@ -337,6 +383,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         }
         guard.visited(moveableNode);
 
+        Loggers.info(this, "Initial move direction is " + lastMoveDirection + ".");
         OctilinearDirection movedDirection = moveNode(edge, moveableNode, guard.getMoveDistance(), lastMoveDirection, guard.getMetroMap());
 
         List<Edge> nonOctilinearEdges = moveableNode.getAdjacentEdges().stream()
@@ -411,12 +458,11 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     }
 
-    private void makeSpace(MetroMap map, double routeMargin, double edgeMargin, int count) {
+    private void makeSpace(MetroMap map, int count) {
 
         count++;
 
-        List<Conflict> conflicts = map.evaluateConflicts(routeMargin, edgeMargin, true)
-                .collect(Collectors.toList());
+        List<Conflict> conflicts = map.evaluateConflicts(true);
 
         Loggers.info(this, "Iteration: " + count);
         Loggers.info(this, "Conflicts found: " + conflicts.size());
@@ -443,7 +489,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             }
 
             if (count <= MAX_ITERATIONS) {
-                makeSpace(map, routeMargin, edgeMargin, count);
+                makeSpace(map, count);
             }
             else {
                 Loggers.warning(this, "Abort -> max. iteration reached!");
@@ -451,18 +497,20 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         }
 
-        map.evaluateConflicts(routeMargin, edgeMargin, true)
-                .forEach(c -> Loggers.warning(this, "Conflict not solved: " + c));
-
     }
 
     @Override
-    public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
+    public void makeSpace(@NotNull MetroMap map) {
         Loggers.info(this, "Initial Map: " + map);
-        makeSpace(map, routeMargin, edgeMargin, 0);
-//        map.getEdges().stream()
-//                .filter(edge -> !edge.getDirection(null).isOctilinear())
-//                .forEach(edge -> correctEdgeByIntroducingBendNodes(edge, map));
+        makeSpace(map, 0);
+        map.evaluateConflicts(true)
+                .forEach(c -> {
+                    Loggers.warning(this, "Conflict not solved: " + c);
+                    System.out.println(c.getBestDisplacementLength());
+                    System.out.println(c.getDisplacementVector().getX());
+                    System.out.println(c.getDisplacementVector().getY());
+                    System.out.println(c.getDisplacementVector().length());
+                });
         Loggers.info(this, "Result Map: " + map);
     }
 

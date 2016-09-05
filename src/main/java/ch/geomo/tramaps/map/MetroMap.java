@@ -8,23 +8,44 @@ import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.ConflictFinder;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
+import ch.geomo.util.CollectionUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class MetroMap extends Graph {
 
+    private double routeMargin;
+    private double edgeMargin;
+
+    private ConflictFinder conflictFinder;
+
+    public MetroMap(double routeMargin, double edgeMargin) {
+        super();
+        this.routeMargin = routeMargin;
+        this.edgeMargin = edgeMargin;
+        conflictFinder = new ConflictFinder(routeMargin, edgeMargin);
+    }
+
+    public double getRouteMargin() {
+        return routeMargin;
+    }
+
+    public double getEdgeMargin() {
+        return edgeMargin;
+    }
+
     /**
-     * @return a sorted {@link Stream} of conflict
+     * @return a sorted {@link List} of conflict
      */
     @NotNull
-    public Stream<Conflict> evaluateConflicts(double routeMargin, double edgeMargin, boolean biggestConflictFirst) {
-        return new ConflictFinder(routeMargin, edgeMargin).getConflicts(getEdges(), getNodes()).stream()
-                .sorted((c1, c2) -> {
-                    Conflict conflict1 = biggestConflictFirst ? c2 : c1;
-                    Conflict conflict2 = biggestConflictFirst ? c1 : c2;
-                    return conflict1.compareTo(conflict2);
-                });
+    public List<Conflict> evaluateConflicts(boolean biggestConflictFirst) {
+        List<Conflict> conflicts = conflictFinder.getConflicts(getEdges(), getNodes());
+        if (biggestConflictFirst) {
+            return CollectionUtil.reverse(conflicts);
+        }
+        return conflicts;
     }
 
     /**

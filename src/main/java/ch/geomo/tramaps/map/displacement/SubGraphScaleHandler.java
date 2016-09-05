@@ -20,7 +20,7 @@ public class SubGraphScaleHandler implements MetroMapLineSpaceHandler {
     }
 
     @Override
-    public void makeSpace(@NotNull MetroMap map, double routeMargin, double edgeMargin) {
+    public void makeSpace(@NotNull MetroMap map) {
         // TODO
         // 1. find peripheries
         // 2. create sub graphs
