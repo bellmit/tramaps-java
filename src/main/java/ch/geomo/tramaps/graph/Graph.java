@@ -21,7 +21,6 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class Graph {
 
-    @NotNull
     private Set<Node> nodes;
 
     /**

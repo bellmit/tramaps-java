@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -18,9 +17,9 @@ import java.util.logging.Logger;
  */
 public final class Loggers {
 
-    private static Loggers instance;
+    private static Loggers INSTANCE;
 
-    private Map<Class, Logger> cache;
+    private final Map<Class, Logger> cache;
 
     private Loggers() {
         cache = new HashMap<>();
@@ -35,10 +34,10 @@ public final class Loggers {
     }
 
     public static Loggers getInstance() {
-        if (instance == null) {
-            instance = new Loggers();
+        if (INSTANCE == null) {
+            INSTANCE = new Loggers();
         }
-        return instance;
+        return INSTANCE;
     }
 
     @NotNull

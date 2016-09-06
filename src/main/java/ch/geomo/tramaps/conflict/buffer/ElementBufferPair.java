@@ -16,8 +16,8 @@ import java.util.Objects;
  */
 public class ElementBufferPair implements Pair<ElementBuffer> {
 
-    private ElementBuffer first;
-    private ElementBuffer second;
+    private final ElementBuffer first;
+    private final ElementBuffer second;
 
     public ElementBufferPair(@NotNull ElementBuffer first, @NotNull ElementBuffer second) {
         this.first = first;

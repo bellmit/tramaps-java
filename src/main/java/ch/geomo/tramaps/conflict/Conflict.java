@@ -25,7 +25,9 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class Conflict implements Comparable<Conflict> {
 
-    private ElementBufferPair buffers;
+    private final ElementBufferPair buffers;
+
+    private ConflictType conflictType;
 
     private Polygon conflictPolygon;
 
@@ -36,7 +38,6 @@ public class Conflict implements Comparable<Conflict> {
     private Coordinate[] closestPointsBufferA;
     private Coordinate[] closestPointsBufferB;
 
-    private ConflictType conflictType;
     private boolean solved = false;
 
     public Conflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {

@@ -17,7 +17,7 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class EmptyNodeSignature extends NodeSignature {
 
-    protected Node node;
+    protected final Node node;
     protected Polygon signature;
 
     public EmptyNodeSignature(@NotNull Node node) {
