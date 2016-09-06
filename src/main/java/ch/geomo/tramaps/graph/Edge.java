@@ -7,6 +7,7 @@ package ch.geomo.tramaps.graph;
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
 import ch.geomo.util.point.NodePoint;
@@ -377,17 +378,17 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     @Override
     public boolean equals(Object obj) {
-        // TODO compare routes as well
         return obj instanceof Edge
                 && Objects.equals(name, ((Edge) obj).name)
-                && getNodeA().equals(((Edge) obj).getNodeA())
-                && getNodeB().equals(((Edge) obj).getNodeB())
+                && Objects.equals(nodePair, ((Edge) obj).nodePair)
+                // && CollectionUtil.equals(routes, ((Edge) obj).routes)
                 && deleted == ((Edge) obj).deleted;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, getNodeA(), getNodeB(), deleted);
+        // return Objects.hash(name, nodePair, routes, deleted);
+        return Objects.hash(name, nodePair, deleted);
     }
 
     @Override

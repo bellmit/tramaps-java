@@ -60,7 +60,7 @@ public final class CollectionUtil {
     }
 
     /**
-     * Sorts the given {@link List} and returns the sorted {@link List} again.
+     * Sorts the given {@link List} and returns the sorted {@link List}.
      * @see Collections#sort(List)
      */
     @NotNull
@@ -70,13 +70,35 @@ public final class CollectionUtil {
     }
 
     /**
-     * Reverses the given {@link List} and returns the sorted {@link List} again.
+     * Reverses the given {@link List} and returns the reversed {@link List}.
      * @see Collections#sort(List)
      */
     @NotNull
     public static <T extends Comparable<? super T>>List<T> reverse(@NotNull List<T> list) {
         Collections.reverse(list);
         return list;
+    }
+
+    /**
+     * Sorts and reverses the given {@link List} and returns the sorted and reversed {@link List}.
+     * @see Collections#sort(List)
+     */
+    @NotNull
+    public static <T extends Comparable<? super T>>List<T> reverseSort(@NotNull List<T> list) {
+        Collections.reverse(sort(list));
+        return list;
+    }
+
+    /**
+     * @return true if both collection contains the same values but ignoring ordering of the values
+     */
+    public static <T>boolean equals(@NotNull Collection<T> collection1, @NotNull Collection<T> collection2) {
+        if (collection1.size() != collection2.size()) {
+            return false;
+        }
+        ArrayList<T> list = new ArrayList<>(collection1);
+        list.removeAll(collection2);
+        return list.isEmpty();
     }
 
 }
