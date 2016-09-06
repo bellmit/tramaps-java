@@ -8,7 +8,6 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
-import static ch.geomo.tramaps.geom.util.GeomUtil.get;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
@@ -50,7 +49,7 @@ public class MoveVector extends Vector2D {
 
     @Override
     public String toString() {
-        return "MoveVector: {x = " + getX() + ", y =" + getY() + "}";
+        return "MoveVector: {x= " + getX() + ", y=" + getY() + "}";
     }
 
 }

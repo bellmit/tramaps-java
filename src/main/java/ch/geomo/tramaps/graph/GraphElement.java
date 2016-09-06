@@ -15,7 +15,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface GraphElement {
 
-    default boolean isAdjacent(GraphElement element) {
+    /**
+     * @return true if given {@link GraphElement} is adjacent to this {@link GraphElement}
+     */
+    @Contract(value = "null->false", pure = true)
+    default boolean isAdjacent(@Nullable GraphElement element) {
         if (element instanceof Edge) {
             return isAdjacent((Edge) element);
         }
@@ -25,31 +29,49 @@ public interface GraphElement {
         return false;
     }
 
+    /**
+     * @return true if given {@link Edge} is adjacent to this {@link GraphElement}
+     */
     @Contract("null->false")
     boolean isAdjacent(@Nullable Edge edge);
 
+    /**
+     * @return true if given {@link Edge} is adjacent to this {@link GraphElement}
+     */
     @Contract("null->false")
     boolean isAdjacent(@Nullable Node node);
 
+    /**
+     * @return the {@link Geometry} representation of this {@link GraphElement}
+     */
     @NotNull
     Geometry getGeometry();
 
+    /**
+     * @return the centroid of the {@link Geometry} representation of this {@link GraphElement}
+     */
     @NotNull
     default Point getCentroid() {
         return getGeometry().getCentroid();
     }
 
+    /**
+     * @return true if this {@link GraphElement} is an edge
+     */
     boolean isEdge();
 
+    /**
+     * @return true if this {@link GraphElement} is an node
+     */
     boolean isNode();
 
     /**
-     * @return true if this {@link GraphElement} was previously deleted
+     * @return true if this {@link GraphElement} was previously marked as deleted
      */
     boolean isDeleted();
 
     /**
-     * Deletes this {@link GraphElement} instance.
+     * Mark this {@link GraphElement} as deleted.
      */
     void delete();
 

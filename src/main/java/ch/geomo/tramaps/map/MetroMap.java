@@ -54,7 +54,7 @@ public class MetroMap extends Graph {
     @NotNull
     public Stream<Edge> evaluateNonOctilinearEdges() {
         return getEdges().stream()
-                .filter(Edge::isNonOctilinear);
+                .filter(Edge::isNotOctilinear);
     }
 
 }

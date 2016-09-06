@@ -17,6 +17,9 @@ import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
+/**
+ * Represents an edge which is octilinear and has one or two vertices.
+ */
 public class OctilinearEdge extends Edge {
 
     private LineString lineString;

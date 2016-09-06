@@ -7,7 +7,7 @@ package ch.geomo.util.point;
 /**
  * Mutable implementation of {@link NodePoint}.
  */
-public class MutableNodePoint extends ImmutableNodePoint {
+public class MutableNodePoint extends AbstractNodePoint {
 
     public MutableNodePoint(double x, double y) {
         super(x, y);
@@ -17,14 +17,12 @@ public class MutableNodePoint extends ImmutableNodePoint {
         super(point.getX(), point.getY());
     }
 
-    @Override
     public void setX(double x) {
-        super.setX(x);
+        super.x = x;
     }
 
-    @Override
     public void setY(double y) {
-        super.setY(y);
+        super.y = y;
     }
 
     public void moveX(int moveDistance) {

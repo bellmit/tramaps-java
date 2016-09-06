@@ -9,6 +9,7 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
+import ch.geomo.util.Builder;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.MathUtil;
 import ch.geomo.util.pair.MutablePair;
@@ -23,10 +24,7 @@ import java.util.stream.Stream;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 import static ch.geomo.tramaps.geom.util.PolygonUtil.splitPolygon;
 
-/**
- * Represents an originalEdge which is octilinear and has one or two additional nodes.
- */
-public class OctilinearEdgeBuilder {
+public class OctilinearEdgeBuilder implements Builder<OctilinearEdge> {
 
     private MutablePair<Node> vertices;
 
@@ -57,7 +55,6 @@ public class OctilinearEdgeBuilder {
         return octilinearEdge;
     }
 
-    @SuppressWarnings("unused")
     private void evaluatePolygonAndCreateNodes() {
 
         Stream<LineString> edges = graph.getEdges().stream()

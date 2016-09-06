@@ -4,7 +4,7 @@
 
 package ch.geomo.util.point;
 
-import ch.geomo.tramaps.graph.Node;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
@@ -14,13 +14,13 @@ import java.util.Comparator;
  */
 public class NodePointDistanceComparator<P extends NodePoint> implements Comparator<P> {
 
-    private NodePoint originPoint;
+    private final NodePoint originPoint;
 
     public NodePointDistanceComparator() {
-        this.originPoint = NodePoint.of(0, 0);
+        originPoint = NodePoint.of(0, 0);
     }
 
-    public NodePointDistanceComparator(P originPoint) {
+    public NodePointDistanceComparator(@NotNull P originPoint) {
         this.originPoint = originPoint;
     }
 

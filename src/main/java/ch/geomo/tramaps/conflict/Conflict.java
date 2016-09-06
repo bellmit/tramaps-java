@@ -12,10 +12,8 @@ import ch.geomo.tramaps.geom.util.PolygonUtil;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Loggers;
-import ch.geomo.util.MathUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
@@ -31,12 +29,12 @@ public class Conflict implements Comparable<Conflict> {
 
     private Polygon conflictPolygon;
 
-    private MoveVector displacementVector;
-    private MoveVector bestDisplacementVector;
-    private Axis bestDisplacementAxis;
+    private MoveVector displaceVector;
+    private MoveVector bestDisplaceVector;
+    private Axis bestDisplaceAxis;
 
-    private Coordinate[] closestPointToA;
-    private Coordinate[] closestPointToB;
+    private Coordinate[] closestPointsBufferA;
+    private Coordinate[] closestPointsBufferB;
 
     private ConflictType conflictType;
     private boolean solved = false;
@@ -87,25 +85,25 @@ public class Conflict implements Comparable<Conflict> {
         conflictPolygon = createConflictPolygon();
 
         // create exact move vector
-        displacementVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, createQ())
+        displaceVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, createQ())
                 .map(MoveVector::new)
                 .orElse(new MoveVector());
 
         // evaluate best move vector along an axis
-        double angleX = displacementVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
-        double angleY = displacementVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
+        double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
+        double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
 
         if (angleY < angleX) {
-            bestDisplacementVector = displacementVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-            bestDisplacementAxis = Axis.X;
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceAxis = Axis.X;
         }
         else {
-            bestDisplacementVector = displacementVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-            bestDisplacementAxis = Axis.Y;
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceAxis = Axis.Y;
         }
 
-        closestPointToA = DistanceOp.nearestPoints(conflictPolygon, getBufferA().getElement().getCentroid());
-        closestPointToB = DistanceOp.nearestPoints(conflictPolygon, getBufferB().getElement().getCentroid());
+        closestPointsBufferA = DistanceOp.nearestPoints(conflictPolygon, getBufferA().getElement().getCentroid());
+        closestPointsBufferB = DistanceOp.nearestPoints(conflictPolygon, getBufferB().getElement().getCentroid());
 
         if (conflictPolygon.isEmpty()) {
             solved = true;
@@ -113,6 +111,7 @@ public class Conflict implements Comparable<Conflict> {
 
     }
 
+    @NotNull
     public ConflictType getConflictType() {
         return conflictType;
     }
@@ -123,23 +122,18 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     @NotNull
-    public MoveVector getDisplacementVector() {
-        return displacementVector;
-    }
-
-    public int getBestDisplacementLengthAlongAxis() {
-        // we do work with int values only
-        return (int) Math.ceil(getBestDisplacementVectorAlongAxis().length());
+    public MoveVector getDisplaceVector() {
+        return displaceVector;
     }
 
     @NotNull
-    public Vector2D getBestDisplacementVectorAlongAxis() {
-        return bestDisplacementVector;
+    public Vector2D getBestDisplaceVector() {
+        return bestDisplaceVector;
     }
 
     @NotNull
-    public Axis getBestDisplacementAxis() {
-        return bestDisplacementAxis;
+    public Axis getBestDisplaceAxis() {
+        return bestDisplaceAxis;
     }
 
     /**
@@ -147,8 +141,9 @@ public class Conflict implements Comparable<Conflict> {
      * @see OctilinearDirection#NORTH
      * @see OctilinearDirection#EAST
      */
-    public OctilinearDirection getBestDisplacementDirection() {
-        if (bestDisplacementAxis == Axis.X) {
+    @NotNull
+    public OctilinearDirection getBestDisplaceDirection() {
+        if (bestDisplaceAxis == Axis.X) {
             return OctilinearDirection.NORTH;
         }
         return OctilinearDirection.EAST;
@@ -156,31 +151,25 @@ public class Conflict implements Comparable<Conflict> {
 
     /**
      * @return best move distance along the best move direction
-     * @see #getBestDisplacementDirection()
+     * @see #getBestDisplaceDirection()
      */
-    public int getBestDisplacementLength() {
-        return getBestDisplacementLengthAlongAxis();
+    public int getBestDisplaceLength() {
+        // we do work with int values only
+        return (int) Math.ceil(bestDisplaceVector.length());
     }
 
     @NotNull
-    public Coordinate getDisplaceStartPoint() {
+    public Coordinate getDisplaceStartCoordinate() {
         switch (conflictType) {
-            case NODE_NODE:
-            case ADJACENT_NODE_NODE: {
-                return conflictPolygon.getCentroid().getCoordinate();
-            }
-            case EDGE_EDGE: {
-                if (closestPointToA[0].distance(closestPointToA[1]) < closestPointToB[0].distance(closestPointToB[1])) {
-                    return closestPointToA[0];
-                }
-                return closestPointToB[0];
-            }
             case NODE_EDGE: {
                 if (getBufferA().getElement() instanceof Node) {
-                    return closestPointToA[0];
+                    return closestPointsBufferA[0];
                 }
-                return closestPointToB[0];
+                return closestPointsBufferB[0];
             }
+            case NODE_NODE:
+            case ADJACENT_NODE_NODE:
+            case EDGE_EDGE:
             default: {
                 return conflictPolygon.getCentroid().getCoordinate();
             }
@@ -207,29 +196,36 @@ public class Conflict implements Comparable<Conflict> {
     @Override
     public int compareTo(@NotNull Conflict o) {
 
-        double length1a = getBestDisplacementLengthAlongAxis();
-        double length2a = o.getBestDisplacementLengthAlongAxis();
+        double length1a = getBestDisplaceLength();
+        double length2a = o.getBestDisplaceLength();
 
         if (length1a != length2a) {
             return Double.compare(length1a, length2a);
         }
 
-        double length1b = displacementVector.length();
-        double length2b = o.getDisplacementVector().length();
+        double length1b = displaceVector.length();
+        double length2b = o.getDisplaceVector().length();
 
         if (length1b != length2b) {
             return Double.compare(length1b, length2b);
         }
 
-        double x1 = displacementVector.getX();
-        double x2 = o.getDisplacementVector().getX();
+        int rank1 = conflictType.getConflictRank();
+        int rank2 = o.getConflictType().getConflictRank();
+
+        if (rank1 != rank2) {
+            return Integer.compare(rank1, rank2);
+        }
+
+        double x1 = displaceVector.getX();
+        double x2 = o.getDisplaceVector().getX();
 
         if (x1 != x2) {
             return Double.compare(x1, x2);
         }
 
-        double y1 = displacementVector.getY();
-        double y2 = o.getDisplacementVector().getY();
+        double y1 = displaceVector.getY();
+        double y2 = o.getDisplaceVector().getY();
 
         if (y1 != y2) {
             return Double.compare(y1, y2);
@@ -242,18 +238,18 @@ public class Conflict implements Comparable<Conflict> {
 
     @Override
     public boolean equals(Object obj) {
-        double length = getBestDisplacementLengthAlongAxis();
+        double length = getBestDisplaceLength();
         return obj instanceof Conflict
-                && Objects.equals(length, ((Conflict) obj).getBestDisplacementLengthAlongAxis())
-                && Objects.equals(displacementVector.length(), ((Conflict) obj).getDisplacementVector().length())
-                && Objects.equals(displacementVector.getX(), ((Conflict) obj).getDisplacementVector().getX())
-                && Objects.equals(displacementVector.getY(), ((Conflict) obj).getDisplacementVector().getY());
+                && Objects.equals(length, ((Conflict) obj).getBestDisplaceLength())
+                && Objects.equals(displaceVector.length(), ((Conflict) obj).getDisplaceVector().length())
+                && Objects.equals(displaceVector.getX(), ((Conflict) obj).getDisplaceVector().getX())
+                && Objects.equals(displaceVector.getY(), ((Conflict) obj).getDisplaceVector().getY());
     }
 
     @Override
     public int hashCode() {
-        double length = getBestDisplacementLengthAlongAxis();
-        return Objects.hash(length, displacementVector.length(), displacementVector.getX(), displacementVector.getY());
+        double length = getBestDisplaceLength();
+        return Objects.hash(length, displaceVector.length(), displaceVector.getX(), displaceVector.getY());
     }
 
     @Override

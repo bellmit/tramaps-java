@@ -10,10 +10,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
-
 public interface NodePoint {
 
     /**
@@ -27,17 +23,13 @@ public interface NodePoint {
     double getY();
 
     /**
-     * Creates a new instance of {@link Coordinate} based on this {@link NodePoint} instance.
-     *
-     * @return an instance of {@link Coordinate}
+     * @return a <b>new</b> instance of {@link Coordinate}
      */
     @NotNull
     Coordinate toCoordinate();
 
     /**
-     * Creates a new instance of {@link Point} based on this {@link NodePoint} instance.
-     *
-     * @return an instance of {@link Point}
+     * @return a <b>new</b> instance of {@link Point}
      */
     @NotNull
     Point toPoint();
@@ -64,18 +56,16 @@ public interface NodePoint {
     }
 
     /**
-     * @return angle between three points while current point is the center point of a circle
+     * @return an {@link ImmutableNodePoint} with given x- and y-values
      */
-    @SuppressWarnings("unused")
-    default double calculateAngleBetween(@NotNull NodePoint p1, @NotNull NodePoint p2) {
-        return getGeomUtil().getAngleBetween(this, p1, p2);
-    }
-
     @NotNull
     static NodePoint of(double x, double y) {
         return new ImmutableNodePoint(x, y);
     }
 
+    /**
+     * @return an {@link ImmutableNodePoint} with the x- and y-values of given {@link Point}
+     */
     @Nullable
     @Contract("null->null")
     static NodePoint of(@Nullable Point point) {
@@ -83,16 +73,6 @@ public interface NodePoint {
             return null;
         }
         return NodePoint.of(point.getX(), point.getY());
-    }
-
-    /**
-     * Helper method to hide warnings. Casts a {@link Set} of instances implementing {@link NodePoint} to a {@link Set}
-     * of {@link NodePoint}s.
-     */
-    @Contract(pure = true)
-    @SuppressWarnings("unchecked")
-    static <N extends NodePoint> Set<NodePoint> cast(Set<N> col) {
-        return (Set<NodePoint>) col;
     }
 
 }

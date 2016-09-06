@@ -22,6 +22,7 @@ import java.util.stream.Stream;
  */
 public enum GeomUtil {
 
+    // DEFAULT(new PrecisionModel()),
     TRAMAPS(new PrecisionModel(100));
 
     private final PrecisionModel precisionModel;
@@ -35,11 +36,6 @@ public enum GeomUtil {
     @NotNull
     public static GeomUtil getGeomUtil() {
         return TRAMAPS;
-    }
-
-    @NotNull
-    public static GeomUtil get() {
-        return getGeomUtil();
     }
 
     @NotNull

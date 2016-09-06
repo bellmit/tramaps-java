@@ -85,7 +85,7 @@ public interface Pair<T> {
     /**
      * @return true if given value is contained in this instance
      */
-    default boolean contains(T value) {
+    default boolean contains(@Nullable T value) {
         return Objects.equals(value, get(0)) || Objects.equals(value, get(1));
     }
 

@@ -9,6 +9,7 @@ import ch.geomo.tramaps.graph.GraphElement;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -51,6 +52,19 @@ public class EdgeBuffer implements ElementBuffer, Observer {
     @Override
     public void update(Observable o, Object arg) {
         updateBuffer();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof EdgeBuffer
+                && Objects.equals(edge, ((EdgeBuffer) obj).edge)
+                && Objects.equals(edgeMargin, ((EdgeBuffer) obj).edgeMargin)
+                && Objects.equals(routeMargin, ((EdgeBuffer) obj).routeMargin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(edge, edgeMargin, routeMargin);
     }
 
     @Override

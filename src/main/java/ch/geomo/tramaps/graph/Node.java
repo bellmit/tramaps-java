@@ -29,11 +29,12 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class Node extends Observable implements GraphElement, NodePoint {
 
-    private String name;
-    private Point point;
+    private final Set<Edge> adjacentEdges;
 
+    private String name;
+
+    private Point point;
     private NodeSignature signature;
-    private Set<Edge> adjacentEdges;
 
     private boolean deleted = false;
 
@@ -173,11 +174,18 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the node's signature
+     * @return the {@link NodeSignature} of this instance
      */
     @NotNull
     public NodeSignature getNodeSignature() {
         return signature;
+    }
+
+    /**
+     * Replaces the {@link NodeSignature} of this instance.
+     */
+    public void setNodeSignature(@NotNull NodeSignature signature) {
+        this.signature = signature;
     }
 
     /**

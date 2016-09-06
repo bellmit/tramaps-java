@@ -9,6 +9,7 @@ import ch.geomo.tramaps.graph.Node;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.Observable;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
@@ -44,13 +45,25 @@ public class NodeBuffer implements ElementBuffer {
     }
 
     @Override
-    public String toString() {
-        return "NodeBuffer: {" + node + "}";
+    public void update(Observable o, Object arg) {
+        updateBuffer();
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        updateBuffer();
+    public boolean equals(Object obj) {
+        return obj instanceof NodeBuffer
+                && Objects.equals(node, ((NodeBuffer) obj).node)
+                && Objects.equals(margin, ((NodeBuffer) obj).margin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(node, margin);
+    }
+
+    @Override
+    public String toString() {
+        return "NodeBuffer: {" + node + "}";
     }
 
 }

@@ -27,32 +27,27 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class Edge extends Observable implements Observer, GraphElement {
 
+    private final Pair<Node> nodePair;
+    private final Set<Route> routes;
+    private final Direction originalDirection;
+
     private String name;
-
-    private Node nodeA;
-    private Node nodeB;
-    private Pair<Node> nodePair;
-
-    private Set<Route> routes;
 
     private LineString lineString;
     private Direction direction;
 
-    private Direction originalDirection;
-
-    private boolean deleted;
+    private boolean deleted = false;
 
     /**
      * Creates a new instance of {@link Edge} with given nodes.
      */
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
 
-        this.nodeA = nodeA;
-        this.nodeB = nodeB;
+        nodePair = Pair.of(nodeA, nodeB);
+        routes = new HashSet<>();
+
         nodeA.addAdjacentEdge(this);
         nodeB.addAdjacentEdge(this);
-        routes = new HashSet<>();
-        nodePair = Pair.of(nodeA, nodeB);
         updateEdge();
 
         // cache original direction of this edge
@@ -99,7 +94,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      */
     @NotNull
     public Node getNodeA() {
-        return nodeA;
+        return nodePair.getFirst();
     }
 
     /**
@@ -107,14 +102,14 @@ public class Edge extends Observable implements Observer, GraphElement {
      */
     @NotNull
     public Node getNodeB() {
-        return nodeB;
+        return nodePair.getSecond();
     }
 
     /**
      * @return the angle between Y axis and this edge (starting north, clockwise)
      */
     private double calculateAngle() {
-        double angle = getGeomUtil().getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX() + 5d, nodeA.getY()), nodeB);
+        double angle = getGeomUtil().getAngleBetweenAsDegree(getNodeA(), NodePoint.of(getNodeA().getX() + 5d, getNodeA().getY()), getNodeB());
         angle = (angle + 360) % 360;
         // we do accept an imprecision of 1 degree
         if (angle % 45 < 0.5 || angle % 45 > 44.5) {
@@ -127,10 +122,9 @@ public class Edge extends Observable implements Observer, GraphElement {
      * Updates the {@link LineString} representation and notifies Observers.
      */
     protected final void updateEdge() {
-        lineString = getGeomUtil().createLineString(nodeA, nodeB);
+        lineString = getGeomUtil().createLineString(getNodeA(), getNodeB());
         double angle = calculateAngle();
         direction = AnyDirection.fromAngle(angle);
-        Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");
         setChanged();
         notifyObservers();
     }
@@ -163,6 +157,12 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
+     * Gets the adjacent {@link Node} of given {@link Node} on the other side
+     * of this edge. May throws a {@link NoSuchElementException} if given
+     * node is not a start or end node of this edge. To avoid this exception,
+     * test first with {@link #isAdjacent(Node)}.
+     *
+     * @return the adjacent {@link Node} of given {@link Node}
      * @throws NoSuchElementException if given node is not an end node of this edge
      */
     @NotNull
@@ -170,41 +170,53 @@ public class Edge extends Observable implements Observer, GraphElement {
         return nodePair.getOtherValue(node);
     }
 
+    /**
+     * @return true if the given {@link Edge} is adjacent to this edge
+     */
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Edge edge) {
         return edge != null && (getNodeA().getAdjacentEdges().contains(edge) || getNodeB().getAdjacentEdges().contains(edge));
     }
 
+    /**
+     * @return true if the given {@link Node} is adjacent to this edge
+     */
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Node node) {
-        return nodeA.equals(node) || nodeB.equals(node);
+        return nodePair.contains(node);
     }
 
+    /**
+     * @return the underlying {@link LineString}
+     */
     @NotNull
     public LineString getLineString() {
         return lineString;
     }
 
+    /**
+     * @return the underlying {@link LineString}
+     */
     @NotNull
     @Override
     public Geometry getGeometry() {
-        return lineString;
+        return getLineString();
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        updateEdge();
-    }
-
-    public boolean isNonOctilinear() {
+    /**
+     * @return true if this instance is not octilinear
+     */
+    @Contract(pure = true)
+    public boolean isNotOctilinear() {
         return !OctilinearDirection.isOctilinear(direction);
     }
 
     /**
      * @return true if vertical to x-axis
      */
+    @Contract(pure = true)
     public boolean isVertical() {
         return direction.isVertical();
     }
@@ -212,58 +224,76 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if horizontal to x-axis
      */
+    @Contract(pure = true)
     public boolean isHorizontal() {
         return direction.isHorizontal();
     }
 
     /**
-     * @return true if neither vertical nor horizontal to x-axis but octliniear
+     * @return true if neither vertical nor horizontal to x-axis <b>but octliniear</b>
      */
-    public boolean isDiagonal() {
+    @Contract(pure = true)
+    public boolean isOctilinearDiagonal() {
         return direction.isDiagonal();
     }
 
     /**
+     * Returns the {@link Direction} of this edge starting at given {@link Node}. Returns
+     * the given {@link Direction} if given {@link Node} is null.
+     *
      * @see #getDirection(Node)
      * @see #getOriginalDirection(Node)
      */
     @NotNull
+    @Contract(pure = true)
     private Direction getDirection(@Nullable Node node, @NotNull Direction direction) {
-        if (node == null || nodeA.equals(node)) {
+        if (node == null || getNodeA().equals(node)) {
             return direction;
         }
-        else if (nodeB.equals(node)) {
+        else if (getNodeB().equals(node)) {
             return direction.opposite();
         }
         String message = "Node " + node.getName() + " must be equals to an end node of " + getName() + ".";
-        throw new IllegalArgumentException(message);
+        throw new IllegalStateException(message);
     }
 
     /**
-     * @return the <b>current</b> direction of this edge from <b>node A or B depending on the node</b>,
-     * returns the current direction of node A if null is passed
+     * Returns the <b>current</b> {@link Direction} of this edge starting at given {@link Node}. Returns
+     * the <b>current</b> {@link Direction} of the node A when given {@link Node} is null.
+     *
+     * @return the <b>current</b> direction of this edge from <b>node A or B depending on the node</b>, returns the current direction of node A if null is passed
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
+    @Contract(pure = true)
     public Direction getDirection(@Nullable Node node) {
         return getDirection(node, direction);
     }
 
     /**
-     * @return the <b>original</b> direction of this edge from <b>node A or B depending on the node</b>,
-     * returns the original direction of node A if null is passed
+     * Returns the <b>original</b> {@link Direction} of this edge starting at given {@link Node}. Returns
+     * the <b>original</b> {@link Direction} of the node A when given {@link Node} is null.
+     *
+     * @return the <b>original</b> direction of this edge from <b>node A or B depending on the node</b>, returns the original direction of node A if null is passed
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
+    @Contract(pure = true)
     public Direction getOriginalDirection(@Nullable Node node) {
         return getDirection(node, originalDirection);
     }
 
+    /**
+     * @return true if this edge has the same {@link Direction} of given {@link Node} and {@link Direction}
+     */
     @Contract(pure = true)
     public boolean hasDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
         return direction.getAngle() == getDirection(startNode).getAngle();
     }
 
+    /**
+     * @return true if this edge has the <b>opposite</b> {@link Direction} of given {@link Node} and {@link Direction}
+     */
     @Contract(pure = true)
     public boolean hasOppositeDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
         return direction.isOpposite(getDirection(startNode));
@@ -273,7 +303,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return true since this implementation of {@link GraphElement} is an edge ;-)
      */
     @Override
-    @Contract("->true")
+    @Contract(value = "->true", pure = true)
     public boolean isEdge() {
         return true;
     }
@@ -282,12 +312,15 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return false since this implementation of {@link GraphElement} is an edge ;-)
      */
     @Override
-    @Contract("->false")
+    @Contract(value = "->false", pure = true)
     public boolean isNode() {
         return false;
     }
 
-    @Contract("null->true")
+    /**
+     * @return true if this instance is <b>not</b> equals with given {@link Edge}
+     */
+    @Contract(value = "null->true", pure = true)
     public boolean isNotEquals(@Nullable Edge edge) {
         return !equals(edge);
     }
@@ -295,14 +328,26 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if given edge has the same nodes than this instance
      */
+    @Contract(pure = true)
     public boolean equalNodes(Edge edge) {
         return getNodeA().isAdjacent(edge) && getNodeB().isAdjacent(edge);
     }
 
+    /**
+     * Returns true if this edge was previously deleted. If deleted this edge is
+     * disconnected from the start and end node.
+     *
+     * @return true if this edge is marked as delete
+     */
+    @Contract(pure = true)
     public boolean isDeleted() {
         return deleted;
     }
 
+    /**
+     * Remove this edge from the list of the adjacent edges in the start and end
+     * node. Marks this edge as deleted and unsubscribe all observers.
+     */
     public void delete() {
         // remove from adjacent nodes
         getNodeA().removeAdjacentEdge(this);
@@ -315,19 +360,34 @@ public class Edge extends Observable implements Observer, GraphElement {
         deleteObservers();
     }
 
+    /**
+     * @return true if this edge has routes
+     */
+    @Contract(pure = true)
+    public boolean hasRoutes() {
+        return !routes.isEmpty();
+    }
+
+    /**
+     * @return the edge length based on the related {@link LineString}
+     */
+    public double getLength() {
+        return lineString.getLength();
+    }
+
     @Override
     public boolean equals(Object obj) {
         // TODO compare routes as well
         return obj instanceof Edge
                 && Objects.equals(name, ((Edge) obj).name)
-                && nodeA.equals(((Edge) obj).nodeA)
-                && nodeB.equals(((Edge) obj).nodeB)
+                && getNodeA().equals(((Edge) obj).getNodeA())
+                && getNodeB().equals(((Edge) obj).getNodeB())
                 && deleted == ((Edge) obj).deleted;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, nodeA, nodeB, deleted);
+        return Objects.hash(name, getNodeA(), getNodeB(), deleted);
     }
 
     @Override
@@ -335,13 +395,10 @@ public class Edge extends Observable implements Observer, GraphElement {
         return "Edge: {" + getName() + "}";
     }
 
-    @Contract(pure = true)
-    public boolean hasRoutes() {
-        return !routes.isEmpty();
-    }
-
-    public double getLength() {
-        return lineString.getLength();
+    @Override
+    public void update(Observable o, Object arg) {
+        updateEdge();
+        Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");
     }
 
 }

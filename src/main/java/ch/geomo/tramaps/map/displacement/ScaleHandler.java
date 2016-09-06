@@ -16,8 +16,6 @@ import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
@@ -34,8 +32,8 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
         double maxMoveY = 0d;
 
         for (Conflict conflict : conflicts) {
-            Axis axis = conflict.getBestDisplacementAxis();
-            Vector2D v = conflict.getBestDisplacementVectorAlongAxis();
+            Axis axis = conflict.getBestDisplaceAxis();
+            Vector2D v = conflict.getBestDisplaceVector();
             if (axis == Axis.X) {
                 maxMoveX = Math.max(maxMoveX, v.length());
             }

@@ -36,7 +36,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     @NotNull
     private List<Node> evaluateMoveableNodes(@NotNull Node firstNode, @NotNull MetroMap map, @NotNull Conflict conflict, @NotNull OctilinearDirection displacementDirection) {
 
-        Coordinate centroid = conflict.getDisplaceStartPoint();
+        Coordinate centroid = conflict.getDisplaceStartCoordinate();
 
         if (displacementDirection == NORTH) {
             return map.getNodes().stream()
@@ -62,15 +62,13 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull MetroMap map, @NotNull Conflict conflict, @NotNull OctilinearDirection displacementDirection) {
 
-        Loggers.info(this, map.toString());
-
         Loggers.info(this, "Correct edge " + edge.getName() + ".");
 
         DisplaceGuard guardA = new DisplaceGuard(map, conflict, evaluateMoveableNodes(edge.getNodeA(), map, conflict, displacementDirection));
         DisplaceGuard guardB = new DisplaceGuard(map, conflict, evaluateMoveableNodes(edge.getNodeB(), map, conflict, displacementDirection));
 
-        double scoreNodeA = calculateAdjustmentCosts(edge, edge.getNodeA(), guardA);
-        double scoreNodeB = calculateAdjustmentCosts(edge, edge.getNodeB(), guardB);
+        double scoreNodeA = calculateAdjustmentCosts(edge, edge.getNodeA(), guardA, displacementDirection);
+        double scoreNodeB = calculateAdjustmentCosts(edge, edge.getNodeB(), guardB, displacementDirection);
 
         Loggers.info(this, "Adjustment Costs for nodes: [" + scoreNodeA + "/" + scoreNodeB + "]");
 
@@ -79,7 +77,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 //            correctEdgeByIntroducingBendNodes(edge, map);
         }
         else {
-            OctilinearDirection lastMoveDirection = conflict.getBestDisplacementDirection();
+            OctilinearDirection lastMoveDirection = conflict.getBestDisplaceDirection();
             if (scoreNodeA < scoreNodeB) {
                 correctEdgeByMovingNode(edge, edge.getNodeA(), lastMoveDirection, guardA.reuse());
             }
@@ -382,7 +380,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         OctilinearDirection movedDirection = moveNode(edge, moveableNode, guard.getMoveDistance(), lastMoveDirection, guard.getMetroMap());
 
         List<Edge> nonOctilinearEdges = moveableNode.getAdjacentEdges().stream()
-                .filter(Edge::isNonOctilinear)
+                .filter(Edge::isNotOctilinear)
                 .filter(edge::isNotEquals)
                 // .peek(e -> Loggers.info(this, e + ", " + e.getDirection()))
                 .collect(Collectors.toList());
@@ -422,7 +420,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * <p>
      * Note: The {@link List} of traversed nodes is not synchronized.
      */
-    private double calculateAdjustmentCosts(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull DisplaceGuard guard) {
+    private double calculateAdjustmentCosts(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull DisplaceGuard guard, @NotNull OctilinearDirection displacementDirection) {
 
         if (guard.isNotMoveable(node) || guard.hasAlreadyVisited(node)) {
             return CORRECT_CIRCLE_PENALTY;
@@ -430,7 +428,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         guard.visited(node);
 
-        if (node.getAdjacentEdges().size() == 1) {
+        if (node.getDegree() == 1) {
             return 0;
         }
 
@@ -439,14 +437,30 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 .collect(Collectors.toSet());
 
         if (isSimpleNode(connectionEdge, node)) {
-            return 1;
+            switch(displacementDirection) {
+                case NORTH:
+                case SOUTH: {
+                    if (adjacentEdges.stream().allMatch(Edge::isVertical)) {
+                        return 1;
+                    }
+                    break;
+                }
+                case WEST:
+                case EAST: {
+                    if (adjacentEdges.stream().allMatch(Edge::isHorizontal)) {
+                        return 1;
+                    }
+                    break;
+                }
+            }
+            return 2;
         }
 
-        double costs = 1 + adjacentEdges.size();
+        double costs = 2 + adjacentEdges.size();
 
         for (Edge adjacentEdge : adjacentEdges) {
             Node otherNode = adjacentEdge.getOtherNode(node);
-            costs = costs + calculateAdjustmentCosts(adjacentEdge, otherNode, guard);
+            costs = costs + calculateAdjustmentCosts(adjacentEdge, otherNode, guard, displacementDirection);
         }
 
         return costs;
@@ -466,19 +480,20 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
             Conflict conflict = conflicts.get(0);
 
-            Point centroid = conflict.getConflictPolygon().getCentroid();
+            // Point centroid = conflict.getConflictPolygon().getCentroid();
+            Coordinate centroid = conflict.getDisplaceStartCoordinate();
 
-            if (conflict.getBestDisplacementAxis() == Axis.X) {
+            if (conflict.getBestDisplaceAxis() == Axis.X) {
                 map.getNodes().stream()
-                        .filter(node -> node.getPoint().getX() > centroid.getX())
-                        .forEach(node -> node.updateX(node.getX() + conflict.getBestDisplacementLengthAlongAxis()));
+                        .filter(node -> node.getPoint().getX() > centroid.x)
+                        .forEach(node -> node.updateX(node.getX() + conflict.getBestDisplaceLength()));
 
                 correctNonOctilinearEdges(map, conflict, NORTH);
             }
             else {
                 map.getNodes().stream()
-                        .filter(node -> node.getPoint().getY() > centroid.getY())
-                        .forEach(node -> node.updateY(node.getY() + conflict.getBestDisplacementLengthAlongAxis()));
+                        .filter(node -> node.getPoint().getY() > centroid.y)
+                        .forEach(node -> node.updateY(node.getY() + conflict.getBestDisplaceLength()));
 
                 correctNonOctilinearEdges(map, conflict, WEST);
             }

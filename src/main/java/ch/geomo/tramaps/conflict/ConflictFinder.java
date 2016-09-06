@@ -14,7 +14,6 @@ import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

@@ -38,15 +38,15 @@ public final class Contracts {
         test(obj, predicate, () -> "Contract broken: Object " + obj + " invalid!");
     }
 
-    public static void fail() {
+    public static void fail() throws IllegalStateException {
         fail("Contract broken. Should never reach this point!");
     }
 
-    public static void fail(String message) {
+    public static void fail(String message) throws IllegalStateException {
         fail(() -> message);
     }
 
-    public static void fail(@NotNull Supplier<String> message) {
+    public static void fail(@NotNull Supplier<String> message) throws IllegalStateException {
         throw new IllegalStateException(message.get());
     }
 }
