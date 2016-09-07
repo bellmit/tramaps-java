@@ -234,7 +234,7 @@ public class Conflict implements Comparable<Conflict> {
      */
     public int getBestDisplaceLength() {
         // we do work with int values only
-        return (int) Math.ceil(bestDisplaceVector.length());
+        return (int) Math.ceil(Math.abs(bestDisplaceVector.length()));
     }
 
     @NotNull

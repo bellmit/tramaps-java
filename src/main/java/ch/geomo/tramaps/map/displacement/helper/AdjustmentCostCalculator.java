@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class AdjustmentCostCalculator {
 
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
-    private static final double ADJACENT_CONFLICT_RELATED_EDGE_PENALTY = 10;
 
     public static boolean isSimpleNode(@NotNull Edge connectionEdge, @NotNull Node node) {
 
@@ -58,38 +57,13 @@ public class AdjustmentCostCalculator {
             return 0;
         }
 
+        if (isSimpleNode(connectionEdge, node)) {
+            return 1;
+        }
+
         Set<Edge> adjacentEdges = node.getAdjacentEdges().stream()
                 .filter(edge -> !edge.equals(connectionEdge))
                 .collect(Collectors.toSet());
-
-        if (isSimpleNode(connectionEdge, node)) {
-
-            boolean hasConflictRelatedEdge = node.getAdjacentEdges().stream()
-                    .anyMatch(guard::isConflictElementRelated);
-
-            if (hasConflictRelatedEdge && guard.hasBeenDisplaced(node)) {
-                return ADJACENT_CONFLICT_RELATED_EDGE_PENALTY;
-            }
-
-            switch (guard.getLastMoveDirection()) {
-                case NORTH:
-                case SOUTH: {
-                    if (adjacentEdges.stream().allMatch(Edge::isVertical)) {
-                        return 1;
-                    }
-                    break;
-                }
-                case WEST:
-                case EAST: {
-                    if (adjacentEdges.stream().allMatch(Edge::isHorizontal)) {
-                        return 1;
-                    }
-                    break;
-                }
-            }
-            return 2;
-
-        }
 
         double costs = 2 + adjacentEdges.size();
 

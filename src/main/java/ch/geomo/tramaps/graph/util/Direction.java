@@ -84,7 +84,7 @@ public interface Direction {
     }
 
     static double calculateAngle(NodePoint nodeA, NodePoint nodeB) {
-        double angle = getGeomUtil().getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX() + 5d, nodeA.getY()), nodeB);
+        double angle = getGeomUtil().getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX(), nodeA.getY() + 5d), nodeB);
         if (angle > 0) {
             angle = (angle - 360) % 360;
         }

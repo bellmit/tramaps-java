@@ -194,18 +194,15 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
                 OctilinearDirection firstAdjacentEdgeDirection = adjacentEdge.getOriginalDirection(moveableNode).toOctilinear();
 
-                // angle between first adjacent edge and the non-octilinear direction of the connection edge
-                double angle = firstAdjacentEdgeDirection.getAngleTo(connectionEdge.getDirection(moveableNode));
-
                 boolean hadSameAlignment = firstAdjacentEdgeDirection.getAlignment() == octilinearConnectionEdgeDirection.getAlignment();
                 boolean isConflictRelated = guard.getConflict().isConflictElementRelated(connectionEdge);
 
                 if (!hadSameAlignment && !isConflictRelated) {
-                    result = moveHandler.evaluateNonConflictRelated(moveableNode, guard, octilinearConnectionEdgeDirection, firstAdjacentEdgeDirection, angle);
+                    result = moveHandler.evaluateNode(moveableNode, guard, octilinearConnectionEdgeDirection, firstAdjacentEdgeDirection);
                 }
                 else if (!hadSameAlignment) {
                     Loggers.info(this, "Node " + moveableNode.getName() + " is conflict related.");
-                    result = moveHandler.evaluateConflictRelated(moveableNode, guard, octilinearConnectionEdgeDirection, firstAdjacentEdgeDirection, angle);
+                    result = moveHandler.evaluateConflictRelatedNode(moveableNode, guard, octilinearConnectionEdgeDirection, firstAdjacentEdgeDirection);
                 }
                 else {
                     Loggers.info(this, "Do not move Node " + moveableNode.getName() + ".");
@@ -223,25 +220,25 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             result = new MoveNodeDirection(guard.getLastMoveDirection(), moveableNode, 0);
         }
 
+        Loggers.info(this, "Evaluated move operation: " + result);
+
         final double correctDistance = result.getMoveDistance();
         final OctilinearDirection octilinearMoveDirection = result.getMoveDirection();
 
         // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
-        boolean isMoveable = moveableNode.getAdjacentEdgeStream(connectionEdge)
-                .noneMatch(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection && adjEdge.getLength() < correctDistance);
+        boolean overlapsAdjacentNode = moveableNode.getAdjacentEdgeStream(connectionEdge)
+                .anyMatch(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection && adjEdge.getLength() < correctDistance);
 
         // test if new position would intersect with any other edge when moving -> if so, we do not move
         Point movePoint = moveableNode.createMovePoint(octilinearMoveDirection, correctDistance);
-        boolean overlaps = moveableNode.getAdjacentEdgeStream(null)
+        boolean overlapsOtherEdges = moveableNode.getAdjacentEdgeStream(null)
                 .map(edge -> edge.getOtherNode(moveableNode))
                 .map(node -> getGeomUtil().createLineString(movePoint, node.getPoint()))
                 .anyMatch(lineString -> guard.getMetroMap().getEdges().stream()
                         .filter(edge -> !moveableNode.getAdjacentEdges().contains(edge))
                         .anyMatch(edge -> edge.getLineString().intersects(lineString)));
 
-        isMoveable = isMoveable && !overlaps;
-
-        if (isMoveable) {
+        if (!overlapsAdjacentNode && !overlapsOtherEdges) {
             Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (Length=" + correctDistance + ").");
             moveableNode.move(octilinearMoveDirection, correctDistance);
             Loggers.info(this, "New position for " + moveableNode + ".");
@@ -278,7 +275,6 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         List<Edge> nonOctilinearEdges = moveableNode.getAdjacentEdges().stream()
                 .filter(Edge::isNotOctilinear)
                 .filter(edge::isNotEquals)
-                // .peek(e -> Loggers.info(this, e + ", " + e.getDirection()))
                 .collect(Collectors.toList());
 
         for (Edge nonOctilinearEdge : nonOctilinearEdges) {
