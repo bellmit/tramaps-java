@@ -30,13 +30,11 @@ public class DisplaceNodeHandler {
     }
 
     private boolean isDisplaceableToNorth(@NotNull Node node) {
-        return node.getPoint().getX() > conflict.getSamplePointOnDisplaceLine().x;
-                // && !conflict.isConflictElement(node);
+        return node.getPoint().getY() > conflict.getSamplePointOnDisplaceLine().y;
     }
 
     private boolean isDisplaceableToEast(@NotNull Node node) {
-        return node.getPoint().getY() > conflict.getSamplePointOnDisplaceLine().y;
-                // && !conflict.isConflictElement(node);
+        return node.getPoint().getX() > conflict.getSamplePointOnDisplaceLine().x;
     }
 
     @NotNull
@@ -45,28 +43,28 @@ public class DisplaceNodeHandler {
         if (conflict.getBestDisplaceAxis() == Axis.X) {
 
             List<Node> displacedNodes = map.getNodes().stream()
-                    .filter(this::isDisplaceableToNorth)
+                    .filter(this::isDisplaceableToEast)
                     .collect(Collectors.toList());
 
             displacedNodes.forEach(node -> {
-                Loggers.flag(this, "Displace node " + node.getName() + " northwards.");
+                Loggers.flag(this, "Displace node " + node.getName() + " eastwards.");
                 node.updateX(node.getX() + conflict.getBestDisplaceLength());
             });
 
-            return new DisplaceNodeResult(NORTH, displacedNodes, conflict.getBestDisplaceLength());
+            return new DisplaceNodeResult(EAST, displacedNodes, conflict.getBestDisplaceLength());
 
         }
 
         List<Node> displacedNodes = map.getNodes().stream()
-                .filter(this::isDisplaceableToEast)
+                .filter(this::isDisplaceableToNorth)
                 .collect(Collectors.toList());
 
         displacedNodes.forEach(node -> {
-            Loggers.flag(this, "Displace node " + node.getName() + " to eastwards.");
+            Loggers.flag(this, "Displace node " + node.getName() + " to northwards.");
             node.updateY(node.getY() + conflict.getBestDisplaceLength());
         });
 
-        return new DisplaceNodeResult(EAST, displacedNodes, conflict.getBestDisplaceLength());
+        return new DisplaceNodeResult(NORTH, displacedNodes, conflict.getBestDisplaceLength());
 
     }
 

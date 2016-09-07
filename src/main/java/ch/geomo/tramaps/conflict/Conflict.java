@@ -9,18 +9,24 @@ import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
 import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.geom.util.PolygonUtil;
+import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Loggers;
+import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
@@ -35,10 +41,7 @@ public class Conflict implements Comparable<Conflict> {
     private MoveVector displaceVector;
     private MoveVector bestDisplaceVector;
     private Axis bestDisplaceAxis;
-
-    private Coordinate[] closestPointsBetweenElements;
-    private Coordinate[] closestPointsBufferA;
-    private Coordinate[] closestPointsBufferB;
+    private Coordinate bestDisplaceStartPoint;
 
     private boolean solved = false;
 
@@ -71,7 +74,12 @@ public class Conflict implements Comparable<Conflict> {
      */
     @NotNull
     private Polygon createConflictPolygon() {
-        return (Polygon) getBufferA().getBuffer().intersection(getBufferB().getBuffer());
+        Geometry geometry = getBufferA().getBuffer().intersection(getBufferB().getBuffer());
+        if (geometry instanceof Polygon) {
+            return (Polygon) geometry;
+        }
+        Loggers.info(this, "Cannot create conflict polygon. Result was: " + geometry);
+        return getGeomUtil().createEmptyPolygon();
     }
 
     /**
@@ -82,45 +90,55 @@ public class Conflict implements Comparable<Conflict> {
         return getGeomUtil().createLineString(getBufferA().getElement().getCentroid(), getBufferB().getElement().getCentroid());
     }
 
+    private List<Node> getNodes() {
+        return Stream.of(getBufferElementA(), getBufferElementB())
+                .filter(element -> element instanceof Node)
+                .map(element -> (Node) element)
+                .collect(Collectors.toList());
+    }
+
+    private List<Edge> getEdges() {
+        return Stream.of(getBufferElementA(), getBufferElementB())
+                .filter(element -> element instanceof Edge)
+                .map(element -> (Edge) element)
+                .collect(Collectors.toList());
+    }
+
     private void initConflict() {
 
         // create conflict polygon
         conflictPolygon = createConflictPolygon();
-
-        closestPointsBufferA = DistanceOp.nearestPoints(conflictPolygon, getBufferElementA().getCentroid());
-        closestPointsBufferB = DistanceOp.nearestPoints(conflictPolygon, getBufferElementB().getCentroid());
-
-        closestPointsBetweenElements = DistanceOp.nearestPoints(getBufferElementA().getGeometry(), getBufferElementB().getGeometry());
 
         // create exact move vector
         displaceVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, createQ())
                 .map(MoveVector::new)
                 .orElse(new MoveVector());
 
-        // evaluate best move vector along an axis
+        // default values
+        Coordinate[] closestPointsBetweenElements = DistanceOp.nearestPoints(getBufferElementA().getGeometry(), getBufferElementB().getGeometry());
+        bestDisplaceStartPoint = getGeomUtil().createLineString(closestPointsBetweenElements).getCentroid().getCoordinate();
+
         double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
         double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
-
-        if (conflictType == ConflictType.ADJACENT_NODE_NODE || conflictType == ConflictType.NODE_NODE) {
-            double dx = Math.abs(closestPointsBetweenElements[0].x - closestPointsBetweenElements[1].x);
-            double dy = Math.abs(closestPointsBetweenElements[0].y - closestPointsBetweenElements[1].y);
-            if (dx > dy) {
-                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-                bestDisplaceAxis = Axis.X;
-            }
-            else {
-                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-                bestDisplaceAxis = Axis.Y;
-            }
+        if (angleY < angleX) {
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceAxis = Axis.X;
         }
         else {
-            if (angleY < angleX) {
-                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-                bestDisplaceAxis = Axis.X;
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceAxis = Axis.Y;
+        }
+
+        // special cases
+        switch (conflictType) {
+            case NODE_EDGE: {
+                initNodeEdgeConflict(getNodes().get(0), getEdges().get(0));
+                break;
             }
-            else {
-                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-                bestDisplaceAxis = Axis.Y;
+            case NODE_NODE:
+            case ADJACENT_NODE_NODE: {
+                initNodeNodeConflict(getNodes().get(0), getNodes().get(1));
+                break;
             }
         }
 
@@ -128,6 +146,48 @@ public class Conflict implements Comparable<Conflict> {
             solved = true;
         }
 
+    }
+
+    private void initNodeEdgeConflict(@NotNull Node node, @NotNull Edge edge) {
+        if ((node.getX() < Math.min(edge.getNodeA().getX(), edge.getNodeB().getX()))
+                || (node.getX() > Math.max(edge.getNodeA().getX(), edge.getNodeB().getX()))) {
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceAxis = Axis.X;
+        }
+        else if ((node.getY() < Math.min(edge.getNodeA().getY(), edge.getNodeB().getY()))
+                || (node.getY() > Math.max(edge.getNodeA().getY(), edge.getNodeB().getY()))) {
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceAxis = Axis.Y;
+        }
+        else {
+            double dxa = Math.abs(node.getX() - edge.getNodeA().getX());
+            double dya = Math.abs(node.getY() - edge.getNodeA().getY());
+            double dxb = Math.abs(node.getX() - edge.getNodeB().getX());
+            double dyb = Math.abs(node.getY() - edge.getNodeB().getY());
+            if (Math.max(dxa, dxb) < Math.max(dya, dyb)) {
+                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+                bestDisplaceAxis = Axis.X;
+            }
+            else {
+                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+                bestDisplaceAxis = Axis.Y;
+            }
+        }
+        bestDisplaceStartPoint = conflictPolygon.getCentroid().getCoordinate();
+    }
+
+    private void initNodeNodeConflict(@NotNull NodePoint node1, @NotNull NodePoint node2) {
+        double dx = Math.abs(node1.getX() - node2.getX());
+        double dy = Math.abs(node1.getY() - node2.getY());
+        if (dy < dx) {
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceAxis = Axis.X;
+        }
+        else {
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceAxis = Axis.Y;
+        }
+        bestDisplaceStartPoint = conflictPolygon.getCentroid().getCoordinate();
     }
 
     @NotNull
@@ -179,20 +239,7 @@ public class Conflict implements Comparable<Conflict> {
 
     @NotNull
     public Coordinate getSamplePointOnDisplaceLine() {
-        switch (conflictType) {
-            case NODE_EDGE: {
-                if (getBufferA().getElement() instanceof Node) {
-                    return closestPointsBufferB[0];
-                }
-                return closestPointsBufferA[0];
-            }
-            case EDGE_EDGE:
-            case NODE_NODE:
-            case ADJACENT_NODE_NODE:
-            default: {
-                return getGeomUtil().createLineString(closestPointsBetweenElements).getCentroid().getCoordinate();
-            }
-        }
+        return bestDisplaceStartPoint;
     }
 
     /**

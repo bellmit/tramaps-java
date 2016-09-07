@@ -111,11 +111,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return the angle between Y axis and this edge (starting north, clockwise)
      */
     private double calculateAngle() {
-        double angle = getGeomUtil().getAngleBetweenAsDegree(getNodeA(), NodePoint.of(getNodeA().getX() + 5d, getNodeA().getY()), getNodeB());
-        if (angle > 0) {
-            angle = (angle - 360) % 360;
-        }
-        return Math.abs(angle);
+        return Direction.calculateAngle(getNodeA(), getNodeB());
     }
 
     /**

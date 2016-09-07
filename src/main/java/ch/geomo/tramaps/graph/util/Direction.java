@@ -4,8 +4,11 @@
 
 package ch.geomo.tramaps.graph.util;
 
+import ch.geomo.util.point.NodePoint;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public interface Direction {
 
@@ -78,6 +81,14 @@ public interface Direction {
     default double getAngleTo(Direction direction) {
         double diff = direction.getAngle() - getAngle();
         return Math.abs(diff);
+    }
+
+    static double calculateAngle(NodePoint nodeA, NodePoint nodeB) {
+        double angle = getGeomUtil().getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX() + 5d, nodeA.getY()), nodeB);
+        if (angle > 0) {
+            angle = (angle - 360) % 360;
+        }
+        return Math.abs(angle);
     }
 
 }

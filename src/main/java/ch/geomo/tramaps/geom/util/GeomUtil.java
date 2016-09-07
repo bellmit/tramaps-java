@@ -88,6 +88,11 @@ public enum GeomUtil {
         return makePrecise(new Coordinate(coordinate));
     }
 
+    @NotNull
+    public Polygon createEmptyPolygon() {
+        return geometryFactory.createPolygon((Coordinate[]) null);
+    }
+
     /**
      * @return a polygon with given centroid, width and height
      */

@@ -58,26 +58,26 @@ public class ExampleMetroMap extends MetroMap {
         n.setName("N");
 
         Edge ab = new Edge(a, b);
-        Edge bc = new Edge(b, c);
+        Edge bc = new Edge(c, b);
         Edge cd = new Edge(c, d);
         Edge de = new Edge(d, e);
         Edge ef = new Edge(e, f);
         Edge fg = new Edge(f, g);
-        Edge gh = new Edge(g, h);
-//        Edge gn = new Edge(g, n);
-//        Edge nh = new Edge(n, h);
+//        Edge gh = new Edge(g, h);
+        Edge gn = new Edge(g, n);
+        Edge nh = new Edge(n, h);
         Edge ha = new Edge(h, a);
         Edge hi = new Edge(h, i);
         Edge ib = new Edge(i, b);
-//        Edge ia = new Edge(i, a);
+        Edge ia = new Edge(i, a);
         Edge aj = new Edge(a, j);
         Edge jk = new Edge(j, k);
-//        Edge lc = new Edge(l, c);
+        Edge lc = new Edge(l, c);
 //        Edge lm = new Edge(l, m);
 //        Edge le = new Edge(l, e);
 //        Edge jf = new Edge(h, f);
 
-        //Edge bd = new Edge(b, d);
+//        Edge bd = new Edge(b, d);
         //Edge ad = new Edge(a, d);
         //Edge kd = new Edge(k, d);
         //Edge kb = new Edge(k, b);
@@ -96,21 +96,21 @@ public class ExampleMetroMap extends MetroMap {
         de.addRoutes(line1, line2, line4, line5);
         ef.addRoutes(line1, line2, line4, line5, line6);
         fg.addRoutes(line1, line6);
-        gh.addRoutes(line1, line6);
-//        gn.addRoutes(line1, line2, line4);
-//        nh.addRoutes(line1);
+//        gh.addRoutes(line1, line6);
+        gn.addRoutes(line1, line2, line4);
+        nh.addRoutes(line1, line2);
         ha.addRoutes(line1, line2, line3, line6, line7);
         hi.addRoutes(line1, line3, line6);
         ib.addRoutes(line6);
-//        ia.addRoutes(line1, line4, line5);
+        ia.addRoutes(line1, line4, line5);
         aj.addRoutes(line5);
         jk.addRoutes(line5, line2);
 //        jf.addRoutes(line5);
-//        lc.addRoutes(line1, line3);
+        lc.addRoutes(line1, line3);
 //        le.addRoutes(line1, line3);
         //kb.addRoutes(line1);
 
-        addNodes(a, b, c, d, e, f, g, h, i, j, k);
+        addNodes(a, b, c, d, e, f, g, h, i, j, k, n, l);
 //        addNodes(a, b, c, d, e, f, g, h, i, j, k, l);
 
     }

@@ -33,8 +33,8 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 50;
-    private static final double MAX_ADJUSTMENT_COSTS = 15;
+    private static final int MAX_ITERATIONS = 100;
+    private static final double MAX_ADJUSTMENT_COSTS = 5;
 
 
     private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull MetroMap map, @NotNull Conflict conflict, @NotNull DisplaceNodeResult displaceNodeResult) {
@@ -337,6 +337,9 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceHandler algorithm");
         makeSpace(map, 0, null);
+        map.evaluateConflicts(true).stream()
+                .findFirst()
+                .ifPresent(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }
 
 }

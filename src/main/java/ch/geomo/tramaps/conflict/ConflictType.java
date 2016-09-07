@@ -6,10 +6,10 @@ package ch.geomo.tramaps.conflict;
 
 public enum ConflictType {
 
-    NODE_NODE(10),
-    NODE_EDGE(10),
-    EDGE_EDGE(10),
-    ADJACENT_NODE_NODE(10);
+    ADJACENT_NODE_NODE(40),
+    NODE_NODE(40),
+    NODE_EDGE(20),
+    EDGE_EDGE(20);
 
     private final int conflictRank;
 

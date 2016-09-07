@@ -42,7 +42,7 @@ public class MainApp extends Application {
 
         map = new ExampleMetroMap(5, 25);
 
-//        makeSpace(ScaleHandler::new);
+        // makeSpace(ScaleHandler::new);
         makeSpace(DisplaceHandler::new);
 
         draw();
