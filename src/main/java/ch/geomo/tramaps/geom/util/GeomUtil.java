@@ -159,6 +159,11 @@ public enum GeomUtil {
     }
 
     @NotNull
+    public LineString createLineString(double x1, double y1, double x2, double y2) {
+        return geometryFactory.createLineString(new Coordinate[]{createCoordinate(x1, y2), createCoordinate(x2, y2)});
+    }
+
+    @NotNull
     public LineString createLineString(@Nullable Coordinate... points) {
         if (points == null) {
             return geometryFactory.createLineString((Coordinate[]) null);

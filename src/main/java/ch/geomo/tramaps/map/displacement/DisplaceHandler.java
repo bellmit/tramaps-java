@@ -29,9 +29,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
+
 public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 100;
+    private static final int MAX_ITERATIONS = 50;
     private static final double MAX_ADJUSTMENT_COSTS = 15;
 
 
@@ -55,15 +57,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             Loggers.info(this, "Adjustment Costs too high... a bend is required!");
             // correctEdgeByIntroducingBendNodes(edge, map);
         }
-        else if (Math.abs(scoreNodeA -scoreNodeB) < 3) {
-            if (guardA.hasBeenDisplaced(edge.getNodeA())) {
-                correctEdgeByMovingNode(edge, edge.getNodeA(), guardA.reuse());
-            }
-            else {
-                correctEdgeByMovingNode(edge, edge.getNodeB(), guardB.reuse());
-            }
-        }
-        else if (scoreNodeA < scoreNodeB && guardB.hasBeenDisplaced(edge.getNodeB())) {
+        else if (scoreNodeA < scoreNodeB) {
             correctEdgeByMovingNode(edge, edge.getNodeA(), guardA.reuse());
         }
         else {
@@ -235,6 +229,17 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
         boolean isMoveable = moveableNode.getAdjacentEdgeStream(connectionEdge)
                 .noneMatch(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection && adjEdge.getLength() < correctDistance);
+
+        // test if new position would intersect with any other edge when moving -> if so, we do not move
+        Point movePoint = moveableNode.createMovePoint(octilinearMoveDirection, correctDistance);
+        boolean overlaps = moveableNode.getAdjacentEdgeStream(null)
+                .map(edge -> edge.getOtherNode(moveableNode))
+                .map(node -> getGeomUtil().createLineString(movePoint, node.getPoint()))
+                .anyMatch(lineString -> guard.getMetroMap().getEdges().stream()
+                        .filter(edge -> !moveableNode.getAdjacentEdges().contains(edge))
+                        .anyMatch(edge -> edge.getLineString().intersects(lineString)));
+
+        isMoveable = isMoveable && !overlaps;
 
         if (isMoveable) {
             Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (Length=" + correctDistance + ").");

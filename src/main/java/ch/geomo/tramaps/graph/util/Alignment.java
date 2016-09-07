@@ -9,6 +9,6 @@ public enum Alignment {
     HORIZONTAL,
     DIAGONAL_45,
     VERTICAL,
-    DIAGONAL_125
+    DIAGONAL_135
 
 }

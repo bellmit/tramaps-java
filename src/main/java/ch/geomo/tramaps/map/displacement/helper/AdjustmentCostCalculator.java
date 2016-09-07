@@ -7,8 +7,6 @@ package ch.geomo.tramaps.map.displacement.helper;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.Direction;
-import ch.geomo.tramaps.map.displacement.helper.DisplaceNodeHandler.DisplaceNodeResult;
-import ch.geomo.util.Loggers;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -18,11 +16,11 @@ import java.util.stream.Collectors;
 public class AdjustmentCostCalculator {
 
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
-    private static final double ADJACENT_CONFLICT_EDGE_PENALTY = 10;
+    private static final double ADJACENT_CONFLICT_RELATED_EDGE_PENALTY = 10;
 
     public static boolean isSimpleNode(@NotNull Edge connectionEdge, @NotNull Node node) {
 
-        Direction originalDirection = connectionEdge.getDirection(node).toOctilinear();
+        Direction originalDirection = connectionEdge.getOriginalDirection(node).toOctilinear();
 
         List<Direction> directions = node.getAdjacentEdgeStream(connectionEdge)
                 .map(edge -> edge.getDirection(node))
@@ -66,13 +64,12 @@ public class AdjustmentCostCalculator {
 
         if (isSimpleNode(connectionEdge, node)) {
 
-//            boolean hasConflictRelatedEdge = node.getAdjacentEdges().stream()
-//                    .anyMatch(guard::isConflictElementRelated);
-//
-//            if (hasConflictRelatedEdge && guard.hasBeenDisplaced(node)) {
-//                Loggers.info(this, "Found a displaced node of a conflict related edge... we do penalise this node.");
-//                return ADJACENT_CONFLICT_EDGE_PENALTY;
-//            }
+            boolean hasConflictRelatedEdge = node.getAdjacentEdges().stream()
+                    .anyMatch(guard::isConflictElementRelated);
+
+            if (hasConflictRelatedEdge && guard.hasBeenDisplaced(node)) {
+                return ADJACENT_CONFLICT_RELATED_EDGE_PENALTY;
+            }
 
             switch (guard.getLastMoveDirection()) {
                 case NORTH:

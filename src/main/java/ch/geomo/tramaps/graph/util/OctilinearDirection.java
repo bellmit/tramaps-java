@@ -9,24 +9,33 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public enum OctilinearDirection implements Direction {
 
-    NORTH(0d, Alignment.VERTICAL),
-    NORTH_EAST(45d, Alignment.DIAGONAL_45),
-    EAST(90d, Alignment.HORIZONTAL),
-    SOUTH_EAST(135d, Alignment.DIAGONAL_125),
-    SOUTH(180d, Alignment.VERTICAL),
-    SOUTH_WEST(225d, Alignment.DIAGONAL_45),
-    WEST(270d, Alignment.HORIZONTAL),
-    NORTH_WEST(315d, Alignment.DIAGONAL_125);
+    NORTH(0d, Alignment.VERTICAL, true, false, false, false),
+    NORTH_EAST(45d, Alignment.DIAGONAL_45, true, true, false, false),
+    EAST(90d, Alignment.HORIZONTAL, false, true, false, false),
+    SOUTH_EAST(135d, Alignment.DIAGONAL_135, false, true, true, false),
+    SOUTH(180d, Alignment.VERTICAL, false, false, true, false),
+    SOUTH_WEST(225d, Alignment.DIAGONAL_45, false, false, true, true),
+    WEST(270d, Alignment.HORIZONTAL, false, false, false, true),
+    NORTH_WEST(315d, Alignment.DIAGONAL_135, true, false, false, true);
 
     private final double angle;
     private final Alignment alignment;
+    private final boolean northwards;
+    private final boolean eastwards;
+    private final boolean southwards;
+    private final boolean westwards;
 
-    OctilinearDirection(double angle, Alignment alignment) {
+    OctilinearDirection(double angle, Alignment alignment, boolean north, boolean east, boolean south, boolean west) {
         this.angle = angle;
         this.alignment = alignment;
+        northwards = north;
+        eastwards = east;
+        southwards = south;
+        westwards = west;
     }
 
     public double getAngle() {
@@ -37,6 +46,22 @@ public enum OctilinearDirection implements Direction {
         return alignment;
     }
 
+    public boolean isEastwards() {
+        return eastwards;
+    }
+
+    public boolean isNorthwards() {
+        return northwards;
+    }
+
+    public boolean isSouthwards() {
+        return southwards;
+    }
+
+    public boolean isWestwards() {
+        return westwards;
+    }
+
     @Contract(pure = true)
     public boolean isHorizontal() {
         return this == EAST || this == WEST;
@@ -45,6 +70,16 @@ public enum OctilinearDirection implements Direction {
     @Contract(pure = true)
     public boolean isVertical() {
         return this == NORTH || this == SOUTH;
+    }
+
+    @Contract(pure = true)
+    public boolean isDiagonal45() {
+        return getAlignment() == Alignment.DIAGONAL_45;
+    }
+
+    @Contract(pure = true)
+    public boolean isDiagonal135() {
+        return getAlignment() == Alignment.DIAGONAL_135;
     }
 
     /**
@@ -124,6 +159,13 @@ public enum OctilinearDirection implements Direction {
     @NotNull
     public OctilinearDirection rotate(@NotNull OctilinearDirection nullDirection) {
         return fromAngle(getAngle() + nullDirection.getAngle());
+    }
+
+    /**
+     * @return true if one of the given {@link OctilinearDirection} is equals to this instance
+     */
+    public boolean matchWithOneOf(@NotNull OctilinearDirection... directions) {
+        return Stream.of(directions).anyMatch(direction -> this == direction);
     }
 
 }

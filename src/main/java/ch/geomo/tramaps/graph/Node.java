@@ -227,7 +227,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
         updatePosition(getGeomUtil().createPoint(x, y));
     }
 
-    public void move(@NotNull OctilinearDirection direction, double moveLength) {
+    public Point createMovePoint(@NotNull OctilinearDirection direction, double moveLength) {
 
         double x = getX();
         double y = getY();
@@ -257,8 +257,12 @@ public class Node extends Observable implements GraphElement, NodePoint {
                 break;
         }
 
-        updatePosition(x, y);
+        return getGeomUtil().createPoint(x, y);
 
+    }
+
+    public void move(@NotNull OctilinearDirection direction, double moveLength) {
+        updatePosition(createMovePoint(direction, moveLength));
     }
 
     /**
