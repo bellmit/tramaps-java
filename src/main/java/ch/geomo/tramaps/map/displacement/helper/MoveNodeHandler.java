@@ -20,15 +20,17 @@ public class MoveNodeHandler {
                                                         @NotNull OctilinearDirection firstAdjacentEdgeDirection,
                                                         double angle) {
 
-        OctilinearDirection moveDirection = firstAdjacentEdgeDirection;
+//        OctilinearDirection moveDirection = firstAdjacentEdgeDirection;
+//
+//        double octilinearAngle = firstAdjacentEdgeDirection.getAngleTo(connectionEdgeDirection);
+//
+//        if (angle > octilinearAngle) {
+//            moveDirection = firstAdjacentEdgeDirection.opposite();
+//        }
+//
+//        return new MoveNodeDirection(moveDirection, moveableNode, guard.getLastMoveDistance());
+        return new MoveNodeDirection(guard.getLastMoveDirection(), moveableNode, 0);
 
-        double octilinearAngle = firstAdjacentEdgeDirection.getAngleTo(connectionEdgeDirection);
-
-        if (angle > octilinearAngle) {
-            moveDirection = firstAdjacentEdgeDirection.opposite();
-        }
-
-        return new MoveNodeDirection(moveDirection, moveableNode, guard.getLastMoveDistance());
 
 
     }
@@ -39,10 +41,10 @@ public class MoveNodeHandler {
                                                      @NotNull OctilinearDirection firstAdjacentEdgeDirection,
                                                      double angle) {
 
-        MoveNodeDirection result = evaluateNonConflictRelated(moveableNode, guard, connectionEdgeDirection, firstAdjacentEdgeDirection, angle);
-        if (result.getMoveDirection() != guard.getDisplaceDirection().opposite()) {
-            return result;
-        }
+//        MoveNodeDirection result = evaluateNonConflictRelated(moveableNode, guard, connectionEdgeDirection, firstAdjacentEdgeDirection, angle);
+//        if (result.getMoveDirection() != guard.getDisplaceDirection().opposite()) {
+//            return result;
+//        }
 
         return new MoveNodeDirection(guard.getLastMoveDirection(), moveableNode, 0);
 

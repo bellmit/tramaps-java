@@ -77,10 +77,7 @@ public interface Direction {
      */
     default double getAngleTo(Direction direction) {
         double diff = direction.getAngle() - getAngle();
-        if (diff < 0) {
-            return 360 + diff;
-        }
-        return diff;
+        return Math.abs(diff);
     }
 
 }

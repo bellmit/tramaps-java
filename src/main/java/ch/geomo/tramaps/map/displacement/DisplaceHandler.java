@@ -23,6 +23,7 @@ import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
@@ -54,7 +55,15 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             Loggers.info(this, "Adjustment Costs too high... a bend is required!");
             // correctEdgeByIntroducingBendNodes(edge, map);
         }
-        else if (scoreNodeA < scoreNodeB) {
+        else if (Math.abs(scoreNodeA -scoreNodeB) < 3) {
+            if (guardA.hasBeenDisplaced(edge.getNodeA())) {
+                correctEdgeByMovingNode(edge, edge.getNodeA(), guardA.reuse());
+            }
+            else {
+                correctEdgeByMovingNode(edge, edge.getNodeB(), guardB.reuse());
+            }
+        }
+        else if (scoreNodeA < scoreNodeB && guardB.hasBeenDisplaced(edge.getNodeB())) {
             correctEdgeByMovingNode(edge, edge.getNodeA(), guardA.reuse());
         }
         else {
@@ -274,7 +283,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     }
 
-    private void makeSpace(@NotNull MetroMap map, int lastIteration) {
+    private void makeSpace(@NotNull MetroMap map, int lastIteration, @Nullable Conflict lastConflict) {
 
         int currentIteration = lastIteration + 1;
 
@@ -288,6 +297,14 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             Loggers.warning(this, "Conflicts found: " + conflicts.size());
 
             Conflict conflict = conflicts.get(0);
+            if (lastConflict != null
+                    && conflicts.size() > 1
+                    && conflict.getBufferElementA().equals(lastConflict.getBufferElementA())
+                    && conflict.getBufferElementB().equals(lastConflict.getBufferElementB())) {
+                Loggers.warning(this, "Skip conflict for an iteration... Take next one.");
+                conflict = conflicts.get(1);
+            }
+
             Loggers.info(this, "Handle conflict: " + conflict);
             DisplaceNodeHandler displaceNodeHandler = new DisplaceNodeHandler(map, conflict);
             DisplaceNodeResult displaceNodeResult = displaceNodeHandler.displace();
@@ -295,7 +312,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {
-                makeSpace(map, currentIteration);
+                makeSpace(map, currentIteration, conflict);
             }
             else {
                 Loggers.separator(this);
@@ -314,7 +331,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     public void makeSpace(@NotNull MetroMap map) {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceHandler algorithm");
-        makeSpace(map, 0);
+        makeSpace(map, 0, null);
     }
 
 }

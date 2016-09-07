@@ -66,13 +66,13 @@ public class AdjustmentCostCalculator {
 
         if (isSimpleNode(connectionEdge, node)) {
 
-            boolean hasConflictRelatedEdge = node.getAdjacentEdges().stream()
-                    .anyMatch(guard::isConflictElementRelated);
-
-            if (hasConflictRelatedEdge && guard.hasBeenDisplaced(node)) {
-                Loggers.info(this, "Found a displaced node of a conflict related edge... we do penalise this node.");
-                return ADJACENT_CONFLICT_EDGE_PENALTY;
-            }
+//            boolean hasConflictRelatedEdge = node.getAdjacentEdges().stream()
+//                    .anyMatch(guard::isConflictElementRelated);
+//
+//            if (hasConflictRelatedEdge && guard.hasBeenDisplaced(node)) {
+//                Loggers.info(this, "Found a displaced node of a conflict related edge... we do penalise this node.");
+//                return ADJACENT_CONFLICT_EDGE_PENALTY;
+//            }
 
             switch (guard.getLastMoveDirection()) {
                 case NORTH:

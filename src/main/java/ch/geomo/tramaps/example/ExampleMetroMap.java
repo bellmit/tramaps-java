@@ -36,7 +36,7 @@ public class ExampleMetroMap extends MetroMap {
         Node h = new Node(getGeomUtil().createPoint(new Coordinate(100, 200)), signatureFunction);
         Node i = new Node(getGeomUtil().createPoint(new Coordinate(100, 150)), signatureFunction);
         Node j = new Node(getGeomUtil().createPoint(new Coordinate(150, 250)), signatureFunction);
-        Node k = new Node(getGeomUtil().createPoint(new Coordinate(160, 250)), signatureFunction);
+        Node k = new Node(getGeomUtil().createPoint(new Coordinate(170, 250)), signatureFunction);
         Node l = new Node(getGeomUtil().createPoint(new Coordinate(300, 200)), signatureFunction);
 //        Node m = new Node(getGeomUtil().createPoint(new Coordinate(302, 302)), signatureFunction);
 
@@ -63,12 +63,12 @@ public class ExampleMetroMap extends MetroMap {
         Edge de = new Edge(d, e);
         Edge ef = new Edge(e, f);
         Edge fg = new Edge(f, g);
-//        Edge gh = new Edge(g, h);
-        Edge gn = new Edge(g, n);
-        Edge nh = new Edge(n, h);
+        Edge gh = new Edge(g, h);
+//        Edge gn = new Edge(g, n);
+//        Edge nh = new Edge(n, h);
         Edge ha = new Edge(h, a);
         Edge hi = new Edge(h, i);
-//        Edge ib = new Edge(i, b);
+        Edge ib = new Edge(i, b);
 //        Edge ia = new Edge(i, a);
         Edge aj = new Edge(a, j);
         Edge jk = new Edge(j, k);
@@ -96,15 +96,15 @@ public class ExampleMetroMap extends MetroMap {
         de.addRoutes(line1, line2, line4, line5);
         ef.addRoutes(line1, line2, line4, line5, line6);
         fg.addRoutes(line1, line6);
-//        gh.addRoutes(line1, line6);
-        gn.addRoutes(line1, line2, line4);
-        nh.addRoutes(line1);
+        gh.addRoutes(line1, line6);
+//        gn.addRoutes(line1, line2, line4);
+//        nh.addRoutes(line1);
         ha.addRoutes(line1, line2, line3, line6, line7);
         hi.addRoutes(line1, line3, line6);
-//        ib.addRoutes(line6);
+        ib.addRoutes(line6);
 //        ia.addRoutes(line1, line4, line5);
         aj.addRoutes(line5);
-        jk.addRoutes(line5);
+        jk.addRoutes(line5, line2);
 //        jf.addRoutes(line5);
 //        lc.addRoutes(line1, line3);
 //        le.addRoutes(line1, line3);

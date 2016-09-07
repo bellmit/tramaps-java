@@ -101,7 +101,7 @@ public class Conflict implements Comparable<Conflict> {
         double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
         double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
 
-        if (conflictType == ConflictType.ADJACENT_NODE_NODE) {
+        if (conflictType == ConflictType.ADJACENT_NODE_NODE || conflictType == ConflictType.NODE_NODE) {
             double dx = Math.abs(closestPointsBetweenElements[0].x - closestPointsBetweenElements[1].x);
             double dy = Math.abs(closestPointsBetweenElements[0].y - closestPointsBetweenElements[1].y);
             if (dx > dy) {

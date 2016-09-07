@@ -42,6 +42,7 @@ public class MoveNodeGuard {
         this.conflict = conflict;
         this.displaceNodeResult = displaceNodeResult;
         lastMoveDirection = displaceNodeResult.getDisplaceDirection();
+        lastMoveDistance = displaceNodeResult.getDisplaceDistance();
         traversedNodes = new ArrayList<>();
         nodeMoveHandler = new MoveNodeHandler();
         initMoveableNodes(firstNode);
