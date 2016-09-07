@@ -236,11 +236,17 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 .map(node -> getGeomUtil().createLineString(movePoint, node.getPoint()))
                 .anyMatch(lineString -> guard.getMetroMap().getEdges().stream()
                         .filter(edge -> !moveableNode.getAdjacentEdges().contains(edge))
-                        .anyMatch(edge -> edge.getLineString().intersects(lineString)));
+                        .anyMatch(edge -> {
+                            if (edge.getLineString().intersects(lineString)) {
+                                Loggers.warning(this, "Edge " + edge.getName() + " would be intersecting with " + connectionEdge.getName() + "!");
+                                return true;
+                            }
+                            return false;
+                        }));
 
         if (!overlapsAdjacentNode && !overlapsOtherEdges) {
             Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (Length=" + correctDistance + ").");
-            moveableNode.move(octilinearMoveDirection, correctDistance);
+            moveableNode.updatePosition(movePoint);
             Loggers.info(this, "New position for " + moveableNode + ".");
         }
         else {

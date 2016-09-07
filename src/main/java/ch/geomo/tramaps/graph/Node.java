@@ -236,24 +236,24 @@ public class Node extends Observable implements GraphElement, NodePoint {
             case NORTH:
             case NORTH_EAST:
             case NORTH_WEST:
-                x = x + moveLength;
+                y = y + moveLength;
                 break;
             case SOUTH:
             case SOUTH_EAST:
             case SOUTH_WEST:
-                x = x - moveLength;
+                y = y - moveLength;
         }
 
         switch (direction) {
             case EAST:
             case NORTH_EAST:
             case SOUTH_EAST:
-                y = y + moveLength;
+                x = x + moveLength;
                 break;
             case WEST:
             case NORTH_WEST:
             case SOUTH_WEST:
-                y = y - moveLength;
+                x = x - moveLength;
                 break;
         }
 
