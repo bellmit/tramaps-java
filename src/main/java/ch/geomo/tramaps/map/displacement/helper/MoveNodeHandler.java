@@ -4,7 +4,6 @@
 
 package ch.geomo.tramaps.map.displacement.helper;
 
-import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
@@ -80,47 +79,27 @@ public class MoveNodeHandler {
                                                          @NotNull OctilinearDirection connectionEdgeDirection,
                                                          @NotNull OctilinearDirection firstAdjacentEdgeDirection) {
 
-        MoveNodeDirection result = evaluateNode(moveableNode, guard, connectionEdgeDirection, firstAdjacentEdgeDirection);
-
-        return result;
+        return evaluateNode(moveableNode, guard, connectionEdgeDirection, firstAdjacentEdgeDirection);
 
     }
 
-    // TODO check/correct this use case
-    public MoveNodeDirection evaluateSingleNode(@NotNull Edge connectionEdge,
-                                                @NotNull Node moveableNode,
-                                                @NotNull OctilinearDirection lastMoveDirection,
-                                                @NotNull OctilinearDirection octilinearConnectionEdgeDirection) {
+    public MoveNodeDirection evaluateSingleNode(@NotNull Node moveableNode,
+                                                @NotNull MoveNodeGuard guard,
+                                                @NotNull OctilinearDirection connectionEdgeDirection) {
 
-        Node otherNode = connectionEdge.getOtherNode(moveableNode);
-        double dx = Math.abs(moveableNode.getX() - otherNode.getX());
-        double dy = Math.abs(moveableNode.getY() - otherNode.getY());
-
-        OctilinearDirection moveDirection = lastMoveDirection;
-
-        switch (lastMoveDirection) {
-            case NORTH:
-            case SOUTH:
-            case WEST:
-            case EAST: {
-                switch (octilinearConnectionEdgeDirection) {
-                    case NORTH_WEST:
-                    case SOUTH_EAST: {
-                        moveDirection = NORTH;
-                        break;
-                    }
-                    default: {
-                        moveDirection = SOUTH;
-                    }
-                }
-                break;
-            }
+        if (guard.getDisplaceDirection() == NORTH) {
+            return evaluateNode(moveableNode, guard, connectionEdgeDirection, EAST);
         }
+        return evaluateNode(moveableNode, guard, connectionEdgeDirection, NORTH);
 
-        if (lastMoveDirection == EAST || lastMoveDirection == SOUTH) {
-            return new MoveNodeDirection(moveDirection.opposite(), moveableNode, dx - dy);
-        }
-        return new MoveNodeDirection(moveDirection, moveableNode, dx - dy);
+//        if (guard.isConflictElementRelated(moveableNode)) {
+//            if (guard.getDisplaceDirection() == NORTH) {
+//                return new MoveNodeDirection(EAST, moveableNode, guard.getDisplaceDistance());
+//            }
+//            return new MoveNodeDirection(NORTH, moveableNode, guard.getDisplaceDistance());
+//        }
+//
+//        return new MoveNodeDirection(guard.getDisplaceDirection(), moveableNode, 0);
 
     }
 

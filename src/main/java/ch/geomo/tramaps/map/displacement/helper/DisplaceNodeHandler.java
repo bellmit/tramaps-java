@@ -47,8 +47,15 @@ public class DisplaceNodeHandler {
                     .collect(Collectors.toList());
 
             displacedNodes.forEach(node -> {
-                Loggers.flag(this, "Displace node " + node.getName() + " eastwards.");
-                node.updateX(node.getX() + conflict.getBestDisplaceLength());
+                if (!conflict.isConflictElementRelated(node)
+                        && node.getDegree() == 1
+                        && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
+                    Loggers.info(this, "Ignore single node " + node.getName() + ".");
+                }
+                else{
+                    Loggers.flag(this, "Displace node " + node.getName() + " eastwards.");
+                    node.updateX(node.getX() + conflict.getBestDisplaceLength());
+                }
             });
 
             return new DisplaceNodeResult(EAST, displacedNodes, conflict.getBestDisplaceLength());
@@ -60,8 +67,15 @@ public class DisplaceNodeHandler {
                 .collect(Collectors.toList());
 
         displacedNodes.forEach(node -> {
-            Loggers.flag(this, "Displace node " + node.getName() + " to northwards.");
-            node.updateY(node.getY() + conflict.getBestDisplaceLength());
+            if (!conflict.isConflictElementRelated(node)
+                    && node.getDegree() == 1
+                    && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
+                Loggers.info(this, "Ignore single node " + node.getName() + ".");
+            }
+            else{
+                Loggers.flag(this, "Displace node " + node.getName() + " to northwards.");
+                node.updateY(node.getY() + conflict.getBestDisplaceLength());
+            }
         });
 
         return new DisplaceNodeResult(NORTH, displacedNodes, conflict.getBestDisplaceLength());

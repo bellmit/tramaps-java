@@ -176,7 +176,7 @@ public class Conflict implements Comparable<Conflict> {
         bestDisplaceStartPoint = conflictPolygon.getCentroid().getCoordinate();
     }
 
-    private void initNodeNodeConflict(@NotNull NodePoint node1, @NotNull NodePoint node2) {
+    private void initNodeNodeConflict(@NotNull Node node1, @NotNull Node node2) {
         double dx = Math.abs(node1.getX() - node2.getX());
         double dy = Math.abs(node1.getY() - node2.getY());
         if (dy < dx) {

@@ -212,7 +212,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             }
             else {
                 Loggers.info(this, "Handle Single Node " + moveableNode.getName() + "...");
-                result = moveHandler.evaluateSingleNode(connectionEdge, moveableNode, guard.getLastMoveDirection(), octilinearConnectionEdgeDirection);
+                result = moveHandler.evaluateSingleNode(moveableNode, guard, octilinearConnectionEdgeDirection);
             }
         }
         else {
@@ -245,9 +245,9 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                         }));
 
         if (!overlapsAdjacentNode && !overlapsOtherEdges) {
-            Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (Length=" + correctDistance + ").");
+            Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (distance=" + correctDistance + ").");
             moveableNode.updatePosition(movePoint);
-            Loggers.info(this, "New position for " + moveableNode + ".");
+            Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
         }
         else {
             Loggers.info(this, "Node " + moveableNode.getName() + " is not moveable!");

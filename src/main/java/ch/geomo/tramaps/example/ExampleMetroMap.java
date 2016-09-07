@@ -41,6 +41,8 @@ public class ExampleMetroMap extends MetroMap {
 //        Node m = new Node(getGeomUtil().createPoint(new Coordinate(302, 302)), signatureFunction);
 
         Node n = new Node(getGeomUtil().createPoint(new Coordinate(100, 250)), signatureFunction);
+        Node o = new Node(getGeomUtil().createPoint(new Coordinate(170, 150)), signatureFunction);
+//        Node p = new Node(getGeomUtil().createPoint(new Coordinate(300, 250)), signatureFunction);
 
         a.setName("A");
         b.setName("B");
@@ -56,6 +58,8 @@ public class ExampleMetroMap extends MetroMap {
         l.setName("L");
 //        m.setName("M");
         n.setName("N");
+        o.setName("O");
+//        p.setName("P");
 
         Edge ab = new Edge(a, b);
         Edge bc = new Edge(c, b);
@@ -81,6 +85,11 @@ public class ExampleMetroMap extends MetroMap {
         //Edge ad = new Edge(a, d);
         //Edge kd = new Edge(k, d);
         //Edge kb = new Edge(k, b);
+        Edge ek = new Edge(e, k);
+        Edge ok = new Edge(o, k);
+        Edge od = new Edge(o, d);
+//        Edge pe = new Edge(p, e);
+//        Edge pl = new Edge(p, l);
 
         Route line1 = new Route(20, Color.BLUE);
         Route line2 = new Route(20, Color.RED);
@@ -109,8 +118,13 @@ public class ExampleMetroMap extends MetroMap {
         lc.addRoutes(line1, line3);
 //        le.addRoutes(line1, line3);
         //kb.addRoutes(line1);
+        ek.addRoutes(line2);
+        ok.addRoutes(line2, line5, line4);
+        od.addRoutes(line1, line2, line4, line5, line6);
+//        pe.addRoutes(line1, line2, line4, line5);
+//        pl.addRoutes(line2);
 
-        addNodes(a, b, c, d, e, f, g, h, i, j, k, n, l);
+        addNodes(a, b, c, d, e, f, g, h, i, j, k, n, l, o);
 //        addNodes(a, b, c, d, e, f, g, h, i, j, k, l);
 
     }
