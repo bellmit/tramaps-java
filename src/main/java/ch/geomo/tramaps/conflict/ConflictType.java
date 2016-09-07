@@ -8,7 +8,7 @@ public enum ConflictType {
 
     ADJACENT_NODE_NODE(40),
     NODE_NODE(30),
-    NODE_EDGE(30),
+    NODE_EDGE(20),
     EDGE_EDGE(20);
 
     private final int conflictRank;

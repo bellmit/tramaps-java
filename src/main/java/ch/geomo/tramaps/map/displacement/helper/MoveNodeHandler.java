@@ -79,6 +79,7 @@ public class MoveNodeHandler {
                                                          @NotNull OctilinearDirection connectionEdgeDirection,
                                                          @NotNull OctilinearDirection firstAdjacentEdgeDirection) {
 
+        // currently not different from a non-conflict related node
         return evaluateNode(moveableNode, guard, connectionEdgeDirection, firstAdjacentEdgeDirection);
 
     }
@@ -87,22 +88,20 @@ public class MoveNodeHandler {
                                                 @NotNull MoveNodeGuard guard,
                                                 @NotNull OctilinearDirection connectionEdgeDirection) {
 
-        if (guard.getDisplaceDirection() == NORTH) {
-            return evaluateNode(moveableNode, guard, connectionEdgeDirection, EAST);
+        if (connectionEdgeDirection.isDiagonal()) {
+            if (guard.getDisplaceDirection() == NORTH) {
+                return evaluateNode(moveableNode, guard, connectionEdgeDirection, EAST);
+            }
+            return evaluateNode(moveableNode, guard, connectionEdgeDirection, NORTH);
         }
-        return evaluateNode(moveableNode, guard, connectionEdgeDirection, NORTH);
-
-//        if (guard.isConflictElementRelated(moveableNode)) {
-//            if (guard.getDisplaceDirection() == NORTH) {
-//                return new MoveNodeDirection(EAST, moveableNode, guard.getDisplaceDistance());
-//            }
-//            return new MoveNodeDirection(NORTH, moveableNode, guard.getDisplaceDistance());
-//        }
-//
-//        return new MoveNodeDirection(guard.getDisplaceDirection(), moveableNode, 0);
+        if (!guard.isConflictElementRelated(moveableNode)) {
+            return evaluateNode(moveableNode, guard, connectionEdgeDirection, guard.getDisplaceDirection().opposite());
+        }
+        return evaluateNode(moveableNode, guard, connectionEdgeDirection, guard.getDisplaceDirection());
 
     }
 
+    // todo should be refactored to a non-static class
     public static class MoveNodeDirection {
 
         private OctilinearDirection moveDirection;

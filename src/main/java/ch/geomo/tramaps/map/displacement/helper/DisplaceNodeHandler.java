@@ -52,7 +52,7 @@ public class DisplaceNodeHandler {
                         && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
                     Loggers.info(this, "Ignore single node " + node.getName() + ".");
                 }
-                else{
+                else {
                     Loggers.flag(this, "Displace node " + node.getName() + " eastwards.");
                     node.updateX(node.getX() + conflict.getBestDisplaceLength());
                 }
@@ -72,7 +72,7 @@ public class DisplaceNodeHandler {
                     && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
                 Loggers.info(this, "Ignore single node " + node.getName() + ".");
             }
-            else{
+            else {
                 Loggers.flag(this, "Displace node " + node.getName() + " to northwards.");
                 node.updateY(node.getY() + conflict.getBestDisplaceLength());
             }
@@ -82,6 +82,7 @@ public class DisplaceNodeHandler {
 
     }
 
+    // todo should be refactored to a non-static class
     public static class DisplaceNodeResult {
 
         private final OctilinearDirection displaceDirection;
