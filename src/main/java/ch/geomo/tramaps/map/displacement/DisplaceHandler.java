@@ -237,7 +237,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 .anyMatch(lineString -> guard.getMetroMap().getEdges().stream()
                         .filter(edge -> !moveableNode.getAdjacentEdges().contains(edge))
                         .anyMatch(edge -> {
-                            if (edge.getLineString().intersects(lineString)) {
+                            if (edge.getLineString().relate(lineString, "T********")) {
                                 Loggers.warning(this, "Edge " + edge.getName() + " would be intersecting with " + connectionEdge.getName() + "!");
                                 return true;
                             }
