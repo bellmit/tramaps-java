@@ -57,6 +57,11 @@ public class MutablePair<T> extends AbstractPair<T> {
 
     }
 
+    public void replaceValues(Pair<T> pair) {
+        first = pair.first();
+        second = pair.second();
+    }
+
     /**
      * Swaps first with second value.
      */

@@ -7,7 +7,6 @@ package ch.geomo.tramaps.graph;
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
-import ch.geomo.util.CollectionUtil;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
 import ch.geomo.util.point.NodePoint;
@@ -31,6 +30,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     private final Pair<Node> nodePair;
     private final Set<Route> routes;
     private final Direction originalDirection;
+    private final double originalLength;
 
     private String name;
 
@@ -53,6 +53,7 @@ public class Edge extends Observable implements Observer, GraphElement {
 
         // cache original direction of this edge
         originalDirection = AnyDirection.fromAngle(calculateAngle());
+        originalLength = lineString.getLength();
 
     }
 
@@ -110,9 +111,9 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return the angle between Y axis and this edge (starting north, clockwise)
      */
     private double calculateAngle() {
-        double angle = getGeomUtil().getAngleBetweenAsDegree(getNodeA(), NodePoint.of(getNodeA().getX() + 5d, getNodeA().getY()), getNodeB());
+        double angle = getGeomUtil().getAngleBetweenAsDegree(getNodeA(), NodePoint.of(getNodeA().getX(), getNodeA().getY() + 5d), getNodeB());
         angle = (angle + 360) % 360;
-        // we do accept an imprecision of 1 degree
+        // we do tolerate an imprecision of 1 degree
         if (angle % 45 < 0.5 || angle % 45 > 44.5) {
             return Math.round(angle / 45) * 45;
         }
@@ -374,6 +375,14 @@ public class Edge extends Observable implements Observer, GraphElement {
      */
     public double getLength() {
         return lineString.getLength();
+    }
+
+    /**
+     * @return the original edge length of this {@link Edge}
+     */
+    @Contract(pure = true)
+    public double getOriginalLength() {
+        return originalLength;
     }
 
     @Override

@@ -45,16 +45,28 @@ public final class Loggers {
         return getInstance().getLogger(obj);
     }
 
+    public static void flag(@NotNull Object obj, @NotNull String message) {
+        info(obj, message, '*');
+    }
+
+    public static void separator(@NotNull Object obj) {
+        info(obj, "==================================================================================================");
+    }
+
+    public static void info(@NotNull Object obj, @NotNull String message, char markCharacter) {
+        get(obj).info(" " + markCharacter + "  " + message);
+    }
+
     public static void info(@NotNull Object obj, @NotNull String message) {
-        get(obj).info(message);
+        info(obj, message, ' ');
     }
 
     public static void warning(@NotNull Object obj, @NotNull String message) {
-        get(obj).warning(message);
+        get(obj).warning(" !  " + message);
     }
 
-    public static void severe(@NotNull Object obj, @NotNull String message) {
-        get(obj).severe(message);
+    public static void error(@NotNull Object obj, @NotNull String message) {
+        get(obj).severe(" E  " + message);
     }
 
     @NotNull

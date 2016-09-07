@@ -14,30 +14,27 @@ import java.util.Observer;
 /**
  * Represents a signature of a node.
  */
-public abstract class NodeSignature extends Observable implements Observer {
+public interface NodeSignature extends Observer {
 
     /**
      * @return the convex hull of the signature's geometry
      * @see #getGeometry()
      */
     @NotNull
-    public abstract Geometry getConvexHull();
+    Geometry getConvexHull();
 
     /**
      * @return the signature's geometry
      */
     @NotNull
-    public abstract Polygon getGeometry();
+    Polygon getGeometry();
 
-    protected abstract void updateSignature();
+    void updateSignature();
 
     /**
-     * @see Observer#update(Observable, Object)
+     * Implementing class of {@link NodeSignature} must extend {@link Observable}. Doing so, this
+     * method must not be overridden.
      */
-    @Override
-    public void update(Observable o, Object arg) {
-        updateSignature();
-    }
-
+    void addObserver(Observer o);
 
 }

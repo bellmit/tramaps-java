@@ -7,6 +7,9 @@ package ch.geomo.tramaps.map.signature;
 import ch.geomo.tramaps.graph.Node;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A specialized {@link EmptyNodeSignature} implementation.
+ */
 public class BendNodeSignature extends EmptyNodeSignature {
 
     public BendNodeSignature(@NotNull Node node) {

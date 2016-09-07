@@ -12,13 +12,13 @@ import java.util.Arrays;
 
 public enum OctilinearDirection implements Direction {
 
-    NORTH(0d, Alignment.HORIZONTAL),
+    NORTH(0d, Alignment.VERTICAL),
     NORTH_EAST(45d, Alignment.DIAGONAL_45),
-    EAST(90d, Alignment.VERTICAL),
+    EAST(90d, Alignment.HORIZONTAL),
     SOUTH_EAST(135d, Alignment.DIAGONAL_125),
-    SOUTH(180d, Alignment.HORIZONTAL),
+    SOUTH(180d, Alignment.VERTICAL),
     SOUTH_WEST(225d, Alignment.DIAGONAL_45),
-    WEST(270d, Alignment.VERTICAL),
+    WEST(270d, Alignment.HORIZONTAL),
     NORTH_WEST(315d, Alignment.DIAGONAL_125);
 
     private final double angle;
@@ -115,6 +115,10 @@ public enum OctilinearDirection implements Direction {
             default:
                 return SOUTH;
         }
+    }
+
+    public OctilinearDirection rotate(double angle) {
+        return fromAngle(getAngle() + angle);
     }
 
     @NotNull

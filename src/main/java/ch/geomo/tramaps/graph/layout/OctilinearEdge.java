@@ -22,8 +22,9 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class OctilinearEdge extends Edge {
 
+    private final MutablePair<Node> vertices;
+
     private LineString lineString;
-    private MutablePair<Node> vertices;
 
     public OctilinearEdge(@NotNull Edge edge) {
         super(edge.getNodeA(), edge.getNodeB());
@@ -61,7 +62,7 @@ public class OctilinearEdge extends Edge {
     }
 
     public void setVertices(@NotNull Pair<Node> vertices) {
-        this.vertices = new MutablePair<>(vertices);
+        this.vertices.replaceValues(vertices);
         if (vertices.first() == null && vertices.second() != null) {
             this.vertices.swapValues();
         }
@@ -85,6 +86,7 @@ public class OctilinearEdge extends Edge {
 
     @Override
     public String toString() {
-        return "OctilinearEdge{lineString=" + lineString + ", vertices=" + vertices + "}";
+        return "OctilinearEdge: {lineString= " + lineString + ", vertices= " + vertices + "}";
     }
+
 }

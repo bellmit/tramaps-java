@@ -137,7 +137,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     @NotNull
-    public Stream<Edge> getAdjacentEdgeStream(@NotNull Edge without) {
+    public Stream<Edge> getAdjacentEdgeStream(@Nullable Edge without) {
         return adjacentEdges.stream()
                 .filter(edge -> !edge.equals(without));
     }

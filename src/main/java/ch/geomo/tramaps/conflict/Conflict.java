@@ -9,6 +9,7 @@ import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
 import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.geom.util.PolygonUtil;
+import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Loggers;
@@ -35,6 +36,7 @@ public class Conflict implements Comparable<Conflict> {
     private MoveVector bestDisplaceVector;
     private Axis bestDisplaceAxis;
 
+    private Coordinate[] closestPointsBetweenElements;
     private Coordinate[] closestPointsBufferA;
     private Coordinate[] closestPointsBufferB;
 
@@ -42,8 +44,8 @@ public class Conflict implements Comparable<Conflict> {
 
     public Conflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
         buffers = new ElementBufferPair(bufferA, bufferB);
-        initConflict();
         evaluateConflictType();
+        initConflict();
     }
 
     /**
@@ -85,6 +87,11 @@ public class Conflict implements Comparable<Conflict> {
         // create conflict polygon
         conflictPolygon = createConflictPolygon();
 
+        closestPointsBufferA = DistanceOp.nearestPoints(conflictPolygon, getBufferElementA().getCentroid());
+        closestPointsBufferB = DistanceOp.nearestPoints(conflictPolygon, getBufferElementB().getCentroid());
+
+        closestPointsBetweenElements = DistanceOp.nearestPoints(getBufferElementA().getGeometry(), getBufferElementB().getGeometry());
+
         // create exact move vector
         displaceVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, createQ())
                 .map(MoveVector::new)
@@ -94,17 +101,28 @@ public class Conflict implements Comparable<Conflict> {
         double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
         double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
 
-        if (angleY < angleX) {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-            bestDisplaceAxis = Axis.X;
+        if (conflictType == ConflictType.ADJACENT_NODE_NODE) {
+            double dx = Math.abs(closestPointsBetweenElements[0].x - closestPointsBetweenElements[1].x);
+            double dy = Math.abs(closestPointsBetweenElements[0].y - closestPointsBetweenElements[1].y);
+            if (dx > dy) {
+                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+                bestDisplaceAxis = Axis.X;
+            }
+            else {
+                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+                bestDisplaceAxis = Axis.Y;
+            }
         }
         else {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-            bestDisplaceAxis = Axis.Y;
+            if (angleY < angleX) {
+                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+                bestDisplaceAxis = Axis.X;
+            }
+            else {
+                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+                bestDisplaceAxis = Axis.Y;
+            }
         }
-
-        closestPointsBufferA = DistanceOp.nearestPoints(conflictPolygon, getBufferA().getElement().getCentroid());
-        closestPointsBufferB = DistanceOp.nearestPoints(conflictPolygon, getBufferB().getElement().getCentroid());
 
         if (conflictPolygon.isEmpty()) {
             solved = true;
@@ -160,19 +178,19 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     @NotNull
-    public Coordinate getDisplaceStartCoordinate() {
+    public Coordinate getSamplePointOnDisplaceLine() {
         switch (conflictType) {
             case NODE_EDGE: {
                 if (getBufferA().getElement() instanceof Node) {
-                    return closestPointsBufferA[0];
+                    return closestPointsBufferB[0];
                 }
-                return closestPointsBufferB[0];
+                return closestPointsBufferA[0];
             }
+            case EDGE_EDGE:
             case NODE_NODE:
             case ADJACENT_NODE_NODE:
-            case EDGE_EDGE:
             default: {
-                return conflictPolygon.getCentroid().getCoordinate();
+                return getGeomUtil().createLineString(closestPointsBetweenElements).getCentroid().getCoordinate();
             }
         }
     }
@@ -194,8 +212,39 @@ public class Conflict implements Comparable<Conflict> {
         return buffers.second();
     }
 
+    @NotNull
+    public GraphElement getBufferElementA() {
+        return buffers.first().getElement();
+    }
+
+    @NotNull
+    public GraphElement getBufferElementB() {
+        return buffers.second().getElement();
+    }
+
+    public boolean isConflictElement(@NotNull GraphElement graphElement) {
+        return graphElement.equals(getBufferA().getElement())
+                || graphElement.equals(getBufferB().getElement());
+    }
+
+    public boolean isAdjacentToConflictElement(@NotNull GraphElement graphElement) {
+        return graphElement.isAdjacent(getBufferA().getElement())
+                || graphElement.isAdjacent(getBufferB().getElement());
+    }
+
+    public boolean isConflictElementRelated(@NotNull GraphElement graphElement) {
+        return isConflictElement(graphElement) || isAdjacentToConflictElement(graphElement);
+    }
+
     @Override
     public int compareTo(@NotNull Conflict o) {
+
+        int rank1 = conflictType.getConflictRank();
+        int rank2 = o.getConflictType().getConflictRank();
+
+        if (rank1 != rank2) {
+            return Integer.compare(rank1, rank2);
+        }
 
         double length1a = getBestDisplaceLength();
         double length2a = o.getBestDisplaceLength();
@@ -209,13 +258,6 @@ public class Conflict implements Comparable<Conflict> {
 
         if (length1b != length2b) {
             return Double.compare(length1b, length2b);
-        }
-
-        int rank1 = conflictType.getConflictRank();
-        int rank2 = o.getConflictType().getConflictRank();
-
-        if (rank1 != rank2) {
-            return Integer.compare(rank1, rank2);
         }
 
         double x1 = displaceVector.getX();
@@ -232,7 +274,7 @@ public class Conflict implements Comparable<Conflict> {
             return Double.compare(y1, y2);
         }
 
-        Loggers.warning(this, "Conflicts are equals. Output might not be reproduceable.");
+        // Loggers.warning(this, "Conflicts are equals. Output might not be reproduceable.");
         return 0;
 
     }

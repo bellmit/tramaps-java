@@ -206,4 +206,8 @@ public interface Pair<T> {
         return first() != null || second() != null;
     }
 
+    default int compareValues(Comparator<T> comparator) {
+        return comparator.compare(first(), second());
+    }
+
 }

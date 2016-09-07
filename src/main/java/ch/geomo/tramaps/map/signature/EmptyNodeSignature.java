@@ -13,39 +13,24 @@ import org.jetbrains.annotations.NotNull;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
- * Null object implementation of a {@link NodeSignature}.
+ * Null object implementation of a {@link NodeSignature}. Represents a {@link NodeSignature} with a square of 0.0001
+ * side length.
  */
-public class EmptyNodeSignature extends NodeSignature {
-
-    protected final Node node;
-    protected Polygon signature;
+public class EmptyNodeSignature extends AbstractNodeSignature {
 
     public EmptyNodeSignature(@NotNull Node node) {
-        this.node = node;
-        node.addObserver(this);
-        updateSignature();
+        super(node);
     }
 
     /**
      * Updates the signature properties. Recalculates the signature geometry if the node's
      * x- and y-value where changed.
      */
-    protected void updateSignature() {
+    @Override
+    public void updateSignature() {
         signature = getGeomUtil().createPolygon(node.getPoint(), 0.0001, 0.0001);
         setChanged();
         notifyObservers();
-    }
-
-    @NotNull
-    @Override
-    public Geometry getConvexHull() {
-        return getGeometry().convexHull();
-    }
-
-    @NotNull
-    @Override
-    public Polygon getGeometry() {
-        return signature;
     }
 
 }

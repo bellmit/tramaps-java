@@ -60,7 +60,7 @@ public class MetroMapDrawer {
             context.fillRoundRect(station.getMinX(), station.getMinY(), station.getWidth(), station.getHeight(), 25, 25);
         });
         map.getEdges().forEach(edge -> {
-            context.setLineWidth(1);
+            context.setLineWidth(2);
             context.setStroke(Color.BLACK);
             drawEdge(edge, context);
         });
@@ -88,7 +88,7 @@ public class MetroMapDrawer {
 //        map.getNodes().forEach(node -> {
 //            context.setStroke(Color.BLACK);
 //            context.setLineWidth(1);
-//            context.strokeText(node.getName(), node.getX() - 10, node.getY() + 10);
+//            context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", node.getX() - 50, node.getY() + 20);
 //        });
 
     }
