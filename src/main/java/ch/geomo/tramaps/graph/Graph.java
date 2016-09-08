@@ -10,8 +10,10 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
@@ -161,6 +163,26 @@ public class Graph {
         nodes.removeIf(Node::isDeleted);
         // reset edge cache -> will be created again when accessing next time
         edgeCache = null;
+    }
+
+    /**
+     * Creates a new {@link Node} and adds the node to this instance.
+     *
+     * @return the created node
+     */
+    public Node createNode(double x, double y, @Nullable String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
+        Node node = new Node(x, y, name, nodeSignatureFactory);
+        addNodes(node);
+        return node;
+    }
+
+    /**
+     * Creates a new {@link Edge}.
+     *
+     * @return the created edge
+     */
+    public Edge createEdge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
+        return new Edge(nodeA, nodeB, routes);
     }
 
 }
