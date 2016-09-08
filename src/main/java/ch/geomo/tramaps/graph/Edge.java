@@ -110,7 +110,12 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return the angle between Y axis and this edge (starting north, clockwise)
      */
     private double calculateAngle() {
-        return Direction.calculateAngle(getNodeA(), getNodeB());
+        double angle = Direction.calculateAngle(getNodeA(), getNodeB());
+        // accepting an imprecision of one degree
+        if (angle % 45 < 1 || angle % 45 > 44) {
+            return Math.round(angle / 45) * 45;
+        }
+        return angle;
     }
 
     /**
