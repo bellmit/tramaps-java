@@ -7,8 +7,8 @@ package ch.geomo.tramaps;
 import ch.geomo.tramaps.example.ExampleMetroMap;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
-import ch.geomo.tramaps.map.displacement.alg.DisplaceHandler;
 import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.DisplaceHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +16,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,34 +52,60 @@ public class MainApp extends Application {
 
     private void draw() {
 
-        Group group = new Group();
         Envelope bbox = map.getBoundingBox();
 
-        Canvas canvas = new Canvas(bbox.getWidth() + 300, bbox.getHeight() + 300);
+        double maxHeight = 750;
+        double margin = 150;
+
+        double width = bbox.getWidth() + margin * 2;
+        double height = bbox.getHeight() + margin * 2;
+
+        Canvas canvas = new Canvas(width, height);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        MetroMapDrawer drawer = new MetroMapDrawer(map);
+        MetroMapDrawer drawer = new MetroMapDrawer(map, margin);
         drawer.draw(context, bbox);
+        show(canvas, maxHeight, maxHeight / height * width);
 
-        double scale = 600 / bbox.getHeight();
+        double scale = maxHeight / height;
         canvas.setScaleX(scale);
-        canvas.setScaleY(-scale);
+        canvas.setScaleY(scale);
+
+        double correction = 1 / scale * 2.75;
+        canvas.setTranslateX(0 - canvas.getWidth() / correction);
+        canvas.setTranslateY(0 - canvas.getHeight() / correction);
+
+//        canvas.setScaleY(-scale);
 //        canvas.setScaleY(scale);
 
         // hack -> to be removed
 //        group.setRotate(270);
 
-        canvas.setTranslateX(50);
-        canvas.setTranslateY(-bbox.getMinX() + 50);
+//        canvas.setTranslateX(50);
+//        canvas.setTranslateY(-bbox.getMinX() + 50);
 //        canvas.setTranslateX(-250);
 //        canvas.setTranslateY(-250);
 
+
+    }
+
+    private void show(Canvas canvas, double defaultHeight, double defaultWidth) {
+
+        Region region = new Region();
+        region.setPrefHeight(defaultHeight);
+        region.setPrefWidth(defaultWidth);
+
+        Group group = new Group(region);
+        StackPane rootPane = new StackPane();
+        rootPane.getChildren().add(group);
+        Scene scene = new Scene(rootPane, defaultWidth, defaultHeight);
+        group.scaleXProperty().bind(scene.widthProperty().divide(defaultWidth));
+        group.scaleYProperty().bind(scene.heightProperty().divide(defaultHeight));
+
         group.getChildren().add(canvas);
 
-        group.setAutoSizeChildren(true);
-        stage.setScene(new Scene(group));
+        stage.setScene(scene);
         stage.show();
-        //System.exit(0);
 
     }
 

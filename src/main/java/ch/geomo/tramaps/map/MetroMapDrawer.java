@@ -17,10 +17,12 @@ import java.util.logging.Logger;
 
 public class MetroMapDrawer {
 
-    private MetroMap map;
+    private final MetroMap map;
+    private final double margin;
 
-    public MetroMapDrawer(MetroMap map) {
+    public MetroMapDrawer(MetroMap map, double margin) {
         this.map = map;
+        this.margin = margin;
     }
 
     private void drawEdge(@NotNull Edge edge, @NotNull GraphicsContext context) {
@@ -33,8 +35,11 @@ public class MetroMapDrawer {
             return;
         }
 
+        double x = bbox.getMinX();
+        double y = bbox.getMinY();
+
         // start drawing at the top left
-        context.translate(-bbox.getMinX() + 150, -bbox.getMinY() + 150);
+        context.translate(-x + margin, -y + margin);
 
         int max = (int) Math.ceil(Math.max(bbox.getMaxX(), bbox.getMaxY())) + 1000;
         for (int i = -max, j = 0; i < max; i = i + 25, j = j + 25) {
