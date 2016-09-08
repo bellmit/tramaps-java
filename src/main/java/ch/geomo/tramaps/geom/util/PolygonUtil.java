@@ -52,7 +52,7 @@ public final class PolygonUtil {
                 .filter(inPolygon::intersects)
                 .map(inPolygon::intersection)
                 .filter(geom -> geom instanceof LineString && !geom.isEmpty())
-                .map(geom -> (LineString)geom);
+                .map(geom -> (LineString) geom);
 
     }
 

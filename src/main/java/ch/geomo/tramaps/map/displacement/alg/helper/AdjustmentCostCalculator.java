@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement.helper;
+package ch.geomo.tramaps.map.displacement.alg.helper;
 
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
@@ -53,7 +53,7 @@ public class AdjustmentCostCalculator {
 
         guard.visited(node);
 
-        if (node.getDegree() == 1) {
+        if (node.getNodeDegree() == 1) {
             return 0;
         }
 

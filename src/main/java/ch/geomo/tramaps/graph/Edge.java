@@ -9,7 +9,6 @@ import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
-import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.Contract;
@@ -264,6 +263,10 @@ public class Edge extends Observable implements Observer, GraphElement {
     @Contract(pure = true)
     public Direction getDirection(@Nullable Node node) {
         return getDirection(node, direction);
+    }
+
+    public double getAngle(@Nullable Node node) {
+        return getGeomUtil().makePrecise(getDirection(node).getAngle());
     }
 
     /**

@@ -10,7 +10,6 @@ import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.tramaps.map.signature.RectangleStationSignature;
-import ch.geomo.tramaps.map.signature.SquareStationSignature;
 import com.vividsolutions.jts.geom.Coordinate;
 import javafx.scene.paint.Color;
 
@@ -43,6 +42,7 @@ public class ExampleMetroMap extends MetroMap {
         Node n = new Node(getGeomUtil().createPoint(new Coordinate(100, 250)), signatureFunction);
         Node o = new Node(getGeomUtil().createPoint(new Coordinate(170, 150)), signatureFunction);
         Node p = new Node(getGeomUtil().createPoint(new Coordinate(300, 250)), signatureFunction);
+        Node q = new Node(getGeomUtil().createPoint(new Coordinate(400, 100)), signatureFunction);
 
         a.setName("A");
         b.setName("B");
@@ -60,6 +60,7 @@ public class ExampleMetroMap extends MetroMap {
         n.setName("N");
         o.setName("O");
         p.setName("P");
+        q.setName("Q");
 
         Edge ab = new Edge(a, b);
         Edge bc = new Edge(c, b);
@@ -89,6 +90,8 @@ public class ExampleMetroMap extends MetroMap {
         Edge ok = new Edge(o, k);
         Edge od = new Edge(o, d);
         Edge pe = new Edge(p, e);
+//        Edge lq = new Edge(l, q);
+//        Edge qc = new Edge(q, c);
 //        Edge pl = new Edge(p, l);
 
         Route line1 = new Route(20, Color.BLUE);
@@ -110,7 +113,7 @@ public class ExampleMetroMap extends MetroMap {
         nh.addRoutes(line1, line2);
         ha.addRoutes(line1, line2, line3, line6, line7);
         hi.addRoutes(line1, line3, line6);
-        ib.addRoutes(line6);
+        ib.addRoutes(line1, line2, line3, line4, line5, line6, line7);
         ia.addRoutes(line1, line4, line5);
         aj.addRoutes(line5);
         jk.addRoutes(line5, line2);
@@ -122,6 +125,8 @@ public class ExampleMetroMap extends MetroMap {
         ok.addRoutes(line2, line5, line4);
         od.addRoutes(line1, line2, line4, line5, line6);
         pe.addRoutes(line1, line2, line4, line5);
+//        lq.addRoutes(line2, line3);
+//        qc.addRoutes(line2);
 //        pl.addRoutes(line2);
 
         addNodes(a, b, c, d, e, f, g, h, i, j, k, n, l, o, p);

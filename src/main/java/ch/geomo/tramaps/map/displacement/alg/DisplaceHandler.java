@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement;
+package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Edge;
@@ -12,12 +12,13 @@ import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.helper.AdjustmentCostCalculator;
-import ch.geomo.tramaps.map.displacement.helper.DisplaceNodeHandler;
-import ch.geomo.tramaps.map.displacement.helper.DisplaceNodeHandler.DisplaceNodeResult;
-import ch.geomo.tramaps.map.displacement.helper.MoveNodeGuard;
-import ch.geomo.tramaps.map.displacement.helper.MoveNodeHandler;
-import ch.geomo.tramaps.map.displacement.helper.MoveNodeHandler.MoveNodeDirection;
+import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.helper.AdjustmentCostCalculator;
+import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler;
+import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler.DisplaceNodeResult;
+import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeGuard;
+import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler;
+import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler.MoveNodeDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
@@ -75,7 +76,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         map.getEdges().stream()
                 .filter(edge -> !edge.getDirection(null).isOctilinear())
-                .forEach(edge -> Loggers.warning(this, "Uncorrected non-Octilinear edge: " + edge.getName()));
+                .forEach(edge -> Loggers.warning(this, "Uncorrected non-Octilinear edge " + edge.getName() + " with angle=" + edge.getAngle(null) + "!"));
 
     }
 
@@ -183,7 +184,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             Loggers.info(this, "Move node " + moveableNode.getName() + ".");
             Loggers.info(this, "Initial move direction is " + guard.getLastMoveDirection() + ".");
 
-            if (moveableNode.getDegree() != 1) {
+            if (moveableNode.getNodeDegree() != 1) {
 
                 // get first edge
                 Edge adjacentEdge = moveableNode.getAdjacentEdgeStream(connectionEdge)
@@ -195,7 +196,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 OctilinearDirection firstAdjacentEdgeDirection = adjacentEdge.getOriginalDirection(moveableNode).toOctilinear();
 
                 boolean hadSameAlignment = firstAdjacentEdgeDirection.getAlignment() == octilinearConnectionEdgeDirection.getAlignment();
-                boolean isConflictRelated = guard.getConflict().isConflictElementRelated(connectionEdge);
+                boolean isConflictRelated = guard.getConflict().isConflictRelated(connectionEdge);
 
                 if (!hadSameAlignment && !isConflictRelated) {
                     result = moveHandler.evaluateNode(moveableNode, guard, octilinearConnectionEdgeDirection, firstAdjacentEdgeDirection);
@@ -306,10 +307,13 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             Conflict conflict = conflicts.get(0);
             if (lastConflict != null
                     && conflicts.size() > 1
-                    && conflict.getBufferElementA().equals(lastConflict.getBufferElementA())
-                    && conflict.getBufferElementB().equals(lastConflict.getBufferElementB())) {
-                Loggers.warning(this, "Skip conflict for an iteration... Take next one.");
+                    && conflict.getBufferA().getElement().equals(lastConflict.getBufferA().getElement())
+                    && conflict.getBufferB().getElement().equals(lastConflict.getBufferB().getElement())) {
+
+                // skip conflict to give another conflict a chance to be solved
+                Loggers.warning(this, "Skip conflict for one iteration... Take next one.");
                 conflict = conflicts.get(1);
+
             }
 
             Loggers.info(this, "Handle conflict: " + conflict);
@@ -339,9 +343,11 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceHandler algorithm");
         makeSpace(map, 0, null);
-        map.evaluateConflicts(true).stream()
-                .findFirst()
-                .ifPresent(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
+//        map.getEdges().stream()
+//                .filter(Edge::isNotOctilinear)
+//                .forEach(edge -> correctEdgeByIntroducingBendNodes(edge, map));
+        map.evaluateConflicts(true)
+                .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }
 
 }

@@ -18,12 +18,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Provides helper methods for creating and manipulating geometries. It's a Singleton implementation.
+ * Provides helper methods for creating and manipulating geometries.
  */
-public enum GeomUtil {
+public enum GeomUtil { // singleton pattern
 
-    // DEFAULT(new PrecisionModel()),
-    TRAMAPS(new PrecisionModel(100));
+    /**
+     * The singleton instance of {@link GeomUtil}.
+     * @see #getGeomUtil()
+     */
+    INSTANCE(new PrecisionModel(10000));
 
     private final PrecisionModel precisionModel;
     private final GeometryFactory geometryFactory;
@@ -33,16 +36,26 @@ public enum GeomUtil {
         this.precisionModel = precisionModel;
     }
 
+    /**
+     * @return the singleton instance
+     * @see #INSTANCE
+     */
     @NotNull
     public static GeomUtil getGeomUtil() {
-        return TRAMAPS;
+        return INSTANCE;
     }
 
+    /**
+     * @return the {@link GeometryFactory} used by {@link GeomUtil}
+     */
     @NotNull
     public GeometryFactory getGeometryFactory() {
         return geometryFactory;
     }
 
+    /**
+     * @return the {@link PrecisionModel} used by {@link GeomUtil}
+     */
     @NotNull
     public PrecisionModel getPrecisionModel() {
         return precisionModel;
@@ -60,11 +73,13 @@ public enum GeomUtil {
     /**
      * @return the same instance of coordinate but made precise
      */
-    @NotNull
-    public double makePrecise(@NotNull double value) {
+    public double makePrecise(double value) {
         return getPrecisionModel().makePrecise(value);
     }
 
+    /**
+     * @return a buffer from given {@link Geometry} and a certain distance
+     */
     @NotNull
     public Polygon createBuffer(@NotNull Geometry geom, double distance, boolean useSquareEndCap) {
         if (useSquareEndCap) {
@@ -73,11 +88,22 @@ public enum GeomUtil {
         return (Polygon) geom.buffer(distance);
     }
 
+    /**
+     * Creates a {@link Coordinate}  and makes the {@link Coordinate} precise using {@link #getPrecisionModel()}.
+     *
+     * @return a {@link Coordinate} of given x/y value pair
+     */
     @NotNull
     public Coordinate createCoordinate(double x, double y) {
         return makePrecise(new Coordinate(x, y));
     }
 
+    /**
+     * Creates a new {@link Coordinate} with the copy constructor ({@link Coordinate#Coordinate(Coordinate)}) and
+     * makes the {@link Coordinate} precise using {@link #getPrecisionModel()}.
+     *
+     * @return a new instance of {@link Coordinate}
+     */
     @Nullable
     @Contract("null->null")
     public Coordinate createCoordinate(@Nullable Coordinate coordinate) {
@@ -88,6 +114,9 @@ public enum GeomUtil {
         return makePrecise(new Coordinate(coordinate));
     }
 
+    /**
+     * @return an empty {@link Polygon}
+     */
     @NotNull
     public Polygon createEmptyPolygon() {
         return geometryFactory.createPolygon((Coordinate[]) null);
@@ -121,9 +150,12 @@ public enum GeomUtil {
         return geometryFactory.createPoint(createCoordinate(coordinate));
     }
 
+    /**
+     * @return a new point from {@link Geometry#getCoordinate()}
+     */
     @NotNull
     public Point createPoint(@NotNull Geometry geometry) {
-        return geometryFactory.createPoint(geometry.getCoordinate());
+        return geometryFactory.createPoint(makePrecise(geometry.getCoordinate()));
     }
 
     /**
@@ -154,6 +186,9 @@ public enum GeomUtil {
         return geometryFactory.createGeometryCollection(merged.toArray(new Geometry[]{}));
     }
 
+    /**
+     * @return a {@link Stream} of {@link Geometry} from given {@link GeometryCollection}
+     */
     @NotNull
     public Stream<Geometry> toStream(@NotNull GeometryCollection collection) {
         List<Geometry> output = new ArrayList<>();
@@ -163,9 +198,12 @@ public enum GeomUtil {
         return output.stream();
     }
 
+    /**
+     * @return a {@link LineString} with given x/y value pairs
+     */
     @NotNull
     public LineString createLineString(double x1, double y1, double x2, double y2) {
-        return geometryFactory.createLineString(new Coordinate[]{createCoordinate(x1, y2), createCoordinate(x2, y2)});
+        return geometryFactory.createLineString(new Coordinate[]{createCoordinate(x1, y1), createCoordinate(x2, y2)});
     }
 
     @NotNull

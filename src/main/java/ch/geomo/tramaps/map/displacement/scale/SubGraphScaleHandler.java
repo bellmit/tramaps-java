@@ -2,9 +2,10 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement;
+package ch.geomo.tramaps.map.displacement.scale;
 
 import ch.geomo.tramaps.map.MetroMap;
+import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
 import org.jetbrains.annotations.NotNull;
 
 /**

@@ -2,12 +2,13 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement;
+package ch.geomo.tramaps.map.displacement.scale;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.map.MetroMap;
+import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;

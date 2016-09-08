@@ -5,8 +5,6 @@
 package ch.geomo.tramaps.map.signature;
 
 import ch.geomo.tramaps.graph.Node;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;

@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement.helper;
+package ch.geomo.tramaps.map.displacement.alg.helper;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geom.Axis;
@@ -47,9 +47,11 @@ public class DisplaceNodeHandler {
                     .collect(Collectors.toList());
 
             displacedNodes.forEach(node -> {
-                if (!conflict.isConflictElementRelated(node)
-                        && node.getDegree() == 1
+                if (!conflict.isConflictRelated(node)
+                        && node.getNodeDegree() == 1
                         && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
+                    // ignore single node when not conflict related and the adjacent edge
+                    // was not moved in this iteration
                     Loggers.info(this, "Ignore single node " + node.getName() + ".");
                 }
                 else {
@@ -67,9 +69,11 @@ public class DisplaceNodeHandler {
                 .collect(Collectors.toList());
 
         displacedNodes.forEach(node -> {
-            if (!conflict.isConflictElementRelated(node)
-                    && node.getDegree() == 1
+            if (!conflict.isConflictRelated(node)
+                    && node.getNodeDegree() == 1
                     && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
+                // ignore single node when not conflict related and the adjacent edge
+                // was not moved in this iteration
                 Loggers.info(this, "Ignore single node " + node.getName() + ".");
             }
             else {

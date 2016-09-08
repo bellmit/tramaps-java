@@ -146,9 +146,6 @@ public class Graph {
         return collection.getEnvelopeInternal();
     }
 
-    /**
-     * @return a string representation of this graph
-     */
     @NotNull
     @Override
     public String toString() {

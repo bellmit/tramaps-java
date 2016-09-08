@@ -2,14 +2,14 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement.helper;
+package ch.geomo.tramaps.map.displacement.alg.helper;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.helper.DisplaceNodeHandler.DisplaceNodeResult;
+import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler.DisplaceNodeResult;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -154,7 +154,7 @@ public class MoveNodeGuard {
     }
 
     public boolean isConflictElementRelated(@NotNull GraphElement graphElement) {
-        return conflict.isConflictElementRelated(graphElement);
+        return conflict.isConflictRelated(graphElement);
     }
 
     /**

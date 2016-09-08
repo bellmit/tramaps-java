@@ -114,7 +114,7 @@ public enum OctilinearDirection implements Direction {
 
     /**
      * Finds the octilinear direction for given angle. If angle is not a multiple
-     * of 45 degree, an octilinear direction will be evaluated using
+     * of 45 getNodeDegree, an octilinear direction will be evaluated using
      * {@link AnyDirection#toOctilinear()}.
      *
      * @return the octilinear direction for given angle

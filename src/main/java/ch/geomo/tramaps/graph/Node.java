@@ -17,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
@@ -182,13 +181,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Replaces the {@link NodeSignature} of this instance.
-     */
-    public void setNodeSignature(@NotNull NodeSignature signature) {
-        this.signature = signature;
-    }
-
-    /**
      * @return the x-value of this node's position/coordinate
      */
     @Override
@@ -227,44 +219,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
         updatePosition(getGeomUtil().createPoint(x, y));
     }
 
-    public Point createMovePoint(@NotNull OctilinearDirection direction, double moveLength) {
-
-        double x = getX();
-        double y = getY();
-
-        switch (direction) {
-            case NORTH:
-            case NORTH_EAST:
-            case NORTH_WEST:
-                y = y + moveLength;
-                break;
-            case SOUTH:
-            case SOUTH_EAST:
-            case SOUTH_WEST:
-                y = y - moveLength;
-        }
-
-        switch (direction) {
-            case EAST:
-            case NORTH_EAST:
-            case SOUTH_EAST:
-                x = x + moveLength;
-                break;
-            case WEST:
-            case NORTH_WEST:
-            case SOUTH_WEST:
-                x = x - moveLength;
-                break;
-        }
-
-        return getGeomUtil().createPoint(x, y);
-
-    }
-
-    public void move(@NotNull OctilinearDirection direction, double moveLength) {
-        updatePosition(createMovePoint(direction, moveLength));
-    }
-
     /**
      * Updates the x-value of the node's position/coordinate and notifies Observers.
      */
@@ -277,6 +231,47 @@ public class Node extends Observable implements GraphElement, NodePoint {
      */
     public void updateY(double y) {
         updatePosition(getX(), y);
+    }
+
+    /**
+     * Creates a {@link Point} which is located along given direction and distance away from the position of this
+     * node. Does <b>not</b> move this node.
+     *
+     * @return a {@link Point} located along given direction and distance
+     */
+    @NotNull
+    public Point createMovePoint(@NotNull OctilinearDirection direction, double moveDistance) {
+
+        double x = getX();
+        double y = getY();
+
+        switch (direction) {
+            case NORTH:
+            case NORTH_EAST:
+            case NORTH_WEST:
+                y = y + moveDistance;
+                break;
+            case SOUTH:
+            case SOUTH_EAST:
+            case SOUTH_WEST:
+                y = y - moveDistance;
+        }
+
+        switch (direction) {
+            case EAST:
+            case NORTH_EAST:
+            case SOUTH_EAST:
+                x = x + moveDistance;
+                break;
+            case WEST:
+            case NORTH_WEST:
+            case SOUTH_WEST:
+                x = x - moveDistance;
+                break;
+        }
+
+        return getGeomUtil().createPoint(x, y);
+
     }
 
     /**
@@ -299,7 +294,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     /**
      * Returns a <b>new</b> instance of the encapsulated {@link Point} representation
-     * of this node. Implemented to satisfy {@link NodePoint} interface.
+     * of this node. (Implemented to satisfy {@link NodePoint} interface.)
      *
      * @return a <b>new</b> instance of {@link Point}
      */
@@ -368,21 +363,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
     /**
      * @return the degree of this node
      */
-    public int getDegree() {
+    public int getNodeDegree() {
         return adjacentEdges.size();
-    }
-
-    /**
-     * @return all directions of the adjacent edges using given {@link Edge} as {@link OctilinearDirection#NORTH}
-     */
-    @NotNull
-    public Set<OctilinearDirection> getAdjacentEdgeDirections(@NotNull Edge startingEdge) {
-        return adjacentEdges.stream()
-                .map(edge -> {
-                    OctilinearDirection nullDirection = startingEdge.getDirection(this).toOctilinear();
-                    return edge.getDirection(this).toOctilinear().rotate(nullDirection);
-                })
-                .collect(Collectors.toSet());
     }
 
     @Override
