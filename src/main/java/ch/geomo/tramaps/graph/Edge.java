@@ -56,6 +56,21 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     }
 
+    /**
+     * Creates a new instance of {@link Edge} with given nodes and routes.
+     */
+    public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
+        this(nodeA, nodeB, Arrays.asList(routes));
+    }
+
+    /**
+     * Creates a new instance of {@link Edge} with given nodes and routes.
+     */
+    public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Collection<Route> routes) {
+        this(nodeA, nodeB);
+        addRoutes(routes);
+    }
+
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull String name) {
         this(nodeA, nodeB);
         this.name = name;

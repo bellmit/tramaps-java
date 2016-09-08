@@ -25,42 +25,23 @@ public class ExampleMetroMap extends MetroMap {
 
         Function<Node, NodeSignature> signatureFunction = RectangleStationSignature::new;
 
-        Node a = new Node(getGeomUtil().createPoint(new Coordinate(150, 200)), signatureFunction);
-        Node b = new Node(getGeomUtil().createPoint(new Coordinate(150, 100)), signatureFunction);
-        Node c = new Node(getGeomUtil().createPoint(new Coordinate(200, 100)), signatureFunction);
-        Node d = new Node(getGeomUtil().createPoint(new Coordinate(200, 150)), signatureFunction);
-        Node e = new Node(getGeomUtil().createPoint(new Coordinate(200, 250)), signatureFunction);
-        Node f = new Node(getGeomUtil().createPoint(new Coordinate(150, 300)), signatureFunction);
-        Node g = new Node(getGeomUtil().createPoint(new Coordinate(100, 300)), signatureFunction);
-        Node h = new Node(getGeomUtil().createPoint(new Coordinate(100, 200)), signatureFunction);
-        Node i = new Node(getGeomUtil().createPoint(new Coordinate(100, 150)), signatureFunction);
-        Node j = new Node(getGeomUtil().createPoint(new Coordinate(150, 250)), signatureFunction);
-        Node k = new Node(getGeomUtil().createPoint(new Coordinate(170, 250)), signatureFunction);
-        Node l = new Node(getGeomUtil().createPoint(new Coordinate(300, 200)), signatureFunction);
-//        Node m = new Node(getGeomUtil().createPoint(new Coordinate(302, 302)), signatureFunction);
-
-        Node n = new Node(getGeomUtil().createPoint(new Coordinate(100, 250)), signatureFunction);
-        Node o = new Node(getGeomUtil().createPoint(new Coordinate(170, 150)), signatureFunction);
-        Node p = new Node(getGeomUtil().createPoint(new Coordinate(300, 250)), signatureFunction);
-        Node q = new Node(getGeomUtil().createPoint(new Coordinate(400, 100)), signatureFunction);
-
-        a.setName("A");
-        b.setName("B");
-        c.setName("C");
-        d.setName("D");
-        e.setName("E");
-        f.setName("F");
-        g.setName("G");
-        h.setName("H");
-        i.setName("I");
-        j.setName("J");
-        k.setName("K");
-        l.setName("L");
-//        m.setName("M");
-        n.setName("N");
-        o.setName("O");
-        p.setName("P");
-        q.setName("Q");
+        Node a = new Node(150, 200, "A", signatureFunction);
+        Node b = new Node(150, 100, "B", signatureFunction);
+        Node c = new Node(200, 100, "C", signatureFunction);
+        Node d = new Node(200, 150, "D", signatureFunction);
+        Node e = new Node(200, 250, "E", signatureFunction);
+        Node f = new Node(150, 300, "F", signatureFunction);
+        Node g = new Node(100, 300, "G", signatureFunction);
+        Node h = new Node(100, 200, "H", signatureFunction);
+        Node i = new Node(100, 150, "I", signatureFunction);
+        Node j = new Node(150, 250, "J", signatureFunction);
+        Node k = new Node(170, 250, "K", signatureFunction);
+        Node l = new Node(300, 200, "L", signatureFunction);
+        Node n = new Node(100, 250, "N", signatureFunction);
+        Node o = new Node(170, 150, "O", signatureFunction);
+        Node p = new Node(300, 250, "P", signatureFunction);
+        Node q = new Node(400, 100, "Q", signatureFunction);
+        Node r = new Node(100, 350, "R", signatureFunction);
 
         Edge ab = new Edge(a, b);
         Edge bc = new Edge(c, b);
@@ -68,7 +49,6 @@ public class ExampleMetroMap extends MetroMap {
         Edge de = new Edge(d, e);
         Edge ef = new Edge(e, f);
         Edge fg = new Edge(f, g);
-//        Edge gh = new Edge(g, h);
         Edge gn = new Edge(g, n);
         Edge nh = new Edge(n, h);
         Edge ha = new Edge(h, a);
@@ -78,21 +58,11 @@ public class ExampleMetroMap extends MetroMap {
         Edge aj = new Edge(a, j);
         Edge jk = new Edge(j, k);
         Edge lc = new Edge(l, c);
-//        Edge lm = new Edge(l, m);
-//        Edge le = new Edge(l, e);
-//        Edge jf = new Edge(h, f);
-
-//        Edge bd = new Edge(b, d);
-        //Edge ad = new Edge(a, d);
-        //Edge kd = new Edge(k, d);
-        //Edge kb = new Edge(k, b);
         Edge ek = new Edge(e, k);
         Edge ok = new Edge(o, k);
         Edge od = new Edge(o, d);
         Edge pe = new Edge(p, e);
-//        Edge lq = new Edge(l, q);
-//        Edge qc = new Edge(q, c);
-//        Edge pl = new Edge(p, l);
+        //Edge gr = new Edge(g, r);
 
         Route line1 = new Route(20, Color.BLUE);
         Route line2 = new Route(20, Color.RED);
