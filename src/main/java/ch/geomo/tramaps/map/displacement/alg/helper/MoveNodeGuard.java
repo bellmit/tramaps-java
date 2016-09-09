@@ -9,7 +9,6 @@ import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler.DisplaceNodeResult;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -37,9 +36,9 @@ public class MoveNodeGuard {
     private OctilinearDirection lastMoveDirection;
     private double lastMoveDistance = 0d;
 
-    public MoveNodeGuard(@NotNull MetroMap map, @NotNull Conflict conflict, @NotNull DisplaceNodeResult displaceNodeResult, @NotNull Node firstNode) {
+    public MoveNodeGuard(@NotNull MetroMap map, @NotNull DisplaceNodeResult displaceNodeResult, @NotNull Node firstNode) {
         this.map = map;
-        this.conflict = conflict;
+        conflict = displaceNodeResult.getConflict();
         this.displaceNodeResult = displaceNodeResult;
         lastMoveDirection = displaceNodeResult.getDisplaceDirection();
         lastMoveDistance = displaceNodeResult.getDisplaceDistance();
@@ -111,7 +110,7 @@ public class MoveNodeGuard {
      * @return the best displace length based on the {@link Conflict}
      */
     public int getMoveDistance() {
-        return conflict.getBestDisplaceLength();
+        return conflict.getBestDisplaceDistance();
     }
 
     /**
@@ -120,6 +119,11 @@ public class MoveNodeGuard {
     @NotNull
     public Conflict getConflict() {
         return conflict;
+    }
+
+    @NotNull
+    public List<Conflict> getOtherUnsolvedConflicts() {
+        return displaceNodeResult.getOtherConflicts();
     }
 
     /**

@@ -5,10 +5,14 @@
 package ch.geomo.tramaps;
 
 import ch.geomo.tramaps.example.ExampleMetroMap;
+import ch.geomo.tramaps.example.MetroMapZuerich;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
+import ch.geomo.tramaps.map.SimpleGraphDrawer;
 import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.DisplaceHandler;
+import ch.geomo.tramaps.map.displacement.radius.DisplaceRadiusHandler;
+import ch.geomo.tramaps.map.displacement.scale.ScaleHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -41,10 +45,12 @@ public class MainApp extends Application {
         stage.setTitle("Tramaps GUI");
         initLayout();
 
-        map = new ExampleMetroMap(5, 25);
+         map = new ExampleMetroMap(5, 25);
+//        map = new MetroMapZuerich(5, 25);
 
+//        makeSpace(DisplaceRadiusHandler::new);
         // makeSpace(ScaleHandler::new);
-        makeSpace(DisplaceHandler::new);
+         makeSpace(DisplaceHandler::new);
 
         draw();
 
@@ -54,7 +60,7 @@ public class MainApp extends Application {
 
         Envelope bbox = map.getBoundingBox();
 
-        double maxHeight = 750;
+        double maxHeight = 700;
         double margin = 150;
 
         double width = bbox.getWidth() + margin * 2;
@@ -64,6 +70,7 @@ public class MainApp extends Application {
         GraphicsContext context = canvas.getGraphicsContext2D();
 
         MetroMapDrawer drawer = new MetroMapDrawer(map, margin);
+        // SimpleGraphDrawer drawer = new SimpleGraphDrawer(map, margin);
         drawer.draw(context, bbox);
         show(canvas, maxHeight, maxHeight / height * width);
 
@@ -71,7 +78,7 @@ public class MainApp extends Application {
         canvas.setScaleX(scale);
         canvas.setScaleY(scale);
 
-        double correction = 1 / scale * 2.75;
+        double correction = 1 / scale * 2.8;
         canvas.setTranslateX(0 - canvas.getWidth() / correction);
         canvas.setTranslateY(0 - canvas.getHeight() / correction);
 

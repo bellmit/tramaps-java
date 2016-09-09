@@ -381,7 +381,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
         // is not used to check equality
         return obj instanceof Node
                 && Objects.equals(name, ((Node) obj).name)
-                && signature.equals(((Node) obj).signature)
                 && deleted == ((Node) obj).deleted;
     }
 
@@ -389,12 +388,12 @@ public class Node extends Observable implements GraphElement, NodePoint {
     public int hashCode() {
         // hashCode and equals must be matching: a.equals(b) == (a.hashCode() == b.hashCode())
         // therefore position of this node is transient and not used to calculate hash code
-        return Objects.hash(name, signature, deleted);
+        return Objects.hash(name, deleted);
     }
 
     @Override
     public String toString() {
-        return "Node: " + name + "(" + getX() + "/" + getY() + ")";
+        return name + "(" + getX() + "/" + getY() + ")";
     }
 
 }

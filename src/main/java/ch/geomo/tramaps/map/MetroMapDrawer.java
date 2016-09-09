@@ -81,6 +81,13 @@ public class MetroMapDrawer {
                     context.setFill(Color.rgb(240, 88, 88, 0.4));
                     Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();
                     context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
+
+                    context.setFill(Color.rgb(20,172,0, 0.4));
+                    Envelope bbox3 = conflict.getBufferA().getBuffer().getEnvelopeInternal();
+                    context.fillRect(bbox3.getMinX(), bbox3.getMinY(), bbox3.getWidth(), bbox3.getHeight());
+                    context.setFill(Color.rgb(176,93,117, 0.4));
+                    Envelope bbox4 = conflict.getBufferB().getBuffer().getEnvelopeInternal();
+                    context.fillRect(bbox4.getMinX(), bbox4.getMinY(), bbox4.getWidth(), bbox4.getHeight());
                 });
 
         map.getNodes().forEach(node -> {
@@ -89,12 +96,6 @@ public class MetroMapDrawer {
             context.setLineWidth(1);
             context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", station.getMinX() - 50, station.getMaxY() + 20);
         });
-
-//        map.getNodes().forEach(node -> {
-//            context.setStroke(Color.BLACK);
-//            context.setLineWidth(1);
-//            context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", node.getX() - 50, node.getY() + 20);
-//        });
 
     }
 

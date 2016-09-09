@@ -1,0 +1,61 @@
+/*
+ * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
+ */
+
+package ch.geomo.tramaps.map.displacement.radius;
+
+import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.map.MetroMap;
+import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.DisplaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler;
+import ch.geomo.util.Loggers;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+
+public class DisplaceRadiusHandler implements MetroMapLineSpaceHandler {
+
+    private static final int MAX_ITERATIONS = 500;
+
+    private void makeSpace(@NotNull MetroMap map, int lastIteration, @Nullable Conflict lastConflict) {
+
+        int currentIteration = lastIteration + 1;
+
+        List<Conflict> conflicts = map.evaluateConflicts(true);
+
+        Loggers.separator(this);
+        Loggers.info(this, "Iteration: " + currentIteration);
+
+        if (!conflicts.isEmpty()) {
+
+            Loggers.warning(this, "Conflicts found: " + conflicts.size());
+
+            Conflict conflict = conflicts.get(0);
+
+            Loggers.info(this, "Handle conflict: " + conflict);
+            new DisplaceRadiusNodeHandler(map, conflict).displace();
+
+            // repeat as long as max iteration is not reached
+            if (currentIteration < MAX_ITERATIONS) {
+                makeSpace(map, currentIteration, conflict);
+            }
+
+        }
+        else {
+            Loggers.info(this, "No (more) conflicts found.");
+        }
+
+    }
+
+    @Override
+    public void makeSpace(@NotNull MetroMap map) {
+        Loggers.separator(this);
+        Loggers.info(this, "Start DisplaceHandler algorithm");
+        makeSpace(map, 0, null);
+        map.evaluateConflicts(true)
+                .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
+    }
+
+}

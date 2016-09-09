@@ -14,6 +14,8 @@ import java.util.Comparator;
  */
 public class NodePointDistanceComparator<P extends NodePoint> implements Comparator<P> {
 
+    private final static Comparator<NodePoint> XY_COMPARATOR = new NodePointXYComparator<>();
+
     private final NodePoint originPoint;
 
     public NodePointDistanceComparator() {
@@ -33,11 +35,7 @@ public class NodePointDistanceComparator<P extends NodePoint> implements Compara
     @Override
     @SuppressWarnings("unchecked") // -> safe raw type usage
     public int compare(P p1, P p2) {
-        double diff = p1.calculateDistanceTo(originPoint) - p2.calculateDistanceTo(originPoint);
-        if (diff > 0) {
-            return 1;
-        }
-        return (diff < 0) ? -1 : 0;
+        return Double.compare(p1.calculateDistanceTo(originPoint), p2.calculateDistanceTo(originPoint));
     }
 
 }

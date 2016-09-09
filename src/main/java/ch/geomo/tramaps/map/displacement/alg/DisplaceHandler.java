@@ -15,7 +15,7 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.helper.AdjustmentCostCalculator;
 import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler;
-import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler.DisplaceNodeResult;
+import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeResult;
 import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeGuard;
 import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler;
 import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler.MoveNodeDirection;
@@ -37,19 +37,18 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     private static final int MAX_ITERATIONS = 100;
     private static final double MAX_ADJUSTMENT_COSTS = 5;
 
-
-    private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull MetroMap map, @NotNull Conflict conflict, @NotNull DisplaceNodeResult displaceNodeResult) {
+    private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull MetroMap map, @NotNull DisplaceNodeResult displaceNodeResult) {
 
         AdjustmentCostCalculator costCalculator = new AdjustmentCostCalculator();
 
         Loggers.info(this, "Correct edge " + edge.getName() + ".");
 
         // Node A
-        MoveNodeGuard guardA = new MoveNodeGuard(map, conflict, displaceNodeResult, edge.getNodeA());
+        MoveNodeGuard guardA = new MoveNodeGuard(map, displaceNodeResult, edge.getNodeA());
         double scoreNodeA = costCalculator.calculateAdjustmentCosts(edge, edge.getNodeA(), guardA);
 
         // Node B
-        MoveNodeGuard guardB = new MoveNodeGuard(map, conflict, displaceNodeResult, edge.getNodeB());
+        MoveNodeGuard guardB = new MoveNodeGuard(map, displaceNodeResult, edge.getNodeB());
         double scoreNodeB = costCalculator.calculateAdjustmentCosts(edge, edge.getNodeB(), guardB);
 
         Loggers.info(this, "Adjustment Costs for nodes: [" + scoreNodeA + "/" + scoreNodeB + "]");
@@ -67,12 +66,12 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     }
 
-    private void correctNonOctilinearEdges(@NotNull MetroMap map, @NotNull Conflict conflict, @NotNull DisplaceNodeResult displaceNodeResult) {
+    private void correctNonOctilinearEdges(@NotNull MetroMap map, @NotNull DisplaceNodeResult displaceNodeResult) {
 
         Loggers.info(this, "Non-Octilinear edges: " + map.evaluateNonOctilinearEdges().count());
         map.getEdges().stream()
                 .filter(edge -> !edge.getDirection(null).isOctilinear())
-                .forEach(edge -> correctNonOctilinearEdge(edge, map, conflict, displaceNodeResult));
+                .forEach(edge -> correctNonOctilinearEdge(edge, map, displaceNodeResult));
 
         map.getEdges().stream()
                 .filter(edge -> !edge.getDirection(null).isOctilinear())
@@ -228,7 +227,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
         // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
         boolean overlapsAdjacentNode = moveableNode.getAdjacentEdgeStream(connectionEdge)
-                .anyMatch(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection && adjEdge.getLength() < correctDistance);
+                .anyMatch(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection && adjEdge.getLength() <= correctDistance);
 
         // test if new position would intersect with any other edge when moving -> if so, we do not move
         Point movePoint = moveableNode.createMovePoint(octilinearMoveDirection, correctDistance);
@@ -245,7 +244,12 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                             return false;
                         }));
 
-        if (!overlapsAdjacentNode && !overlapsOtherEdges) {
+        boolean notEqualPosition = getGeomUtil().createLineString(movePoint, connectionEdge.getOtherNode(moveableNode).getPoint()).getLength() > 0;
+        if (!notEqualPosition) {
+            Loggers.warning(this, "It seems that the new position is equals to the adjacent node position.");
+        }
+
+        if (!overlapsAdjacentNode && !overlapsOtherEdges && notEqualPosition) {
             Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (distance=" + correctDistance + ").");
             moveableNode.updatePosition(movePoint);
             Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
@@ -317,9 +321,9 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             }
 
             Loggers.info(this, "Handle conflict: " + conflict);
-            DisplaceNodeHandler displaceNodeHandler = new DisplaceNodeHandler(map, conflict);
+            DisplaceNodeHandler displaceNodeHandler = new DisplaceNodeHandler(map, conflict, conflicts);
             DisplaceNodeResult displaceNodeResult = displaceNodeHandler.displace();
-            correctNonOctilinearEdges(map, conflict, displaceNodeResult);
+            correctNonOctilinearEdges(map, displaceNodeResult);
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {

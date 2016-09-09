@@ -11,8 +11,8 @@ public class ConflictComparator implements Comparator<Conflict> {
     @Override
     public int compare(Conflict o1, Conflict o2) {
 
-        double length1a = o1.getBestDisplaceLength();
-        double length2a = o2.getBestDisplaceLength();
+        double length1a = o1.getBestDisplaceDistance();
+        double length2a = o2.getBestDisplaceDistance();
 
         if (length1a != length2a) {
             return Double.compare(length1a, length2a);

@@ -99,15 +99,15 @@ public final class PolygonUtil {
      * @see <a href="http://gis.stackexchange.com/a/190002/21355">JTS: split arbitrary polygon by a line (stackoverflow.com)</a>
      */
     @NotNull
-    public static GeometryCollection splitPolygon(@NotNull Geometry polygon, @NotNull Geometry lineString) {
+    public static GeometryCollection splitPolygon(@NotNull Geometry polygon, @NotNull Geometry lineStrings) {
         GeometryCollection lines;
-        if (lineString instanceof GeometryCollection) {
+        if (lineStrings instanceof GeometryCollection) {
             Stream<Geometry> boundaryStream = Stream.of(polygon.getBoundary());
-            Stream<Geometry> lineStringStream = getGeomUtil().toStream((GeometryCollection) lineString);
+            Stream<Geometry> lineStringStream = getGeomUtil().toStream((GeometryCollection) lineStrings);
             lines = getGeomUtil().createCollection(Stream.concat(boundaryStream, lineStringStream));
         }
         else {
-            lines = (GeometryCollection) polygon.getBoundary().union(lineString);
+            lines = (GeometryCollection) polygon.getBoundary().union(lineStrings);
         }
         Stream<Polygon> stream = getGeomUtil().toStream(polygonize(lines))
                 .map(geom -> (Polygon) geom)

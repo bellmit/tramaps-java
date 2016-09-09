@@ -69,4 +69,17 @@ public class ElementBufferPair implements Pair<ElementBuffer> {
         return first instanceof EdgeBuffer && second instanceof EdgeBuffer;
     }
 
+    @Override
+    public int hashCode() {
+        // TODO remove workaround -> but an ElementBufferPair must be equal independent to the order of the values
+        return Objects.hash(first.hashCode() + second.hashCode());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ElementBufferPair
+                && ((Objects.equals(first, ((ElementBufferPair) obj).getFirst()) && Objects.equals(second, ((ElementBufferPair) obj).getSecond()))
+                || (Objects.equals(second, ((ElementBufferPair) obj).getFirst()) && Objects.equals(first, ((ElementBufferPair) obj).getSecond())));
+    }
+
 }

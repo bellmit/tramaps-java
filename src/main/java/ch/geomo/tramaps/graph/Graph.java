@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.point.NodePointDistanceComparator;
 import com.vividsolutions.jts.geom.Envelope;
@@ -182,7 +183,9 @@ public class Graph {
      * @return the created edge
      */
     public Edge createEdge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
-        return new Edge(nodeA, nodeB, routes);
+        Edge edge = new Edge(nodeA, nodeB, routes);
+        edgeCache = null;
+        return edge;
     }
 
 }

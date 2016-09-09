@@ -7,6 +7,7 @@ package ch.geomo.tramaps.graph;
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Geometry;
@@ -60,13 +61,6 @@ public class Edge extends Observable implements Observer, GraphElement {
      * Creates a new instance of {@link Edge} with given nodes and routes.
      */
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
-        this(nodeA, nodeB, Arrays.asList(routes));
-    }
-
-    /**
-     * Creates a new instance of {@link Edge} with given nodes and routes.
-     */
-    public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Collection<Route> routes) {
         this(nodeA, nodeB);
         addRoutes(routes);
     }
@@ -95,7 +89,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     @NotNull
     public String getName() {
         return Optional.ofNullable(name)
-                .orElse(getNodeA().getName() + " <-> " + getNodeB().getName());
+                .orElse(getNodeA() + " <-> " + getNodeB());
     }
 
     /**

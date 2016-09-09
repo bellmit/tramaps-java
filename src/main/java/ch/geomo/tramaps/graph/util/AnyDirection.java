@@ -106,7 +106,7 @@ public class AnyDirection implements Direction {
 
     @Override
     public String toString() {
-        return angle + " getNodeDegree";
+        return angle + " degree";
     }
 
 }

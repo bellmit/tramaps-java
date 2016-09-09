@@ -13,20 +13,23 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
+import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
+import com.vividsolutions.jts.operation.distance.DistanceOp;
+import com.vividsolutions.jts.operation.valid.IsValidOp;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ch.geomo.tramaps.geom.Axis.X;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class Conflict implements Comparable<Conflict> {
@@ -44,6 +47,8 @@ public class Conflict implements Comparable<Conflict> {
     private Axis bestDisplaceAxis;
     private Coordinate bestDisplaceStartPoint;
 
+    private Geometry conflictArea;
+
     private boolean solved = false;
 
     public Conflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
@@ -57,7 +62,14 @@ public class Conflict implements Comparable<Conflict> {
      */
     private void evaluateConflictType() {
         if (buffers.isNodePair() && buffers.hasAdjacentElements()) {
-            conflictType = ConflictType.ADJACENT_NODE_NODE;
+            if (((Node) buffers.first().getElement()).getAdjacentEdges().stream()
+                    .filter(edge -> buffers.second().getElement().equals(edge.getOtherNode((Node) buffers.first().getElement())))
+                    .noneMatch(Edge::isOctilinearDiagonal)) {
+                conflictType = ConflictType.ADJACENT_NODE_NODE;
+            }
+            else {
+                conflictType = ConflictType.ADJACENT_NODE_NODE_DIAGONAL;
+            }
         }
         else if (buffers.isNodePair()) {
             conflictType = ConflictType.NODE_NODE;
@@ -118,17 +130,6 @@ public class Conflict implements Comparable<Conflict> {
         // default values
         bestDisplaceStartPoint = conflictPolygon.getCentroid().getCoordinate();
 
-        double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
-        double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
-        if (angleY < angleX) {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-            bestDisplaceAxis = Axis.X;
-        }
-        else {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-            bestDisplaceAxis = Axis.Y;
-        }
-
         // special cases
         switch (conflictType) {
             case NODE_EDGE: {
@@ -136,14 +137,80 @@ public class Conflict implements Comparable<Conflict> {
                 break;
             }
             case NODE_NODE:
-            case ADJACENT_NODE_NODE: {
+            case ADJACENT_NODE_NODE:
+            case ADJACENT_NODE_NODE_DIAGONAL: {
                 initNodeNodeConflict(getNodes().get(0), getNodes().get(1));
                 break;
             }
+            case EDGE_EDGE: {
+                initEdgeEdgeConflict(getEdges().get(0), getEdges().get(1));
+                break;
+            }
+            default: {
+                Contracts.fail();
+            }
         }
+
+        initConflictLines();
 
         if (conflictPolygon.isEmpty()) {
             solved = true;
+        }
+
+    }
+
+    private void initConflictLines() {
+
+        switch (conflictType) {
+            case NODE_NODE:
+            case ADJACENT_NODE_NODE:
+            case ADJACENT_NODE_NODE_DIAGONAL: {
+                conflictArea = getGeomUtil().createLineString(getNodes().get(0), getNodes().get(1));
+                break;
+            }
+            case NODE_EDGE: {
+                conflictArea = getGeomUtil().createPolygon(getNodes().get(0), getEdges().get(0).getNodeA(), getEdges().get(0).getNodeB(), getNodes().get(0));
+                break;
+            }
+            case EDGE_EDGE: {
+
+                Node a1 = getEdges().get(0).getNodeA();
+                Node b1 = getEdges().get(0).getNodeB();
+                Node a2 = getEdges().get(1).getNodeA();
+                Node b2 = getEdges().get(1).getNodeB();
+
+                conflictArea = getGeomUtil().createPolygon(a1, b1, b2, a2, a1);
+                if (!conflictArea.isValid()) {
+                    conflictArea = getGeomUtil().createPolygon(a1, b1, a2, b2, a1);
+                    if (!conflictArea.isValid()) {
+                        Coordinate[] coordinates = Stream.of(a1, a2, b1, b2).map(Node::getCoordinate).toArray(Coordinate[]::new);
+                        conflictArea = getGeomUtil().createLineString(coordinates);
+                    }
+                }
+
+                break;
+
+            }
+            default: {
+                Contracts.fail();
+            }
+        }
+
+    }
+
+    private void initEdgeEdgeConflict(@NotNull Edge edge1, @NotNull Edge edge2) {
+
+
+
+        double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
+        double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
+        if (angleY < angleX) {
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceAxis = X;
+        }
+        else {
+            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceAxis = Axis.Y;
         }
 
     }
@@ -152,7 +219,7 @@ public class Conflict implements Comparable<Conflict> {
         if ((node.getX() < Math.min(edge.getNodeA().getX(), edge.getNodeB().getX()))
                 || (node.getX() > Math.max(edge.getNodeA().getX(), edge.getNodeB().getX()))) {
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-            bestDisplaceAxis = Axis.X;
+            bestDisplaceAxis = X;
         }
         else if ((node.getY() < Math.min(edge.getNodeA().getY(), edge.getNodeB().getY()))
                 || (node.getY() > Math.max(edge.getNodeA().getY(), edge.getNodeB().getY()))) {
@@ -166,26 +233,40 @@ public class Conflict implements Comparable<Conflict> {
             double dyb = Math.abs(node.getY() - edge.getNodeB().getY());
             if (Math.max(dxa, dxb) < Math.max(dya, dyb)) {
                 bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-                bestDisplaceAxis = Axis.X;
+                bestDisplaceAxis = X;
             }
             else {
                 bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
                 bestDisplaceAxis = Axis.Y;
             }
         }
+        Coordinate nearestPoint = DistanceOp.nearestPoints(edge.getGeometry(), node.getGeometry())[0];
+        LineString line = getGeomUtil().createLineString(node.getX(), node.getY(), nearestPoint.x, nearestPoint.y);
+        bestDisplaceStartPoint = line.getCentroid().getCoordinate();
     }
 
     private void initNodeNodeConflict(@NotNull Node node1, @NotNull Node node2) {
+
+        if (node1.getX() == node2.getX() && node1.getY() == node2.getY()) {
+            Contracts.fail("Both conflict nodes has equal position. Please check input data!");
+        }
+
         double dx = Math.abs(node1.getX() - node2.getX());
         double dy = Math.abs(node1.getY() - node2.getY());
         if (dy < dx) {
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-            bestDisplaceAxis = Axis.X;
+            bestDisplaceAxis = X;
         }
         else {
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
             bestDisplaceAxis = Axis.Y;
         }
+        bestDisplaceStartPoint = getGeomUtil().createLineString(node1, node2).getCentroid().getCoordinate();
+
+    }
+
+    public boolean hasElementNeighborhood(Collection<Edge> edges) {
+        return edges.stream().noneMatch(edge -> conflictArea.crosses(edge.getLineString()));
     }
 
     @NotNull
@@ -213,6 +294,56 @@ public class Conflict implements Comparable<Conflict> {
         return bestDisplaceAxis;
     }
 
+    public boolean isDisplaceElement(GraphElement graphElement) {
+        return Objects.equals(graphElement, getDisplaceElement());
+    }
+
+    public GraphElement getDisplaceElement() {
+        switch (conflictType) {
+            case NODE_NODE:
+            case ADJACENT_NODE_NODE:
+            case ADJACENT_NODE_NODE_DIAGONAL: {
+                if (bestDisplaceAxis == X) {
+                    if (getNodes().get(0).getX() < getSamplePointOnDisplaceLine().x) {
+                        return getNodes().get(1);
+                    }
+                    return getNodes().get(0);
+                }
+                if (getNodes().get(0).getY() < getSamplePointOnDisplaceLine().x) {
+                    return getNodes().get(1);
+                }
+                return getNodes().get(0);
+            }
+            case NODE_EDGE: {
+                if (bestDisplaceAxis == X) {
+                    if (getNodes().get(0).getX() < getSamplePointOnDisplaceLine().x) {
+                        return getEdges().get(0);
+                    }
+                    return getNodes().get(0);
+                }
+                if (getNodes().get(0).getY() < getSamplePointOnDisplaceLine().y) {
+                    return getEdges().get(0);
+                }
+                return getNodes().get(0);
+            }
+            case EDGE_EDGE: {
+                if (bestDisplaceAxis == X) {
+                    if (getEdges().get(0).getNodeA().getX() + getEdges().get(0).getNodeB().getX()
+                            < getEdges().get(1).getNodeA().getX() + getEdges().get(1).getNodeB().getX()) {
+                        return getEdges().get(1);
+                    }
+                    return getEdges().get(0);
+                }
+                if (getEdges().get(0).getNodeA().getX() + getEdges().get(0).getNodeB().getX()
+                        < getEdges().get(1).getNodeA().getX() + getEdges().get(1).getNodeB().getX()) {
+                    return getEdges().get(1);
+                }
+                return getEdges().get(0);
+            }
+        }
+        return getBufferA().getElement();
+    }
+
     /**
      * @return best move direction along an axis
      * @see OctilinearDirection#NORTH
@@ -220,7 +351,7 @@ public class Conflict implements Comparable<Conflict> {
      */
     @NotNull
     public OctilinearDirection getBestDisplaceDirection() {
-        if (bestDisplaceAxis == Axis.X) {
+        if (bestDisplaceAxis == X) {
             return OctilinearDirection.NORTH;
         }
         return OctilinearDirection.EAST;
@@ -230,7 +361,7 @@ public class Conflict implements Comparable<Conflict> {
      * @return best move distance along the best move direction
      * @see #getBestDisplaceDirection()
      */
-    public int getBestDisplaceLength() {
+    public int getBestDisplaceDistance() {
         // we do work with int values only
         return (int) Math.ceil(Math.abs(bestDisplaceVector.length()));
     }
@@ -278,18 +409,13 @@ public class Conflict implements Comparable<Conflict> {
 
     @Override
     public boolean equals(Object obj) {
-        double length = getBestDisplaceLength();
         return obj instanceof Conflict
-                && Objects.equals(length, ((Conflict) obj).getBestDisplaceLength())
-                && Objects.equals(displaceVector.length(), ((Conflict) obj).getDisplaceVector().length())
-                && Objects.equals(displaceVector.getX(), ((Conflict) obj).getDisplaceVector().getX())
-                && Objects.equals(displaceVector.getY(), ((Conflict) obj).getDisplaceVector().getY());
+                && (Objects.equals(buffers, ((Conflict) obj).buffers));
     }
 
     @Override
     public int hashCode() {
-        double length = getBestDisplaceLength();
-        return Objects.hash(length, displaceVector.length(), displaceVector.getX(), displaceVector.getY());
+        return Objects.hash(buffers);
     }
 
     @Override

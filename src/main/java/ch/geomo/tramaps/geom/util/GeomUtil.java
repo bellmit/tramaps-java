@@ -83,7 +83,7 @@ public enum GeomUtil { // singleton pattern
     @NotNull
     public Polygon createBuffer(@NotNull Geometry geom, double distance, boolean useSquareEndCap) {
         if (useSquareEndCap) {
-            return (Polygon) geom.buffer(distance, BufferParameters.DEFAULT_QUADRANT_SEGMENTS, BufferParameters.CAP_SQUARE);
+            return (Polygon) geom.buffer(distance, BufferParameters.DEFAULT_QUADRANT_SEGMENTS, BufferParameters.CAP_FLAT);
         }
         return (Polygon) geom.buffer(distance);
     }
@@ -132,6 +132,20 @@ public enum GeomUtil { // singleton pattern
         Coordinate c = createCoordinate(centroid.getX() + width / 2, centroid.getY() + height / 2);
         Coordinate d = createCoordinate(centroid.getX() + width / 2, centroid.getY() - height / 2);
         return geometryFactory.createPolygon(new Coordinate[]{a, b, c, d, a});
+    }
+
+    public Polygon createPolygon(@NotNull NodePoint... points) {
+        Coordinate[] coordinates = Stream.of(points)
+                .map(NodePoint::toCoordinate)
+                .toArray(Coordinate[]::new);
+        return geometryFactory.createPolygon(coordinates);
+    }
+
+    public Polygon createPolygon(@NotNull Point... points) {
+        Coordinate[] coordinates = Stream.of(points)
+                .map(Point::getCoordinate)
+                .toArray(Coordinate[]::new);
+        return geometryFactory.createPolygon(coordinates);
     }
 
     /**

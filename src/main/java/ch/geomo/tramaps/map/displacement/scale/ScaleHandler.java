@@ -27,6 +27,8 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class ScaleHandler implements MetroMapLineSpaceHandler {
 
+    private static final int MAX_ITERATIONS = 25;
+
     private double evaluateScaleFactor(@NotNull List<Conflict> conflicts, double mapWidth, double mapHeight) {
 
         double maxMoveX = 0d;
@@ -82,7 +84,7 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
         }
 
         // repeat if space issue is not yet solved
-        if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && count < 25) {
+        if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && count < MAX_ITERATIONS) {
             makeSpace(map, count);
         }
 
