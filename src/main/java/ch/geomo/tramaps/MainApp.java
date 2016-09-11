@@ -35,7 +35,7 @@ public class MainApp extends Application {
 
     private void makeSpace(@NotNull Supplier<MetroMapLineSpaceHandler> makeSpaceHandlerSupplier) {
         MetroMapLineSpaceHandler handler = makeSpaceHandlerSupplier.get();
-        handler.makeSpace(map);
+        handler.makeSpace();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MainApp extends Application {
 
 //        makeSpace(DisplaceRadiusHandler::new);
         // makeSpace(ScaleHandler::new);
-         makeSpace(DisplaceHandler::new);
+         makeSpace(() -> new DisplaceHandler(map));
 
         draw();
 

@@ -61,8 +61,7 @@ public class AdjustmentCostCalculator {
             return 1;
         }
 
-        Set<Edge> adjacentEdges = node.getAdjacentEdges().stream()
-                .filter(edge -> !edge.equals(connectionEdge))
+        Set<Edge> adjacentEdges = node.getAdjacentEdgeStream(connectionEdge)
                 .collect(Collectors.toSet());
 
         double costs = 2 + adjacentEdges.size();

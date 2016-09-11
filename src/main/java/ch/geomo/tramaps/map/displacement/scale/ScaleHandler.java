@@ -29,6 +29,12 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
 
     private static final int MAX_ITERATIONS = 25;
 
+    private final MetroMap map;
+
+    public ScaleHandler(@NotNull MetroMap map) {
+        this.map = map;
+    }
+
     private double evaluateScaleFactor(@NotNull List<Conflict> conflicts, double mapWidth, double mapHeight) {
 
         double maxMoveX = 0d;
@@ -64,7 +70,7 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
 
     }
 
-    private void makeSpace(@NotNull MetroMap map, int count) {
+    private void makeSpace(int count) {
 
         count++;
 
@@ -85,15 +91,14 @@ public class ScaleHandler implements MetroMapLineSpaceHandler {
 
         // repeat if space issue is not yet solved
         if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && count < MAX_ITERATIONS) {
-            makeSpace(map, count);
+            makeSpace(count);
         }
 
     }
 
     @Override
-    public void makeSpace(@NotNull MetroMap map) {
-        makeSpace(map, 0);
-        System.out.println(map);
+    public void makeSpace() {
+        makeSpace(0);
     }
 
 }

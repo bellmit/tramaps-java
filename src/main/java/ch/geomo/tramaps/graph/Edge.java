@@ -388,6 +388,14 @@ public class Edge extends Observable implements Observer, GraphElement {
         return lineString.getLength();
     }
 
+    public double getDeltaX() {
+        return Math.abs(getNodeA().getX() - getNodeB().getX());
+    }
+
+    public double getDeltaY() {
+        return Math.abs(getNodeA().getY() - getNodeB().getY());
+    }
+
     /**
      * @return the original edge length of this {@link Edge}
      */

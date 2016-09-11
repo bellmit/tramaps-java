@@ -17,11 +17,11 @@ public class SubGraphScaleHandler implements MetroMapLineSpaceHandler {
     private ScaleHandler scaleHandler;
 
     public SubGraphScaleHandler() {
-        this.scaleHandler = new ScaleHandler();
+        this.scaleHandler = new ScaleHandler(null);
     }
 
     @Override
-    public void makeSpace(@NotNull MetroMap map) {
+    public void makeSpace() {
         // TODO
         // 1. find peripheries
         // 2. create sub graphs

@@ -4,61 +4,75 @@
 
 package ch.geomo.tramaps.map.displacement.alg.helper;
 
+import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
 
 public class MoveNodeHandler {
 
-    public MoveNodeDirection evaluateNode(@NotNull Node moveableNode,
-                                          @NotNull MoveNodeGuard guard,
-                                          @NotNull OctilinearDirection connectionEdgeDirection,
-                                          @NotNull OctilinearDirection firstAdjacentEdgeDirection) {
+    public MoveNodeDirection evaluateNode2(@NotNull Node moveableNode,
+                                           @NotNull Edge connectionEdge,
+                                           @Nullable Edge firstAdjacentEdge,
+                                           @NotNull MoveNodeGuard guard) {
 
-        double moveDistance = guard.getMoveDistance();
-        OctilinearDirection displaceDirection = guard.getDisplaceDirection();
+        Direction direction = connectionEdge.getDirection(moveableNode);
+        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
 
-        boolean eastDisplaceDirection = displaceDirection == EAST;
-        boolean northDisplaceDirection = displaceDirection == NORTH;
+        double angle = originalDirection.getAngleTo(direction);
+        double dx = connectionEdge.getDeltaX();
+        double dy = connectionEdge.getDeltaY();
+        double diff = Math.abs(dx - dy);
 
-        switch (firstAdjacentEdgeDirection) {
+        boolean northDisplaceDirection = dy > dx;
+        boolean eastDisplaceDirection = !northDisplaceDirection;
+
+        OctilinearDirection adjacentEdgeDirection = Optional.ofNullable(firstAdjacentEdge)
+                .map(edge -> edge.getDirection(moveableNode).toOctilinear())
+                .orElse(northDisplaceDirection ? EAST : NORTH);
+
+        switch (adjacentEdgeDirection) {
             case NORTH:
             case SOUTH: {
                 if (eastDisplaceDirection) {
-                    if (connectionEdgeDirection.isHorizontal()) {
+                    if (originalDirection.isHorizontal()) {
                         return new MoveNodeDirection(NORTH, moveableNode, 0);
                     }
-                    if (connectionEdgeDirection.isDiagonal135()) {
-                        return new MoveNodeDirection(SOUTH, moveableNode, moveDistance);
+                    if (originalDirection.isDiagonal135()) {
+                        return new MoveNodeDirection(SOUTH, moveableNode, diff);
                     }
                 }
-                return new MoveNodeDirection(NORTH, moveableNode, moveDistance);
+                return new MoveNodeDirection(NORTH, moveableNode, diff);
             }
             case EAST:
             case WEST: {
                 if (northDisplaceDirection) {
-                    if (connectionEdgeDirection.isVertical()) {
+                    if (originalDirection.isVertical()) {
                         return new MoveNodeDirection(EAST, moveableNode, 0);
                     }
-                    if (connectionEdgeDirection.isDiagonal135()) {
-                        return new MoveNodeDirection(WEST, moveableNode, moveDistance);
+                    if (originalDirection.isDiagonal135()) {
+                        return new MoveNodeDirection(WEST, moveableNode, diff);
                     }
                 }
-                return new MoveNodeDirection(EAST, moveableNode, moveDistance);
+                return new MoveNodeDirection(EAST, moveableNode, diff);
             }
             case SOUTH_WEST:
             case NORTH_EAST: {
-                if (connectionEdgeDirection.isHorizontal()) {
+                if (originalDirection.isHorizontal()) {
                     return new MoveNodeDirection(NORTH_EAST, moveableNode, 0);
                 }
                 return new MoveNodeDirection(NORTH_EAST, moveableNode, guard.getMoveDistance());
             }
             case NORTH_WEST:
             case SOUTH_EAST: {
-                if (connectionEdgeDirection.isVertical()) {
+                if (originalDirection.isVertical()) {
                     return new MoveNodeDirection(NORTH_EAST, moveableNode, 0);
                 }
                 if (eastDisplaceDirection) {
@@ -70,34 +84,6 @@ public class MoveNodeHandler {
 
         Contracts.fail("Should never reach this point...");
         return new MoveNodeDirection(NORTH, moveableNode, 0);
-
-    }
-
-
-    public MoveNodeDirection evaluateConflictRelatedNode(@NotNull Node moveableNode,
-                                                         @NotNull MoveNodeGuard guard,
-                                                         @NotNull OctilinearDirection connectionEdgeDirection,
-                                                         @NotNull OctilinearDirection firstAdjacentEdgeDirection) {
-
-        // currently not different from a non-conflict related node
-        return evaluateNode(moveableNode, guard, connectionEdgeDirection, firstAdjacentEdgeDirection);
-
-    }
-
-    public MoveNodeDirection evaluateSingleNode(@NotNull Node moveableNode,
-                                                @NotNull MoveNodeGuard guard,
-                                                @NotNull OctilinearDirection connectionEdgeDirection) {
-
-        if (connectionEdgeDirection.isDiagonal()) {
-            if (guard.getDisplaceDirection() == NORTH) {
-                return evaluateNode(moveableNode, guard, connectionEdgeDirection, EAST);
-            }
-            return evaluateNode(moveableNode, guard, connectionEdgeDirection, NORTH);
-        }
-        if (!guard.isConflictElementRelated(moveableNode)) {
-            return evaluateNode(moveableNode, guard, connectionEdgeDirection, guard.getDisplaceDirection().opposite());
-        }
-        return evaluateNode(moveableNode, guard, connectionEdgeDirection, guard.getDisplaceDirection());
 
     }
 

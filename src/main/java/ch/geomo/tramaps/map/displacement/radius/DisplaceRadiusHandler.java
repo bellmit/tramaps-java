@@ -19,7 +19,13 @@ public class DisplaceRadiusHandler implements MetroMapLineSpaceHandler {
 
     private static final int MAX_ITERATIONS = 500;
 
-    private void makeSpace(@NotNull MetroMap map, int lastIteration, @Nullable Conflict lastConflict) {
+    private final MetroMap map;
+
+    public DisplaceRadiusHandler(@NotNull MetroMap map) {
+        this.map = map;
+    }
+
+    private void makeSpace(int lastIteration, @Nullable Conflict lastConflict) {
 
         int currentIteration = lastIteration + 1;
 
@@ -39,7 +45,7 @@ public class DisplaceRadiusHandler implements MetroMapLineSpaceHandler {
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {
-                makeSpace(map, currentIteration, conflict);
+                makeSpace(currentIteration, conflict);
             }
 
         }
@@ -50,10 +56,10 @@ public class DisplaceRadiusHandler implements MetroMapLineSpaceHandler {
     }
 
     @Override
-    public void makeSpace(@NotNull MetroMap map) {
+    public void makeSpace() {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceHandler algorithm");
-        makeSpace(map, 0, null);
+        makeSpace(0, null);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }
