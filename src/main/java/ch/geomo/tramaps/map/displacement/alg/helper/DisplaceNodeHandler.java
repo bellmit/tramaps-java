@@ -31,12 +31,12 @@ public class DisplaceNodeHandler {
 
     private boolean isDisplaceableToNorth(@NotNull Node node) {
         boolean displaceable = node.getPoint().getY() > conflict.getSamplePointOnDisplaceLine().y;
-        return displaceable && !conflict.isConflictElement(node) || conflict.isDisplaceElement(node);
+        return displaceable && (!conflict.isConflictElement(node) || conflict.isDisplaceElement(node));
     }
 
     private boolean isDisplaceableToEast(@NotNull Node node) {
         boolean displaceable = node.getPoint().getX() > conflict.getSamplePointOnDisplaceLine().x;
-        return displaceable && !conflict.isConflictElement(node) || conflict.isDisplaceElement(node);
+        return displaceable && (!conflict.isConflictElement(node) || conflict.isDisplaceElement(node));
     }
 
     @NotNull
@@ -49,17 +49,17 @@ public class DisplaceNodeHandler {
                     .collect(Collectors.toList());
 
             displacedNodes.forEach(node -> {
-                if (!conflict.isConflictRelated(node)
-                        && node.getNodeDegree() == 1
-                        && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
-                    // ignore single node when not conflict related and the adjacent edge
-                    // was not moved in this iteration
-                    Loggers.info(this, "Ignore single node " + node.getName() + ".");
-                }
-                else {
+//                if (!conflict.isConflictRelated(node)
+//                        && node.getNodeDegree() == 1
+//                        && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
+//                    // ignore single node when not conflict related and the adjacent edge
+//                    // was not moved in this iteration
+//                    Loggers.info(this, "Ignore single node " + node.getName() + ".");
+//                }
+//                else {
                     Loggers.flag(this, "Displace node " + node.getName() + " eastwards (distance=" + conflict.getBestDisplaceDistance()+ ").");
                     node.updateX(node.getX() + conflict.getBestDisplaceDistance());
-                }
+//                }
             });
 
             return new DisplaceNodeResult(EAST, displacedNodes, conflict, otherConflicts);
@@ -70,18 +70,23 @@ public class DisplaceNodeHandler {
                 .filter(this::isDisplaceableToNorth)
                 .collect(Collectors.toList());
 
+
+        if (displacedNodes.isEmpty()) {
+            System.out.println("shiit");
+        }
+
         displacedNodes.forEach(node -> {
-            if (!conflict.isConflictRelated(node)
-                    && node.getNodeDegree() == 1
-                    && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
-                // ignore single node when not conflict related and the adjacent edge
-                // was not moved in this iteration
-                Loggers.info(this, "Ignore single node " + node.getName() + ".");
-            }
-            else {
+//            if (!conflict.isConflictRelated(node)
+//                    && node.getNodeDegree() == 1
+//                    && node.getAdjacentEdges().stream().noneMatch(edge -> displacedNodes.contains(edge.getOtherNode(node)))) {
+//                // ignore single node when not conflict related and the adjacent edge
+//                // was not moved in this iteration
+//                Loggers.info(this, "Ignore single node " + node.getName() + ".");
+//            }
+//            else {
                 Loggers.flag(this, "Displace node " + node.getName() + " to northwards (distance=" + conflict.getBestDisplaceDistance()+ ").");
                 node.updateY(node.getY() + conflict.getBestDisplaceDistance());
-            }
+//            }
         });
 
         return new DisplaceNodeResult(NORTH, displacedNodes, conflict, otherConflicts);

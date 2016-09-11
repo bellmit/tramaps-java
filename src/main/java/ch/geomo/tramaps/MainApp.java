@@ -45,8 +45,8 @@ public class MainApp extends Application {
         stage.setTitle("Tramaps GUI");
         initLayout();
 
-         map = new ExampleMetroMap(5, 25);
-//        map = new MetroMapZuerich(5, 25);
+//         map = new ExampleMetroMap(5, 25);
+        map = new MetroMapZuerich(5, 25);
 
 //        makeSpace(DisplaceRadiusHandler::new);
         // makeSpace(ScaleHandler::new);
@@ -78,7 +78,7 @@ public class MainApp extends Application {
         canvas.setScaleX(scale);
         canvas.setScaleY(scale);
 
-        double correction = 1 / scale * 2.8;
+        double correction = 1 / scale;
         canvas.setTranslateX(0 - canvas.getWidth() / correction);
         canvas.setTranslateY(0 - canvas.getHeight() / correction);
 

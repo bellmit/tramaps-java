@@ -43,7 +43,6 @@ public class ConflictFinder {
         else if (!bufferPair.hasAdjacentElements()) {
             return true;
         }
-
         return bufferPair.isNodePair();
 
     };

@@ -15,6 +15,7 @@ import java.util.LinkedList;
 
 public class MetroMapEdgeBuilder implements Builder<LinkedList<Node>> {
 
+    private String name;
     private MetroMap map;
     private Route[] routes = new Route[1];
 

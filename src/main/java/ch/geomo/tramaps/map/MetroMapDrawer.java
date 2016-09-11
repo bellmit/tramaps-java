@@ -5,15 +5,12 @@
 package ch.geomo.tramaps.map;
 
 import ch.geomo.tramaps.graph.Edge;
-import ch.geomo.util.Loggers;
+import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.logging.Logger;
 
 public class MetroMapDrawer {
 
@@ -57,13 +54,15 @@ public class MetroMapDrawer {
                     context.setLineCap(StrokeLineCap.BUTT);
                     drawEdge(edge, context);
                 });
-        map.getNodes().forEach(node -> {
-            Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
-            context.setFill(Color.BLACK);
-            context.fillRoundRect(station.getMinX() - 5, station.getMinY() - 5, station.getWidth() + 10, station.getHeight() + 10, 25, 25);
-            context.setFill(Color.WHITE);
-            context.fillRoundRect(station.getMinX(), station.getMinY(), station.getWidth(), station.getHeight(), 25, 25);
-        });
+        map.getNodes().stream()
+                .filter(node -> !(node.getNodeSignature() instanceof BendNodeSignature))
+                .forEach(node -> {
+                    Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
+                    context.setFill(Color.BLACK);
+                    context.fillRoundRect(station.getMinX() - 5, station.getMinY() - 5, station.getWidth() + 10, station.getHeight() + 10, 25, 25);
+                    context.setFill(Color.WHITE);
+                    context.fillRoundRect(station.getMinX(), station.getMinY(), station.getWidth(), station.getHeight(), 25, 25);
+                });
         map.getEdges().forEach(edge -> {
             context.setLineWidth(2);
             context.setStroke(Color.BLACK);
@@ -82,12 +81,12 @@ public class MetroMapDrawer {
                     Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();
                     context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
 
-                    context.setFill(Color.rgb(20,172,0, 0.4));
-                    Envelope bbox3 = conflict.getBufferA().getBuffer().getEnvelopeInternal();
-                    context.fillRect(bbox3.getMinX(), bbox3.getMinY(), bbox3.getWidth(), bbox3.getHeight());
-                    context.setFill(Color.rgb(176,93,117, 0.4));
-                    Envelope bbox4 = conflict.getBufferB().getBuffer().getEnvelopeInternal();
-                    context.fillRect(bbox4.getMinX(), bbox4.getMinY(), bbox4.getWidth(), bbox4.getHeight());
+//                    context.setFill(Color.rgb(20, 172, 0, 0.4));
+//                    Envelope bbox3 = conflict.getBufferA().getBuffer().getEnvelopeInternal();
+//                    context.fillRect(bbox3.getMinX(), bbox3.getMinY(), bbox3.getWidth(), bbox3.getHeight());
+//                    context.setFill(Color.rgb(176, 93, 117, 0.4));
+//                    Envelope bbox4 = conflict.getBufferB().getBuffer().getEnvelopeInternal();
+//                    context.fillRect(bbox4.getMinX(), bbox4.getMinY(), bbox4.getWidth(), bbox4.getHeight());
                 });
 
         map.getNodes().forEach(node -> {

@@ -19,6 +19,7 @@ import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeResult;
 import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeGuard;
 import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler;
 import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler.MoveNodeDirection;
+import ch.geomo.tramaps.map.displacement.scale.ScaleHandler;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
@@ -34,8 +35,8 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 100;
-    private static final double MAX_ADJUSTMENT_COSTS = 5;
+    private static final int MAX_ITERATIONS = 150;
+    private static final double MAX_ADJUSTMENT_COSTS = 100;
 
     private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull MetroMap map, @NotNull DisplaceNodeResult displaceNodeResult) {
 
@@ -72,10 +73,6 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         map.getEdges().stream()
                 .filter(edge -> !edge.getDirection(null).isOctilinear())
                 .forEach(edge -> correctNonOctilinearEdge(edge, map, displaceNodeResult));
-
-        map.getEdges().stream()
-                .filter(edge -> !edge.getDirection(null).isOctilinear())
-                .forEach(edge -> Loggers.warning(this, "Uncorrected non-Octilinear edge " + edge.getName() + " with angle=" + edge.getAngle(null) + "!"));
 
     }
 
@@ -323,7 +320,14 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             Loggers.info(this, "Handle conflict: " + conflict);
             DisplaceNodeHandler displaceNodeHandler = new DisplaceNodeHandler(map, conflict, conflicts);
             DisplaceNodeResult displaceNodeResult = displaceNodeHandler.displace();
-            correctNonOctilinearEdges(map, displaceNodeResult);
+
+            if (conflict.getConflictType().isNodeNodeConflict()) {
+                correctNonOctilinearEdges(map, displaceNodeResult);
+            }
+
+            map.getEdges().stream()
+                    .filter(edge -> !edge.getDirection(null).isOctilinear())
+                    .forEach(edge -> Loggers.warning(this, "Uncorrected non-Octilinear edge " + edge.getName() + " with angle=" + edge.getAngle(null) + "!"));
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {
@@ -352,6 +356,8 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 //                .forEach(edge -> correctEdgeByIntroducingBendNodes(edge, map));
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
+        // new ScaleHandler().makeSpace(map);
+        // makeSpace(map, 0, null);
     }
 
 }

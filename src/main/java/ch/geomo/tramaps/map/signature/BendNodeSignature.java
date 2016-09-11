@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * A specialized {@link EmptyNodeSignature} implementation.
  */
-public class BendNodeSignature extends EmptyNodeSignature {
+public class BendNodeSignature extends SquareStationSignature {
 
     public BendNodeSignature(@NotNull Node node) {
         super(node);

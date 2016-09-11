@@ -15,20 +15,22 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
-import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.math.Vector2D;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
-import com.vividsolutions.jts.operation.valid.IsValidOp;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ch.geomo.tramaps.conflict.ConflictType.NODE_EDGE;
 import static ch.geomo.tramaps.geom.Axis.X;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
@@ -103,14 +105,16 @@ public class Conflict implements Comparable<Conflict> {
         return getGeomUtil().createLineString(getBufferA().getElement().getCentroid(), getBufferB().getElement().getCentroid());
     }
 
-    private List<Node> getNodes() {
+    @NotNull
+    public List<Node> getNodes() {
         return Stream.of(getBufferA().getElement(), getBufferB().getElement())
                 .filter(element -> element instanceof Node)
                 .map(element -> (Node) element)
                 .collect(Collectors.toList());
     }
 
-    private List<Edge> getEdges() {
+    @NotNull
+    public List<Edge> getEdges() {
         return Stream.of(getBufferA().getElement(), getBufferB().getElement())
                 .filter(element -> element instanceof Edge)
                 .map(element -> (Edge) element)
@@ -118,6 +122,8 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     private void initConflict() {
+
+        initConflictArea();
 
         // create conflict polygon
         conflictPolygon = createConflictPolygon();
@@ -151,15 +157,22 @@ public class Conflict implements Comparable<Conflict> {
             }
         }
 
-        initConflictLines();
-
         if (conflictPolygon.isEmpty()) {
             solved = true;
         }
 
+        if (conflictType == NODE_EDGE) {
+            Node node = getNodes().get(0);
+            Edge edge = getEdges().get(0);
+            if (node.isAdjacent(edge.getNodeA()) || node.isAdjacent(edge.getNodeB())) {
+                // TODO -> remove workaround
+//                solved = true;
+            }
+        }
+
     }
 
-    private void initConflictLines() {
+    private void initConflictArea() {
 
         switch (conflictType) {
             case NODE_NODE:
@@ -199,7 +212,6 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     private void initEdgeEdgeConflict(@NotNull Edge edge1, @NotNull Edge edge2) {
-
 
 
         double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
@@ -298,6 +310,13 @@ public class Conflict implements Comparable<Conflict> {
         return Objects.equals(graphElement, getDisplaceElement());
     }
 
+    public GraphElement getNonDisplaceElement() {
+        if (getBufferA().getElement().equals(getDisplaceElement())) {
+            return getBufferB().getElement();
+        }
+        return getBufferA().getElement();
+    }
+
     public GraphElement getDisplaceElement() {
         switch (conflictType) {
             case NODE_NODE:
@@ -388,6 +407,10 @@ public class Conflict implements Comparable<Conflict> {
         return buffers.second();
     }
 
+    public boolean hasSingleNode() {
+        return conflictType.hasNode() && getNodes().stream().anyMatch(node -> node.getNodeDegree() == 1);
+    }
+
     public boolean isConflictElement(@NotNull GraphElement graphElement) {
         return graphElement.equals(getBufferA().getElement())
                 || graphElement.equals(getBufferB().getElement());
@@ -420,7 +443,7 @@ public class Conflict implements Comparable<Conflict> {
 
     @Override
     public String toString() {
-        return "Conflict: {" + getBufferA() + ", " + getBufferB() + ", area=" + getGeomUtil().makePrecise(conflictPolygon.getArea()) + "}";
+        return "Conflict: {" + getBufferA() + ", " + getBufferB() + ", area=" + getGeomUtil().makePrecise(conflictPolygon.getArea()) + ", point=" + bestDisplaceStartPoint + ", axis=" + bestDisplaceAxis + "}";
     }
 
 }
