@@ -48,14 +48,11 @@ public class MainApp extends Application {
         //makeSpace(() -> new DisplaceHandler(map));
         //makeSpace(() -> new DisplaceRadiusHandler(map));
 
-        draw();
+        drawMetroMap();
 
     }
 
-    /**
-     * Draw Metro Map.
-     */
-    private void draw() {
+    private void drawMetroMap() {
 
         Envelope bbox = map.getBoundingBox();
 
@@ -76,14 +73,11 @@ public class MainApp extends Application {
         canvas.setScaleX(factor);
         canvas.setScaleY(factor);
 
-        show(canvas, MAX_HEIGHT, MAX_HEIGHT / height * width);
+        showMetroMap(canvas, MAX_HEIGHT, MAX_HEIGHT / height * width);
 
     }
 
-    /**
-     * Show Metro Map.
-     */
-    private void show(@NotNull Canvas canvas, double height, double width) {
+    private void showMetroMap(@NotNull Canvas canvas, double height, double width) {
 
         Group group = new Group();
         group.getChildren().add(canvas);
