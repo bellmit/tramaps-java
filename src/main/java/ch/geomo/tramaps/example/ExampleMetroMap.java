@@ -70,6 +70,12 @@ public class ExampleMetroMap extends MetroMap {
         createEdge(o, k, line2, line5, line4);
         createEdge(o, d, line1, line2, line4, line5, line6);
         createEdge(p, e, line1, line2, line4, line5);
+        createEdge(p, d, line1);
+        createEdge(g, r, line1);
+        createEdge(f, r, line1);
+        //createEdge(o, b, line1);
+        //createEdge(p, q, line1);
+        //createEdge(l, q, line1);
 
     }
 

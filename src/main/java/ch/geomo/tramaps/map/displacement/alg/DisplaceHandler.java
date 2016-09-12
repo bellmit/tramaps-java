@@ -291,8 +291,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             DisplaceNodeHandler displaceNodeHandler = new DisplaceNodeHandler(map, conflict, conflicts);
             DisplaceNodeResult displaceNodeResult = displaceNodeHandler.displace();
 
-            if (conflict.getBestDisplaceDistance() < 20)
-                // correctNonOctilinearEdges(displaceNodeResult);
+            correctNonOctilinearEdges(displaceNodeResult);
 
             map.getEdges().stream()
                     .filter(edge -> !edge.getDirection(null).isOctilinear())
