@@ -17,7 +17,7 @@ public class MetroMapDrawer {
     private final MetroMap map;
     private final double margin;
 
-    public MetroMapDrawer(MetroMap map, double margin) {
+    public MetroMapDrawer(@NotNull MetroMap map, double margin) {
         this.map = map;
         this.margin = margin;
     }
@@ -28,15 +28,8 @@ public class MetroMapDrawer {
 
     public void draw(@NotNull GraphicsContext context, @NotNull Envelope bbox) {
 
-        if (map == null) {
-            return;
-        }
-
-        double x = bbox.getMinX();
-        double y = bbox.getMinY();
-
         // start drawing at the top left
-        context.translate(-x + margin, -y + margin);
+        context.translate(-bbox.getMinX() + margin, -bbox.getMinY() + margin);
 
         int max = (int) Math.ceil(Math.max(bbox.getMaxX(), bbox.getMaxY())) + 1000;
         for (int i = -max, j = 0; i < max; i = i + 25, j = j + 25) {

@@ -23,66 +23,55 @@ public class MoveNodeHandler {
                                            @Nullable Edge firstAdjacentEdge,
                                            @NotNull MoveNodeGuard guard) {
 
-        Direction direction = connectionEdge.getDirection(moveableNode);
-        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
+        Direction currentDirection = connectionEdge.getDirection(moveableNode);
 
-        double angle = originalDirection.getAngleTo(direction);
         double dx = connectionEdge.getDeltaX();
         double dy = connectionEdge.getDeltaY();
         double diff = Math.abs(dx - dy);
 
-        boolean northDisplaceDirection = dy > dx;
-        boolean eastDisplaceDirection = !northDisplaceDirection;
-
         OctilinearDirection adjacentEdgeDirection = Optional.ofNullable(firstAdjacentEdge)
                 .map(edge -> edge.getDirection(moveableNode).toOctilinear())
-                .orElse(northDisplaceDirection ? EAST : NORTH);
+                .orElse(guard.getDisplaceDirection());
 
         switch (adjacentEdgeDirection) {
             case NORTH:
             case SOUTH: {
-                if (eastDisplaceDirection) {
-                    if (originalDirection.isHorizontal()) {
-                        return new MoveNodeDirection(NORTH, moveableNode, 0);
-                    }
-                    if (originalDirection.isDiagonal135()) {
-                        return new MoveNodeDirection(SOUTH, moveableNode, diff);
-                    }
+                double beta = NORTH.getAngleTo(currentDirection);
+                if ((beta > 45 && beta < 90) || (beta > 135 && beta < 225) || (beta > 270 && beta < 335)) {
+                    return new MoveNodeDirection(SOUTH, moveableNode, diff);
+
                 }
                 return new MoveNodeDirection(NORTH, moveableNode, diff);
             }
             case EAST:
             case WEST: {
-                if (northDisplaceDirection) {
-                    if (originalDirection.isVertical()) {
-                        return new MoveNodeDirection(EAST, moveableNode, 0);
-                    }
-                    if (originalDirection.isDiagonal135()) {
-                        return new MoveNodeDirection(WEST, moveableNode, diff);
-                    }
+                double beta = EAST.getAngleTo(currentDirection);
+                if ((beta > 45 && beta < 90) || (beta > 135 && beta < 225) || (beta > 270 && beta < 335)) {
+                    return new MoveNodeDirection(WEST, moveableNode, diff);
                 }
                 return new MoveNodeDirection(EAST, moveableNode, diff);
             }
-            case SOUTH_WEST:
-            case NORTH_EAST: {
-                if (originalDirection.isHorizontal()) {
-                    return new MoveNodeDirection(NORTH_EAST, moveableNode, 0);
-                }
-                return new MoveNodeDirection(NORTH_EAST, moveableNode, guard.getMoveDistance());
-            }
-            case NORTH_WEST:
-            case SOUTH_EAST: {
-                if (originalDirection.isVertical()) {
-                    return new MoveNodeDirection(NORTH_EAST, moveableNode, 0);
-                }
-                if (eastDisplaceDirection) {
-                    return new MoveNodeDirection(SOUTH_EAST, moveableNode, guard.getMoveDistance());
-                }
-                return new MoveNodeDirection(NORTH_WEST, moveableNode, guard.getMoveDistance());
-            }
+//            case NORTH_EAST:
+//            case SOUTH_WEST: {
+//                double beta = NORTH_EAST.getAngleTo(currentDirection);
+//                if (beta > 90 && beta < 270) {
+//                    // TODO handle displace direction
+//                    return new MoveNodeDirection(SOUTH_WEST, moveableNode, diff);
+//                }
+//                return new MoveNodeDirection(NORTH_EAST, moveableNode, diff);
+//            }
+//            case SOUTH_EAST:
+//            case NORTH_WEST: {
+//                double beta = SOUTH_EAST.getAngleTo(currentDirection);
+//                if (beta > 90 && beta < 270) {
+//                    // TODO handle displace direction
+//                    return new MoveNodeDirection(NORTH_WEST, moveableNode, diff);
+//                }
+//                return new MoveNodeDirection(SOUTH_EAST, moveableNode, diff);
+//            }
         }
 
-        Contracts.fail("Should never reach this point...");
+        // Contracts.fail("Should never reach this point...");
         return new MoveNodeDirection(NORTH, moveableNode, 0);
 
     }

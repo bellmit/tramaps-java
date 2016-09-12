@@ -375,6 +375,42 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return adjacentEdges.size();
     }
 
+    public boolean isNorthEastOf(Coordinate coordinate) {
+        return isNorthOf(coordinate) && isEastOf(coordinate);
+    }
+
+    public boolean isNorthWestOf(Coordinate coordinate) {
+        return isNorthOf(coordinate) && isWestOf(coordinate);
+    }
+
+    public boolean isSouthWestOf(Coordinate coordinate) {
+        return isSouthOf(coordinate) && isWestOf(coordinate);
+    }
+
+    public boolean isSouthEastOf(Coordinate coordinate) {
+        return isSouthOf(coordinate) && isEastOf(coordinate);
+    }
+
+    public boolean isSouthOf(Coordinate coordinate) {
+        return getY() < coordinate.y;
+    }
+
+    public boolean isNorthOf(Coordinate coordinate) {
+        return getY() > coordinate.y;
+    }
+
+    public boolean isEastOf(Coordinate coordinate) {
+        return getX() > coordinate.x;
+    }
+
+    public boolean isWestOf(Coordinate coordinate) {
+        return getX() < coordinate.x;
+    }
+
+    public boolean isNotEquals(Node node) {
+        return !equals(node);
+    }
+
     @Override
     public boolean equals(Object obj) {
         // since a node is equals to the same node but at another position, position

@@ -12,6 +12,7 @@ import ch.geomo.tramaps.geom.util.PolygonUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
@@ -32,6 +33,7 @@ import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.conflict.ConflictType.NODE_EDGE;
 import static ch.geomo.tramaps.geom.Axis.X;
+import static ch.geomo.tramaps.geom.Axis.Y;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class Conflict implements Comparable<Conflict> {
@@ -66,7 +68,8 @@ public class Conflict implements Comparable<Conflict> {
         if (buffers.isNodePair() && buffers.hasAdjacentElements()) {
             if (((Node) buffers.first().getElement()).getAdjacentEdges().stream()
                     .filter(edge -> buffers.second().getElement().equals(edge.getOtherNode((Node) buffers.first().getElement())))
-                    .noneMatch(Edge::isOctilinearDiagonal)) {
+                    .map(edge -> edge.getOriginalDirection(null))
+                    .noneMatch(Direction::isDiagonal)) {
                 conflictType = ConflictType.ADJACENT_NODE_NODE;
             }
             else {
@@ -167,7 +170,7 @@ public class Conflict implements Comparable<Conflict> {
             if (node.isAdjacent(edge.getNodeA()) || node.isAdjacent(edge.getNodeB())) {
                 // we currently ignore this kind of conflict
                 // TODO remove workaround and find another solution
-                solved = true;
+                // solved = true;
             }
         }
 
@@ -214,7 +217,6 @@ public class Conflict implements Comparable<Conflict> {
 
     private void initEdgeEdgeConflict(@NotNull Edge edge1, @NotNull Edge edge2) {
 
-
         double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
         double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
         if (angleY < angleX) {
@@ -223,7 +225,15 @@ public class Conflict implements Comparable<Conflict> {
         }
         else {
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-            bestDisplaceAxis = Axis.Y;
+            bestDisplaceAxis = Y;
+        }
+
+        Geometry intersection = conflictPolygon.intersection(conflictArea);
+        if (intersection.isEmpty()) {
+            solved = true;
+        }
+        else {
+            bestDisplaceStartPoint = intersection.getCentroid().getCoordinate();
         }
 
     }
@@ -231,13 +241,14 @@ public class Conflict implements Comparable<Conflict> {
     private void initNodeEdgeConflict(@NotNull Node node, @NotNull Edge edge) {
         if ((node.getX() < Math.min(edge.getNodeA().getX(), edge.getNodeB().getX()))
                 || (node.getX() > Math.max(edge.getNodeA().getX(), edge.getNodeB().getX()))) {
+
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
             bestDisplaceAxis = X;
         }
         else if ((node.getY() < Math.min(edge.getNodeA().getY(), edge.getNodeB().getY()))
                 || (node.getY() > Math.max(edge.getNodeA().getY(), edge.getNodeB().getY()))) {
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-            bestDisplaceAxis = Axis.Y;
+            bestDisplaceAxis = Y;
         }
         else {
             double dxa = Math.abs(node.getX() - edge.getNodeA().getX());
@@ -250,7 +261,7 @@ public class Conflict implements Comparable<Conflict> {
             }
             else {
                 bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-                bestDisplaceAxis = Axis.Y;
+                bestDisplaceAxis = Y;
             }
         }
         Coordinate nearestPoint = DistanceOp.nearestPoints(edge.getGeometry(), node.getGeometry())[0];
@@ -272,7 +283,7 @@ public class Conflict implements Comparable<Conflict> {
         }
         else {
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
-            bestDisplaceAxis = Axis.Y;
+            bestDisplaceAxis = Y;
         }
         bestDisplaceStartPoint = getGeomUtil().createLineString(node1, node2).getCentroid().getCoordinate();
 

@@ -5,10 +5,8 @@
 package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
-import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.Route;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
@@ -16,23 +14,22 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.helper.*;
 import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler.MoveNodeDirection;
-import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 150;
+    private static final int MAX_ITERATIONS = 100;
     private static final double MAX_ADJUSTMENT_COSTS = 100;
 
     private final MetroMap map;
@@ -157,12 +154,50 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
         final double correctDistance = result.getMoveDistance();
         final OctilinearDirection octilinearMoveDirection = result.getMoveDirection();
 
+        Point movePoint = moveableNode.createMovePoint(octilinearMoveDirection, correctDistance);
+
         // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
         boolean overlapsAdjacentNode = moveableNode.getAdjacentEdgeStream(connectionEdge)
-                .anyMatch(adjEdge -> adjEdge.getDirection(moveableNode).toOctilinear() == octilinearMoveDirection && adjEdge.getLength() <= correctDistance);
+                .anyMatch(adjEdge -> {
+                    if (adjEdge.getDirection(moveableNode).toOctilinear() != octilinearMoveDirection) {
+                        return false;
+                    }
+                    Node otherNode = adjEdge.getOtherNode(moveableNode);
+                    if (adjEdge.getLength() > correctDistance) {
+                        return false;
+                    }
+                    Coordinate coordinate = movePoint.getCoordinate();
+                    switch (result.getMoveDirection()) {
+                        case EAST:
+                            return !otherNode.isEastOf(coordinate);
+                        case NORTH:
+                            return !otherNode.isNorthOf(coordinate);
+                        case SOUTH:
+                            return !otherNode.isSouthOf(coordinate);
+                        case WEST:
+                            return !otherNode.isWestOf(coordinate);
+                        case NORTH_EAST:
+                            return !otherNode.isNorthEastOf(coordinate);
+                        case NORTH_WEST:
+                            return !otherNode.isNorthWestOf(coordinate);
+                        case SOUTH_EAST:
+                            return !otherNode.isSouthEastOf(coordinate);
+                        case SOUTH_WEST:
+                            return !otherNode.isSouthWestOf(coordinate);
+                        default: {
+                            Contracts.fail();
+                            return true;
+                        }
+                    }
+                });
+
+        // test if new position is equals to a position of another node
+        boolean overlapsOtherNodes = map.getNodes().stream()
+                .filter(moveableNode::isNotEquals)
+                .map(Node::getCoordinate)
+                .anyMatch(coordinate -> movePoint.getCoordinate().equals(coordinate));
 
         // test if new position would intersect with any other edge when moving -> if so, we do not move
-        Point movePoint = moveableNode.createMovePoint(octilinearMoveDirection, correctDistance);
         boolean overlapsOtherEdges = moveableNode.getAdjacentEdgeStream(null)
                 .map(edge -> edge.getOtherNode(moveableNode))
                 .map(node -> getGeomUtil().createLineString(movePoint, node.getPoint()))
@@ -181,7 +216,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             Loggers.warning(this, "It seems that the new position is equals to the adjacent node position.");
         }
 
-        if (!overlapsAdjacentNode && !overlapsOtherEdges && notEqualPosition) {
+        if (!overlapsAdjacentNode && !overlapsOtherNodes && !overlapsOtherEdges && notEqualPosition) {
             Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (distance=" + correctDistance + ").");
             moveableNode.updatePosition(movePoint);
             Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
@@ -256,7 +291,8 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             DisplaceNodeHandler displaceNodeHandler = new DisplaceNodeHandler(map, conflict, conflicts);
             DisplaceNodeResult displaceNodeResult = displaceNodeHandler.displace();
 
-            // correctNonOctilinearEdges(displaceNodeResult);
+            if (conflict.getBestDisplaceDistance() < 20)
+                // correctNonOctilinearEdges(displaceNodeResult);
 
             map.getEdges().stream()
                     .filter(edge -> !edge.getDirection(null).isOctilinear())
@@ -267,6 +303,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 makeSpace(currentIteration, conflict);
             }
             else {
+                // correctNonOctilinearEdges(displaceNodeResult);
                 Loggers.separator(this);
                 Loggers.warning(this, "Max number of iteration reached. Stop algorithm.");
                 Loggers.separator(this);
