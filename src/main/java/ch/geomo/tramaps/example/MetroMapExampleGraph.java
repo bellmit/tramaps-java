@@ -17,9 +17,9 @@ import java.util.function.Function;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
-public class ExampleMetroMap extends MetroMap {
+public class MetroMapExampleGraph extends MetroMap {
 
-    public ExampleMetroMap(double routeMargin, double edgeMargin) {
+    public MetroMapExampleGraph(double routeMargin, double edgeMargin) {
 
         super(routeMargin, edgeMargin);
 

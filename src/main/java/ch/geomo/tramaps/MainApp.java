@@ -4,13 +4,11 @@
 
 package ch.geomo.tramaps;
 
-import ch.geomo.tramaps.example.ExampleMetroMap;
-import ch.geomo.tramaps.example.MetroMapZuerich;
+import ch.geomo.tramaps.example.MetroMapExampleGraph;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
 import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.DisplaceHandler;
-import ch.geomo.tramaps.map.displacement.scale.ScaleHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -43,7 +41,7 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Tramaps GUI");
 
-        map = new ExampleMetroMap(5, 25);
+        map = new MetroMapExampleGraph(5, 25);
         //map = new MetroMapZuerich(5, 25);
 
         //makeSpace(() -> new ScaleHandler(map));
