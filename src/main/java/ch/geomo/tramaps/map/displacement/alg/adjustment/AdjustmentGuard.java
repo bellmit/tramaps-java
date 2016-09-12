@@ -2,13 +2,14 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement.alg.helper;
+package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
+import ch.geomo.tramaps.map.displacement.alg.DisplaceResult;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -22,28 +23,28 @@ import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
 /**
  * A transfer object which works as a guard to keep track of already visited nodes.
  */
-public class MoveNodeGuard {
+public class AdjustmentGuard {
 
     private final List<Node> traversedNodes;
 
     private final Conflict conflict;
     private final MetroMap map;
 
-    private final MoveNodeHandler nodeMoveHandler;
-    private final DisplaceNodeResult displaceNodeResult;
+    private final AdjustmentDirectionEvaluator nodeAdjustmentDirectionEvaluator;
+    private final DisplaceResult displaceResult;
 
     private List<Node> moveableNodes;
     private OctilinearDirection lastMoveDirection;
     private double lastMoveDistance = 0d;
 
-    public MoveNodeGuard(@NotNull MetroMap map, @NotNull DisplaceNodeResult displaceNodeResult, @NotNull Node firstNode) {
+    public AdjustmentGuard(@NotNull MetroMap map, @NotNull DisplaceResult displaceResult, @NotNull Node firstNode) {
         this.map = map;
-        conflict = displaceNodeResult.getConflict();
-        this.displaceNodeResult = displaceNodeResult;
-        lastMoveDirection = displaceNodeResult.getDisplaceDirection();
-        lastMoveDistance = displaceNodeResult.getDisplaceDistance();
+        conflict = displaceResult.getConflict();
+        this.displaceResult = displaceResult;
+        lastMoveDirection = displaceResult.getDisplaceDirection();
+        lastMoveDistance = displaceResult.getDisplaceDistance();
         traversedNodes = new ArrayList<>();
-        nodeMoveHandler = new MoveNodeHandler();
+        nodeAdjustmentDirectionEvaluator = new AdjustmentDirectionEvaluator();
         initMoveableNodes(firstNode);
     }
 
@@ -51,7 +52,7 @@ public class MoveNodeGuard {
 
         Coordinate pointOnDisplacementLine = conflict.getSamplePointOnDisplaceLine();
 
-        if (displaceNodeResult.getDisplaceDirection() == NORTH) {
+        if (displaceResult.getDisplaceDirection() == NORTH) {
             moveableNodes = map.getNodes().stream()
                     .filter(node -> {
                         if (firstNode.getX() < pointOnDisplacementLine.x) {
@@ -74,20 +75,20 @@ public class MoveNodeGuard {
 
     }
 
-    public MoveNodeHandler getNodeMoveHandler() {
-        return nodeMoveHandler;
+    public AdjustmentDirectionEvaluator getNodeAdjustmentDirectionEvaluator() {
+        return nodeAdjustmentDirectionEvaluator;
     }
 
-    public DisplaceNodeResult getDisplaceNodeResult() {
-        return displaceNodeResult;
+    public DisplaceResult getDisplaceResult() {
+        return displaceResult;
     }
 
     public OctilinearDirection getDisplaceDirection() {
-        return displaceNodeResult.getDisplaceDirection();
+        return displaceResult.getDisplaceDirection();
     }
 
     public double getDisplaceDistance() {
-        return displaceNodeResult.getDisplaceDistance();
+        return displaceResult.getDisplaceDistance();
     }
 
     public double getLastMoveDistance() {
@@ -123,7 +124,7 @@ public class MoveNodeGuard {
 
     @NotNull
     public List<Conflict> getOtherUnsolvedConflicts() {
-        return displaceNodeResult.getOtherConflicts();
+        return displaceResult.getOtherConflicts();
     }
 
     /**
@@ -167,7 +168,7 @@ public class MoveNodeGuard {
      * @return this instance
      */
     @NotNull
-    public MoveNodeGuard reuse() {
+    public AdjustmentGuard reuse() {
         traversedNodes.clear();
         return this;
     }
@@ -181,7 +182,7 @@ public class MoveNodeGuard {
     }
 
     public boolean hasBeenDisplaced(@NotNull Node node) {
-        return displaceNodeResult.getDisplacedNodes().contains(node);
+        return displaceResult.getDisplacedNodes().contains(node);
     }
 
 }

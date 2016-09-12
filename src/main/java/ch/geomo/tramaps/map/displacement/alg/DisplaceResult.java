@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement.alg.helper;
+package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Node;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplaceNodeResult {
+public class DisplaceResult {
 
     private final Conflict conflict;
     private final List<Conflict> otherConflicts;
@@ -20,10 +20,10 @@ public class DisplaceNodeResult {
     private final List<Node> displacedNodes;
     private final double displaceDistance;
 
-    public DisplaceNodeResult(@NotNull OctilinearDirection displaceDirection,
-                              @NotNull List<Node> displacedNodes,
-                              @NotNull Conflict conflict,
-                              @NotNull List<Conflict> otherConflicts) {
+    public DisplaceResult(@NotNull OctilinearDirection displaceDirection,
+                          @NotNull List<Node> displacedNodes,
+                          @NotNull Conflict conflict,
+                          @NotNull List<Conflict> otherConflicts) {
 
         this.displaceDirection = displaceDirection;
         this.displacedNodes = new ArrayList<>(displacedNodes);

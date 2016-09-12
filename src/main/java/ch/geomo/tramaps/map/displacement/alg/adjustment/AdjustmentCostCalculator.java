@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement.alg.helper;
+package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
@@ -45,7 +45,7 @@ public class AdjustmentCostCalculator {
      */
     public double calculateAdjustmentCosts(@NotNull Edge connectionEdge,
                                            @NotNull Node node,
-                                           @NotNull MoveNodeGuard guard) {
+                                           @NotNull AdjustmentGuard guard) {
 
         if (guard.isNotMoveable(node) || guard.hasAlreadyVisited(node)) {
             return CORRECT_CIRCLE_PENALTY;

@@ -5,10 +5,11 @@
 package ch.geomo.tramaps;
 
 import ch.geomo.tramaps.example.MetroMapExampleGraph;
+import ch.geomo.tramaps.example.MetroMapZuerich;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
-import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
-import ch.geomo.tramaps.map.displacement.alg.DisplaceHandler;
+import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.DisplaceLineSpaceHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -30,8 +31,8 @@ public class MainApp extends Application {
     private MetroMap map;
     private Stage stage;
 
-    private void makeSpace(@NotNull Supplier<MetroMapLineSpaceHandler> makeSpaceHandlerSupplier) {
-        MetroMapLineSpaceHandler handler = makeSpaceHandlerSupplier.get();
+    private void makeSpace(@NotNull Supplier<LineSpaceHandler> makeSpaceHandlerSupplier) {
+        LineSpaceHandler handler = makeSpaceHandlerSupplier.get();
         handler.makeSpace();
     }
 
@@ -41,12 +42,12 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Tramaps GUI");
 
-        map = new MetroMapExampleGraph(5, 25);
-        //map = new MetroMapZuerich(5, 25);
+        //map = new MetroMapExampleGraph(5, 25);
+        map = new MetroMapZuerich(5, 25);
 
         //makeSpace(() -> new ScaleHandler(map));
-        makeSpace(() -> new DisplaceHandler(map));
-        //makeSpace(() -> new DisplaceRadiusHandler(map));
+        makeSpace(() -> new DisplaceLineSpaceHandler(map));
+        //makeSpace(() -> new DisplaceRadiusLineSpaceHandler(map));
 
         drawMetroMap();
 

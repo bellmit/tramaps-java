@@ -11,12 +11,12 @@ import ch.geomo.util.Loggers;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
-public class DisplaceRadiusNodeHandler {
+public class RadiusDisplacer {
 
     private final MetroMap map;
     private final Conflict conflict;
 
-    public DisplaceRadiusNodeHandler(@NotNull MetroMap map, @NotNull Conflict conflict) {
+    public RadiusDisplacer(@NotNull MetroMap map, @NotNull Conflict conflict) {
         this.map = map;
         this.conflict = conflict;
     }
@@ -57,7 +57,6 @@ public class DisplaceRadiusNodeHandler {
         return node.getX() > getDisplacePoint().x && node.getY() < getDisplacePoint().y;
     }
 
-    @NotNull
     public void displace() {
 
         double displaceDistance = conflict.getBestDisplaceDistance();

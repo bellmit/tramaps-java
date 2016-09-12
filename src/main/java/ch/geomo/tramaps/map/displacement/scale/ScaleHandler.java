@@ -8,7 +8,7 @@ import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -22,10 +22,10 @@ import java.util.stream.Stream;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
- * This {@link MetroMapLineSpaceHandler} implementation makes space by scaling the underlying
+ * This {@link LineSpaceHandler} implementation makes space by scaling the underlying
  * graph of a metro map.
  */
-public class ScaleHandler implements MetroMapLineSpaceHandler {
+public class ScaleHandler implements LineSpaceHandler {
 
     private static final int MAX_ITERATIONS = 25;
 

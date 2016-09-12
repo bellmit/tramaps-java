@@ -11,9 +11,11 @@ import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
-import ch.geomo.tramaps.map.displacement.alg.helper.*;
-import ch.geomo.tramaps.map.displacement.alg.helper.MoveNodeHandler.MoveNodeDirection;
+import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentCostCalculator;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirection;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.pair.Pair;
@@ -27,29 +29,29 @@ import java.util.stream.Collectors;
 
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
-public class DisplaceHandler implements MetroMapLineSpaceHandler {
+public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
     private static final int MAX_ITERATIONS = 100;
     private static final double MAX_ADJUSTMENT_COSTS = 100;
 
     private final MetroMap map;
 
-    public DisplaceHandler(@NotNull MetroMap map) {
+    public DisplaceLineSpaceHandler(@NotNull MetroMap map) {
         this.map = map;
     }
 
-    private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull DisplaceNodeResult displaceNodeResult) {
+    private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull DisplaceResult displaceResult) {
 
         AdjustmentCostCalculator costCalculator = new AdjustmentCostCalculator();
 
         Loggers.info(this, "Correct edge " + edge.getName() + ".");
 
         // Node A
-        MoveNodeGuard guardA = new MoveNodeGuard(map, displaceNodeResult, edge.getNodeA());
+        AdjustmentGuard guardA = new AdjustmentGuard(map, displaceResult, edge.getNodeA());
         double scoreNodeA = costCalculator.calculateAdjustmentCosts(edge, edge.getNodeA(), guardA);
 
         // Node B
-        MoveNodeGuard guardB = new MoveNodeGuard(map, displaceNodeResult, edge.getNodeB());
+        AdjustmentGuard guardB = new AdjustmentGuard(map, displaceResult, edge.getNodeB());
         double scoreNodeB = costCalculator.calculateAdjustmentCosts(edge, edge.getNodeB(), guardB);
 
         Loggers.info(this, "Adjustment Costs for nodes: [" + scoreNodeA + "/" + scoreNodeB + "]");
@@ -67,11 +69,11 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
 
     }
 
-    private void correctNonOctilinearEdges(@NotNull DisplaceNodeResult displaceNodeResult) {
+    private void correctNonOctilinearEdges(@NotNull DisplaceResult displaceResult) {
         Loggers.info(this, "Non-Octilinear edges: " + map.evaluateNonOctilinearEdges().count());
         map.getEdges().stream()
                 .filter(Edge::isNotOctilinear)
-                .forEach(edge -> correctNonOctilinearEdge(edge, displaceNodeResult));
+                .forEach(edge -> correctNonOctilinearEdge(edge, displaceResult));
     }
 
     /**
@@ -125,10 +127,10 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
      * octilinearity. Prefers to move in the given (last) move direction if two choices
      * are equal weighted.
      */
-    private void moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, @NotNull MoveNodeGuard guard) {
+    private void moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
 
-        MoveNodeHandler moveHandler = guard.getNodeMoveHandler();
-        MoveNodeDirection result;
+        AdjustmentDirectionEvaluator adjustmentDirectionEvaluator = guard.getNodeAdjustmentDirectionEvaluator();
+        AdjustmentDirection result;
 
         if (AdjustmentCostCalculator.isSimpleNode(connectionEdge, moveableNode)) {
 
@@ -141,12 +143,12 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                     .findFirst()
                     .orElse(null);
 
-            result = moveHandler.evaluateNode2(moveableNode, connectionEdge, adjacentEdge, guard);
+            result = adjustmentDirectionEvaluator.evaluateDirection(moveableNode, connectionEdge, adjacentEdge, guard);
 
         }
         else {
             Loggers.info(this, "Node " + moveableNode.getName() + " is too complex to move!");
-            result = new MoveNodeDirection(guard.getLastMoveDirection(), moveableNode, 0);
+            result = new AdjustmentDirection(guard.getLastMoveDirection(), moveableNode, 0);
         }
 
         Loggers.info(this, "Evaluated move operation: " + result);
@@ -234,7 +236,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     /**
      * Corrects the direction of given {@link Edge} recursively by moving the given {@link Node}.
      */
-    private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull MoveNodeGuard guard) {
+    private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
 
         if (guard.isNotMoveable(moveableNode)) {
             Loggers.warning(this, "Node " + moveableNode.getName() + " cannot be moved!");
@@ -288,10 +290,10 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
             }
 
             Loggers.info(this, "Handle conflict: " + conflict);
-            DisplaceNodeHandler displaceNodeHandler = new DisplaceNodeHandler(map, conflict, conflicts);
-            DisplaceNodeResult displaceNodeResult = displaceNodeHandler.displace();
+            Displacer displacer = new Displacer(map, conflict, conflicts);
+            DisplaceResult displaceResult = displacer.displace();
 
-            correctNonOctilinearEdges(displaceNodeResult);
+            //correctNonOctilinearEdges(displaceResult);
 
             map.getEdges().stream()
                     .filter(edge -> !edge.getDirection(null).isOctilinear())
@@ -302,7 +304,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
                 makeSpace(currentIteration, conflict);
             }
             else {
-                // correctNonOctilinearEdges(displaceNodeResult);
+                // correctNonOctilinearEdges(displaceResult);
                 Loggers.separator(this);
                 Loggers.warning(this, "Max number of iteration reached. Stop algorithm.");
                 Loggers.separator(this);
@@ -318,7 +320,7 @@ public class DisplaceHandler implements MetroMapLineSpaceHandler {
     @Override
     public void makeSpace() {
         Loggers.separator(this);
-        Loggers.info(this, "Start DisplaceHandler algorithm");
+        Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));

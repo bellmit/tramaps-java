@@ -4,15 +4,13 @@
 
 package ch.geomo.tramaps.map.displacement.scale;
 
-import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
-import org.jetbrains.annotations.NotNull;
+import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 
 /**
- * This {@link MetroMapLineSpaceHandler} implementation makes space by scaling sub graphs of the
+ * This {@link LineSpaceHandler} implementation makes space by scaling sub graphs of the
  * underlying graph of a metro map.
  */
-public class SubGraphScaleHandler implements MetroMapLineSpaceHandler {
+public class SubGraphScaleHandler implements LineSpaceHandler {
 
     private ScaleHandler scaleHandler;
 

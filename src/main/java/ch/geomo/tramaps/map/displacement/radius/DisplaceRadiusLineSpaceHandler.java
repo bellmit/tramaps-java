@@ -6,22 +6,20 @@ package ch.geomo.tramaps.map.displacement.radius;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.MetroMapLineSpaceHandler;
-import ch.geomo.tramaps.map.displacement.alg.DisplaceHandler;
-import ch.geomo.tramaps.map.displacement.alg.helper.DisplaceNodeHandler;
+import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.util.Loggers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DisplaceRadiusHandler implements MetroMapLineSpaceHandler {
+public class DisplaceRadiusLineSpaceHandler implements LineSpaceHandler {
 
     private static final int MAX_ITERATIONS = 500;
 
     private final MetroMap map;
 
-    public DisplaceRadiusHandler(@NotNull MetroMap map) {
+    public DisplaceRadiusLineSpaceHandler(@NotNull MetroMap map) {
         this.map = map;
     }
 
@@ -41,7 +39,7 @@ public class DisplaceRadiusHandler implements MetroMapLineSpaceHandler {
             Conflict conflict = conflicts.get(0);
 
             Loggers.info(this, "Handle conflict: " + conflict);
-            new DisplaceRadiusNodeHandler(map, conflict).displace();
+            new RadiusDisplacer(map, conflict).displace();
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {
@@ -58,7 +56,7 @@ public class DisplaceRadiusHandler implements MetroMapLineSpaceHandler {
     @Override
     public void makeSpace() {
         Loggers.separator(this);
-        Loggers.info(this, "Start DisplaceHandler algorithm");
+        Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
