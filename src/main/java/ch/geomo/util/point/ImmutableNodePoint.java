@@ -5,7 +5,7 @@
 package ch.geomo.util.point;
 
 /**
- * Immutable implementation of {@link NodePoint}.
+ * Immutable implementation set {@link NodePoint}.
  */
 public class ImmutableNodePoint extends AbstractNodePoint {
 

@@ -7,7 +7,7 @@ package ch.geomo.util.pair;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * An implementation of a mutable pair.
+ * An implementation set a mutable pair.
  */
 public class MutablePair<T> extends AbstractPair<T> {
 

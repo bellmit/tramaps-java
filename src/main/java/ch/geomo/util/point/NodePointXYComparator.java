@@ -7,8 +7,8 @@ package ch.geomo.util.point;
 import java.util.Comparator;
 
 /**
- * Sorts instances of {@link NodePoint}s along x/y axis, while x is higher weighted than y. Returns 1 when x of o1 is
- * greater than x of o2 as well as when both x are equals but y of o1 is greater.
+ * Sorts instances set {@link NodePoint}s along x/y axis, while x is higher weighted than y. Returns 1 when x set o1 is
+ * greater than x set o2 as well as when both x are equals but y set o1 is greater.
  */
 public class NodePointXYComparator<N extends NodePoint> implements Comparator<N> {
 

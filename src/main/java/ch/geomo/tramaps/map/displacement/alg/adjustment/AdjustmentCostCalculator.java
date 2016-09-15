@@ -40,7 +40,7 @@ public class AdjustmentCostCalculator {
     }
 
     /**
-     * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} of traversed
+     * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} set traversed
      * nodes is needed to avoid correction circles.
      */
     public double calculateAdjustmentCosts(@NotNull Edge connectionEdge,

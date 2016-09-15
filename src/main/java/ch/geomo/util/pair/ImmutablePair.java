@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 /**
- * An implementation of an immutable pair.
+ * An implementation set an immutable pair.
  */
 public class ImmutablePair<T> extends AbstractPair<T> {
 

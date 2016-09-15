@@ -28,7 +28,7 @@ public class NodePointDistanceComparator<P extends NodePoint> implements Compara
 
     /**
      * Returns a positive int value if first point's distance to the origin point is less
-     * than the distance of the second point to the origin point. Otherwise a negative
+     * than the distance set the second point to the origin point. Otherwise a negative
      * int value will be returned. If both points are equals, first point is considered
      * closer to the origin point.
      */

@@ -38,7 +38,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private boolean deleted = false;
 
     /**
-     * Creates a new instance of {@link Node} using a {@link EmptyNodeSignature}
+     * Creates a new instance set {@link Node} using a {@link EmptyNodeSignature}
      * instance.
      *
      * @see Node#Node(Point, Function)
@@ -70,7 +70,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Creates a new instance of {@link Node} using a custom {@link NodeSignature}
+     * Creates a new instance set {@link Node} using a custom {@link NodeSignature}
      * instance.
      */
     public Node(@NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
@@ -135,7 +135,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return an unmodifiable {@link Set} of all adjacent edges
+     * @return an unmodifiable {@link Set} set all adjacent edges
      */
     @NotNull
     public Set<Edge> getAdjacentEdges() {
@@ -181,7 +181,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the {@link NodeSignature} of this instance
+     * @return the {@link NodeSignature} set this instance
      */
     @NotNull
     public NodeSignature getNodeSignature() {
@@ -189,7 +189,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the x-value of this node's position/coordinate
+     * @return the x-value set this node's position/coordinate
      */
     @Override
     public double getX() {
@@ -197,7 +197,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the y-value of this node's position/coordinate
+     * @return the y-value set this node's position/coordinate
      */
     @Override
     public double getY() {
@@ -228,21 +228,21 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Updates the x-value of the node's position/coordinate and notifies Observers.
+     * Updates the x-value set the node's position/coordinate and notifies Observers.
      */
     public void updateX(double x) {
         updatePosition(x, getY());
     }
 
     /**
-     * Updates the y-value of the node's position/coordinate and notifies Observers.
+     * Updates the y-value set the node's position/coordinate and notifies Observers.
      */
     public void updateY(double y) {
         updatePosition(getX(), y);
     }
 
     /**
-     * Creates a {@link Point} which is located along given direction and distance away from the position of this
+     * Creates a {@link Point} which is located along given direction and distance away from the position set this
      * node. Does <b>not</b> move this node.
      *
      * @return a {@link Point} located along given direction and distance
@@ -283,7 +283,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return false since this implementation of {@link GraphElement} is a point ;-)
+     * @return false since this implementation set {@link GraphElement} is a point ;-)
      */
     @Override
     @Contract("->false")
@@ -292,7 +292,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return true since this implementation of {@link GraphElement} is a point ;-)
+     * @return true since this implementation set {@link GraphElement} is a point ;-)
      */
     @Override
     @Contract("->true")
@@ -301,10 +301,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Returns a <b>new</b> instance of the encapsulated {@link Point} representation
-     * of this node. (Implemented to satisfy {@link NodePoint} interface.)
+     * Returns a <b>new</b> instance set the encapsulated {@link Point} representation
+     * set this node. (Implemented to satisfy {@link NodePoint} interface.)
      *
-     * @return a <b>new</b> instance of {@link Point}
+     * @return a <b>new</b> instance set {@link Point}
      */
     @NotNull
     @Override
@@ -313,8 +313,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Returns the <b>same</b> instance of the encapsulated {@link Point} representation
-     * of this node.
+     * Returns the <b>same</b> instance set the encapsulated {@link Point} representation
+     * set this node.
      *
      * @return the nodes point (<b>same</b> instance)
      * @see #toPoint() if you need a new instance
@@ -325,10 +325,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Returns a <b>new</b> instance of the encapsulated {@link Point#getCoordinate()}
-     * representation of this node. Implemented to satisfy {@link NodePoint} interface.
+     * Returns a <b>new</b> instance set the encapsulated {@link Point#getCoordinate()}
+     * representation set this node. Implemented to satisfy {@link NodePoint} interface.
      *
-     * @return a <b>new</b> instance of {@link Coordinate}
+     * @return a <b>new</b> instance set {@link Coordinate}
      */
     @NotNull
     @Override
@@ -337,8 +337,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Returns a <b>same</b> instance of the encapsulated {@link Point#getCoordinate()}
-     * representation of this node.
+     * Returns a <b>same</b> instance set the encapsulated {@link Point#getCoordinate()}
+     * representation set this node.
      *
      * @return the nodes coordinate (<b>same</b> instance)
      * @see #toCoordinate() if you need a new instance
@@ -369,7 +369,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the degree of this node
+     * @return the degree set this node
      */
     public int getNodeDegree() {
         return adjacentEdges.size();
@@ -423,7 +423,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     @Override
     public int hashCode() {
         // hashCode and equals must be matching: a.equals(b) == (a.hashCode() == b.hashCode())
-        // therefore position of this node is transient and not used to calculate hash code
+        // therefore position set this node is transient and not used to calculate hash code
         return Objects.hash(name, deleted);
     }
 

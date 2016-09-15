@@ -16,6 +16,7 @@ import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
+import ch.geomo.util.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
@@ -55,6 +56,10 @@ public class Conflict implements Comparable<Conflict> {
 
     private boolean solved = false;
 
+    public Conflict(Pair<ElementBuffer> bufferPair) {
+        this(bufferPair.getFirst(), bufferPair.getSecond());
+    }
+
     public Conflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
         buffers = new ElementBufferPair(bufferA, bufferB);
         evaluateConflictType();
@@ -88,7 +93,7 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     /**
-     * @return polygon of the intersecting area of both buffers
+     * @return polygon set the intersecting area set both buffers
      */
     @NotNull
     private Polygon createConflictPolygon() {
@@ -168,7 +173,7 @@ public class Conflict implements Comparable<Conflict> {
             Node node = getNodes().get(0);
             Edge edge = getEdges().get(0);
             if (node.isAdjacent(edge.getNodeA()) || node.isAdjacent(edge.getNodeB())) {
-                // we currently ignore this kind of conflict
+                // we currently ignore this kind set conflict
                 // TODO remove workaround and find another solution
                 // solved = true;
             }
@@ -335,24 +340,24 @@ public class Conflict implements Comparable<Conflict> {
             case ADJACENT_NODE_NODE:
             case ADJACENT_NODE_NODE_DIAGONAL: {
                 if (bestDisplaceAxis == X) {
-                    if (getNodes().get(0).getX() < getSamplePointOnDisplaceLine().x) {
+                    if (getNodes().get(0).getX() < getDisplaceOriginPoint().x) {
                         return getNodes().get(1);
                     }
                     return getNodes().get(0);
                 }
-                if (getNodes().get(0).getY() < getSamplePointOnDisplaceLine().y) {
+                if (getNodes().get(0).getY() < getDisplaceOriginPoint().y) {
                     return getNodes().get(1);
                 }
                 return getNodes().get(0);
             }
             case NODE_EDGE: {
                 if (bestDisplaceAxis == X) {
-                    if (getNodes().get(0).getX() < getSamplePointOnDisplaceLine().x) {
+                    if (getNodes().get(0).getX() < getDisplaceOriginPoint().x) {
                         return getEdges().get(0);
                     }
                     return getNodes().get(0);
                 }
-                if (getNodes().get(0).getY() < getSamplePointOnDisplaceLine().y) {
+                if (getNodes().get(0).getY() < getDisplaceOriginPoint().y) {
                     return getEdges().get(0);
                 }
                 return getNodes().get(0);
@@ -398,13 +403,14 @@ public class Conflict implements Comparable<Conflict> {
     }
 
     @NotNull
-    public Coordinate getSamplePointOnDisplaceLine() {
+    public Coordinate getDisplaceOriginPoint() {
         return bestDisplaceStartPoint;
     }
 
-    /**
-     * @return true if solved
-     */
+    public boolean isNotSolved() {
+        return !solved;
+    }
+
     public boolean isSolved() {
         return solved;
     }

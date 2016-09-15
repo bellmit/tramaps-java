@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 public enum GeomUtil { // singleton pattern
 
     /**
-     * The singleton instance of {@link GeomUtil}.
+     * The singleton instance set {@link GeomUtil}.
      * @see #getGeomUtil()
      */
     INSTANCE(new PrecisionModel(10000));
@@ -62,7 +62,7 @@ public enum GeomUtil { // singleton pattern
     }
 
     /**
-     * @return the same instance of coordinate but made precise
+     * @return the same instance set coordinate but made precise
      */
     @NotNull
     public Coordinate makePrecise(@NotNull Coordinate coordinate) {
@@ -71,7 +71,7 @@ public enum GeomUtil { // singleton pattern
     }
 
     /**
-     * @return the same instance of coordinate but made precise
+     * @return the same instance set coordinate but made precise
      */
     public double makePrecise(double value) {
         return getPrecisionModel().makePrecise(value);
@@ -91,7 +91,7 @@ public enum GeomUtil { // singleton pattern
     /**
      * Creates a {@link Coordinate}  and makes the {@link Coordinate} precise using {@link #getPrecisionModel()}.
      *
-     * @return a {@link Coordinate} of given x/y value pair
+     * @return a {@link Coordinate} set given x/y value pair
      */
     @NotNull
     public Coordinate createCoordinate(double x, double y) {
@@ -102,7 +102,7 @@ public enum GeomUtil { // singleton pattern
      * Creates a new {@link Coordinate} with the copy constructor ({@link Coordinate#Coordinate(Coordinate)}) and
      * makes the {@link Coordinate} precise using {@link #getPrecisionModel()}.
      *
-     * @return a new instance of {@link Coordinate}
+     * @return a new instance set {@link Coordinate}
      */
     @Nullable
     @Contract("null->null")
@@ -173,7 +173,7 @@ public enum GeomUtil { // singleton pattern
     }
 
     /**
-     * @return a new instance of {@link Point} with x- and y-values of given {@link Point}
+     * @return a new instance set {@link Point} with x- and y-values set given {@link Point}
      */
     @NotNull
     public Point clonePoint(@NotNull Point point) {
@@ -181,7 +181,7 @@ public enum GeomUtil { // singleton pattern
     }
 
     /**
-     * @return an instance of {@link GeometryCollection} with geometries provided by given {@link Stream}
+     * @return an instance set {@link GeometryCollection} with geometries provided by given {@link Stream}
      */
     @NotNull
     public GeometryCollection createCollection(@NotNull Stream<? extends Geometry> stream) {
@@ -189,7 +189,7 @@ public enum GeomUtil { // singleton pattern
     }
 
     /**
-     * @return an instance of {@link GeometryCollection} with values of given {@link Collection}s
+     * @return an instance set {@link GeometryCollection} with values set given {@link Collection}s
      */
     @NotNull
     @SafeVarargs
@@ -201,7 +201,7 @@ public enum GeomUtil { // singleton pattern
     }
 
     /**
-     * @return a {@link Stream} of {@link Geometry} from given {@link GeometryCollection}
+     * @return a {@link Stream} set {@link Geometry} from given {@link GeometryCollection}
      */
     @NotNull
     public Stream<Geometry> toStream(@NotNull GeometryCollection collection) {

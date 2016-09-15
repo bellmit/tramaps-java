@@ -9,7 +9,6 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
-import ch.geomo.util.Builder;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.MathUtil;
 import ch.geomo.util.pair.MutablePair;
@@ -24,7 +23,7 @@ import java.util.stream.Stream;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 import static ch.geomo.tramaps.geom.util.PolygonUtil.splitPolygon;
 
-public class OctilinearEdgeBuilder implements Builder<OctilinearEdge> {
+public class OctilinearEdgeBuilder {
 
     private MutablePair<Node> vertices;
 
@@ -102,7 +101,7 @@ public class OctilinearEdgeBuilder implements Builder<OctilinearEdge> {
             Node c = MathUtil.min(a, b, (n1, n2) -> Double.compare(n1.getY(), n2.getY()));
             Node d = b.equals(c) ? a : b;
 
-            // check for a conflict with an adjacent and vertical edge of node C
+            // check for a conflict with an adjacent and vertical edge set node C
             boolean conflictFree = c.getAdjacentEdges().stream()
                     .filter(Edge::isVertical)
                     .map(edge -> edge.getDirection(c).toOctilinear())
@@ -118,7 +117,7 @@ public class OctilinearEdgeBuilder implements Builder<OctilinearEdge> {
             }
             else {
 
-                // check for a conflict with an adjacent and vertical edge of node D
+                // check for a conflict with an adjacent and vertical edge set node D
                 conflictFree = d.getAdjacentEdges().stream()
                         .filter(Edge::isVertical)
                         .map(edge -> edge.getDirection(d).toOctilinear())
@@ -154,7 +153,7 @@ public class OctilinearEdgeBuilder implements Builder<OctilinearEdge> {
             Node c = MathUtil.min(a, b, (n1, n2) -> Double.compare(n1.getX(), n2.getX()));
             Node d = b.equals(c) ? a : b;
 
-            // check for a conflict with an adjacent and vertical edge of node C
+            // check for a conflict with an adjacent and vertical edge set node C
             boolean conflictFree = c.getAdjacentEdges().stream()
                     .filter(Edge::isHorizontal)
                     .map(edge -> edge.getDirection(c).toOctilinear())
@@ -170,7 +169,7 @@ public class OctilinearEdgeBuilder implements Builder<OctilinearEdge> {
             }
             else {
 
-                // check for a conflict with an adjacent and vertical edge of node D
+                // check for a conflict with an adjacent and vertical edge set node D
                 conflictFree = d.getAdjacentEdges().stream()
                         .filter(Edge::isHorizontal)
                         .map(edge -> edge.getDirection(d).toOctilinear())

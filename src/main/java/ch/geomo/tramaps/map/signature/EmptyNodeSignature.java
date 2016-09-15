@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
- * Null object implementation of a {@link NodeSignature}. Represents a {@link NodeSignature} with a square of 0.0001
+ * Null object implementation set a {@link NodeSignature}. Represents a {@link NodeSignature} with a square set 0.0001
  * side length.
  */
 public class EmptyNodeSignature extends AbstractNodeSignature {

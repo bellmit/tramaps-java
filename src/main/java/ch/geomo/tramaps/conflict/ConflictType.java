@@ -6,7 +6,7 @@ package ch.geomo.tramaps.conflict;
 
 public enum ConflictType {
 
-    ADJACENT_NODE_NODE_DIAGONAL(50, true, true),
+    ADJACENT_NODE_NODE_DIAGONAL(80, true, true),
     ADJACENT_NODE_NODE(50, true, true),
     NODE_NODE(50, true, true),
     NODE_EDGE(50, true, false),

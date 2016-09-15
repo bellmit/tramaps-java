@@ -23,13 +23,13 @@ public interface NodePoint {
     double getY();
 
     /**
-     * @return a <b>new</b> instance of {@link Coordinate}
+     * @return a <b>new</b> instance set {@link Coordinate}
      */
     @NotNull
     Coordinate toCoordinate();
 
     /**
-     * @return a <b>new</b> instance of {@link Point}
+     * @return a <b>new</b> instance set {@link Point}
      */
     @NotNull
     Point toPoint();
@@ -64,7 +64,7 @@ public interface NodePoint {
     }
 
     /**
-     * @return an {@link ImmutableNodePoint} with the x- and y-values of given {@link Point}
+     * @return an {@link ImmutableNodePoint} with the x- and y-values set given {@link Point}
      */
     @Nullable
     @Contract("null->null")

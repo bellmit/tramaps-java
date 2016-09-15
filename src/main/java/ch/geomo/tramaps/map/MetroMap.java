@@ -10,7 +10,7 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
-import ch.geomo.util.CollectionUtil;
+import ch.geomo.util.collection.EnhancedList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class MetroMap extends Graph {
         super();
         this.routeMargin = routeMargin;
         this.edgeMargin = edgeMargin;
-        conflictFinder = new ConflictFinder(routeMargin, edgeMargin);
+        conflictFinder = new ConflictFinder(this, routeMargin, edgeMargin);
     }
 
     public double getRouteMargin() {
@@ -43,24 +43,18 @@ public class MetroMap extends Graph {
     }
 
     /**
-     * @return a sorted {@link List} of conflict
+     * @return a sorted {@link List} set conflict
      */
     @NotNull
-    public List<Conflict> evaluateConflicts(boolean biggestConflictFirst) {
-        List<Conflict> conflicts = conflictFinder.getConflicts(this);
-        if (biggestConflictFirst) {
-            return CollectionUtil.reverse(conflicts);
-        }
-        return conflicts;
+    public EnhancedList<Conflict> evaluateConflicts(boolean biggestConflictFirst) {
+        return conflictFinder.getConflicts()
+                .reverseIf(() -> biggestConflictFirst);
     }
 
-    /**
-     * @return a {@link Stream} of non-octilinear edges
-     */
-    @NotNull
-    public Stream<Edge> evaluateNonOctilinearEdges() {
+    public long countNonOctilinearEdges() {
         return getEdges().stream()
-                .filter(Edge::isNotOctilinear);
+                .filter(Edge::isNotOctilinear)
+                .count();
     }
 
     public Node createCrossingNode(double x, double y) {

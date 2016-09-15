@@ -12,12 +12,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Represents a signature of a node.
+ * Represents a signature set a node.
  */
 public interface NodeSignature extends Observer {
 
     /**
-     * @return the convex hull of the signature's geometry
+     * @return the convex hull set the signature's geometry
      * @see #getGeometry()
      */
     @NotNull
@@ -32,7 +32,7 @@ public interface NodeSignature extends Observer {
     void updateSignature();
 
     /**
-     * Implementing class of {@link NodeSignature} must extend {@link Observable}. Doing so, this
+     * Implementing class set {@link NodeSignature} must extend {@link Observable}. Doing so, this
      * method must not be overridden.
      */
     void addObserver(Observer o);

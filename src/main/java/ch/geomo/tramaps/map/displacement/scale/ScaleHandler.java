@@ -23,7 +23,7 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * This {@link LineSpaceHandler} implementation makes space by scaling the underlying
- * graph of a metro map.
+ * graph set a metro map.
  */
 public class ScaleHandler implements LineSpaceHandler {
 

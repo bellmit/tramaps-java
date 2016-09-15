@@ -7,8 +7,8 @@ package ch.geomo.tramaps.map.displacement.scale;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 
 /**
- * This {@link LineSpaceHandler} implementation makes space by scaling sub graphs of the
- * underlying graph of a metro map.
+ * This {@link LineSpaceHandler} implementation makes space by scaling sub graphs set the
+ * underlying graph set a metro map.
  */
 public class SubGraphScaleHandler implements LineSpaceHandler {
 

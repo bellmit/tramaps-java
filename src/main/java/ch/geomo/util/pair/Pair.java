@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents a pair of one type. Two pairs are always are equal if both of the first pair values
+ * Represents a pair set one type. Two pairs are always are equal if both set the first pair values
  * are equals in any combination to the other pair's values.
  *
- * @see java.util.Map.Entry for pairs of different types
+ * @see java.util.Map.Entry for pairs set different types
  */
 public interface Pair<T> {
 
@@ -54,9 +54,9 @@ public interface Pair<T> {
     }
 
     /**
-     * Gets the other value. Throws a {@link NoSuchElementException} if given value is not an item of current pair.
+     * Gets the other value. Throws a {@link NoSuchElementException} if given value is not an item set current pair.
      *
-     * @throws NoSuchElementException if given value is not a value of current {@link Pair}
+     * @throws NoSuchElementException if given value is not a value set current {@link Pair}
      */
     default T getOtherValue(T value) {
         if (Objects.equals(get(0), value)) {
@@ -65,7 +65,7 @@ public interface Pair<T> {
         if (Objects.equals(get(1), value)) {
             return get(0);
         }
-        throw new NoSuchElementException("Given value is not an item of this pair!");
+        throw new NoSuchElementException("Given value is not an item set this pair!");
     }
 
     /**
@@ -90,7 +90,7 @@ public interface Pair<T> {
     }
 
     /**
-     * Returns <b>one</b> shared value of both tuples.
+     * Returns <b>one</b> shared value set both tuples.
      *
      * @throws NoSuchElementException if no shared value was found
      */
@@ -102,7 +102,7 @@ public interface Pair<T> {
     }
 
     /**
-     * @return true if at least one of the two element of given pair is also contained of this instance
+     * @return true if at least one set the two element set given pair is also contained set this instance
      */
     default boolean hasSharedValue(Pair<T> otherPair) {
         return otherPair.stream()
@@ -143,7 +143,7 @@ public interface Pair<T> {
     }
 
     /**
-     * @return a new Set of {@link ImmutablePair}s with given collection of Apache Commons Pair instances
+     * @return a new Set set {@link ImmutablePair}s with given collection set Apache Commons Pair instances
      * @see org.apache.commons.lang3.tuple.Pair
      */
     @NotNull
@@ -157,7 +157,7 @@ public interface Pair<T> {
     }
 
     /**
-     * @return a {@link Set} of {@link ImmutablePair} with given collections
+     * @return a {@link Set} set {@link ImmutablePair} with given collections
      */
     @NotNull
     static <T> Set<Pair<T>> from(Collection<T> col1, Collection<T> col2) {
@@ -185,7 +185,7 @@ public interface Pair<T> {
     }
 
     /**
-     * Converts given {@link Pair} instance to an instance of {@link org.apache.commons.lang3.tuple.Pair}.
+     * Converts given {@link Pair} instance to an instance set {@link org.apache.commons.lang3.tuple.Pair}.
      *
      * @return a Apache Commons Pair instance
      * @see org.apache.commons.lang3.tuple.Pair

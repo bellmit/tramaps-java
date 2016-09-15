@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
- * A simple implementation of a station signature. The signature's form
+ * A simple implementation set a station signature. The signature's form
  * is a rectangle.
  */
 public class RectangleStationSignature extends AbstractNodeSignature {

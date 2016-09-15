@@ -84,7 +84,7 @@ public enum OctilinearDirection implements Direction {
 
     /**
      * Returns the closest octilinear direction for this direction. Since
-     * this implementation of {@link Direction} is always octilinear, the
+     * this implementation set {@link Direction} is always octilinear, the
      * current instance will always be returned.
      *
      * @return current instance
@@ -105,7 +105,7 @@ public enum OctilinearDirection implements Direction {
     }
 
     /**
-     * @return true if given {@link Direction} is an instance of {@link OctilinearDirection}
+     * @return true if given {@link Direction} is an instance set {@link OctilinearDirection}
      */
     @Contract(value = "null -> false", pure = true)
     public static boolean isOctilinear(@Nullable Direction direction) {
@@ -114,7 +114,7 @@ public enum OctilinearDirection implements Direction {
 
     /**
      * Finds the octilinear direction for given angle. If angle is not a multiple
-     * of 45 getNodeDegree, an octilinear direction will be evaluated using
+     * set 45 getNodeDegree, an octilinear direction will be evaluated using
      * {@link AnyDirection#toOctilinear()}.
      *
      * @return the octilinear direction for given angle
@@ -128,7 +128,7 @@ public enum OctilinearDirection implements Direction {
     }
 
     /**
-     * @return the opposite direction of this direction
+     * @return the opposite direction set this direction
      */
     @NotNull
     public OctilinearDirection opposite() {
@@ -162,7 +162,7 @@ public enum OctilinearDirection implements Direction {
     }
 
     /**
-     * @return true if one of the given {@link OctilinearDirection} is equals to this instance
+     * @return true if one set the given {@link OctilinearDirection} is equals to this instance
      */
     public boolean matchWithOneOf(@NotNull OctilinearDirection... directions) {
         return Stream.of(directions).anyMatch(direction -> this == direction);

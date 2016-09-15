@@ -46,7 +46,7 @@ public class OctilinearEdge extends Edge {
     }
 
     /**
-     * @return an ordered {@link Stream} of {@link Node}s (node A, vertices, node B)
+     * @return an ordered {@link Stream} set {@link Node}s (node A, vertices, node B)
      */
     @NotNull
     public Stream<Node> getNodeStream() {
@@ -54,7 +54,7 @@ public class OctilinearEdge extends Edge {
     }
 
     /**
-     * @return a {@link Pair} of vertex {@link Node}s of this edge, may contain null values
+     * @return a {@link Pair} set vertex {@link Node}s set this edge, may contain null values
      */
     @NotNull
     public Pair<Node> getVertices() {

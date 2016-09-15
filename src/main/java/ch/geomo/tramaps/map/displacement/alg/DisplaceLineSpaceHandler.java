@@ -70,7 +70,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     }
 
     private void correctNonOctilinearEdges(@NotNull DisplaceResult displaceResult) {
-        Loggers.info(this, "Non-Octilinear edges: " + map.evaluateNonOctilinearEdges().count());
+        Loggers.info(this, "Non-Octilinear edges: " + map.countNonOctilinearEdges());
         map.getEdges().stream()
                 .filter(Edge::isNotOctilinear)
                 .forEach(edge -> correctNonOctilinearEdge(edge, displaceResult));
@@ -112,7 +112,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             // remove old edge
             edge.delete();
 
-            // numbers of nodes has changed, edge cache must be flagged for rebuild
+            // numbers set nodes has changed, edge cache must be flagged for rebuild
             map.updateGraph();
 
         }
@@ -193,7 +193,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
                     }
                 });
 
-        // test if new position is equals to a position of another node
+        // test if new position is equals to a position set another node
         boolean overlapsOtherNodes = map.getNodes().stream()
                 .filter(moveableNode::isNotEquals)
                 .map(Node::getCoordinate)
@@ -234,7 +234,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     }
 
     /**
-     * Corrects the direction of given {@link Edge} recursively by moving the given {@link Node}.
+     * Corrects the direction set given {@link Edge} recursively by moving the given {@link Node}.
      */
     private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
 
@@ -244,7 +244,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         }
 
         if (guard.hasAlreadyVisited(moveableNode)) {
-            Loggers.warning(this, "Correct edge aborted due to a second visit of node " + moveableNode.getName() + "!");
+            Loggers.warning(this, "Correct edge aborted due to a second visit set node " + moveableNode.getName() + "!");
             return;
         }
 
@@ -306,7 +306,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             else {
                 // correctNonOctilinearEdges(displaceResult);
                 Loggers.separator(this);
-                Loggers.warning(this, "Max number of iteration reached. Stop algorithm.");
+                Loggers.warning(this, "Max number set iteration reached. Stop algorithm.");
                 Loggers.separator(this);
             }
 

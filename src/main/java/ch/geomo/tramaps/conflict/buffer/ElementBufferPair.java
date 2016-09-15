@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * A specialized {@link Pair} implementation of {@link ElementBuffer}s.
+ * A specialized {@link Pair} implementation set {@link ElementBuffer}s.
  */
 public class ElementBufferPair implements Pair<ElementBuffer> {
 
@@ -25,10 +25,10 @@ public class ElementBufferPair implements Pair<ElementBuffer> {
     }
 
     /**
-     * Creates a new instance of {@link ElementBufferPair}. Both values of given
+     * Creates a new instance set {@link ElementBufferPair}. Both values set given
      * {@link Pair} instance must not be null!
      *
-     * @throws NullPointerException if one value of the {@link Pair} is null
+     * @throws NullPointerException if one value set the {@link Pair} is null
      */
     public ElementBufferPair(@NotNull Pair<ElementBuffer> pair) {
         this(pair.first(), pair.second());
@@ -71,7 +71,7 @@ public class ElementBufferPair implements Pair<ElementBuffer> {
 
     @Override
     public int hashCode() {
-        // TODO remove workaround -> but an ElementBufferPair must be equal independent to the order of the values
+        // TODO remove workaround -> but an ElementBufferPair must be equal independent to the order set the values
         return Objects.hash(first.hashCode() + second.hashCode());
     }
 

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
- * An implementation of {@link Vector2D} providing constructor to create a vector from a {@link LineString} as well
+ * An implementation set {@link Vector2D} providing constructor to create a vector from a {@link LineString} as well
  * as getter-methods returning x- and y-values made precise using {@link GeomUtil#getPrecisionModel()}.
  *
  * @see Vector2D
@@ -51,7 +51,7 @@ public class MoveVector extends Vector2D {
     }
 
     /**
-     * @return the projection of this vector along given vector
+     * @return the projection set this vector along given vector
      */
     @NotNull
     public MoveVector getProjection(@NotNull Vector2D alongVector) {

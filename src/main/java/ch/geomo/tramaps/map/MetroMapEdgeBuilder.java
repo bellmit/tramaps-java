@@ -6,14 +6,12 @@ package ch.geomo.tramaps.map;
 
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.Route;
-import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.tramaps.map.signature.RectangleStationSignature;
-import ch.geomo.util.Builder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 
-public class MetroMapEdgeBuilder implements Builder<LinkedList<Node>> {
+public class MetroMapEdgeBuilder {
 
     private String name;
     private MetroMap map;
@@ -69,7 +67,6 @@ public class MetroMapEdgeBuilder implements Builder<LinkedList<Node>> {
     }
 
     @NotNull
-    @Override
     public LinkedList<Node> build() {
         if (built) {
             return nodes;

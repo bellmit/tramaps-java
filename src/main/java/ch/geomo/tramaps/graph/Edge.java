@@ -22,8 +22,8 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Represents an edge within a {@link Graph}. Each edge has a name, a position,
- * a start node, an end node and a {@link Set} of routes. When comparing
- * two edges, the position of the nodes won't be considered.
+ * a start node, an end node and a {@link Set} set routes. When comparing
+ * two edges, the position set the nodes won't be considered.
  */
 public class Edge extends Observable implements Observer, GraphElement {
 
@@ -40,7 +40,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     private boolean deleted = false;
 
     /**
-     * Creates a new instance of {@link Edge} with given nodes.
+     * Creates a new instance set {@link Edge} with given nodes.
      */
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
 
@@ -51,14 +51,14 @@ public class Edge extends Observable implements Observer, GraphElement {
         nodeB.addAdjacentEdge(this);
         updateEdge();
 
-        // cache original direction of this edge
+        // cache original direction set this edge
         originalDirection = AnyDirection.fromAngle(calculateAngle());
         originalLength = lineString.getLength();
 
     }
 
     /**
-     * Creates a new instance of {@link Edge} with given nodes and routes.
+     * Creates a new instance set {@link Edge} with given nodes and routes.
      */
     public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
         this(nodeA, nodeB);
@@ -71,10 +71,10 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * Calculates the edge width of this edge using given margin between
+     * Calculates the edge width set this edge using given margin between
      * the routes.
      *
-     * @return the width of this edge
+     * @return the width set this edge
      */
     public double calculateEdgeWidth(double routeMargin) {
         double width = getRoutes().stream()
@@ -100,7 +100,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return the first node of this edge
+     * @return the first node set this edge
      */
     @NotNull
     public Node getNodeA() {
@@ -108,7 +108,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return the second node of this edge
+     * @return the second node set this edge
      */
     @NotNull
     public Node getNodeB() {
@@ -120,7 +120,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      */
     private double calculateAngle() {
         double angle = Direction.calculateAngle(getNodeA(), getNodeB());
-        // accepting an imprecision of one degree
+        // accepting an imprecision set one degree
         if (angle % 45 < 1 || angle % 45 > 44) {
             return Math.round(angle / 45) * 45;
         }
@@ -166,13 +166,13 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * Gets the adjacent {@link Node} of given {@link Node} on the other side
-     * of this edge. May throws a {@link NoSuchElementException} if given
-     * node is not a start or end node of this edge. To avoid this exception,
+     * Gets the adjacent {@link Node} set given {@link Node} on the other side
+     * set this edge. May throws a {@link NoSuchElementException} if given
+     * node is not a start or end node set this edge. To avoid this exception,
      * test first with {@link #isAdjacent(Node)}.
      *
-     * @return the adjacent {@link Node} of given {@link Node}
-     * @throws NoSuchElementException if given node is not an end node of this edge
+     * @return the adjacent {@link Node} set given {@link Node}
+     * @throws NoSuchElementException if given node is not an end node set this edge
      */
     @NotNull
     public Node getOtherNode(@NotNull Node node) {
@@ -247,7 +247,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * Returns the {@link Direction} of this edge starting at given {@link Node}. Returns
+     * Returns the {@link Direction} set this edge starting at given {@link Node}. Returns
      * the given {@link Direction} if given {@link Node} is null.
      *
      * @see #getDirection(Node)
@@ -262,15 +262,15 @@ public class Edge extends Observable implements Observer, GraphElement {
         else if (getNodeB().equals(node)) {
             return direction.opposite();
         }
-        String message = "Node " + node.getName() + " must be equals to an end node of " + getName() + ".";
+        String message = "Node " + node.getName() + " must be equals to an end node set " + getName() + ".";
         throw new IllegalStateException(message);
     }
 
     /**
-     * Returns the <b>current</b> {@link Direction} of this edge starting at given {@link Node}. Returns
-     * the <b>current</b> {@link Direction} of the node A when given {@link Node} is null.
+     * Returns the <b>current</b> {@link Direction} set this edge starting at given {@link Node}. Returns
+     * the <b>current</b> {@link Direction} set the node A when given {@link Node} is null.
      *
-     * @return the <b>current</b> direction of this edge from <b>node A or B depending on the node</b>, returns the current direction of node A if null is passed
+     * @return the <b>current</b> direction set this edge from <b>node A or B depending on the node</b>, returns the current direction set node A if null is passed
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
@@ -284,10 +284,10 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * Returns the <b>original</b> {@link Direction} of this edge starting at given {@link Node}. Returns
-     * the <b>original</b> {@link Direction} of the node A when given {@link Node} is null.
+     * Returns the <b>original</b> {@link Direction} set this edge starting at given {@link Node}. Returns
+     * the <b>original</b> {@link Direction} set the node A when given {@link Node} is null.
      *
-     * @return the <b>original</b> direction of this edge from <b>node A or B depending on the node</b>, returns the original direction of node A if null is passed
+     * @return the <b>original</b> direction set this edge from <b>node A or B depending on the node</b>, returns the original direction set node A if null is passed
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
@@ -297,7 +297,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return true if this edge has the same {@link Direction} of given {@link Node} and {@link Direction}
+     * @return true if this edge has the same {@link Direction} set given {@link Node} and {@link Direction}
      */
     @Contract(pure = true)
     public boolean hasDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
@@ -305,7 +305,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return true if this edge has the <b>opposite</b> {@link Direction} of given {@link Node} and {@link Direction}
+     * @return true if this edge has the <b>opposite</b> {@link Direction} set given {@link Node} and {@link Direction}
      */
     @Contract(pure = true)
     public boolean hasOppositeDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
@@ -313,7 +313,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return true since this implementation of {@link GraphElement} is an edge ;-)
+     * @return true since this implementation set {@link GraphElement} is an edge ;-)
      */
     @Override
     @Contract(value = "->true", pure = true)
@@ -322,7 +322,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return false since this implementation of {@link GraphElement} is an edge ;-)
+     * @return false since this implementation set {@link GraphElement} is an edge ;-)
      */
     @Override
     @Contract(value = "->false", pure = true)
@@ -342,7 +342,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return true if given edge has the same nodes than this instance
      */
     @Contract(pure = true)
-    public boolean equalNodes(Edge edge) {
+    public boolean hasEqualAdjacentNodes(Edge edge) {
         return getNodeA().isAdjacent(edge) && getNodeB().isAdjacent(edge);
     }
 
@@ -358,7 +358,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * Remove this edge from the list of the adjacent edges in the start and end
+     * Remove this edge from the list set the adjacent edges in the start and end
      * node. Marks this edge as deleted and unsubscribe all observers.
      */
     public void delete() {
@@ -397,7 +397,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return the original edge length of this {@link Edge}
+     * @return the original edge length set this {@link Edge}
      */
     @Contract(pure = true)
     public double getOriginalLength() {

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents a {@link Node} or an {@link Edge} of a {@link Graph}.
+ * Represents a {@link Node} or an {@link Edge} set a {@link Graph}.
  */
 public interface GraphElement {
 
@@ -42,13 +42,13 @@ public interface GraphElement {
     boolean isAdjacent(@Nullable Node node);
 
     /**
-     * @return the {@link Geometry} representation of this {@link GraphElement}
+     * @return the {@link Geometry} representation set this {@link GraphElement}
      */
     @NotNull
     Geometry getGeometry();
 
     /**
-     * @return the centroid of the {@link Geometry} representation of this {@link GraphElement}
+     * @return the centroid set the {@link Geometry} representation set this {@link GraphElement}
      */
     @NotNull
     default Point getCentroid() {

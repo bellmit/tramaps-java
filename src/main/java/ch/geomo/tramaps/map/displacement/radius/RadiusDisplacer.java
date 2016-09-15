@@ -22,7 +22,7 @@ public class RadiusDisplacer {
     }
 
     private Coordinate getDisplacePoint() {
-        return conflict.getSamplePointOnDisplaceLine();
+        return conflict.getDisplaceOriginPoint();
     }
 
     private boolean isNorth(@NotNull Node node) {

@@ -13,7 +13,7 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 public interface Direction {
 
     /**
-     * @return the angle of the direction
+     * @return the angle set the direction
      */
     double getAngle();
 
@@ -54,7 +54,7 @@ public interface Direction {
     Direction opposite();
 
     /**
-     * @return true if given {@link Direction} is the opposite direction of this instance
+     * @return true if given {@link Direction} is the opposite direction set this instance
      */
     default boolean isOpposite(@NotNull Direction direction) {
         return opposite().equals(direction);
@@ -69,7 +69,7 @@ public interface Direction {
     }
 
     /**
-     * @return true if angle of this instance is octilinear
+     * @return true if angle set this instance is octilinear
      */
     default boolean isOctilinear() {
         return getAngle() % 45 == 0;

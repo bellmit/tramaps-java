@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
 
 /**
- * A transfer object which works as a guard to keep track of already visited nodes.
+ * A transfer object which works as a guard to keep track set already visited nodes.
  */
 public class AdjustmentGuard {
 
@@ -50,7 +50,7 @@ public class AdjustmentGuard {
 
     private void initMoveableNodes(@NotNull Node firstNode) {
 
-        Coordinate pointOnDisplacementLine = conflict.getSamplePointOnDisplaceLine();
+        Coordinate pointOnDisplacementLine = conflict.getDisplaceOriginPoint();
 
         if (displaceResult.getDisplaceDirection() == NORTH) {
             moveableNodes = map.getNodes().stream()
@@ -136,7 +136,7 @@ public class AdjustmentGuard {
 
     /**
      * Marks the given {@link Node} as visited. Adds the node to the
-     * cache of traversed nodes.
+     * cache set traversed nodes.
      */
     public void visited(@NotNull Node node) {
         traversedNodes.add(node);
@@ -163,7 +163,7 @@ public class AdjustmentGuard {
     }
 
     /**
-     * Clears the cache of the traversed nodes and returns this instance.
+     * Clears the cache set the traversed nodes and returns this instance.
      *
      * @return this instance
      */
