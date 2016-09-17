@@ -2,9 +2,11 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util.collection;
+package ch.geomo.util.collection.set;
 
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.list.EnhancedList;
+import ch.geomo.util.collection.list.GList;
+import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -15,33 +17,49 @@ import java.util.stream.Stream;
 
 public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
 
-    public GSet() {
+    protected GSet() {
         super();
     }
 
-    public GSet(@NotNull Collection<E> c) {
+    protected GSet(@NotNull Collection<E> c) {
         super(c);
     }
 
     @SafeVarargs
-    public GSet(@NotNull E... elements) {
+    protected GSet(@NotNull E... elements) {
         super(Arrays.asList(elements));
     }
 
-    public GSet(@NotNull Stream<E> stream) {
+    protected GSet(@NotNull Stream<E> stream) {
         super(stream.collect(Collectors.toList()));
     }
 
     @NotNull
     @Override
+    public Optional<E> first() {
+        return stream().findFirst();
+    }
+
+    @Override
+    public boolean hasOneElement() {
+        return size() == 1;
+    }
+
+    @Override
+    public boolean hasMoreThanOneElement() {
+        return size() > 0;
+    }
+
+    @NotNull
+    @Override
     public EnhancedSet<E> union(@NotNull Collection<E> c) {
-        return set(c).addElements(this);
+        return createSet(c).addElements(this);
     }
 
     @NotNull
     @Override
     public EnhancedSet<E> intersection(@NotNull Collection<E> c) {
-        return set(stream()
+        return createSet(stream()
                 .filter(c::contains));
     }
 
@@ -49,9 +67,9 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
     @Override
     public Pair<EnhancedSet<E>> diff(@NotNull Collection<E> c) {
         List<E> intersection = intersection(c).toList();
-        EnhancedSet<E> thisCollection = set(stream()
+        EnhancedSet<E> thisCollection = createSet(stream()
                 .filter(e -> !intersection.contains(e)));
-        EnhancedSet<E> otherCollection = set(c.stream()
+        EnhancedSet<E> otherCollection = createSet(c.stream()
                 .filter(e -> !intersection.contains(e)));
         return Pair.of(thisCollection, otherCollection);
     }
@@ -65,12 +83,12 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
     @NotNull
     @Override
     public EnhancedSet<E> filter(@NotNull Predicate<E> predicate) {
-        return set(stream()
+        return createSet(stream()
                 .filter(predicate));
     }
 
     @Override
-    public boolean contains(@NotNull Predicate<E> predicate) {
+    public boolean anyMatch(@NotNull Predicate<E> predicate) {
         return stream().anyMatch(predicate);
     }
 
@@ -84,7 +102,7 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
         if (size() != c.size()) {
             return false;
         }
-        return contains(c::contains);
+        return anyMatch(c::contains);
     }
 
     @NotNull
@@ -131,14 +149,14 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
     @NotNull
     @Override
     public <T> EnhancedSet<T> map(@NotNull Function<E, T> function) {
-        return set(stream()
+        return createSet(stream()
                 .map(function));
     }
 
     @NotNull
     @Override
     public <T> EnhancedSet<T> flatMap(Function<E, ? extends Stream<? extends T>> mapper) {
-        return set(stream()
+        return createSet(stream()
                 .flatMap(mapper));
     }
 
@@ -151,7 +169,7 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
     @NotNull
     @Override
     public EnhancedSet<Pair<E>> toPairList(@NotNull Predicate<Pair<E>> predicate) {
-        return set(toPairStream(predicate).collect(Collectors.toList()));
+        return createSet(toPairStream(predicate).collect(Collectors.toList()));
 
     }
 
@@ -173,8 +191,15 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
 
     @NotNull
     @Override
-    public List<E> toList() {
-        return new ArrayList<>(this);
+    public EnhancedList<E> toList() {
+        return GList.createList(this);
+    }
+
+    @NotNull
+    @Override
+    @SuppressWarnings("unchecked")
+    public E[] toArray() {
+        return (E[])super.toArray();
     }
 
     @NotNull
@@ -188,23 +213,23 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
     }
 
     @NotNull
-    public static <E> EnhancedSet<E> set(@NotNull Collection<E> c) {
+    public static <E> EnhancedSet<E> createSet(@NotNull Collection<E> c) {
         return new GSet<>(c);
     }
 
     @NotNull
-    public static <E> EnhancedSet<E> set(@NotNull Stream<E> stream) {
+    public static <E> EnhancedSet<E> createSet(@NotNull Stream<E> stream) {
         return new GSet<>(stream);
     }
 
     @NotNull
-    public static <E> EnhancedSet<E> set(@NotNull Stream<E> stream1, @NotNull Stream<E> stream2) {
+    public static <E> EnhancedSet<E> createSet(@NotNull Stream<E> stream1, @NotNull Stream<E> stream2) {
         return new GSet<>(Stream.concat(stream1, stream2));
     }
 
     @NotNull
     @SafeVarargs
-    public static <E> EnhancedSet<E> set(@NotNull E... elements) {
+    public static <E> EnhancedSet<E> createSet(@NotNull E... elements) {
         return new GSet<>(elements);
     }
 

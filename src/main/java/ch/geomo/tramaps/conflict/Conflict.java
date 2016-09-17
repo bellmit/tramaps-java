@@ -8,6 +8,7 @@ import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
 import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.geom.util.PolygonUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
@@ -16,7 +17,7 @@ import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
@@ -35,7 +36,6 @@ import java.util.stream.Stream;
 import static ch.geomo.tramaps.conflict.ConflictType.NODE_EDGE;
 import static ch.geomo.tramaps.geom.Axis.X;
 import static ch.geomo.tramaps.geom.Axis.Y;
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class Conflict implements Comparable<Conflict> {
 
@@ -49,6 +49,10 @@ public class Conflict implements Comparable<Conflict> {
 
     private MoveVector displaceVector;
     private MoveVector bestDisplaceVector;
+
+    private MoveVector projection;
+    private MoveVector rejection;
+
     private Axis bestDisplaceAxis;
     private Coordinate bestDisplaceStartPoint;
 
@@ -102,7 +106,7 @@ public class Conflict implements Comparable<Conflict> {
             return (Polygon) geometry;
         }
         Loggers.info(this, "Cannot create conflict polygon. Result was: " + geometry);
-        return getGeomUtil().createEmptyPolygon();
+        return GeomUtil.createEmptyPolygon();
     }
 
     /**
@@ -110,7 +114,7 @@ public class Conflict implements Comparable<Conflict> {
      */
     @NotNull
     private LineString createQ() {
-        return getGeomUtil().createLineString(getBufferA().getElement().getCentroid(), getBufferB().getElement().getCentroid());
+        return GeomUtil.createLineString(getBufferA().getElement().getCentroid(), getBufferB().getElement().getCentroid());
     }
 
     @NotNull
@@ -140,6 +144,9 @@ public class Conflict implements Comparable<Conflict> {
         displaceVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, createQ())
                 .map(MoveVector::new)
                 .orElse(new MoveVector());
+
+        projection = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+        rejection = new MoveVector(displaceVector.subtract(projection));
 
         // default values
         bestDisplaceStartPoint = conflictPolygon.getCentroid().getCoordinate();
@@ -187,11 +194,11 @@ public class Conflict implements Comparable<Conflict> {
             case NODE_NODE:
             case ADJACENT_NODE_NODE:
             case ADJACENT_NODE_NODE_DIAGONAL: {
-                conflictArea = getGeomUtil().createLineString(getNodes().get(0), getNodes().get(1));
+                conflictArea = GeomUtil.createLineString(getNodes().get(0), getNodes().get(1));
                 break;
             }
             case NODE_EDGE: {
-                conflictArea = getGeomUtil().createPolygon(getNodes().get(0), getEdges().get(0).getNodeA(), getEdges().get(0).getNodeB(), getNodes().get(0));
+                conflictArea = GeomUtil.createPolygon(getNodes().get(0), getEdges().get(0).getNodeA(), getEdges().get(0).getNodeB(), getNodes().get(0));
                 break;
             }
             case EDGE_EDGE: {
@@ -201,12 +208,12 @@ public class Conflict implements Comparable<Conflict> {
                 Node a2 = getEdges().get(1).getNodeA();
                 Node b2 = getEdges().get(1).getNodeB();
 
-                conflictArea = getGeomUtil().createPolygon(a1, b1, b2, a2, a1);
+                conflictArea = GeomUtil.createPolygon(a1, b1, b2, a2, a1);
                 if (!conflictArea.isValid()) {
-                    conflictArea = getGeomUtil().createPolygon(a1, b1, a2, b2, a1);
+                    conflictArea = GeomUtil.createPolygon(a1, b1, a2, b2, a1);
                     if (!conflictArea.isValid()) {
                         Coordinate[] coordinates = Stream.of(a1, a2, b1, b2).map(Node::getCoordinate).toArray(Coordinate[]::new);
-                        conflictArea = getGeomUtil().createLineString(coordinates);
+                        conflictArea = GeomUtil.createLineString(coordinates);
                     }
                 }
 
@@ -270,7 +277,7 @@ public class Conflict implements Comparable<Conflict> {
             }
         }
         Coordinate nearestPoint = DistanceOp.nearestPoints(edge.getGeometry(), node.getGeometry())[0];
-        LineString line = getGeomUtil().createLineString(node.getX(), node.getY(), nearestPoint.x, nearestPoint.y);
+        LineString line = GeomUtil.createLineString(node.getX(), node.getY(), nearestPoint.x, nearestPoint.y);
         bestDisplaceStartPoint = line.getCentroid().getCoordinate();
     }
 
@@ -290,12 +297,28 @@ public class Conflict implements Comparable<Conflict> {
             bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
             bestDisplaceAxis = Y;
         }
-        bestDisplaceStartPoint = getGeomUtil().createLineString(node1, node2).getCentroid().getCoordinate();
+        bestDisplaceStartPoint = GeomUtil.createLineString(node1, node2).getCentroid().getCoordinate();
 
     }
 
     public boolean hasElementNeighborhood(Collection<Edge> edges) {
         return edges.stream().noneMatch(edge -> conflictArea.crosses(edge.getLineString()));
+    }
+
+    public MoveVector getDisplaceVectorAlongX() {
+        return projection;
+    }
+
+    public int getDisplaceDistanceAlongX() {
+        return (int) Math.ceil(Math.abs(projection.length()));
+    }
+
+    public MoveVector getDisplaceVectorAlongY() {
+        return rejection;
+    }
+
+    public double getDisplaceDistanceAlongY() {
+        return (int) Math.ceil(Math.abs(rejection.length()));
     }
 
     @NotNull

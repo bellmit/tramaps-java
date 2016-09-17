@@ -10,10 +10,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public final class Contracts {
+public enum Contracts {
 
-    private Contracts() {
-    }
+    /* util class */;
 
     /**
      * @throws IllegalStateException if given {@link Predicate} return false (i.e. if test not passed)

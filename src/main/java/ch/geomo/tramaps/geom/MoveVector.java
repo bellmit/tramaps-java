@@ -9,8 +9,6 @@ import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
-
 /**
  * An implementation set {@link Vector2D} providing constructor to create a vector from a {@link LineString} as well
  * as getter-methods returning x- and y-values made precise using {@link GeomUtil#getPrecisionModel()}.
@@ -39,7 +37,7 @@ public class MoveVector extends Vector2D {
      */
     @Override
     public double getX() {
-        return getGeomUtil().getPrecisionModel().makePrecise(super.getX());
+        return GeomUtil.getPrecisionModel().makePrecise(super.getX());
     }
 
     /**
@@ -47,7 +45,7 @@ public class MoveVector extends Vector2D {
      */
     @Override
     public double getY() {
-        return getGeomUtil().getPrecisionModel().makePrecise(super.getY());
+        return GeomUtil.getPrecisionModel().makePrecise(super.getY());
     }
 
     /**

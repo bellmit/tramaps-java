@@ -15,8 +15,6 @@ import javafx.scene.paint.Color;
 
 import java.util.function.Function;
 
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
-
 public class MetroMapExampleGraph extends MetroMap {
 
     public MetroMapExampleGraph(double routeMargin, double edgeMargin) {

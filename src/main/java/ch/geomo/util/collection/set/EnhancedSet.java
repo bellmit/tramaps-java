@@ -2,13 +2,14 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util.collection;
+package ch.geomo.util.collection.set;
 
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.list.EnhancedList;
+import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -23,7 +24,21 @@ public interface EnhancedSet<E> extends Set<E> {
     @NotNull
     Pair<EnhancedSet<E>> diff(@NotNull Collection<E> list);
 
-    boolean contains(@NotNull Predicate<E> predicate);
+    /**
+     * Convenience method. Gets the first element of this {@link Set}. The element
+     * is probably different to the last method call. Do only use this
+     * method if you are sure that only one element is available.
+     * @return the first element of this {@link Set}
+     * @see #hasOneElement()
+     */
+    @NotNull
+    Optional<E> first();
+
+    boolean hasOneElement();
+    boolean hasMoreThanOneElement();
+
+
+    boolean anyMatch(@NotNull Predicate<E> predicate);
     boolean contains(@NotNull Collection<E> list);
     boolean hasEqualContent(@NotNull Collection<E> list);
 
@@ -57,7 +72,11 @@ public interface EnhancedSet<E> extends Set<E> {
     Stream<Pair<E>> toPairStream(@NotNull Predicate<Pair<E>> predicate);
 
     @NotNull
-    List<E> toList();
+    EnhancedList<E> toList();
+
+    @NotNull
+    @Override
+    E[] toArray();
 
     @NotNull
     Set<E> immutable();

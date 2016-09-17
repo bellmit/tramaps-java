@@ -2,11 +2,9 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util.pair;
+package ch.geomo.util.collection.pair;
 
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Objects;
 
 /**
  * An implementation set an immutable pair.

@@ -4,10 +4,9 @@
 
 package ch.geomo.tramaps.map.signature;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
 import org.jetbrains.annotations.NotNull;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class BendNodeSignature extends AbstractNodeSignature {
 
@@ -27,7 +26,7 @@ public class BendNodeSignature extends AbstractNodeSignature {
                 .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
-        signature = getGeomUtil().createBuffer(node.getPoint(), width / 2, false);
+        signature = GeomUtil.createBuffer(node.getPoint(), width / 2, false);
         setChanged();
         notifyObservers();
     }

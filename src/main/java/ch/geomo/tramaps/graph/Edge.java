@@ -4,12 +4,11 @@
 
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
-import ch.geomo.util.Contracts;
-import ch.geomo.util.Loggers;
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.Contract;
@@ -17,8 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Represents an edge within a {@link Graph}. Each edge has a name, a position,
@@ -131,7 +128,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * Updates the {@link LineString} representation and notifies Observers.
      */
     protected final void updateEdge() {
-        lineString = getGeomUtil().createLineString(getNodeA(), getNodeB());
+        lineString = GeomUtil.createLineString(getNodeA(), getNodeB());
         double angle = calculateAngle();
         direction = AnyDirection.fromAngle(angle);
         setChanged();
@@ -280,7 +277,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     public double getAngle(@Nullable Node node) {
-        return getGeomUtil().makePrecise(getDirection(node).getAngle());
+        return GeomUtil.makePrecise(getDirection(node).getAngle());
     }
 
     /**
@@ -427,7 +424,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     @Override
     public void update(Observable o, Object arg) {
         updateEdge();
-        Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");
+        // Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");
     }
 
 }

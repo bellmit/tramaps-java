@@ -4,17 +4,16 @@
 
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.map.signature.NodeSignature;
-import ch.geomo.util.collection.EnhancedSet;
-import ch.geomo.util.collection.GSet;
+import ch.geomo.util.collection.set.EnhancedSet;
+import ch.geomo.util.collection.set.GSet;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class Graph {
 
@@ -43,7 +42,7 @@ public class Graph {
 
     @NotNull
     private EnhancedSet<Geometry> getEdgeGeometries() {
-        return GSet.set(getEdgeCache().map(Edge::getLineString));
+        return GSet.createSet(getEdgeCache().map(Edge::getLineString));
     }
 
     @NotNull
@@ -54,19 +53,19 @@ public class Graph {
 
     @NotNull
     private EnhancedSet<Geometry> getNodeSignatureGeometries() {
-        return GSet.set(nodes.stream()
+        return GSet.createSet(nodes.stream()
                 .map(Node::getNodeSignature)
                 .map(NodeSignature::getGeometry));
     }
 
     @NotNull
     public EnhancedSet<Edge> getEdges() {
-        return GSet.set(getEdgeCache());
+        return GSet.createSet(getEdgeCache());
     }
 
     @NotNull
     public EnhancedSet<Node> getNodes() {
-        return GSet.set(nodes);
+        return GSet.createSet(nodes);
     }
 
     /**
@@ -78,7 +77,7 @@ public class Graph {
      */
     @NotNull
     public Envelope getBoundingBox() {
-        return getGeomUtil()
+        return GeomUtil
                 .createCollection(getEdgeGeometries(), getNodeSignatureGeometries())
                 .getEnvelopeInternal();
     }

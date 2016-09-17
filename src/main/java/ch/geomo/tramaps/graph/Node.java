@@ -4,9 +4,12 @@
 
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
+import ch.geomo.util.collection.set.EnhancedSet;
+import ch.geomo.util.collection.set.GSet;
 import ch.geomo.util.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -17,9 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Represents a node within a {@link Graph}. Each node has a name, a position and
@@ -28,7 +30,7 @@ import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
  */
 public class Node extends Observable implements GraphElement, NodePoint {
 
-    private final Set<Edge> adjacentEdges;
+    private final EnhancedSet<Edge> adjacentEdges;
 
     private String name;
 
@@ -51,21 +53,21 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * @see #Node(Point)
      */
     public Node(double x, double y) {
-        this(getGeomUtil().createPoint(x, y), EmptyNodeSignature::new);
+        this(GeomUtil.createPoint(x, y), EmptyNodeSignature::new);
     }
 
     /**
      * @see #Node(Point, Function)
      */
     public Node(double x, double y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(getGeomUtil().createPoint(x, y), nodeSignatureFactory);
+        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
     }
 
     /**
      * @see #Node(Point, Function)
      */
     public Node(double x, double y, @Nullable String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(getGeomUtil().createPoint(x, y), nodeSignatureFactory);
+        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
         this.name = name;
     }
 
@@ -75,14 +77,15 @@ public class Node extends Observable implements GraphElement, NodePoint {
      */
     public Node(@NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         this.point = point;
-        adjacentEdges = new HashSet<>();
+        adjacentEdges = GSet.createSet();
         signature = nodeSignatureFactory.apply(this);
     }
 
     public Node(@NotNull Coordinate coordinate, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(getGeomUtil().createPoint(coordinate), nodeSignatureFactory);
+        this(GeomUtil.createPoint(coordinate), nodeSignatureFactory);
     }
 
+    @NotNull
     public String getName() {
         return name;
     }
@@ -135,15 +138,29 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return an unmodifiable {@link Set} set all adjacent edges
+     * @return an {@link Set} set all adjacent edges
      */
     @NotNull
-    public Set<Edge> getAdjacentEdges() {
-        // unmodifiable in order to avoid side effects
-        return Collections.unmodifiableSet(adjacentEdges);
+    public EnhancedSet<Edge> getAdjacentEdges() {
+        return adjacentEdges;
     }
 
     @NotNull
+    public EnhancedSet<Edge> getAdjacentEdges(@NotNull Edge without) {
+        return adjacentEdges.without(without::isNotEquals);
+    }
+
+    @NotNull
+    public EnhancedSet<Edge> getAdjacentEdges(@NotNull Predicate<Edge> predicate) {
+        return adjacentEdges.filter(predicate);
+    }
+
+    public boolean hasAdjacentEdge(@NotNull Edge edge) {
+        return adjacentEdges.anyMatch(edge::equals);
+    }
+
+    @NotNull
+    @Deprecated
     public Stream<Edge> getAdjacentEdgeStream(@Nullable Edge without) {
         return adjacentEdges.stream()
                 .filter(edge -> !edge.equals(without));
@@ -176,8 +193,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Node node) {
-        return getAdjacentEdges().stream()
-                .anyMatch(edge -> edge.isAdjacent(node));
+        return node != null && getAdjacentEdges().anyMatch(node::isAdjacent);
     }
 
     /**
@@ -217,14 +233,14 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * Updates the node's position/coordinate and notifies Observers.
      */
     public void updatePosition(@NotNull Coordinate coordinate) {
-        updatePosition(getGeomUtil().createPoint(coordinate));
+        updatePosition(GeomUtil.createPoint(coordinate));
     }
 
     /**
      * Updates the node's position/coordinate and notifies Observers.
      */
     public void updatePosition(double x, double y) {
-        updatePosition(getGeomUtil().createPoint(x, y));
+        updatePosition(GeomUtil.createPoint(x, y));
     }
 
     /**
@@ -278,7 +294,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
                 break;
         }
 
-        return getGeomUtil().createPoint(x, y);
+        return GeomUtil.createPoint(x, y);
 
     }
 
@@ -309,7 +325,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     @NotNull
     @Override
     public Point toPoint() {
-        return getGeomUtil().clonePoint(point);
+        return GeomUtil.clonePoint(point);
     }
 
     /**
@@ -399,8 +415,16 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return getY() > coordinate.y;
     }
 
+    public boolean isNorthOf(Node node) {
+        return getY() > node.getY();
+    }
+
     public boolean isEastOf(Coordinate coordinate) {
         return getX() > coordinate.x;
+    }
+
+    public boolean isEastOf(Node node) {
+        return getX() > node.getX();
     }
 
     public boolean isWestOf(Coordinate coordinate) {

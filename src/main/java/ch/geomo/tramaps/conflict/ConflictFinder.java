@@ -9,11 +9,11 @@ import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
 import ch.geomo.tramaps.conflict.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Graph;
-import ch.geomo.util.collection.EnhancedList;
-import ch.geomo.util.collection.EnhancedSet;
-import ch.geomo.util.collection.GList;
-import ch.geomo.util.collection.GSet;
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.list.EnhancedList;
+import ch.geomo.util.collection.set.EnhancedSet;
+import ch.geomo.util.collection.list.GList;
+import ch.geomo.util.collection.set.GSet;
+import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -63,7 +63,7 @@ public class ConflictFinder {
     @NotNull
     public EnhancedList<Conflict> getConflicts() {
 
-        EnhancedSet<ElementBuffer> buffers = GSet.set(createEdgeBuffers(), createNodeBuffers());
+        EnhancedSet<ElementBuffer> buffers = GSet.createSet(createEdgeBuffers(), createNodeBuffers());
 
         List<Conflict> conflicts = buffers.toPairStream(ConflictFinder.CONFLICT_PAIR_PREDICATE)
                 // check interior intersection
@@ -80,7 +80,7 @@ public class ConflictFinder {
                 .sorted()
                 .collect(Collectors.toList());
 
-        return GList.list(conflicts);
+        return GList.createList(conflicts);
 
     }
 

@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.graph.layout;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
@@ -11,7 +12,7 @@ import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.Loggers;
 import ch.geomo.util.MathUtil;
-import ch.geomo.util.pair.MutablePair;
+import ch.geomo.util.collection.pair.MutablePair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.LineString;
@@ -20,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 import static ch.geomo.tramaps.geom.util.PolygonUtil.splitPolygon;
 
 public class OctilinearEdgeBuilder {
@@ -62,9 +62,9 @@ public class OctilinearEdgeBuilder {
 
         Geometry bbox = originalEdge.getLineString().getEnvelope();
 
-        GeometryCollection polygons = splitPolygon(bbox, getGeomUtil().createCollection(edges));
+        GeometryCollection polygons = splitPolygon(bbox, GeomUtil.createCollection(edges));
 
-        getGeomUtil().toStream(polygons)
+        GeomUtil.toStream(polygons)
                 .filter(geom -> geom.relate(originalEdge.getGeometry(), "T********"))
                 .findFirst()
                 .map(geom -> (Polygon) geom)

@@ -41,6 +41,9 @@ public interface GraphElement {
     @Contract("null->false")
     boolean isAdjacent(@Nullable Node node);
 
+    @NotNull
+    String getName();
+
     /**
      * @return the {@link Geometry} representation set this {@link GraphElement}
      */

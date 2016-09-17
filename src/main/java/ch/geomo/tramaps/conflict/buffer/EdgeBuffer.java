@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.conflict.buffer;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
 import com.vividsolutions.jts.geom.Polygon;
@@ -12,8 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class EdgeBuffer implements ElementBuffer, Observer {
 
@@ -34,7 +33,7 @@ public class EdgeBuffer implements ElementBuffer, Observer {
     @Override
     public void updateBuffer() {
         double width = edge.calculateEdgeWidth(routeMargin) + edgeMargin * 2;
-        buffer = getGeomUtil().createBuffer(edge.getLineString(), width / 2, true);
+        buffer = GeomUtil.createBuffer(edge.getLineString(), width / 2, true);
     }
 
     @NotNull

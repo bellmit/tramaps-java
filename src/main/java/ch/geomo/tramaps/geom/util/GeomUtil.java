@@ -20,36 +20,18 @@ import java.util.stream.Stream;
 /**
  * Provides helper methods for creating and manipulating geometries.
  */
-public enum GeomUtil { // singleton pattern
+public enum GeomUtil {
 
-    /**
-     * The singleton instance set {@link GeomUtil}.
-     * @see #getGeomUtil()
-     */
-    INSTANCE(new PrecisionModel(10000));
+    /* util class */;
 
-    private final PrecisionModel precisionModel;
-    private final GeometryFactory geometryFactory;
-
-    GeomUtil(@NotNull PrecisionModel precisionModel) {
-        geometryFactory = new GeometryFactory(precisionModel);
-        this.precisionModel = precisionModel;
-    }
-
-    /**
-     * @return the singleton instance
-     * @see #INSTANCE
-     */
-    @NotNull
-    public static GeomUtil getGeomUtil() {
-        return INSTANCE;
-    }
+    private static final PrecisionModel precisionModel = new PrecisionModel(10000);
+    private static final GeometryFactory geometryFactory = new GeometryFactory(precisionModel);
 
     /**
      * @return the {@link GeometryFactory} used by {@link GeomUtil}
      */
     @NotNull
-    public GeometryFactory getGeometryFactory() {
+    public static GeometryFactory getGeometryFactory() {
         return geometryFactory;
     }
 
@@ -57,7 +39,7 @@ public enum GeomUtil { // singleton pattern
      * @return the {@link PrecisionModel} used by {@link GeomUtil}
      */
     @NotNull
-    public PrecisionModel getPrecisionModel() {
+    public static PrecisionModel getPrecisionModel() {
         return precisionModel;
     }
 
@@ -65,7 +47,7 @@ public enum GeomUtil { // singleton pattern
      * @return the same instance set coordinate but made precise
      */
     @NotNull
-    public Coordinate makePrecise(@NotNull Coordinate coordinate) {
+    public static Coordinate makePrecise(@NotNull Coordinate coordinate) {
         getPrecisionModel().makePrecise(coordinate);
         return coordinate;
     }
@@ -73,7 +55,7 @@ public enum GeomUtil { // singleton pattern
     /**
      * @return the same instance set coordinate but made precise
      */
-    public double makePrecise(double value) {
+    public static double makePrecise(double value) {
         return getPrecisionModel().makePrecise(value);
     }
 
@@ -81,7 +63,7 @@ public enum GeomUtil { // singleton pattern
      * @return a buffer from given {@link Geometry} and a certain distance
      */
     @NotNull
-    public Polygon createBuffer(@NotNull Geometry geom, double distance, boolean useSquareEndCap) {
+    public static Polygon createBuffer(@NotNull Geometry geom, double distance, boolean useSquareEndCap) {
         if (useSquareEndCap) {
             return (Polygon) geom.buffer(distance, BufferParameters.DEFAULT_QUADRANT_SEGMENTS, BufferParameters.CAP_FLAT);
         }
@@ -94,7 +76,7 @@ public enum GeomUtil { // singleton pattern
      * @return a {@link Coordinate} set given x/y value pair
      */
     @NotNull
-    public Coordinate createCoordinate(double x, double y) {
+    public static Coordinate createCoordinate(double x, double y) {
         return makePrecise(new Coordinate(x, y));
     }
 
@@ -106,7 +88,7 @@ public enum GeomUtil { // singleton pattern
      */
     @Nullable
     @Contract("null->null")
-    public Coordinate createCoordinate(@Nullable Coordinate coordinate) {
+    public static Coordinate createCoordinate(@Nullable Coordinate coordinate) {
         if (coordinate == null) {
             return null;
         }
@@ -118,7 +100,7 @@ public enum GeomUtil { // singleton pattern
      * @return an empty {@link Polygon}
      */
     @NotNull
-    public Polygon createEmptyPolygon() {
+    public static Polygon createEmptyPolygon() {
         return geometryFactory.createPolygon((Coordinate[]) null);
     }
 
@@ -126,7 +108,7 @@ public enum GeomUtil { // singleton pattern
      * @return a polygon with given centroid, width and height
      */
     @NotNull
-    public Polygon createPolygon(@NotNull Point centroid, double width, double height) {
+    public static Polygon createPolygon(@NotNull Point centroid, double width, double height) {
         Coordinate a = createCoordinate(centroid.getX() - width / 2, centroid.getY() - height / 2);
         Coordinate b = createCoordinate(centroid.getX() - width / 2, centroid.getY() + height / 2);
         Coordinate c = createCoordinate(centroid.getX() + width / 2, centroid.getY() + height / 2);
@@ -134,14 +116,14 @@ public enum GeomUtil { // singleton pattern
         return geometryFactory.createPolygon(new Coordinate[]{a, b, c, d, a});
     }
 
-    public Polygon createPolygon(@NotNull NodePoint... points) {
+    public static Polygon createPolygon(@NotNull NodePoint... points) {
         Coordinate[] coordinates = Stream.of(points)
                 .map(NodePoint::toCoordinate)
                 .toArray(Coordinate[]::new);
         return geometryFactory.createPolygon(coordinates);
     }
 
-    public Polygon createPolygon(@NotNull Point... points) {
+    public static Polygon createPolygon(@NotNull Point... points) {
         Coordinate[] coordinates = Stream.of(points)
                 .map(Point::getCoordinate)
                 .toArray(Coordinate[]::new);
@@ -152,7 +134,7 @@ public enum GeomUtil { // singleton pattern
      * @return a point with given x- and y-values
      */
     @NotNull
-    public Point createPoint(double x, double y) {
+    public static Point createPoint(double x, double y) {
         return geometryFactory.createPoint(createCoordinate(x, y));
     }
 
@@ -160,7 +142,7 @@ public enum GeomUtil { // singleton pattern
      * @return a point with given coordinate
      */
     @NotNull
-    public Point createPoint(@NotNull Coordinate coordinate) {
+    public static Point createPoint(@NotNull Coordinate coordinate) {
         return geometryFactory.createPoint(createCoordinate(coordinate));
     }
 
@@ -168,7 +150,7 @@ public enum GeomUtil { // singleton pattern
      * @return a new point from {@link Geometry#getCoordinate()}
      */
     @NotNull
-    public Point createPoint(@NotNull Geometry geometry) {
+    public static Point createPoint(@NotNull Geometry geometry) {
         return geometryFactory.createPoint(makePrecise(geometry.getCoordinate()));
     }
 
@@ -176,7 +158,7 @@ public enum GeomUtil { // singleton pattern
      * @return a new instance set {@link Point} with x- and y-values set given {@link Point}
      */
     @NotNull
-    public Point clonePoint(@NotNull Point point) {
+    public static Point clonePoint(@NotNull Point point) {
         return createPoint(point.getX(), point.getY());
     }
 
@@ -184,7 +166,7 @@ public enum GeomUtil { // singleton pattern
      * @return an instance set {@link GeometryCollection} with geometries provided by given {@link Stream}
      */
     @NotNull
-    public GeometryCollection createCollection(@NotNull Stream<? extends Geometry> stream) {
+    public static GeometryCollection createCollection(@NotNull Stream<? extends Geometry> stream) {
         return geometryFactory.createGeometryCollection(stream.toArray(Geometry[]::new));
     }
 
@@ -193,7 +175,7 @@ public enum GeomUtil { // singleton pattern
      */
     @NotNull
     @SafeVarargs
-    public final GeometryCollection createCollection(@NotNull Collection<? extends Geometry>... collections) {
+    public static GeometryCollection createCollection(@NotNull Collection<? extends Geometry>... collections) {
         Collection<Geometry> merged = Stream.of(collections)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
@@ -204,7 +186,7 @@ public enum GeomUtil { // singleton pattern
      * @return a {@link Stream} set {@link Geometry} from given {@link GeometryCollection}
      */
     @NotNull
-    public Stream<Geometry> toStream(@NotNull GeometryCollection collection) {
+    public static Stream<Geometry> toStream(@NotNull GeometryCollection collection) {
         List<Geometry> output = new ArrayList<>();
         for (int i = 0; i < collection.getNumGeometries(); i++) {
             output.add(collection.getGeometryN(i));
@@ -216,40 +198,40 @@ public enum GeomUtil { // singleton pattern
      * @return a {@link LineString} with given x/y value pairs
      */
     @NotNull
-    public LineString createLineString(double x1, double y1, double x2, double y2) {
+    public static LineString createLineString(double x1, double y1, double x2, double y2) {
         return geometryFactory.createLineString(new Coordinate[]{createCoordinate(x1, y1), createCoordinate(x2, y2)});
     }
 
     @NotNull
-    public LineString createLineString(@Nullable Coordinate... points) {
+    public static LineString createLineString(@Nullable Coordinate... points) {
         if (points == null) {
             return geometryFactory.createLineString((Coordinate[]) null);
         }
         return geometryFactory.createLineString(Stream.of(points)
-                .map(this::createCoordinate)
+                .map(GeomUtil::createCoordinate)
                 .toArray(Coordinate[]::new));
     }
 
     @NotNull
-    public LineString createLineString(@NotNull Point pointA, @NotNull Point pointB) {
+    public static LineString createLineString(@NotNull Point pointA, @NotNull Point pointB) {
         return createLineString(pointA.getCoordinate(), pointB.getCoordinate());
     }
 
     @NotNull
-    public LineString createLineString(@NotNull NodePoint nodeA, @NotNull NodePoint nodeB) {
+    public static LineString createLineString(@NotNull NodePoint nodeA, @NotNull NodePoint nodeB) {
         return createLineString(nodeA.toCoordinate(), nodeB.toCoordinate());
     }
 
     /**
      * Returns the angle between two adjacent lines connecting p1 and p2 with circleCenterPoint.
      */
-    public double getAngleBetween(@NotNull NodePoint circleCenterPoint, @NotNull NodePoint p1, @NotNull NodePoint p2) {
+    public static double getAngleBetween(@NotNull NodePoint circleCenterPoint, @NotNull NodePoint p1, @NotNull NodePoint p2) {
         double angle1 = Math.atan2(p1.getY() - circleCenterPoint.getY(), p1.getX() - circleCenterPoint.getX());
         double angle2 = Math.atan2(p2.getY() - circleCenterPoint.getY(), p2.getX() - circleCenterPoint.getX());
         return angle1 - angle2;
     }
 
-    public double getAngleBetweenAsDegree(@NotNull NodePoint circleCenterPoint, @NotNull NodePoint p1, @NotNull NodePoint p2) {
+    public static double getAngleBetweenAsDegree(@NotNull NodePoint circleCenterPoint, @NotNull NodePoint p1, @NotNull NodePoint p2) {
         double angle = getAngleBetween(circleCenterPoint, p1, p2);
         return Math.toDegrees(angle);
     }

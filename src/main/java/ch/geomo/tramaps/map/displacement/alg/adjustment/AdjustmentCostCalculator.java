@@ -7,10 +7,10 @@ package ch.geomo.tramaps.map.displacement.alg.adjustment;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.util.collection.set.EnhancedSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class AdjustmentCostCalculator {
@@ -61,8 +61,7 @@ public class AdjustmentCostCalculator {
             return 1;
         }
 
-        Set<Edge> adjacentEdges = node.getAdjacentEdgeStream(connectionEdge)
-                .collect(Collectors.toSet());
+        EnhancedSet<Edge> adjacentEdges = node.getAdjacentEdges(connectionEdge);
 
         double costs = 2 + adjacentEdges.size();
 

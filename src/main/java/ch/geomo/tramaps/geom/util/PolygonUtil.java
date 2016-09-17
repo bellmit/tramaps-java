@@ -16,12 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
+public enum PolygonUtil {
 
-public final class PolygonUtil {
-
-    private PolygonUtil() {
-    }
+    /* util class */;
 
     /**
      * Returns a {@link Stream} set {@link LineString}s which are parallel to given {@link LineString}
@@ -37,7 +34,7 @@ public final class PolygonUtil {
         double factor = Math.max(envelope.getHeight(), envelope.getWidth()) * 2;
         AffineTransformation scaleTransformation = new AffineTransformation();
         scaleTransformation.scale(factor, factor);
-        LineString scaledLineString = getGeomUtil().createLineString(parallelTo.getStartPoint(), getGeomUtil().createPoint(scaleTransformation.transform(parallelTo.getEndPoint())));
+        LineString scaledLineString = GeomUtil.createLineString(parallelTo.getStartPoint(), GeomUtil.createPoint(scaleTransformation.transform(parallelTo.getEndPoint())));
 
         return Arrays.stream(inPolygon.getCoordinates())
                 .sequential()
@@ -81,13 +78,13 @@ public final class PolygonUtil {
         @SuppressWarnings("unchecked")
         List<LineString> lines = LineStringExtracter.getLines(geometry);
         if (lines.isEmpty()) {
-            return getGeomUtil().createCollection();
+            return GeomUtil.createCollection();
         }
         Polygonizer polygonizer = new Polygonizer();
         polygonizer.add(lines);
         @SuppressWarnings("unchecked")
         Collection<Polygon> polygonCollection = polygonizer.getPolygons();
-        return getGeomUtil().createCollection(polygonCollection);
+        return GeomUtil.createCollection(polygonCollection);
     }
 
     /**
@@ -103,17 +100,17 @@ public final class PolygonUtil {
         GeometryCollection lines;
         if (lineStrings instanceof GeometryCollection) {
             Stream<Geometry> boundaryStream = Stream.of(polygon.getBoundary());
-            Stream<Geometry> lineStringStream = getGeomUtil().toStream((GeometryCollection) lineStrings);
-            lines = getGeomUtil().createCollection(Stream.concat(boundaryStream, lineStringStream));
+            Stream<Geometry> lineStringStream = GeomUtil.toStream((GeometryCollection) lineStrings);
+            lines = GeomUtil.createCollection(Stream.concat(boundaryStream, lineStringStream));
         }
         else {
             lines = (GeometryCollection) polygon.getBoundary().union(lineStrings);
         }
-        Stream<Polygon> stream = getGeomUtil().toStream(polygonize(lines))
+        Stream<Polygon> stream = GeomUtil.toStream(polygonize(lines))
                 .map(geom -> (Polygon) geom)
                 // polygons which are inside the polygon
                 .filter(p -> polygon.contains(p.getInteriorPoint()));
-        return getGeomUtil().createCollection(stream);
+        return GeomUtil.createCollection(stream);
     }
 
 }

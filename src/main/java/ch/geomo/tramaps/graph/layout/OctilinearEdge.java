@@ -4,18 +4,17 @@
 
 package ch.geomo.tramaps.graph.layout;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.util.pair.MutablePair;
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.pair.MutablePair;
+import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Observable;
 import java.util.stream.Stream;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Represents an edge which is octilinear and has one or two vertices.
@@ -41,7 +40,7 @@ public class OctilinearEdge extends Edge {
         Coordinate[] coordinates = getNodeStream()
                 .map(Node::getCoordinate)
                 .toArray(Coordinate[]::new);
-        lineString = getGeomUtil().createLineString(coordinates);
+        lineString = GeomUtil.createLineString(coordinates);
         updateEdge();
     }
 

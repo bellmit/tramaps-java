@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DisplaceRadiusLineSpaceHandler implements LineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 500;
+    private static final int MAX_ITERATIONS = 10;
 
     private final MetroMap map;
 

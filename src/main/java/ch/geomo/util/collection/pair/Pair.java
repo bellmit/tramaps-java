@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util.pair;
+package ch.geomo.util.collection.pair;
 
-import ch.geomo.tramaps.graph.Node;
+import ch.geomo.util.collection.tuple.Tuple;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,31 +19,7 @@ import java.util.stream.Stream;
  *
  * @see java.util.Map.Entry for pairs set different types
  */
-public interface Pair<T> {
-
-    /**
-     * @return the first value
-     */
-    T getFirst();
-
-    /**
-     * Alias for {@link #getFirst()}.
-     */
-    default T first() {
-        return getFirst();
-    }
-
-    /**
-     * @return the second value
-     */
-    T getSecond();
-
-    /**
-     * Alias for {@link #getSecond()}.
-     */
-    default T second() {
-        return getSecond();
-    }
+public interface Pair<T> extends Tuple<T, T> {
 
     /**
      * @return false if element is equals to null at the given index

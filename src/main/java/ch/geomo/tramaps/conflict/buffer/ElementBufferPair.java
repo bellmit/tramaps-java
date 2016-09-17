@@ -6,7 +6,7 @@ package ch.geomo.tramaps.conflict.buffer;
 
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

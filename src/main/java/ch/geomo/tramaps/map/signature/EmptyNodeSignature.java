@@ -4,10 +4,9 @@
 
 package ch.geomo.tramaps.map.signature;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
 import org.jetbrains.annotations.NotNull;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 /**
  * Null object implementation set a {@link NodeSignature}. Represents a {@link NodeSignature} with a square set 0.0001
@@ -25,7 +24,7 @@ public class EmptyNodeSignature extends AbstractNodeSignature {
      */
     @Override
     public void updateSignature() {
-        signature = getGeomUtil().createPolygon(node.getPoint(), 0.0001, 0.0001);
+        signature = GeomUtil.createPolygon(node.getPoint(), 0.0001, 0.0001);
         setChanged();
         notifyObservers();
     }

@@ -9,6 +9,8 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.util.Loggers;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
 public class RadiusDisplacer {
@@ -96,8 +98,14 @@ public class RadiusDisplacer {
                 node.updatePosition(node.getX() - displaceDistance, node.getY());
             }
 
-//            double a = Math.abs(node.getX() - getDisplacePoint().x);
-//            double b = Math.abs(node.getY() - getDisplacePoint().y);
+//            // Point point = conflict.getBufferA().getElement().getCentroid();
+//            Point point = GeomUtil.createPoint(getDisplacePoint());
+//            if (node.getPoint().equals(point)) {
+//                return;
+//            }
+//
+//            double a = Math.abs(node.getX() - point.getX());
+//            double b = Math.abs(node.getY() - point.getY());
 //            double c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 //
 //            double dx = a / c * displaceDistance;

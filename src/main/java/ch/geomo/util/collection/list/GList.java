@@ -2,9 +2,11 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util.collection;
+package ch.geomo.util.collection.list;
 
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.set.EnhancedSet;
+import ch.geomo.util.collection.set.GSet;
+import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -16,33 +18,49 @@ import java.util.stream.Stream;
 
 public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
 
-    public GList() {
+    protected GList() {
         super();
     }
 
-    public GList(@NotNull Collection<E> c) {
+    protected GList(@NotNull Collection<E> c) {
         super(c);
     }
 
     @SafeVarargs
-    public GList(@NotNull E... elements) {
+    protected GList(@NotNull E... elements) {
         super(Arrays.asList(elements));
     }
 
-    public GList(@NotNull Stream<E> stream) {
+    protected GList(@NotNull Stream<E> stream) {
         super(stream.collect(Collectors.toList()));
     }
 
     @NotNull
     @Override
+    public Optional<E> first() {
+        return isEmpty() ? Optional.empty() : Optional.of(get(0));
+    }
+
+    @Override
+    public boolean hasOneElement() {
+        return size() == 1;
+    }
+
+    @Override
+    public boolean hasMoreThanOneElement() {
+        return size() > 1;
+    }
+
+    @NotNull
+    @Override
     public EnhancedList<E> union(@NotNull Collection<E> list) {
-        return list(list).addElements(this);
+        return createList(list).addElements(this);
     }
 
     @NotNull
     @Override
     public EnhancedList<E> intersection(@NotNull Collection<E> list) {
-        return list(stream()
+        return createList(stream()
                 .filter(list::contains));
     }
 
@@ -50,9 +68,9 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     @Override
     public Pair<EnhancedList<E>> diff(@NotNull Collection<E> list) {
         EnhancedList<E> intersection = intersection(list);
-        EnhancedList<E> thisList = list(stream()
+        EnhancedList<E> thisList = createList(stream()
                 .filter(e -> !intersection.contains(e)));
-        EnhancedList<E> otherList = list(list.stream()
+        EnhancedList<E> otherList = createList(list.stream()
                 .filter(e -> !intersection.contains(e)));
         return Pair.of(thisList, otherList);
     }
@@ -66,7 +84,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     @NotNull
     @Override
     public EnhancedList<E> filter(@NotNull Predicate<E> predicate) {
-        return list(stream()
+        return createList(stream()
                 .filter(predicate));
     }
 
@@ -86,7 +104,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     }
 
     @Override
-    public boolean contains(@NotNull Predicate<E> predicate) {
+    public boolean anyMatch(@NotNull Predicate<E> predicate) {
         return stream().anyMatch(predicate);
     }
 
@@ -100,7 +118,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
         if (list.size() != list.size()) {
             return false;
         }
-        return contains(list::contains);
+        return anyMatch(list::contains);
     }
 
     @NotNull
@@ -147,7 +165,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     @NotNull
     @Override
     public <T> EnhancedList<T> map(@NotNull Function<E, T> function) {
-        return list(stream()
+        return createList(stream()
                 .map(function));
     }
 
@@ -160,7 +178,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     @NotNull
     @Override
     public EnhancedList<Pair<E>> toPairList(@NotNull Predicate<Pair<E>> predicate) {
-        return list(toPairStream(predicate).collect(Collectors.toList()));
+        return createList(toPairStream(predicate).collect(Collectors.toList()));
 
     }
 
@@ -182,8 +200,15 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
 
     @NotNull
     @Override
-    public Set<E> toSet() {
-        return new HashSet<>(this);
+    public EnhancedSet<E> toSet() {
+        return GSet.createSet(this);
+    }
+
+    @NotNull
+    @Override
+    @SuppressWarnings("unchecked")
+    public E[] toArray() {
+        return (E[])super.toArray();
     }
 
     @NotNull
@@ -200,24 +225,37 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     }
 
     @NotNull
-    public static <E> EnhancedList<E> list(@NotNull Collection<E> c) {
+    public static <E> EnhancedList<E> createList(@NotNull Collection<E> c) {
         return new GList<>(c);
     }
 
     @NotNull
-    public static <E> EnhancedList<E> list(@NotNull Stream<E> stream) {
+    public static <E> EnhancedList<E> createList(@NotNull Stream<E> stream) {
         return new GList<>(stream);
     }
 
     @NotNull
-    public static <E> EnhancedList<E> list(@NotNull Stream<E> stream1, @NotNull Stream<E> stream2) {
+    public static <E> EnhancedList<E> createList(@NotNull Stream<E> stream1, @NotNull Stream<E> stream2) {
         return new GList<E>(Stream.concat(stream1, stream2));
     }
 
     @NotNull
     @SafeVarargs
-    public static <E> EnhancedList<E> list(@NotNull E... elements) {
+    public static <E> EnhancedList<E> createList(@NotNull E... elements) {
         return new GList<>(elements);
+    }
+
+    @NotNull
+    public static <E> EnhancedList<E> merge(@NotNull Collection<E> c1, @NotNull Collection<E> c2) {
+        return new GList<>(Stream.concat(c1.stream(), c2.stream()));
+    }
+
+    @NotNull
+    @SafeVarargs
+    public static <E> EnhancedList<E> merge(@NotNull Collection<E> c1, @NotNull Collection<E> c2, @NotNull Collection<E>... moreCollections) {
+        GList<E> list = new GList<>(Stream.concat(c1.stream(), c2.stream()));
+        Arrays.stream(moreCollections).forEach(list::addElements);
+        return list;
     }
 
 }

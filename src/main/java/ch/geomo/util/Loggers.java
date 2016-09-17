@@ -57,6 +57,10 @@ public final class Loggers {
         get(obj).info(" " + markCharacter + "  " + message);
     }
 
+    public static void info(@NotNull Object obj, @NotNull Object messageObj) {
+        info(obj, "Obj: " + messageObj.toString(), ' ');
+    }
+
     public static void info(@NotNull Object obj, @NotNull String message) {
         info(obj, message, ' ');
     }

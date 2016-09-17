@@ -4,10 +4,9 @@
 
 package ch.geomo.tramaps.conflict.buffer;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
 import org.jetbrains.annotations.NotNull;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class StationBuffer extends NodeBuffer {
 
@@ -18,7 +17,7 @@ public class StationBuffer extends NodeBuffer {
 
     @Override
     public void updateBuffer() {
-        buffer = getGeomUtil().createBuffer(node.getNodeSignature().getConvexHull(), margin, true);
+        buffer = GeomUtil.createBuffer(node.getNodeSignature().getConvexHull(), margin, true);
     }
 
     @Override

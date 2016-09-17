@@ -5,6 +5,7 @@
 package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
@@ -18,7 +19,7 @@ import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirection;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.Loggers;
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
@@ -26,8 +27,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
@@ -202,7 +201,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         // test if new position would intersect with any other edge when moving -> if so, we do not move
         boolean overlapsOtherEdges = moveableNode.getAdjacentEdgeStream(null)
                 .map(edge -> edge.getOtherNode(moveableNode))
-                .map(node -> getGeomUtil().createLineString(movePoint, node.getPoint()))
+                .map(node -> GeomUtil.createLineString(movePoint, node.getPoint()))
                 .anyMatch(lineString -> guard.getMetroMap().getEdges().stream()
                         .filter(edge -> !moveableNode.getAdjacentEdges().contains(edge))
                         .anyMatch(edge -> {
@@ -213,7 +212,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
                             return false;
                         }));
 
-        boolean notEqualPosition = getGeomUtil().createLineString(movePoint, connectionEdge.getOtherNode(moveableNode).getPoint()).getLength() > 0;
+        boolean notEqualPosition = GeomUtil.createLineString(movePoint, connectionEdge.getOtherNode(moveableNode).getPoint()).getLength() > 0;
         if (!notEqualPosition) {
             Loggers.warning(this, "It seems that the new position is equals to the adjacent node position.");
         }
@@ -295,9 +294,12 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
             //correctNonOctilinearEdges(displaceResult);
 
-            map.getEdges().stream()
+            Loggers.warning(this, "Uncorrected: " +  map.getEdges().stream()
                     .filter(edge -> !edge.getDirection(null).isOctilinear())
-                    .forEach(edge -> Loggers.warning(this, "Uncorrected non-Octilinear edge " + edge.getName() + " with angle=" + edge.getAngle(null) + "!"));
+                    .count());
+//            map.getEdges().stream()
+//                    .filter(edge -> !edge.getDirection(null).isOctilinear())
+//                    .forEach(edge -> Loggers.warning(this, "Uncorrected non-Octilinear edge " + edge.getName() + " with angle=" + edge.getAngle(null) + "!"));
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {

@@ -2,14 +2,15 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util.collection;
+package ch.geomo.util.collection.list;
 
-import ch.geomo.util.pair.Pair;
+import ch.geomo.util.collection.set.EnhancedSet;
+import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -26,11 +27,17 @@ public interface EnhancedList<E> extends List<E> {
     @NotNull
     Pair<EnhancedList<E>> diff(@NotNull Collection<E> list);
 
-    boolean contains(@NotNull Predicate<E> predicate);
+    boolean anyMatch(@NotNull Predicate<E> predicate);
 
     boolean contains(@NotNull Collection<E> list);
 
     boolean hasEqualContent(@NotNull Collection<E> list);
+
+    @NotNull
+    Optional<E> first();
+
+    boolean hasOneElement();
+    boolean hasMoreThanOneElement();
 
     @NotNull
     EnhancedList<E> reverse();
@@ -74,7 +81,11 @@ public interface EnhancedList<E> extends List<E> {
     Stream<Pair<E>> toPairStream(@NotNull Predicate<Pair<E>> predicate);
 
     @NotNull
-    Set<E> toSet();
+    EnhancedSet<E> toSet();
+
+    @NotNull
+    @Override
+    E[] toArray();
 
     @NotNull
     List<E> immutable();

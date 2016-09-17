@@ -10,11 +10,10 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
-import ch.geomo.util.collection.EnhancedList;
+import ch.geomo.util.collection.list.EnhancedList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class MetroMap extends Graph {
 

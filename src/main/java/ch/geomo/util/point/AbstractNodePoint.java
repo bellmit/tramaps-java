@@ -4,13 +4,12 @@
 
 package ch.geomo.util.point;
 
+import ch.geomo.tramaps.geom.util.GeomUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-
-import static ch.geomo.tramaps.geom.util.GeomUtil.getGeomUtil;
 
 public abstract class AbstractNodePoint implements NodePoint {
 
@@ -35,13 +34,13 @@ public abstract class AbstractNodePoint implements NodePoint {
     @NotNull
     @Override
     public Coordinate toCoordinate() {
-        return getGeomUtil().createCoordinate(x, y);
+        return GeomUtil.createCoordinate(x, y);
     }
 
     @NotNull
     @Override
     public Point toPoint() {
-        return getGeomUtil().createPoint(x, y);
+        return GeomUtil.createPoint(x, y);
     }
 
     @Override
