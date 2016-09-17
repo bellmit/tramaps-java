@@ -71,6 +71,17 @@ public class MoveVector extends Vector2D {
         return Pair.of(projection, rejection);
     }
 
+    /**
+     * @return the projection set this vector along x or y-axis depending on the given boolean
+     */
+    @NotNull
+    public static Pair<MoveVector> getProjection(@NotNull Vector2D vector, boolean alongAxisX) {
+        if (alongAxisX) {
+            return getProjection(vector, VECTOR_ALONG_X_AXIS);
+        }
+        return getProjection(vector, VECTOR_ALONG_Y_AXIS);
+    }
+
     @Override
     public String toString() {
         return "MoveVector: {x= " + getX() + ", y=" + getY() + "}";

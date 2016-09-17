@@ -77,8 +77,7 @@ public interface Direction {
      * @return the angle between given direction and this instance (clockwise)
      */
     default double getAngleTo(Direction direction) {
-        double diff = direction.getAngle() - getAngle();
-        return Math.abs(diff);
+        return direction.getAngle() - getAngle();
     }
 
     static double calculateAngle(NodePoint nodeA, NodePoint nodeB) {

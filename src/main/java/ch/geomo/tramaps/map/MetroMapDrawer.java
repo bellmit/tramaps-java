@@ -46,6 +46,9 @@ public class MetroMapDrawer {
                     double width = edge.calculateEdgeWidth(map.getRouteMargin());
                     context.setLineWidth(width);
                     context.setStroke(Color.rgb(139, 187, 206, 0.5d));
+                    if (edge.isNotOctilinear()) {
+                        context.setStroke(Color.rgb(227, 74, 93, 0.5d));
+                    }
                     context.setLineCap(StrokeLineCap.BUTT);
                     drawEdge(edge, context);
                 });
@@ -74,7 +77,7 @@ public class MetroMapDrawer {
                 .filter(conflict -> conflict instanceof BufferConflict)
                 .forEach(conflict -> {
                     context.setFill(Color.rgb(240, 88, 88, 0.4));
-                    Envelope bbox2 = ((BufferConflict)conflict).getConflictPolygon().getEnvelopeInternal();
+                    Envelope bbox2 = ((BufferConflict) conflict).getConflictPolygon().getEnvelopeInternal();
                     context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
 
 //                    context.setFill(Color.rgb(20, 172, 0, 0.4));

@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
+
 /**
  * Adjusts edges.
  */
@@ -178,12 +180,23 @@ public class EdgeAdjuster {
                             return false;
                         }));
 
+
+        // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
+        boolean overlapsAdjacentNode = moveableNode.getAdjacentEdges(connectionEdge)
+                .anyMatch(adjEdge -> adjEdge.getLength() <= moveVector.length());
+
+        // test if new position is equals to a position set another node
+        boolean overlapsOtherNodes = graph.getNodes().stream()
+                .filter(moveableNode::isNotEquals)
+                .map(Node::getCoordinate)
+                .anyMatch(coordinate -> movePoint.getCoordinate().equals(coordinate));
+
         boolean notEqualPosition = GeomUtil.createLineString(movePoint, connectionEdge.getOtherNode(moveableNode).getPoint()).getLength() > 0;
         if (!notEqualPosition) {
             Loggers.warning(this, "It seems that the new position is equals to the adjacent node position.");
         }
 
-        if (!overlapsOtherEdges && notEqualPosition) {
+        if (!overlapsAdjacentNode && !overlapsOtherNodes && !overlapsOtherEdges && notEqualPosition) {
             Loggers.flag(this, "Move node " + moveableNode.getName() + " using vector " + moveVector + ".");
             moveableNode.updatePosition(movePoint);
             Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
