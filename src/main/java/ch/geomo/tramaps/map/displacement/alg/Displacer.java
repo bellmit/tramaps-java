@@ -22,6 +22,9 @@ import java.util.List;
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.EAST;
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
 
+/**
+ * Displace nodes based on the given {@link Conflict}.
+ */
 public class Displacer {
 
     private final MetroMap map;
