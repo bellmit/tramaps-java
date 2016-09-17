@@ -21,20 +21,15 @@ public enum AdjustmentCostCalculator {
 
     public static boolean isSimpleNode(@NotNull Edge connectionEdge, @NotNull Node node) {
 
-        Direction originalDirection = connectionEdge.getOriginalDirection(node).toOctilinear();
-
         EnhancedList<Direction> directions = node.getAdjacentEdges().stream()
                 .filter(connectionEdge::isNotEquals)
-                .map(edge -> edge.getDirection(node))
+                .map(edge -> edge.getOriginalDirection(node))
                 .collect(GCollectors.toList());
 
         if (directions.size() == 0) {
             return true;
         }
         else if (directions.size() > 2) {
-            return false;
-        }
-        else if (directions.anyMatch(originalDirection::isOpposite)) {
             return false;
         }
 
@@ -46,11 +41,8 @@ public enum AdjustmentCostCalculator {
      * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} set traversed
      * nodes is needed to avoid correction circles.
      */
-    public static double calculate(@NotNull Edge connectionEdge,
-                                   @NotNull Node node,
-                                   @NotNull AdjustmentGuard guard) {
+    public static double calculate(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull AdjustmentGuard guard) {
 
-        // guard.isNotMoveable(node) ||
         if (guard.hasAlreadyVisited(node)) {
             return CORRECT_CIRCLE_PENALTY;
         }

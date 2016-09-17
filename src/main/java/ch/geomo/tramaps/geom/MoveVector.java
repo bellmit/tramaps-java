@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.geom;
 
+import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.math.Vector2D;
@@ -22,6 +23,10 @@ public class MoveVector extends Vector2D {
 
     public MoveVector() {
         super(0, 0);
+    }
+
+    public MoveVector(double x, double y) {
+        super(x, y);
     }
 
     public MoveVector(@NotNull Vector2D vector) {
@@ -49,11 +54,21 @@ public class MoveVector extends Vector2D {
     }
 
     /**
+     * @return the projection this vector along given vector
+     */
+    @NotNull
+    public Pair<MoveVector> getProjection(@NotNull Vector2D alongVector) {
+        return getProjection(this, alongVector);
+    }
+
+    /**
      * @return the projection set this vector along given vector
      */
     @NotNull
-    public MoveVector getProjection(@NotNull Vector2D alongVector) {
-        return new MoveVector(alongVector.multiply(dot(alongVector) / alongVector.dot(alongVector)));
+    public static Pair<MoveVector> getProjection(@NotNull Vector2D vector, @NotNull Vector2D alongVector) {
+        MoveVector projection = new MoveVector(alongVector.multiply(vector.dot(alongVector) / alongVector.dot(alongVector)));
+        MoveVector rejection = new MoveVector(vector.subtract(projection));
+        return Pair.of(projection, rejection);
     }
 
     @Override

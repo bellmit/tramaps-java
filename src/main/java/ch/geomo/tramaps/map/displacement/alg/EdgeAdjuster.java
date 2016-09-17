@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.map.displacement.alg;
 
+import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
@@ -11,7 +12,6 @@ import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentCostCalculator;
-import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirection;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
 import ch.geomo.util.Contracts;
@@ -23,6 +23,7 @@ import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -66,10 +67,10 @@ public class EdgeAdjuster {
             correctEdgeByIntroducingBendNodes();
         }
         else if (scoreA < scoreB) {
-            //correctEdgeByMovingNode(edge, getNodeA(), createGuard(getNodeA()));
+            correctEdgeByMovingNode(edge, getNodeA(), createGuard(getNodeA()));
         }
         else {
-            //correctEdgeByMovingNode(edge, getNodeB(), createGuard(getNodeB()));
+            correctEdgeByMovingNode(edge, getNodeB(), createGuard(getNodeB()));
         }
 
         Loggers.info(this, "Correction done.");
@@ -131,7 +132,7 @@ public class EdgeAdjuster {
     private void moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
 
         AdjustmentDirectionEvaluator adjustmentDirectionEvaluator = guard.getNodeAdjustmentDirectionEvaluator();
-        AdjustmentDirection result;
+        MoveVector moveVector;
 
         if (AdjustmentCostCalculator.isSimpleNode(connectionEdge, moveableNode)) {
 
@@ -139,69 +140,32 @@ public class EdgeAdjuster {
             Loggers.info(this, "Initial move direction is " + guard.getLastMoveDirection() + ".");
 
             // get first edge
-            Edge adjacentEdge = moveableNode.getAdjacentEdgeStream(connectionEdge)
-                    .peek(edge -> Loggers.info(this, "Adjacent Edge " + edge.getName()))
-                    .findFirst()
-                    .orElse(null);
+            Optional<Edge> adjacentEdge = moveableNode.getAdjacentEdges(connectionEdge).first();
 
-            result = adjustmentDirectionEvaluator.evaluateDirection(moveableNode, connectionEdge, adjacentEdge, guard);
+            // evaluate direction
+            if (adjacentEdge.isPresent()) {
+                moveVector = adjustmentDirectionEvaluator.evaluateDirection(moveableNode, connectionEdge, adjacentEdge.get());
+            }
+            else {
+                Loggers.info(this, "Evaluate single node move direction...");
+                moveVector = adjustmentDirectionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
+            }
 
         }
         else {
-            Loggers.info(this, "Node " + moveableNode.getName() + " is too complex to move!");
-            result = new AdjustmentDirection(guard.getLastMoveDirection(), moveableNode, 0);
+            Loggers.flag(this, "Node " + moveableNode.getName() + " is too complex to move!");
+            moveVector = new MoveVector(0, 0);
         }
 
-        Loggers.info(this, "Evaluated move operation: " + result);
+        Loggers.info(this, "Evaluated move vector: " + moveVector);
+        if (moveVector.getX() == 0 && moveVector.getY() == 0) {
+            Loggers.info(this, "Vector's length is 0. Do not move node.");
+        }
 
-        final double correctDistance = result.getMoveDistance();
-        final OctilinearDirection octilinearMoveDirection = result.getMoveDirection();
-
-        Point movePoint = moveableNode.createMovePoint(octilinearMoveDirection, correctDistance);
-
-        // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
-        boolean overlapsAdjacentNode = moveableNode.getAdjacentEdgeStream(connectionEdge)
-                .anyMatch(adjEdge -> {
-                    if (adjEdge.getDirection(moveableNode).toOctilinear() != octilinearMoveDirection) {
-                        return false;
-                    }
-                    Node otherNode = adjEdge.getOtherNode(moveableNode);
-                    if (adjEdge.getLength() > correctDistance) {
-                        return false;
-                    }
-                    Coordinate coordinate = movePoint.getCoordinate();
-                    switch (result.getMoveDirection()) {
-                        case EAST:
-                            return !otherNode.isEastOf(coordinate);
-                        case NORTH:
-                            return !otherNode.isNorthOf(coordinate);
-                        case SOUTH:
-                            return !otherNode.isSouthOf(coordinate);
-                        case WEST:
-                            return !otherNode.isWestOf(coordinate);
-                        case NORTH_EAST:
-                            return !otherNode.isNorthEastOf(coordinate);
-                        case NORTH_WEST:
-                            return !otherNode.isNorthWestOf(coordinate);
-                        case SOUTH_EAST:
-                            return !otherNode.isSouthEastOf(coordinate);
-                        case SOUTH_WEST:
-                            return !otherNode.isSouthWestOf(coordinate);
-                        default: {
-                            Contracts.fail();
-                            return true;
-                        }
-                    }
-                });
-
-        // test if new position is equals to a position set another node
-        boolean overlapsOtherNodes = graph.getNodes().stream()
-                .filter(moveableNode::isNotEquals)
-                .map(Node::getCoordinate)
-                .anyMatch(coordinate -> movePoint.getCoordinate().equals(coordinate));
+        Point movePoint = moveableNode.createMovePoint(moveVector);
 
         // test if new position would intersect with any other edge when moving -> if so, we do not move
-        boolean overlapsOtherEdges = moveableNode.getAdjacentEdgeStream(null)
+        boolean overlapsOtherEdges = moveableNode.getAdjacentEdges().stream()
                 .map(edge -> edge.getOtherNode(moveableNode))
                 .map(node -> GeomUtil.createLineString(movePoint, node.getPoint()))
                 .anyMatch(lineString -> guard.getGraph().getEdges().stream()
@@ -219,8 +183,8 @@ public class EdgeAdjuster {
             Loggers.warning(this, "It seems that the new position is equals to the adjacent node position.");
         }
 
-        if (!overlapsAdjacentNode && !overlapsOtherNodes && !overlapsOtherEdges && notEqualPosition) {
-            Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (distance=" + correctDistance + ").");
+        if (!overlapsOtherEdges && notEqualPosition) {
+            Loggers.flag(this, "Move node " + moveableNode.getName() + " using vector " + moveVector + ".");
             moveableNode.updatePosition(movePoint);
             Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
         }
@@ -228,9 +192,79 @@ public class EdgeAdjuster {
             Loggers.info(this, "Node " + moveableNode.getName() + " is not moveable!");
         }
 
-        // update guard
-        guard.setLastMoveDirection(octilinearMoveDirection);
-        guard.setLastMoveDistance(correctDistance);
+
+//        // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
+//        boolean overlapsAdjacentNode = moveableNode.getAdjacentEdgeStream(connectionEdge)
+//                .anyMatch(adjEdge -> {
+//                    if (adjEdge.getDirection(moveableNode).toOctilinear() != octilinearMoveDirection) {
+//                        return false;
+//                    }
+//                    Node otherNode = adjEdge.getOtherNode(moveableNode);
+//                    if (adjEdge.getLength() > correctDistance) {
+//                        return false;
+//                    }
+//                    Coordinate coordinate = movePoint.getCoordinate();
+//                    switch (result.getMoveDirection()) {
+//                        case EAST:
+//                            return !otherNode.isEastOf(coordinate);
+//                        case NORTH:
+//                            return !otherNode.isNorthOf(coordinate);
+//                        case SOUTH:
+//                            return !otherNode.isSouthOf(coordinate);
+//                        case WEST:
+//                            return !otherNode.isWestOf(coordinate);
+//                        case NORTH_EAST:
+//                            return !otherNode.isNorthEastOf(coordinate);
+//                        case NORTH_WEST:
+//                            return !otherNode.isNorthWestOf(coordinate);
+//                        case SOUTH_EAST:
+//                            return !otherNode.isSouthEastOf(coordinate);
+//                        case SOUTH_WEST:
+//                            return !otherNode.isSouthWestOf(coordinate);
+//                        default: {
+//                            Contracts.fail();
+//                            return true;
+//                        }
+//                    }
+//                });
+//
+//        // test if new position is equals to a position set another node
+//        boolean overlapsOtherNodes = graph.getNodes().stream()
+//                .filter(moveableNode::isNotEquals)
+//                .map(Node::getCoordinate)
+//                .anyMatch(coordinate -> movePoint.getCoordinate().equals(coordinate));
+//
+//        // test if new position would intersect with any other edge when moving -> if so, we do not move
+//        boolean overlapsOtherEdges = moveableNode.getAdjacentEdgeStream(null)
+//                .map(edge -> edge.getOtherNode(moveableNode))
+//                .map(node -> GeomUtil.createLineString(movePoint, node.getPoint()))
+//                .anyMatch(lineString -> guard.getGraph().getEdges().stream()
+//                        .filter(edge -> !moveableNode.getAdjacentEdges().contains(edge))
+//                        .anyMatch(edge -> {
+//                            if (edge.getLineString().relate(lineString, "T********")) {
+//                                Loggers.warning(this, "Edge " + edge.getName() + " would be intersecting with " + connectionEdge.getName() + "!");
+//                                return true;
+//                            }
+//                            return false;
+//                        }));
+//
+//        boolean notEqualPosition = GeomUtil.createLineString(movePoint, connectionEdge.getOtherNode(moveableNode).getPoint()).getLength() > 0;
+//        if (!notEqualPosition) {
+//            Loggers.warning(this, "It seems that the new position is equals to the adjacent node position.");
+//        }
+//
+//        if (!overlapsAdjacentNode && !overlapsOtherNodes && !overlapsOtherEdges && notEqualPosition) {
+//            Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (distance=" + correctDistance + ").");
+//            moveableNode.updatePosition(movePoint);
+//            Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
+//        }
+//        else {
+//            Loggers.info(this, "Node " + moveableNode.getName() + " is not moveable!");
+//        }
+//
+//        // update guard
+//        guard.setLastMoveDirection(octilinearMoveDirection);
+//        guard.setLastMoveDistance(correctDistance);
 
     }
 

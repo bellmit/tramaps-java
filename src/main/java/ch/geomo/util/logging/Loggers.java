@@ -4,6 +4,7 @@
 
 package ch.geomo.util.logging;
 
+import ch.geomo.tramaps.map.displacement.alg.EdgeAdjuster;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -47,6 +48,10 @@ public final class Loggers {
 
     public static void flag(@NotNull Object obj, @NotNull String message) {
         info(obj, message, '*');
+    }
+
+    public static void flag(@NotNull Object obj, @NotNull Object messageObj) {
+        info(obj, "Obj: " + messageObj.toString(), ' ');
     }
 
     public static void separator(@NotNull Object obj) {

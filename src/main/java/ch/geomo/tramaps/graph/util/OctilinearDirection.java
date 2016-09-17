@@ -4,82 +4,76 @@
 
 package ch.geomo.tramaps.graph.util;
 
+import ch.geomo.tramaps.geom.MoveVector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 public enum OctilinearDirection implements Direction {
 
-    NORTH(0d, Alignment.VERTICAL, true, false, false, false),
-    NORTH_EAST(45d, Alignment.DIAGONAL_45, true, true, false, false),
-    EAST(90d, Alignment.HORIZONTAL, false, true, false, false),
-    SOUTH_EAST(135d, Alignment.DIAGONAL_135, false, true, true, false),
-    SOUTH(180d, Alignment.VERTICAL, false, false, true, false),
-    SOUTH_WEST(225d, Alignment.DIAGONAL_45, false, false, true, true),
-    WEST(270d, Alignment.HORIZONTAL, false, false, false, true),
-    NORTH_WEST(315d, Alignment.DIAGONAL_135, true, false, false, true);
+    NORTH(0d, new MoveVector(0, 1)),
+    NORTH_EAST(45d, new MoveVector(1, 1)),
+    EAST(90d, new MoveVector(1, 0)),
+    SOUTH_EAST(135d, new MoveVector(1, -1)),
+    SOUTH(180d, new MoveVector(0, -1)),
+    SOUTH_WEST(225d, new MoveVector(-1, -1)),
+    WEST(270d, new MoveVector(-1, 0)),
+    NORTH_WEST(315d, new MoveVector(-1, 1));
 
     private final double angle;
-    private final Alignment alignment;
-    private final boolean northwards;
-    private final boolean eastwards;
-    private final boolean southwards;
-    private final boolean westwards;
+    private final MoveVector vector;
 
-    OctilinearDirection(double angle, Alignment alignment, boolean north, boolean east, boolean south, boolean west) {
+    OctilinearDirection(double angle, @NotNull MoveVector vector) {
         this.angle = angle;
-        this.alignment = alignment;
-        northwards = north;
-        eastwards = east;
-        southwards = south;
-        westwards = west;
+        this.vector = vector;
     }
 
     public double getAngle() {
         return angle;
     }
 
-    public Alignment getAlignment() {
-        return alignment;
+    @NotNull
+    @SuppressWarnings("unused")
+    public MoveVector getVector() {
+        return vector;
     }
 
     public boolean isEastwards() {
-        return eastwards;
+        return vector.getX() == 1;
     }
 
     public boolean isNorthwards() {
-        return northwards;
+        return vector.getY() == 1;
     }
 
     public boolean isSouthwards() {
-        return southwards;
+        return vector.getY() == -1;
     }
 
     public boolean isWestwards() {
-        return westwards;
+        return vector.getX() == -1;
     }
 
-    @Contract(pure = true)
+    @Override
     public boolean isHorizontal() {
         return this == EAST || this == WEST;
     }
 
-    @Contract(pure = true)
+    @Override
     public boolean isVertical() {
         return this == NORTH || this == SOUTH;
     }
 
-    @Contract(pure = true)
+    @SuppressWarnings("unused")
     public boolean isDiagonal45() {
-        return getAlignment() == Alignment.DIAGONAL_45;
+        return (isNorthwards() && isEastwards()) || (isSouthwards() && isWestwards());
     }
 
-    @Contract(pure = true)
+    @SuppressWarnings("unused")
     public boolean isDiagonal135() {
-        return getAlignment() == Alignment.DIAGONAL_135;
+        return (isNorthwards() && isWestwards()) || (isSouthwards() && isEastwards());
     }
 
     /**
@@ -91,15 +85,16 @@ public enum OctilinearDirection implements Direction {
      */
     @NotNull
     @Override
-    @Contract(value = "->!null", pure = true)
+    @Contract(value = "->!null")
     public OctilinearDirection toOctilinear() {
         return this; // just satisfying interface :-)
     }
 
+    @NotNull
     @Override
-    public @NotNull OctilinearDirection toOrthogonal() {
+    public OctilinearDirection toOrthogonal() {
         if (angle % 90 == 0) {
-             return this;
+            return this;
         }
         return fromAngle(angle + 45);
     }
@@ -107,7 +102,7 @@ public enum OctilinearDirection implements Direction {
     /**
      * @return true if given {@link Direction} is an instance set {@link OctilinearDirection}
      */
-    @Contract(value = "null -> false", pure = true)
+    @Contract(value = "null -> false")
     public static boolean isOctilinear(@Nullable Direction direction) {
         return direction instanceof OctilinearDirection;
     }
@@ -122,7 +117,7 @@ public enum OctilinearDirection implements Direction {
     @NotNull
     public static OctilinearDirection fromAngle(double angle) {
         return Arrays.stream(values())
-                .filter(direction -> direction.angle == (angle+360) % 360)
+                .filter(direction -> direction.angle == (angle + 360) % 360)
                 .findFirst()
                 .orElseThrow(IllegalStateException::new);
     }
@@ -150,22 +145,6 @@ public enum OctilinearDirection implements Direction {
             default:
                 return SOUTH;
         }
-    }
-
-    public OctilinearDirection rotate(double angle) {
-        return fromAngle(getAngle() + angle);
-    }
-
-    @NotNull
-    public OctilinearDirection rotate(@NotNull OctilinearDirection nullDirection) {
-        return fromAngle(getAngle() + nullDirection.getAngle());
-    }
-
-    /**
-     * @return true if one set the given {@link OctilinearDirection} is equals to this instance
-     */
-    public boolean matchWithOneOf(@NotNull OctilinearDirection... directions) {
-        return Stream.of(directions).anyMatch(direction -> this == direction);
     }
 
 }

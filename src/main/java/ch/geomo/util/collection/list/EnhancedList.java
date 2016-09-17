@@ -29,6 +29,8 @@ public interface EnhancedList<E> extends List<E> {
     Pair<EnhancedList<E>> diff(@NotNull Collection<E> list);
 
     boolean anyMatch(@NotNull Predicate<E> predicate);
+    boolean allMatch(@NotNull Predicate<E> predicate);
+    boolean noneMatch(@NotNull Predicate<E> predicate);
 
     boolean contains(@NotNull Collection<E> list);
 

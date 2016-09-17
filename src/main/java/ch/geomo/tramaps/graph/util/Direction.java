@@ -29,7 +29,6 @@ public interface Direction {
     /**
      * @return true if neither horizontal nor vertical
      */
-    @Contract(pure = true)
     default boolean isDiagonal() {
         return !isHorizontal() && !isVertical();
     }

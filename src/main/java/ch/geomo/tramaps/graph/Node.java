@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
@@ -260,6 +261,11 @@ public class Node extends Observable implements GraphElement, NodePoint {
      */
     public void updateY(double y) {
         updatePosition(getX(), y);
+    }
+
+    @NotNull
+    public Point createMovePoint(@NotNull MoveVector moveVector) {
+        return GeomUtil.createPoint(getX() + moveVector.getX(), getY() + moveVector.getY());
     }
 
     /**

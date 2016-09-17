@@ -109,6 +109,16 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     }
 
     @Override
+    public boolean allMatch(@NotNull Predicate<E> predicate) {
+        return stream().allMatch(predicate);
+    }
+
+    @Override
+    public boolean noneMatch(@NotNull Predicate<E> predicate) {
+        return stream().noneMatch(predicate);
+    }
+
+    @Override
     public boolean contains(@NotNull Collection<E> list) {
         return stream().allMatch(list::contains);
     }

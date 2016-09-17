@@ -46,7 +46,7 @@ public class AdjustmentGuard {
         lastMoveDirection = displaceResult.getDisplaceDirection();
         lastMoveDistance = displaceResult.getDisplaceDistance();
         traversedNodes = new ArrayList<>();
-        nodeAdjustmentDirectionEvaluator = new AdjustmentDirectionEvaluator();
+        nodeAdjustmentDirectionEvaluator = new AdjustmentDirectionEvaluator(this);
         this.firstNode = firstNode;
         initMoveableNodes();
     }

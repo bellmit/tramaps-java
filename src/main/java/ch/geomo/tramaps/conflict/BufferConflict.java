@@ -104,7 +104,6 @@ public class BufferConflict extends AbstractConflict {
                 .orElse(new MoveVector());
 
         projection = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-        rejection = new MoveVector(displaceVector.subtract(projection));
 
         // default values
         bestDisplaceStartPoint = conflictPolygon.getCentroid().getCoordinate();
@@ -190,11 +189,11 @@ public class BufferConflict extends AbstractConflict {
         double angleX = displaceVector.angle(MoveVector.VECTOR_ALONG_X_AXIS);
         double angleY = displaceVector.angle(MoveVector.VECTOR_ALONG_Y_AXIS);
         if (angleY < angleX) {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceVector = getProjection();
             bestDisplaceAxis = X;
         }
         else {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceVector = getRejection();
             bestDisplaceAxis = Y;
         }
 
@@ -212,12 +211,12 @@ public class BufferConflict extends AbstractConflict {
         if ((node.getX() < Math.min(edge.getNodeA().getX(), edge.getNodeB().getX()))
                 || (node.getX() > Math.max(edge.getNodeA().getX(), edge.getNodeB().getX()))) {
 
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceVector = getProjection();
             bestDisplaceAxis = X;
         }
         else if ((node.getY() < Math.min(edge.getNodeA().getY(), edge.getNodeB().getY()))
                 || (node.getY() > Math.max(edge.getNodeA().getY(), edge.getNodeB().getY()))) {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceVector = getRejection();
             bestDisplaceAxis = Y;
         }
         else {
@@ -226,11 +225,11 @@ public class BufferConflict extends AbstractConflict {
             double dxb = Math.abs(node.getX() - edge.getNodeB().getX());
             double dyb = Math.abs(node.getY() - edge.getNodeB().getY());
             if (Math.max(dxa, dxb) < Math.max(dya, dyb)) {
-                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+                bestDisplaceVector = getProjection();
                 bestDisplaceAxis = X;
             }
             else {
-                bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+                bestDisplaceVector = getRejection();
                 bestDisplaceAxis = Y;
             }
         }
@@ -248,11 +247,11 @@ public class BufferConflict extends AbstractConflict {
         double dx = Math.abs(node1.getX() - node2.getX());
         double dy = Math.abs(node1.getY() - node2.getY());
         if (dy < dx) {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+            bestDisplaceVector = getProjection();
             bestDisplaceAxis = X;
         }
         else {
-            bestDisplaceVector = displaceVector.getProjection(MoveVector.VECTOR_ALONG_Y_AXIS);
+            bestDisplaceVector = getRejection();
             bestDisplaceAxis = Y;
         }
         bestDisplaceStartPoint = GeomUtil.createLineString(node1, node2).getCentroid().getCoordinate();

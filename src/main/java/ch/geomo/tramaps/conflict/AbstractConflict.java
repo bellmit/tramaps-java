@@ -29,8 +29,7 @@ public abstract class AbstractConflict implements Conflict {
 
     protected final ElementBufferPair buffers;
 
-    protected MoveVector projection;
-    protected MoveVector rejection;
+    protected Pair<MoveVector> projection;
 
     protected ConflictType conflictType;
     protected MoveVector displaceVector;
@@ -39,12 +38,22 @@ public abstract class AbstractConflict implements Conflict {
     protected Coordinate bestDisplaceStartPoint;
     protected boolean solved = false;
 
-    public AbstractConflict(Pair<ElementBuffer> bufferPair) {
+    public AbstractConflict(@NotNull Pair<ElementBuffer> bufferPair) {
         this(bufferPair.getFirst(), bufferPair.getSecond());
     }
 
     public AbstractConflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
         buffers = new ElementBufferPair(bufferA, bufferB);
+    }
+
+    @NotNull
+    protected MoveVector getProjection() {
+        return projection.getFirst();
+    }
+
+    @NotNull
+    protected MoveVector getRejection() {
+        return projection.getSecond();
     }
 
     @Override
@@ -141,12 +150,12 @@ public abstract class AbstractConflict implements Conflict {
 
     @Override
     public double getDisplaceDistanceAlongX() {
-        return Math.ceil(Math.abs(projection.length()));
+        return Math.ceil(Math.abs(projection.getFirst().length()));
     }
 
     @Override
     public double getDisplaceDistanceAlongY() {
-        return Math.ceil(Math.abs(rejection.length()));
+        return Math.ceil(Math.abs(projection.getSecond().length()));
     }
 
     private boolean isConflictElement(@NotNull GraphElement graphElement) {

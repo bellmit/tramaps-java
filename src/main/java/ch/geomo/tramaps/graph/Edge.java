@@ -4,11 +4,11 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.Contract;
@@ -238,7 +238,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if neither vertical nor horizontal to x-axis <b>but octliniear</b>
      */
-    @Contract(pure = true)
     public boolean isOctilinearDiagonal() {
         return direction.isDiagonal();
     }
@@ -251,7 +250,6 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @see #getOriginalDirection(Node)
      */
     @NotNull
-    @Contract(pure = true)
     private Direction getDirection(@Nullable Node node, @NotNull Direction direction) {
         if (node == null || getNodeA().equals(node)) {
             return direction;
@@ -271,7 +269,6 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
-    @Contract(pure = true)
     public Direction getDirection(@Nullable Node node) {
         return getDirection(node, direction);
     }
@@ -288,7 +285,6 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
-    @Contract(pure = true)
     public Direction getOriginalDirection(@Nullable Node node) {
         return getDirection(node, originalDirection);
     }
@@ -296,7 +292,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if this edge has the same {@link Direction} set given {@link Node} and {@link Direction}
      */
-    @Contract(pure = true)
     public boolean hasDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
         return direction.getAngle() == getDirection(startNode).getAngle();
     }
@@ -304,7 +299,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if this edge has the <b>opposite</b> {@link Direction} set given {@link Node} and {@link Direction}
      */
-    @Contract(pure = true)
     public boolean hasOppositeDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
         return direction.isOpposite(getDirection(startNode));
     }
@@ -313,7 +307,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return true since this implementation set {@link GraphElement} is an edge ;-)
      */
     @Override
-    @Contract(value = "->true", pure = true)
+    @Contract(value = "->true")
     public boolean isEdge() {
         return true;
     }
@@ -322,7 +316,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return false since this implementation set {@link GraphElement} is an edge ;-)
      */
     @Override
-    @Contract(value = "->false", pure = true)
+    @Contract(value = "->false")
     public boolean isNode() {
         return false;
     }
@@ -330,7 +324,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if this instance is <b>not</b> equals with given {@link Edge}
      */
-    @Contract(value = "null->true", pure = true)
+    @Contract(value = "null->true")
     public boolean isNotEquals(@Nullable Edge edge) {
         return !equals(edge);
     }
@@ -391,6 +385,10 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     public double getDeltaY() {
         return Math.abs(getNodeA().getY() - getNodeB().getY());
+    }
+
+    public double getDiffDeltaXY() {
+        return Math.abs(getDeltaX() - getDeltaY());
     }
 
     /**

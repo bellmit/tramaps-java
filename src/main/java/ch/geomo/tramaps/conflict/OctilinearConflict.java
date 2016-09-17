@@ -37,8 +37,9 @@ public class OctilinearConflict extends AbstractConflict {
 
         double dx = Math.abs(nodeA.getX() - nodeB.getX());
         double dy = Math.abs(nodeA.getY() - nodeB.getY());
-        double diff = Math.abs(dx - dy);
-        // double diff = Math.abs(dx - dy) / 2;
+
+        // double diff = Math.abs(dx - dy);
+        double diff = Math.abs(dx - dy) / 2;
 
         if (dx > dy) {
             bestDisplaceAxis = Axis.Y;
@@ -52,7 +53,6 @@ public class OctilinearConflict extends AbstractConflict {
         bestDisplaceStartPoint = adjacentEdge.getCentroid().getCoordinate();
 
         projection = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
-        rejection = new MoveVector(displaceVector.subtract(projection));
 
         if (!adjacentEdge.hasMajorMisalignment()) {
             solved = true;
@@ -62,12 +62,12 @@ public class OctilinearConflict extends AbstractConflict {
 
     @Override
     public double getDisplaceDistanceAlongX() {
-        return Math.abs(projection.length());
+        return Math.abs(projection.getFirst().length());
     }
 
     @Override
     public double getDisplaceDistanceAlongY() {
-        return Math.abs(rejection.length());
+        return Math.abs(projection.getSecond().length());
     }
 
 }
