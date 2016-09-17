@@ -12,6 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Transfer object with information of the displacement step.
+ */
 public class DisplaceResult {
 
     private final Conflict conflict;
@@ -33,18 +36,22 @@ public class DisplaceResult {
 
     }
 
+    @NotNull
     public Conflict getConflict() {
         return conflict;
     }
 
+    @NotNull
     public List<Conflict> getOtherConflicts() {
         return otherConflicts;
     }
 
+    @NotNull
     public OctilinearDirection getDisplaceDirection() {
         return displaceDirection;
     }
 
+    @NotNull
     public List<Node> getDisplacedNodes() {
         return displacedNodes;
     }
