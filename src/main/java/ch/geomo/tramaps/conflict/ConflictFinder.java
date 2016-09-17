@@ -88,19 +88,19 @@ public class ConflictFinder {
                 .distinct()
                 .collect(GCollectors.toList());
 
-//        EnhancedList<Conflict> octilinearConflicts = bufferPairs.stream()
-//                // check conflict
-//                .filter(this::hasOctilinearConflict)
-//                // create conflict
-//                .map(OctilinearConflict::new)
-//                // remove duplicates
-//                .distinct()
-//                // sort conflicts (smallest conflict first)
-//                .sorted()
-//                .collect(GCollectors.toList());
+        EnhancedList<Conflict> octilinearConflicts = bufferPairs.stream()
+                // check conflict
+                .filter(this::hasOctilinearConflict)
+                // create conflict
+                .map(OctilinearConflict::new)
+                // remove duplicates
+                .distinct()
+                // sort conflicts (smallest conflict first)
+                .sorted()
+                .collect(GCollectors.toList());
 
         return bufferConflicts
-                .union(new ArrayList<>())
+                .union(octilinearConflicts)
                 .sortElements(CONFLICT_COMPARATOR);
 
     }

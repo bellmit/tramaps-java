@@ -9,6 +9,7 @@ import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.math.Vector2D;
 
@@ -30,6 +31,11 @@ public class OctilinearConflict extends AbstractConflict {
         Node nodeB = getNodes().get(1);
         Edge adjacentEdge = nodeA.getAdjacentEdgeWith(nodeB);
 
+        if (adjacentEdge == null) {
+            solved = true;
+            return;
+        }
+
         double dx = Math.abs(nodeA.getX() - nodeB.getX());
         double dy = Math.abs(nodeA.getY() - nodeB.getY());
         double diff = Math.abs(dx - dy);
@@ -44,6 +50,9 @@ public class OctilinearConflict extends AbstractConflict {
         }
         bestDisplaceVector = displaceVector;
         bestDisplaceStartPoint = adjacentEdge.getCentroid().getCoordinate();
+
+        projection = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
+        rejection = new MoveVector(displaceVector.subtract(projection));
 
         if (!adjacentEdge.hasMajorMisalignment()) {
             solved = true;
