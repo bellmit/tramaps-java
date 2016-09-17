@@ -294,12 +294,9 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
             //correctNonOctilinearEdges(displaceResult);
 
-            Loggers.warning(this, "Uncorrected: " +  map.getEdges().stream()
+            Loggers.warning(this, "Uncorrected non-octilinear edges found: " +  map.getEdges().stream()
                     .filter(edge -> !edge.getDirection(null).isOctilinear())
                     .count());
-//            map.getEdges().stream()
-//                    .filter(edge -> !edge.getDirection(null).isOctilinear())
-//                    .forEach(edge -> Loggers.warning(this, "Uncorrected non-Octilinear edge " + edge.getName() + " with angle=" + edge.getAngle(null) + "!"));
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {

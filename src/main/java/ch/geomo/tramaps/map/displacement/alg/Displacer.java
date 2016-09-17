@@ -11,15 +11,16 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.util.Contracts;
+import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
-import ch.geomo.util.collection.GCollection;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
+import static ch.geomo.tramaps.graph.util.OctilinearDirection.EAST;
+import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
 
 public class Displacer {
 
@@ -44,17 +45,20 @@ public class Displacer {
 
     }
 
-    private boolean isDisplaceDirection(OctilinearDirection direction) {
+    /**
+     * @return true if given direction is equals to the displace direction
+     */
+    private boolean isDisplaceDirection(@NotNull OctilinearDirection direction) {
         return displaceDirection == direction;
     }
 
-    // TODO find better method name
-    private boolean isInDisplaceDirection(@NotNull Node node, @NotNull Node otherNode) {
-        return (otherNode.isNorthOf(node) && isDisplaceDirection(NORTH))
-                || (otherNode.isEastOf(node) && isDisplaceDirection(EAST));
-    }
-
-    private boolean checkConnectionEdge(@NotNull Node node, final boolean displaceable) {
+    /**
+     * Checks if given node is adjacent to a connection edge and (re-)evaluates if given node is
+     * displaceable.
+     *
+     * @return true if displaceable
+     */
+    private boolean checkConnectionEdge(@NotNull Node node, boolean displaceable) {
         if (hasConnectionEdge(node) && !conflict.isConflictRelated(node)) {
             if (node.getNodeDegree() == 1) {
                 return !displaceable;
@@ -69,7 +73,8 @@ public class Displacer {
             }
             Node otherNode = connectionEdge.getOtherNode(node);
             if (isSimpleConnectionEdgeNode(node, connectionEdge)) {
-                if (isInDisplaceDirection(node, otherNode)) {
+                if ((otherNode.isNorthOf(node) && isDisplaceDirection(NORTH))
+                        || (otherNode.isEastOf(node) && isDisplaceDirection(EAST))) {
                     return false;
                 }
                 return displaceable || otherNode.getNodeDegree() != 1;
@@ -91,6 +96,14 @@ public class Displacer {
                     }
                     return !direction.isHorizontal();
                 });
+    }
+
+    @SuppressWarnings("unused")
+    private boolean isDisplaceable(@NotNull Node node) {
+        if (isDisplaceDirection(NORTH)) {
+            return isDisplaceableToNorth(node);
+        }
+        return isDisplaceableToEast(node);
     }
 
     private boolean isDisplaceableToNorth(@NotNull Node node) {
@@ -129,6 +142,9 @@ public class Displacer {
 
     }
 
+    /**
+     * @return true if given edge is a connection edge
+     */
     private boolean isConnectionEdge(@NotNull Edge edge) {
         Coordinate displaceOriginPoint = conflict.getDisplaceOriginPoint();
         if (displaceDirection == NORTH) {
@@ -139,10 +155,16 @@ public class Displacer {
                 || edge.getNodeB().isEastOf(displaceOriginPoint) && edge.getNodeA().isWestOf(displaceOriginPoint);
     }
 
+    /**
+     * @return true if given node has at least one adjacent connection edge
+     */
     private boolean hasConnectionEdge(@NotNull Node node) {
         return node.getAdjacentEdges().anyMatch(this::isConnectionEdge);
     }
 
+    /**
+     * @return a set of connection edges
+     */
     @NotNull
     private EnhancedSet<Edge> getConnectionEdges(@NotNull Node node) {
         return node.getAdjacentEdges(this::isConnectionEdge);
