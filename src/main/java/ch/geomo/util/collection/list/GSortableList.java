@@ -10,44 +10,49 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Stream;
 
+// TODO -> extend from another class !
 public class GSortableList<E extends Comparable<E>> extends GList<E> implements EnhancedSortableList<E> {
 
-    protected GSortableList() {
-        super();
-    }
-
-    protected GSortableList(Collection<E> c) {
+    protected GSortableList(@NotNull Collection<E> c) {
         super(c);
     }
 
     @SafeVarargs
-    protected GSortableList(E... elements) {
+    protected GSortableList(@NotNull E... elements) {
         super(elements);
     }
 
-    protected GSortableList(Stream<E> stream) {
+    protected GSortableList(@NotNull Stream<E> stream) {
         super(stream);
     }
 
+    @NotNull
     @Override
     public GSortableList<E> sort() {
         Collections.sort(this);
         return this;
     }
 
+    @NotNull
     @Override
     public GSortableList<E> reverseSort() {
         return (GSortableList<E>) sort().reverse();
     }
 
     @NotNull
-    public static <E extends Comparable<E>> GSortableList<E> createSortableList(E... elements) {
+    @SafeVarargs
+    public static <E extends Comparable<E>> GSortableList<E> createSortableList(@NotNull E... elements) {
         return new GSortableList<>(elements);
     }
 
     @NotNull
-    public static <E extends Comparable<E>> GSortableList<E> createSortableList(Collection<E> c) {
+    public static <E extends Comparable<E>> GSortableList<E> createSortableList(@NotNull Collection<E> c) {
         return new GSortableList<>(c);
+    }
+
+    @NotNull
+    public static <E extends Comparable<E>> GSortableList<E> createSortableList(@NotNull Stream<E> stream) {
+        return new GSortableList<>(stream);
     }
 
 }
