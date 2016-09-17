@@ -46,11 +46,12 @@ public enum AdjustmentCostCalculator {
      * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} set traversed
      * nodes is needed to avoid correction circles.
      */
-    public static double calculateAdjustmentCosts(@NotNull Edge connectionEdge,
-                                                  @NotNull Node node,
-                                                  @NotNull AdjustmentGuard guard) {
+    public static double calculate(@NotNull Edge connectionEdge,
+                                   @NotNull Node node,
+                                   @NotNull AdjustmentGuard guard) {
 
-        if (guard.isNotMoveable(node) || guard.hasAlreadyVisited(node)) {
+        // guard.isNotMoveable(node) ||
+        if (guard.hasAlreadyVisited(node)) {
             return CORRECT_CIRCLE_PENALTY;
         }
 
@@ -70,7 +71,7 @@ public enum AdjustmentCostCalculator {
 
         for (Edge adjacentEdge : adjacentEdges) {
             Node otherNode = adjacentEdge.getOtherNode(node);
-            costs = costs + calculateAdjustmentCosts(adjacentEdge, otherNode, guard);
+            costs = costs + calculate(adjacentEdge, otherNode, guard);
         }
 
         return costs;

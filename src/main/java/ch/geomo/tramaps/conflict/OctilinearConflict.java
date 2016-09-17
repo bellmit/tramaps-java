@@ -60,4 +60,14 @@ public class OctilinearConflict extends AbstractConflict {
 
     }
 
+    @Override
+    public double getDisplaceDistanceAlongX() {
+        return Math.abs(projection.length());
+    }
+
+    @Override
+    public double getDisplaceDistanceAlongY() {
+        return Math.abs(rejection.length());
+    }
+
 }

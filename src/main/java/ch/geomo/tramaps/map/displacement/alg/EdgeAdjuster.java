@@ -9,25 +9,32 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
+import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentCostCalculator;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirection;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
+import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Adjusts edges.
  */
 public class EdgeAdjuster {
 
+    private static final double MAX_ADJUSTMENT_COSTS = 100;
+
     private final Graph graph;
     private final Edge edge;
     private final NodeDisplaceResult displaceResult;
-
-    // TODO to be deleted just for testing
-    public EdgeAdjuster(@NotNull Graph graph, @NotNull Edge edge) {
-        this.graph = graph;
-        this.edge = edge;
-        displaceResult = null;
-    }
 
     public EdgeAdjuster(@NotNull Graph graph, @NotNull Edge edge, @NotNull NodeDisplaceResult displaceResult) {
         this.graph = graph;
@@ -35,9 +42,37 @@ public class EdgeAdjuster {
         this.displaceResult = displaceResult;
     }
 
+    private Node getNodeA() {
+        return edge.getNodeA();
+    }
+
+    private Node getNodeB() {
+        return edge.getNodeB();
+    }
+
+    private AdjustmentGuard createGuard(@NotNull Node startNode) {
+        return new AdjustmentGuard(graph, displaceResult, startNode);
+    }
+
     public void correctEdge() {
 
-        correctEdgeByIntroducingBendNodes();
+        Loggers.info(this, "Correct edge " + edge.getName() + "...");
+
+        double scoreA = AdjustmentCostCalculator.calculate(edge, getNodeA(), createGuard(getNodeA()));
+        double scoreB = AdjustmentCostCalculator.calculate(edge, getNodeB(), createGuard(getNodeB()));
+        Loggers.info(this, "Adjustment Costs for nodes: [" + scoreA + "/" + scoreB + "]");
+
+        if (scoreA > MAX_ADJUSTMENT_COSTS && scoreB > MAX_ADJUSTMENT_COSTS) {
+            correctEdgeByIntroducingBendNodes();
+        }
+        else if (scoreA < scoreB) {
+            //correctEdgeByMovingNode(edge, getNodeA(), createGuard(getNodeA()));
+        }
+        else {
+            //correctEdgeByMovingNode(edge, getNodeB(), createGuard(getNodeB()));
+        }
+
+        Loggers.info(this, "Correction done.");
 
     }
 
@@ -53,6 +88,8 @@ public class EdgeAdjuster {
                 .build();
 
         Pair<Node> vertices = octilinearEdge.getVertices();
+
+        Loggers.info(this, "Introduce bends " + vertices + " to edge " + edge.getName() + "...");
 
         if (vertices.hasNonNullValues()) {
 
@@ -82,6 +119,148 @@ public class EdgeAdjuster {
         }
         else {
             Loggers.warning(this, "No octilinear edge created: " + edge);
+        }
+
+    }
+
+    /**
+     * Moves given {@link Node} in a certain direction to correct the given {@link Edge}'s
+     * octilinearity. Prefers to move in the given (last) move direction if two choices
+     * are equal weighted.
+     */
+    private void moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
+
+        AdjustmentDirectionEvaluator adjustmentDirectionEvaluator = guard.getNodeAdjustmentDirectionEvaluator();
+        AdjustmentDirection result;
+
+        if (AdjustmentCostCalculator.isSimpleNode(connectionEdge, moveableNode)) {
+
+            Loggers.info(this, "Move node " + moveableNode.getName() + ".");
+            Loggers.info(this, "Initial move direction is " + guard.getLastMoveDirection() + ".");
+
+            // get first edge
+            Edge adjacentEdge = moveableNode.getAdjacentEdgeStream(connectionEdge)
+                    .peek(edge -> Loggers.info(this, "Adjacent Edge " + edge.getName()))
+                    .findFirst()
+                    .orElse(null);
+
+            result = adjustmentDirectionEvaluator.evaluateDirection(moveableNode, connectionEdge, adjacentEdge, guard);
+
+        }
+        else {
+            Loggers.info(this, "Node " + moveableNode.getName() + " is too complex to move!");
+            result = new AdjustmentDirection(guard.getLastMoveDirection(), moveableNode, 0);
+        }
+
+        Loggers.info(this, "Evaluated move operation: " + result);
+
+        final double correctDistance = result.getMoveDistance();
+        final OctilinearDirection octilinearMoveDirection = result.getMoveDirection();
+
+        Point movePoint = moveableNode.createMovePoint(octilinearMoveDirection, correctDistance);
+
+        // evaluates if moving the node does not overlap another node after moving, otherwise we won't move the node
+        boolean overlapsAdjacentNode = moveableNode.getAdjacentEdgeStream(connectionEdge)
+                .anyMatch(adjEdge -> {
+                    if (adjEdge.getDirection(moveableNode).toOctilinear() != octilinearMoveDirection) {
+                        return false;
+                    }
+                    Node otherNode = adjEdge.getOtherNode(moveableNode);
+                    if (adjEdge.getLength() > correctDistance) {
+                        return false;
+                    }
+                    Coordinate coordinate = movePoint.getCoordinate();
+                    switch (result.getMoveDirection()) {
+                        case EAST:
+                            return !otherNode.isEastOf(coordinate);
+                        case NORTH:
+                            return !otherNode.isNorthOf(coordinate);
+                        case SOUTH:
+                            return !otherNode.isSouthOf(coordinate);
+                        case WEST:
+                            return !otherNode.isWestOf(coordinate);
+                        case NORTH_EAST:
+                            return !otherNode.isNorthEastOf(coordinate);
+                        case NORTH_WEST:
+                            return !otherNode.isNorthWestOf(coordinate);
+                        case SOUTH_EAST:
+                            return !otherNode.isSouthEastOf(coordinate);
+                        case SOUTH_WEST:
+                            return !otherNode.isSouthWestOf(coordinate);
+                        default: {
+                            Contracts.fail();
+                            return true;
+                        }
+                    }
+                });
+
+        // test if new position is equals to a position set another node
+        boolean overlapsOtherNodes = graph.getNodes().stream()
+                .filter(moveableNode::isNotEquals)
+                .map(Node::getCoordinate)
+                .anyMatch(coordinate -> movePoint.getCoordinate().equals(coordinate));
+
+        // test if new position would intersect with any other edge when moving -> if so, we do not move
+        boolean overlapsOtherEdges = moveableNode.getAdjacentEdgeStream(null)
+                .map(edge -> edge.getOtherNode(moveableNode))
+                .map(node -> GeomUtil.createLineString(movePoint, node.getPoint()))
+                .anyMatch(lineString -> guard.getGraph().getEdges().stream()
+                        .filter(edge -> !moveableNode.getAdjacentEdges().contains(edge))
+                        .anyMatch(edge -> {
+                            if (edge.getLineString().relate(lineString, "T********")) {
+                                Loggers.warning(this, "Edge " + edge.getName() + " would be intersecting with " + connectionEdge.getName() + "!");
+                                return true;
+                            }
+                            return false;
+                        }));
+
+        boolean notEqualPosition = GeomUtil.createLineString(movePoint, connectionEdge.getOtherNode(moveableNode).getPoint()).getLength() > 0;
+        if (!notEqualPosition) {
+            Loggers.warning(this, "It seems that the new position is equals to the adjacent node position.");
+        }
+
+        if (!overlapsAdjacentNode && !overlapsOtherNodes && !overlapsOtherEdges && notEqualPosition) {
+            Loggers.flag(this, "Move node " + moveableNode.getName() + " to " + octilinearMoveDirection + " (distance=" + correctDistance + ").");
+            moveableNode.updatePosition(movePoint);
+            Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
+        }
+        else {
+            Loggers.info(this, "Node " + moveableNode.getName() + " is not moveable!");
+        }
+
+        // update guard
+        guard.setLastMoveDirection(octilinearMoveDirection);
+        guard.setLastMoveDistance(correctDistance);
+
+    }
+
+    /**
+     * Corrects the direction set given {@link Edge} recursively by moving the given {@link Node}.
+     */
+    private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
+
+//        if (guard.isNotMoveable(moveableNode)) {
+//            Loggers.warning(this, "Node " + moveableNode.getName() + " cannot be moved!");
+//            return;
+//        }
+
+        if (guard.hasAlreadyVisited(moveableNode)) {
+            Loggers.warning(this, "Correct edge aborted due to a second visit set node " + moveableNode.getName() + "!");
+            return;
+        }
+
+        guard.visited(moveableNode);
+
+        moveNode(edge, moveableNode, guard);
+
+        List<Edge> nonOctilinearEdges = moveableNode.getAdjacentEdges().stream()
+                .filter(Edge::isNotOctilinear)
+                .filter(edge::isNotEquals)
+                .collect(Collectors.toList());
+
+        for (Edge nonOctilinearEdge : nonOctilinearEdges) {
+            Node otherNode = nonOctilinearEdge.getOtherNode(moveableNode);
+            correctEdgeByMovingNode(nonOctilinearEdge, otherNode, guard);
         }
 
     }

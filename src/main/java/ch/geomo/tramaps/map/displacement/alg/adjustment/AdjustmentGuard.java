@@ -6,10 +6,10 @@ package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
-import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.alg.NodeDisplaceResult;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.Contract;
@@ -26,10 +26,11 @@ import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
  */
 public class AdjustmentGuard {
 
+    private final Node firstNode;
     private final List<Node> traversedNodes;
 
     private final Conflict conflict;
-    private final MetroMap map;
+    private final Graph graph;
 
     private final AdjustmentDirectionEvaluator nodeAdjustmentDirectionEvaluator;
     private final NodeDisplaceResult displaceResult;
@@ -38,23 +39,24 @@ public class AdjustmentGuard {
     private OctilinearDirection lastMoveDirection;
     private double lastMoveDistance = 0d;
 
-    public AdjustmentGuard(@NotNull MetroMap map, @NotNull NodeDisplaceResult displaceResult, @NotNull Node firstNode) {
-        this.map = map;
+    public AdjustmentGuard(@NotNull Graph graph, @NotNull NodeDisplaceResult displaceResult, @NotNull Node firstNode) {
+        this.graph = graph;
         conflict = displaceResult.getConflict();
         this.displaceResult = displaceResult;
         lastMoveDirection = displaceResult.getDisplaceDirection();
         lastMoveDistance = displaceResult.getDisplaceDistance();
         traversedNodes = new ArrayList<>();
         nodeAdjustmentDirectionEvaluator = new AdjustmentDirectionEvaluator();
-        initMoveableNodes(firstNode);
+        this.firstNode = firstNode;
+        initMoveableNodes();
     }
 
-    private void initMoveableNodes(@NotNull Node firstNode) {
+    private void initMoveableNodes() {
 
         Coordinate pointOnDisplacementLine = conflict.getDisplaceOriginPoint();
 
         if (displaceResult.getDisplaceDirection() == NORTH) {
-            moveableNodes = map.getNodes().stream()
+            moveableNodes = graph.getNodes().stream()
                     .filter(node -> {
                         if (firstNode.getX() < pointOnDisplacementLine.x) {
                             return node.getX() < pointOnDisplacementLine.x;
@@ -64,7 +66,7 @@ public class AdjustmentGuard {
                     .collect(Collectors.toList());
         }
         else {
-            moveableNodes = map.getNodes().stream()
+            moveableNodes = graph.getNodes().stream()
                     .filter(node -> {
                         if (firstNode.getY() < pointOnDisplacementLine.y) {
                             return node.getY() < pointOnDisplacementLine.y;
@@ -175,11 +177,11 @@ public class AdjustmentGuard {
     }
 
     /**
-     * @return the {@link MetroMap} instance
+     * @return the {@link Graph} instance
      */
     @NotNull
-    public MetroMap getMetroMap() {
-        return map;
+    public Graph getGraph() {
+        return graph;
     }
 
     public boolean hasBeenDisplaced(@NotNull Node node) {

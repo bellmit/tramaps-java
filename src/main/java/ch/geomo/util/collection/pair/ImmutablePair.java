@@ -25,7 +25,7 @@ public class ImmutablePair<T> extends AbstractPair<T> {
 
     @Override
     public String toString() {
-        return "ImmutablePair: [" + first + ", " + second + "]";
+        return "[" + first + ", " + second + "]";
     }
 
 }

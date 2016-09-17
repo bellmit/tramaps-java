@@ -140,13 +140,13 @@ public abstract class AbstractConflict implements Conflict {
     }
 
     @Override
-    public int getDisplaceDistanceAlongX() {
-        return (int) Math.ceil(Math.abs(projection.length()));
+    public double getDisplaceDistanceAlongX() {
+        return Math.ceil(Math.abs(projection.length()));
     }
 
     @Override
     public double getDisplaceDistanceAlongY() {
-        return (int) Math.ceil(Math.abs(rejection.length()));
+        return Math.ceil(Math.abs(rejection.length()));
     }
 
     private boolean isConflictElement(@NotNull GraphElement graphElement) {

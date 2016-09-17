@@ -61,10 +61,6 @@ public class DisplaceRadiusLineSpaceHandler implements LineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
-        map.getEdges().stream()
-                .filter(Edge::isNotOctilinear)
-                .map(edge -> new EdgeAdjuster(map, edge))
-                .forEach(EdgeAdjuster::correctEdge);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }

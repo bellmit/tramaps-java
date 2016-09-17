@@ -152,7 +152,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     @NotNull
     public EnhancedSet<Edge> getAdjacentEdges(@NotNull Edge without) {
-        return adjacentEdges.without(without::isNotEquals);
+        return adjacentEdges.without(without::equals);
     }
 
     @NotNull

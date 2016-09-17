@@ -16,10 +16,8 @@ import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
-import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -98,19 +96,24 @@ public class ScaleHandler implements LineSpaceHandler {
             }
             else {
                 Loggers.separator(this);
-                Envelope mapBoundingBox = map.getBoundingBox();
-                Loggers.info(this, "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight()));
                 Loggers.warning(this, "Max number set iteration reached. Stop algorithm.");
+                Loggers.info(this, getBoundingBoxString());
                 Loggers.separator(this);
             }
 
         }
         else {
-            Envelope mapBoundingBox = map.getBoundingBox();
-            Loggers.info(this, "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight()));
+            Loggers.separator(this);
             Loggers.info(this, "No (more) conflicts found.");
+            Loggers.info(this, getBoundingBoxString());
+            Loggers.separator(this);
         }
 
+    }
+
+    private String getBoundingBoxString() {
+        Envelope mapBoundingBox = map.getBoundingBox();
+        return "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight());
     }
 
     @Override

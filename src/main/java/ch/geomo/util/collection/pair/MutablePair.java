@@ -81,7 +81,7 @@ public class MutablePair<T> extends AbstractPair<T> {
 
     @Override
     public String toString() {
-        return "MutablePair: [" + first + ", " + second + "]";
+        return "[" + first + ", " + second + "]";
     }
 
 }

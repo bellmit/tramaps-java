@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Conflict extends Comparable<Conflict> {
 
-    int getDisplaceDistanceAlongX();
+    double getDisplaceDistanceAlongX();
 
     double getDisplaceDistanceAlongY();
 
