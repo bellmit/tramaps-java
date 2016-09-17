@@ -33,8 +33,9 @@ public class MetroMapDrawer {
         context.translate(-bbox.getMinX() + margin, -bbox.getMinY() + margin);
 
         int max = (int) Math.ceil(Math.max(bbox.getMaxX(), bbox.getMaxY())) + 1000;
-        for (int i = -max, j = 0; i < max; i = i + 25, j = j + 25) {
-            context.setStroke(j % 100 == 0 ? Color.GRAY : Color.LIGHTGRAY);
+        for (int i = -max, j = 0; i < max; i = i + 50, j = j + 50) {
+            context.setStroke(Color.LIGHTGRAY);
+            context.setLineWidth(j == 0 || j % 250 == 0 ? 5 : (j % 100 == 0) ? 2 : 1);
             context.strokeLine(i, -max, i, max * 2);
             context.strokeLine(-max, i, max * 2, i);
         }

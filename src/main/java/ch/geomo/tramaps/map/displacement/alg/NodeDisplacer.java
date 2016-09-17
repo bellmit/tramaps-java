@@ -62,7 +62,7 @@ public class NodeDisplacer {
             }
             Edge connectionEdge = connectionEdges.first().orElse(null);
             if (connectionEdge == null) {
-                Contracts.fail("Should never happen since node has a connection edge!");
+                Contracts.fail("Should never happen since this node has a connection edge!");
             }
             Node otherNode = connectionEdge.getOtherNode(node);
             if (isSimpleConnectionEdgeNode(node, connectionEdge)) {
