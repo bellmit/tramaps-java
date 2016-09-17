@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.conflict.buffer;
 
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
 import com.vividsolutions.jts.geom.Polygon;

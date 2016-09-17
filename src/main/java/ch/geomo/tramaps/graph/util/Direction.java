@@ -4,8 +4,8 @@
 
 package ch.geomo.tramaps.graph.util;
 
-import ch.geomo.tramaps.geom.util.GeomUtil;
-import ch.geomo.util.point.NodePoint;
+import ch.geomo.util.geom.GeomUtil;
+import ch.geomo.util.geom.point.NodePoint;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

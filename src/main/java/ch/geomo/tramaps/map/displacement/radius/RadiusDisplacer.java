@@ -7,10 +7,8 @@ package ch.geomo.tramaps.map.displacement.radius;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.util.Loggers;
+import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
 public class RadiusDisplacer {

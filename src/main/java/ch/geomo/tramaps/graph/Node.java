@@ -4,13 +4,13 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
-import ch.geomo.util.point.NodePoint;
+import ch.geomo.util.geom.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;

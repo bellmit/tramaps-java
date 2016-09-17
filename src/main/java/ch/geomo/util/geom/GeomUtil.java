@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.geom.util;
+package ch.geomo.util.geom;
 
-import ch.geomo.util.point.NodePoint;
+import ch.geomo.util.geom.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
 import org.jetbrains.annotations.Contract;

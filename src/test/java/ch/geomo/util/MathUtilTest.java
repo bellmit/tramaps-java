@@ -4,6 +4,7 @@
 
 package ch.geomo.util;
 
+import ch.geomo.util.math.MathUtil;
 import org.junit.Assert;
 import org.junit.Test;
 

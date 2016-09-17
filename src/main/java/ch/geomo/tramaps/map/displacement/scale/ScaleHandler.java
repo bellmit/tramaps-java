@@ -7,7 +7,7 @@ package ch.geomo.tramaps.map.displacement.scale;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geom.Axis;
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import com.vividsolutions.jts.geom.Envelope;

@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;

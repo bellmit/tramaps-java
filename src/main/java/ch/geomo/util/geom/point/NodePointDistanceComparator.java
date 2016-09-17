@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util.point;
+package ch.geomo.util.geom.point;
 
 import org.jetbrains.annotations.NotNull;
 

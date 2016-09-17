@@ -5,7 +5,7 @@
 package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
@@ -18,7 +18,7 @@ import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirection;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
 import ch.geomo.util.Contracts;
-import ch.geomo.util.Loggers;
+import ch.geomo.util.logging.Loggers;
 import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;

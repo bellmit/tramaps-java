@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.map.signature;
 
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Node;
 import org.jetbrains.annotations.NotNull;
 

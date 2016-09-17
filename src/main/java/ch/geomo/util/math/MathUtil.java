@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.util;
+package ch.geomo.util.math;
 
 import java.util.Comparator;
 

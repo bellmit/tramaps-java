@@ -4,14 +4,14 @@
 
 package ch.geomo.tramaps.graph.layout;
 
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
-import ch.geomo.util.Loggers;
-import ch.geomo.util.MathUtil;
+import ch.geomo.util.logging.Loggers;
+import ch.geomo.util.math.MathUtil;
 import ch.geomo.util.collection.pair.MutablePair;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.geom.util.PolygonUtil.splitPolygon;
+import static ch.geomo.util.geom.PolygonUtil.splitPolygon;
 
 public class OctilinearEdgeBuilder {
 

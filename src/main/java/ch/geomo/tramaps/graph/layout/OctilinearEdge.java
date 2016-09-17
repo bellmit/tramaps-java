@@ -4,7 +4,7 @@
 
 package ch.geomo.tramaps.graph.layout;
 
-import ch.geomo.tramaps.geom.util.GeomUtil;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.util.collection.pair.MutablePair;
