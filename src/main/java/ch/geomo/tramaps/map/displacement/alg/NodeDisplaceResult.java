@@ -7,6 +7,8 @@ package ch.geomo.tramaps.map.displacement.alg;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.util.collection.GCollection;
+import ch.geomo.util.collection.list.EnhancedList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -15,21 +17,21 @@ import java.util.List;
 /**
  * Transfer object with information of the displacement step.
  */
-public class DisplaceResult {
+public class NodeDisplaceResult {
 
     private final Conflict conflict;
-    private final List<Conflict> otherConflicts;
+    private final EnhancedList<Conflict> otherConflicts;
     private final OctilinearDirection displaceDirection;
-    private final List<Node> displacedNodes;
+    private final EnhancedList<Node> displacedNodes;
     private final double displaceDistance;
 
-    public DisplaceResult(@NotNull OctilinearDirection displaceDirection,
-                          @NotNull List<Node> displacedNodes,
-                          @NotNull Conflict conflict,
-                          @NotNull List<Conflict> otherConflicts) {
+    public NodeDisplaceResult(@NotNull OctilinearDirection displaceDirection,
+                              @NotNull EnhancedList<Node> displacedNodes,
+                              @NotNull Conflict conflict,
+                              @NotNull EnhancedList<Conflict> otherConflicts) {
 
         this.displaceDirection = displaceDirection;
-        this.displacedNodes = new ArrayList<>(displacedNodes);
+        this.displacedNodes = GCollection.list(displacedNodes);
         displaceDistance = conflict.getBestDisplaceDistance();
         this.conflict = conflict;
         this.otherConflicts = otherConflicts;
@@ -52,7 +54,7 @@ public class DisplaceResult {
     }
 
     @NotNull
-    public List<Node> getDisplacedNodes() {
+    public EnhancedList<Node> getDisplacedNodes() {
         return displacedNodes;
     }
 

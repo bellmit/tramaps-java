@@ -17,23 +17,21 @@ import ch.geomo.util.collection.set.EnhancedSet;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.EAST;
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
 
 /**
  * Displace nodes based on the given {@link Conflict}.
  */
-public class Displacer {
+public class NodeDisplacer {
 
     private final MetroMap map;
     private final Conflict conflict;
-    private final List<Conflict> otherConflicts;
+    private final EnhancedList<Conflict> otherConflicts;
 
     private final OctilinearDirection displaceDirection;
 
-    public Displacer(@NotNull MetroMap map, @NotNull Conflict conflict, @NotNull List<Conflict> otherConflicts) {
+    public NodeDisplacer(@NotNull MetroMap map, @NotNull Conflict conflict, @NotNull EnhancedList<Conflict> otherConflicts) {
 
         this.map = map;
         this.conflict = conflict;
@@ -42,7 +40,7 @@ public class Displacer {
         if (conflict.getBestDisplaceAxis() == Axis.X) {
             displaceDirection = EAST;
         }
-        else {
+        else { // Axis.Y
             displaceDirection = NORTH;
         }
 
@@ -120,11 +118,11 @@ public class Displacer {
     }
 
     @NotNull
-    public DisplaceResult displace() {
+    public NodeDisplaceResult displace() {
 
         EnhancedList<Node> displacedNodes = GCollection.list();
 
-        if (conflict.getBestDisplaceAxis() == Axis.X) {
+        if (isDisplaceDirection(EAST)) {
             map.getNodes().stream()
                     .filter(this::isDisplaceableToEast)
                     .forEach(node -> {
@@ -132,7 +130,7 @@ public class Displacer {
                         displacedNodes.add(node);
                     });
         }
-        else {
+        else { // NORTH
             map.getNodes().stream()
                     .filter(this::isDisplaceableToNorth)
                     .forEach(node -> {
@@ -141,7 +139,7 @@ public class Displacer {
                     });
         }
 
-        return new DisplaceResult(displaceDirection, displacedNodes, conflict, otherConflicts);
+        return new NodeDisplaceResult(displaceDirection, displacedNodes, conflict, otherConflicts);
 
     }
 

@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class AdjustmentDirection {
 
-    private OctilinearDirection moveDirection;
-    private double moveDistance;
-    private Node moveableNode;
+    private final OctilinearDirection moveDirection;
+    private final double moveDistance;
+    private final Node moveableNode;
 
     public AdjustmentDirection(@NotNull OctilinearDirection moveDirection, @NotNull Node moveableNode, double moveDistance) {
         this.moveDirection = moveDirection;

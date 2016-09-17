@@ -5,8 +5,10 @@
 package ch.geomo.tramaps.map.displacement.radius;
 
 import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.EdgeAdjuster;
 import ch.geomo.util.logging.Loggers;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,6 +60,10 @@ public class DisplaceRadiusLineSpaceHandler implements LineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
+        map.getEdges().stream()
+                .filter(Edge::isNotOctilinear)
+                .map(edge -> new EdgeAdjuster(map, edge))
+                .forEach(EdgeAdjuster::correctEdge);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }

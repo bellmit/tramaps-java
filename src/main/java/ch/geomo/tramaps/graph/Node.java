@@ -411,6 +411,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return getY() < coordinate.y;
     }
 
+    public boolean isSouthOf(Node node) {
+        return getY() < node.getY();
+    }
+
     public boolean isNorthOf(Coordinate coordinate) {
         return getY() > coordinate.y;
     }
@@ -429,6 +433,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     public boolean isWestOf(Coordinate coordinate) {
         return getX() < coordinate.x;
+    }
+
+    public boolean isWestOf(Node node) {
+        return getX() < node.getX();
     }
 
     public boolean isNotEquals(Node node) {

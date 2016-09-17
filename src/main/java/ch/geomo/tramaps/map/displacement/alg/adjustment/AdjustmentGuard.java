@@ -9,7 +9,7 @@ import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.alg.DisplaceResult;
+import ch.geomo.tramaps.map.displacement.alg.NodeDisplaceResult;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,13 +31,13 @@ public class AdjustmentGuard {
     private final MetroMap map;
 
     private final AdjustmentDirectionEvaluator nodeAdjustmentDirectionEvaluator;
-    private final DisplaceResult displaceResult;
+    private final NodeDisplaceResult displaceResult;
 
     private List<Node> moveableNodes;
     private OctilinearDirection lastMoveDirection;
     private double lastMoveDistance = 0d;
 
-    public AdjustmentGuard(@NotNull MetroMap map, @NotNull DisplaceResult displaceResult, @NotNull Node firstNode) {
+    public AdjustmentGuard(@NotNull MetroMap map, @NotNull NodeDisplaceResult displaceResult, @NotNull Node firstNode) {
         this.map = map;
         conflict = displaceResult.getConflict();
         this.displaceResult = displaceResult;
@@ -79,7 +79,7 @@ public class AdjustmentGuard {
         return nodeAdjustmentDirectionEvaluator;
     }
 
-    public DisplaceResult getDisplaceResult() {
+    public NodeDisplaceResult getDisplaceResult() {
         return displaceResult;
     }
 

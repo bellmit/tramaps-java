@@ -5,6 +5,7 @@
 package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
@@ -39,86 +40,41 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         this.map = map;
     }
 
-    private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull DisplaceResult displaceResult) {
+    private void correctNonOctilinearEdge(@NotNull Edge edge, @NotNull NodeDisplaceResult displaceResult) {
 
-        AdjustmentCostCalculator costCalculator = new AdjustmentCostCalculator();
+        EdgeAdjuster adjuster = new EdgeAdjuster(map, edge, displaceResult);
+        adjuster.correctEdge();
 
-        Loggers.info(this, "Correct edge " + edge.getName() + ".");
-
-        // Node A
-        AdjustmentGuard guardA = new AdjustmentGuard(map, displaceResult, edge.getNodeA());
-        double scoreNodeA = costCalculator.calculateAdjustmentCosts(edge, edge.getNodeA(), guardA);
-
-        // Node B
-        AdjustmentGuard guardB = new AdjustmentGuard(map, displaceResult, edge.getNodeB());
-        double scoreNodeB = costCalculator.calculateAdjustmentCosts(edge, edge.getNodeB(), guardB);
-
-        Loggers.info(this, "Adjustment Costs for nodes: [" + scoreNodeA + "/" + scoreNodeB + "]");
-
-        if (scoreNodeA > MAX_ADJUSTMENT_COSTS && scoreNodeB > MAX_ADJUSTMENT_COSTS) {
-            Loggers.info(this, "Adjustment Costs too high... a bend is required!");
-            // correctEdgeByIntroducingBendNodes(edge, map);
-        }
-        else if (scoreNodeA < scoreNodeB) {
-            correctEdgeByMovingNode(edge, edge.getNodeA(), guardA.reuse());
-        }
-        else {
-            correctEdgeByMovingNode(edge, edge.getNodeB(), guardB.reuse());
-        }
+//        Loggers.info(this, "Correct edge " + edge.getName() + ".");
+//
+//        // Node A
+//        AdjustmentGuard guardA = new AdjustmentGuard(map, displaceResult, edge.getNodeA());
+//        double scoreNodeA = AdjustmentCostCalculator.calculateAdjustmentCosts(edge, edge.getNodeA(), guardA);
+//
+//        // Node B
+//        AdjustmentGuard guardB = new AdjustmentGuard(map, displaceResult, edge.getNodeB());
+//        double scoreNodeB = AdjustmentCostCalculator.calculateAdjustmentCosts(edge, edge.getNodeB(), guardB);
+//
+//        Loggers.info(this, "Adjustment Costs for nodes: [" + scoreNodeA + "/" + scoreNodeB + "]");
+//
+//        if (scoreNodeA > MAX_ADJUSTMENT_COSTS && scoreNodeB > MAX_ADJUSTMENT_COSTS) {
+//            Loggers.info(this, "Adjustment Costs too high... a bend is required!");
+//            // correctEdgeByIntroducingBendNodes(edge, map);
+//        }
+//        else if (scoreNodeA < scoreNodeB) {
+//            correctEdgeByMovingNode(edge, edge.getNodeA(), guardA.reuse());
+//        }
+//        else {
+//            correctEdgeByMovingNode(edge, edge.getNodeB(), guardB.reuse());
+//        }
 
     }
 
-    private void correctNonOctilinearEdges(@NotNull DisplaceResult displaceResult) {
+    private void correctNonOctilinearEdges(@NotNull NodeDisplaceResult displaceResult) {
         Loggers.info(this, "Non-Octilinear edges: " + map.countNonOctilinearEdges());
         map.getEdges().stream()
                 .filter(Edge::isNotOctilinear)
                 .forEach(edge -> correctNonOctilinearEdge(edge, displaceResult));
-    }
-
-    /**
-     * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance
-     * will be destroyed.
-     */
-    private void correctEdgeByIntroducingBendNodes(@NotNull Edge edge) {
-
-        // create octilinear edge
-        OctilinearEdge octilinearEdge = new OctilinearEdgeBuilder()
-                .setOriginalEdge(edge)
-                .setGraph(map)
-                .build();
-
-        Pair<Node> vertices = octilinearEdge.getVertices();
-
-        if (vertices.hasNonNullValues()) {
-
-            // only one vertex
-            if (vertices.second() == null) {
-                map.addNodes(vertices.first());
-                edge.getNodeA()
-                        .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
-                        .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
-            }
-            else {
-                map.addNodes(vertices.first(), vertices.second());
-                edge.getNodeA()
-                        .createAdjacentEdgeTo(vertices.first(), edge.getRoutes())
-                        .createAdjacentEdgeTo(vertices.second(), edge.getRoutes())
-                        .createAdjacentEdgeTo(edge.getNodeB(), edge.getRoutes());
-            }
-
-            Loggers.info(this, "Octilinear edge created: " + edge);
-
-            // remove old edge
-            edge.delete();
-
-            // numbers set nodes has changed, edge cache must be flagged for rebuild
-            map.updateGraph();
-
-        }
-        else {
-            Loggers.warning(this, "No octilinear edge created: " + edge);
-        }
-
     }
 
     /**
@@ -267,7 +223,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
         int currentIteration = lastIteration + 1;
 
-        List<Conflict> conflicts = map.evaluateConflicts(true);
+        EnhancedList<Conflict> conflicts = map.evaluateConflicts(true);
 
         Loggers.separator(this);
         Loggers.info(this, "Iteration: " + currentIteration);
@@ -289,10 +245,10 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             }
 
             Loggers.info(this, "Handle conflict: " + conflict);
-            Displacer displacer = new Displacer(map, conflict, conflicts);
-            DisplaceResult displaceResult = displacer.displace();
+            NodeDisplacer displacer = new NodeDisplacer(map, conflict, conflicts);
+            NodeDisplaceResult displaceResult = displacer.displace();
 
-            //correctNonOctilinearEdges(displaceResult);
+            // correctNonOctilinearEdges(displaceResult);
 
             Loggers.warning(this, "Uncorrected non-octilinear edges found: " +  map.getEdges().stream()
                     .filter(edge -> !edge.getDirection(null).isOctilinear())
@@ -321,6 +277,10 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
+        map.getEdges().stream()
+                .filter(Edge::isNotOctilinear)
+                .map(edge -> new EdgeAdjuster(map, edge))
+                .forEach(EdgeAdjuster::correctEdge);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }

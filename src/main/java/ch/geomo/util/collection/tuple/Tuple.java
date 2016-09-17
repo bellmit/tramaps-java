@@ -37,7 +37,7 @@ public interface Tuple<T, S> {
      * @return a new {@link ImmutableTuple} with given elements.
      */
     @NotNull
-    static <T, S> Tuple<T, S> of(@Nullable T first, @Nullable S second) {
+    static <T, S> Tuple<T, S> createTuple(@Nullable T first, @Nullable S second) {
         return new ImmutableTuple<>(first, second);
     }
 
@@ -45,7 +45,7 @@ public interface Tuple<T, S> {
      * @return a new {@link ImmutableTuple} with given elements.
      */
     @NotNull
-    static <T, S> Tuple<T, S> of(@Nullable T first, @Nullable S second, boolean mutable) {
+    static <T, S> Tuple<T, S> createTuple(@Nullable T first, @Nullable S second, boolean mutable) {
         if (mutable) {
             return new MutableTuple<>(first, second);
         }

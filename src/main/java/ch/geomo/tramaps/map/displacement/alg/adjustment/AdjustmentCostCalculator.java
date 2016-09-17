@@ -7,13 +7,15 @@ package ch.geomo.tramaps.map.displacement.alg.adjustment;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.util.collection.GCollectors;
+import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class AdjustmentCostCalculator {
+public enum AdjustmentCostCalculator {
+    ;
 
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
 
@@ -21,9 +23,10 @@ public class AdjustmentCostCalculator {
 
         Direction originalDirection = connectionEdge.getOriginalDirection(node).toOctilinear();
 
-        List<Direction> directions = node.getAdjacentEdgeStream(connectionEdge)
+        EnhancedList<Direction> directions = node.getAdjacentEdges().stream()
+                .filter(connectionEdge::isNotEquals)
                 .map(edge -> edge.getDirection(node))
-                .collect(Collectors.toList());
+                .collect(GCollectors.toList());
 
         if (directions.size() == 0) {
             return true;
@@ -31,7 +34,7 @@ public class AdjustmentCostCalculator {
         else if (directions.size() > 2) {
             return false;
         }
-        else if (directions.stream().anyMatch(originalDirection::isOpposite)) {
+        else if (directions.anyMatch(originalDirection::isOpposite)) {
             return false;
         }
 
@@ -43,9 +46,9 @@ public class AdjustmentCostCalculator {
      * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} set traversed
      * nodes is needed to avoid correction circles.
      */
-    public double calculateAdjustmentCosts(@NotNull Edge connectionEdge,
-                                           @NotNull Node node,
-                                           @NotNull AdjustmentGuard guard) {
+    public static double calculateAdjustmentCosts(@NotNull Edge connectionEdge,
+                                                  @NotNull Node node,
+                                                  @NotNull AdjustmentGuard guard) {
 
         if (guard.isNotMoveable(node) || guard.hasAlreadyVisited(node)) {
             return CORRECT_CIRCLE_PENALTY;

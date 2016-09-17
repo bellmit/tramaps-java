@@ -70,9 +70,9 @@ public class MetroMapDrawer {
         context.translate(5, 5);
         map.evaluateConflicts(true)
                 .forEach(conflict -> {
-                    context.setFill(Color.rgb(240, 88, 88, 0.4));
-                    Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();
-                    context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
+//                    context.setFill(Color.rgb(240, 88, 88, 0.4));
+//                    Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();
+//                    context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
 
 //                    context.setFill(Color.rgb(20, 172, 0, 0.4));
 //                    Envelope bbox3 = conflict.getBufferA().getBuffer().getEnvelopeInternal();

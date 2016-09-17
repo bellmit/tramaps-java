@@ -18,20 +18,20 @@ import java.util.stream.Stream;
 
 public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
 
-    protected GList() {
+    public GList() {
         super();
     }
 
-    protected GList(@NotNull Collection<E> c) {
+    public GList(@NotNull Collection<E> c) {
         super(c);
     }
 
     @SafeVarargs
-    protected GList(@NotNull E... elements) {
+    public GList(@NotNull E... elements) {
         super(Arrays.asList(elements));
     }
 
-    protected GList(@NotNull Stream<E> stream) {
+    public GList(@NotNull Stream<E> stream) {
         super(stream.collect(Collectors.toList()));
     }
 

@@ -17,20 +17,20 @@ import java.util.stream.Stream;
 
 public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
 
-    protected GSet() {
+    public GSet() {
         super();
     }
 
-    protected GSet(@NotNull Collection<E> c) {
+    public GSet(@NotNull Collection<E> c) {
         super(c);
     }
 
     @SafeVarargs
-    protected GSet(@NotNull E... elements) {
+    public GSet(@NotNull E... elements) {
         super(Arrays.asList(elements));
     }
 
-    protected GSet(@NotNull Stream<E> stream) {
+    public GSet(@NotNull Stream<E> stream) {
         super(stream.collect(Collectors.toList()));
     }
 
