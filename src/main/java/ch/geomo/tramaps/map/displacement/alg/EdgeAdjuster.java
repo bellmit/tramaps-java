@@ -4,14 +4,11 @@
 
 package ch.geomo.tramaps.map.displacement.alg;
 
-import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
-import ch.geomo.tramaps.graph.util.Alignment;
-import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.logging.Loggers;
 import org.jetbrains.annotations.NotNull;
@@ -53,7 +50,6 @@ public class EdgeAdjuster {
         // create octilinear edge
         OctilinearEdge octilinearEdge = new OctilinearEdgeBuilder()
                 .setOriginalEdge(edge)
-                .setGraph(graph)
                 .build();
 
         Pair<Node> vertices = octilinearEdge.getVertices();

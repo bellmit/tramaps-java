@@ -427,4 +427,8 @@ public class Edge extends Observable implements Observer, GraphElement {
         // Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");
     }
 
+    public boolean hasMajorMisalignment() {
+        return getOriginalDirection(null) != getDirection(null).toOctilinear();
+    }
+
 }

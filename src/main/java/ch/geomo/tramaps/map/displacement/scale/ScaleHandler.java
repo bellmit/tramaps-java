@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.map.displacement.scale;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geom.Axis;

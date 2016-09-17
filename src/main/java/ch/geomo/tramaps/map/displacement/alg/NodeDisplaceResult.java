@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.map.displacement.alg;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
@@ -11,7 +12,6 @@ import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.list.EnhancedList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

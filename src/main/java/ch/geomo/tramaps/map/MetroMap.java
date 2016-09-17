@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.map;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.ConflictFinder;
 import ch.geomo.tramaps.graph.Edge;

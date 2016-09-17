@@ -65,9 +65,9 @@ public interface EnhancedSet<E> extends Set<E> {
     <T> EnhancedSet<T> flatMap(Function<E, ? extends Stream<? extends T>> mapper);
 
     @NotNull
-    EnhancedSet<Pair<E>> toPairList();
+    EnhancedSet<Pair<E>> toPairSet();
     @NotNull
-    EnhancedSet<Pair<E>> toPairList(@NotNull Predicate<Pair<E>> predicate);
+    EnhancedSet<Pair<E>> toPairSet(@NotNull Predicate<Pair<E>> predicate);
     @NotNull
     Stream<Pair<E>> toPairStream(@NotNull Predicate<Pair<E>> predicate);
 

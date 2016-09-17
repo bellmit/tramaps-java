@@ -8,20 +8,29 @@ import ch.geomo.tramaps.conflict.buffer.EdgeBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
 import ch.geomo.tramaps.conflict.buffer.NodeBuffer;
+import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
+import ch.geomo.tramaps.graph.Node;
+import ch.geomo.util.collection.GCollection;
+import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.list.GList;
 import ch.geomo.util.collection.set.GSet;
 import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
+import sun.misc.GC;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ConflictFinder {
+
+    public final static Comparator<Conflict> CONFLICT_COMPARATOR = new ConflictComparator();
 
     /**
      * Returns true if both elements are not equal and not adjacent or at least one element is a node.
@@ -64,24 +73,48 @@ public class ConflictFinder {
     public EnhancedList<Conflict> getConflicts() {
 
         EnhancedSet<ElementBuffer> buffers = GSet.createSet(createEdgeBuffers(), createNodeBuffers());
+        EnhancedSet<Pair<ElementBuffer>> bufferPairs = buffers.toPairSet(ConflictFinder.CONFLICT_PAIR_PREDICATE);
 
-        List<Conflict> conflicts = buffers.toPairStream(ConflictFinder.CONFLICT_PAIR_PREDICATE)
+        EnhancedList<Conflict> bufferConflicts = bufferPairs.stream()
                 // check interior intersection
                 .filter(bufferPair -> bufferPair.getFirst().getBuffer().relate(bufferPair.getSecond().getBuffer(), "T********"))
                 // create conflict
-                .map(Conflict::new)
+                .map(BufferConflict::new)
                 // filter conflicts which do not cross with other (not-conflict related) edges
                 .filter(conflict -> conflict.hasElementNeighborhood(graph.getEdges()))
                 // filter unsolved conflicts
-                .filter(Conflict::isNotSolved)
+                .filter(BufferConflict::isNotSolved)
                 // remove duplicates
                 .distinct()
-                // sort conflicts (smallest conflict first)
-                .sorted()
-                .collect(Collectors.toList());
+                .collect(GCollectors.toList());
 
-        return GList.createList(conflicts);
+//        EnhancedList<Conflict> octilinearConflicts = bufferPairs.stream()
+//                // check conflict
+//                .filter(this::hasOctilinearConflict)
+//                // create conflict
+//                .map(OctilinearConflict::new)
+//                // remove duplicates
+//                .distinct()
+//                // sort conflicts (smallest conflict first)
+//                .sorted()
+//                .collect(GCollectors.toList());
 
+        return bufferConflicts
+                .union(new ArrayList<>())
+                .sortElements(CONFLICT_COMPARATOR);
+
+    }
+
+    private boolean hasOctilinearConflict(Pair<ElementBuffer> bufferPair) {
+        if (bufferPair.stream().allMatch(buffer -> buffer instanceof NodeBuffer)) {
+            Node a = (Node)bufferPair.getFirst().getElement();
+            Node b = (Node)bufferPair.getSecond().getElement();
+            Edge adjacentEdge = a.getAdjacentEdgeWith(b);
+            if (adjacentEdge != null && adjacentEdge.isNotOctilinear()) {
+                return adjacentEdge.hasMajorMisalignment();
+            }
+        }
+        return false;
     }
 
 }

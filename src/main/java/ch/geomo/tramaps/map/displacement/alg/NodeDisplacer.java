@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.map.displacement.alg;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.graph.Edge;
@@ -21,29 +22,20 @@ import static ch.geomo.tramaps.graph.util.OctilinearDirection.EAST;
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
 
 /**
- * Displace nodes based on the given {@link Conflict}.
+ * Displace nodes based on the given {@link BufferConflict}.
  */
 public class NodeDisplacer {
 
     private final MetroMap map;
     private final Conflict conflict;
     private final EnhancedList<Conflict> otherConflicts;
-
     private final OctilinearDirection displaceDirection;
 
     public NodeDisplacer(@NotNull MetroMap map, @NotNull Conflict conflict, @NotNull EnhancedList<Conflict> otherConflicts) {
-
         this.map = map;
         this.conflict = conflict;
         this.otherConflicts = otherConflicts;
-
-        if (conflict.getBestDisplaceAxis() == Axis.X) {
-            displaceDirection = EAST;
-        }
-        else { // Axis.Y
-            displaceDirection = NORTH;
-        }
-
+        displaceDirection = conflict.getBestDisplaceDirection();
     }
 
     /**

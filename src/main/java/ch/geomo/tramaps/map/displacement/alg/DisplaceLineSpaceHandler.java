@@ -4,13 +4,12 @@
 
 package ch.geomo.tramaps.map.displacement.alg;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.layout.OctilinearEdge;
-import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
@@ -20,7 +19,6 @@ import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirection;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.logging.Loggers;
-import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
@@ -277,10 +275,10 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
-        map.getEdges().stream()
-                .filter(Edge::isNotOctilinear)
-                .map(edge -> new EdgeAdjuster(map, edge))
-                .forEach(EdgeAdjuster::correctEdge);
+//        map.getEdges().stream()
+//                .filter(Edge::isNotOctilinear)
+//                .map(edge -> new EdgeAdjuster(map, edge))
+//                .forEach(EdgeAdjuster::correctEdge);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }

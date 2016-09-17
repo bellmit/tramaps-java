@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
@@ -108,14 +109,14 @@ public class AdjustmentGuard {
     }
 
     /**
-     * @return the best displace length based on the {@link Conflict}
+     * @return the best displace length based on the {@link BufferConflict}
      */
     public int getMoveDistance() {
         return conflict.getBestDisplaceDistance();
     }
 
     /**
-     * @return the {@link Conflict} which is guarded by this instance
+     * @return the {@link BufferConflict} which is guarded by this instance
      */
     @NotNull
     public Conflict getConflict() {

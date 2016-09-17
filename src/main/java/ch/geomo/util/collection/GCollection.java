@@ -5,9 +5,7 @@
 package ch.geomo.util.collection;
 
 import ch.geomo.util.collection.list.EnhancedList;
-import ch.geomo.util.collection.list.EnhancedSortableList;
 import ch.geomo.util.collection.list.GList;
-import ch.geomo.util.collection.list.GSortableList;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
@@ -33,9 +31,8 @@ public enum GCollection {
     }
 
     @NotNull
-    @SafeVarargs
-    public static <E extends Comparable<E>> EnhancedSortableList<E> sortableList(@NotNull E... elements) {
-        return GSortableList.createSortableList(elements);
+    public static <E> EnhancedList<E> mergeLists(@NotNull Collection<E> c1, @NotNull Collection<E> c2) {
+        return GList.merge(c1, c2);
     }
 
     @NotNull

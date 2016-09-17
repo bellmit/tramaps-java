@@ -5,34 +5,21 @@
 package ch.geomo.tramaps.graph.layout;
 
 import ch.geomo.tramaps.graph.Edge;
-import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.util.Alignment;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.pair.MutablePair;
-import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
-import ch.geomo.util.math.MathUtil;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.Stream;
-
 import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
-import static ch.geomo.util.geom.PolygonUtil.splitPolygon;
 
 public class OctilinearEdgeBuilder {
 
     private MutablePair<Node> vertices;
-
     private Edge originalEdge;
-    private Graph graph;
 
     public OctilinearEdgeBuilder() {
         vertices = new MutablePair<>();
@@ -41,12 +28,6 @@ public class OctilinearEdgeBuilder {
     @NotNull
     public OctilinearEdgeBuilder setOriginalEdge(@NotNull Edge edge) {
         originalEdge = edge;
-        return this;
-    }
-
-    @NotNull
-    public OctilinearEdgeBuilder setGraph(@NotNull Graph graph) {
-        this.graph = graph;
         return this;
     }
 
@@ -68,13 +49,10 @@ public class OctilinearEdgeBuilder {
 
     private void createNodeC(double x, double y) {
         vertices.set(0, new Node(x, y, BendNodeSignature::new));
-        vertices.get(0).setName(getNodeA().getName() + "-" + getNodeB().getName());
     }
 
     private void createNodeD(double x, double y) {
         vertices.set(1, new Node(x, y, BendNodeSignature::new));
-        vertices.get(0).setName(getNodeA().getName() + "+-" + getNodeB().getName());
-        vertices.get(1).setName(getNodeA().getName() + "-+" + getNodeB().getName());
     }
 
     private boolean isReversedOrder() {
@@ -228,8 +206,15 @@ public class OctilinearEdgeBuilder {
             }
         }
 
-        if (isReversedOrder() && vertices.stream().count() == 2) {
-            vertices.swapValues();
+        if (vertices.nonNullStream().count() == 1) {
+            vertices.get(0).setName(getNodeA().getName() + "-" + getNodeB().getName());
+        }
+        else if (vertices.nonNullStream().count() == 2) {
+            if (isReversedOrder()) {
+                vertices.swapValues();
+            }
+            vertices.get(0).setName(getNodeA().getName() + "+-" + getNodeB().getName());
+            vertices.get(1).setName(getNodeA().getName() + "-+" + getNodeB().getName());
         }
 
     }

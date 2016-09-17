@@ -4,6 +4,7 @@
 
 package ch.geomo.util.collection.set;
 
+import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.list.GList;
 import ch.geomo.util.collection.pair.Pair;
@@ -162,14 +163,14 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
 
     @NotNull
     @Override
-    public EnhancedSet<Pair<E>> toPairList() {
-        return toPairList(e -> true);
+    public EnhancedSet<Pair<E>> toPairSet() {
+        return toPairSet(e -> true);
     }
 
     @NotNull
     @Override
-    public EnhancedSet<Pair<E>> toPairList(@NotNull Predicate<Pair<E>> predicate) {
-        return createSet(toPairStream(predicate).collect(Collectors.toList()));
+    public EnhancedSet<Pair<E>> toPairSet(@NotNull Predicate<Pair<E>> predicate) {
+        return toPairStream(predicate).collect(GCollectors.toSet());
 
     }
 

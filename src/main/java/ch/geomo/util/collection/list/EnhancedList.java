@@ -9,6 +9,7 @@ import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
@@ -82,6 +83,9 @@ public interface EnhancedList<E> extends List<E> {
 
     @NotNull
     EnhancedSet<E> toSet();
+
+    @NotNull
+    EnhancedList<E> sortElements(@NotNull Comparator<? super E> c);
 
     @NotNull
     @Override

@@ -18,12 +18,12 @@ public class ConflictComparator implements Comparator<Conflict> {
             return Double.compare(length1a, length2a);
         }
 
-        int rank1 = o1.getConflictType().getConflictRank();
-        int rank2 = o2.getConflictType().getConflictRank();
-
-        if (rank1 != rank2) {
-            return Integer.compare(rank1, rank2);
-        }
+//        int rank1 = o1.getConflictType().getConflictRank();
+//        int rank2 = o2.getConflictType().getConflictRank();
+//
+//        if (rank1 != rank2) {
+//            return Integer.compare(rank1, rank2);
+//        }
 
         double length1b = o1.getDisplaceVector().length();
         double length2b = o2.getDisplaceVector().length();

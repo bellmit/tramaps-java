@@ -206,6 +206,13 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
 
     @NotNull
     @Override
+    public EnhancedList<E> sortElements(@NotNull Comparator<? super E> c) {
+        sort(c);
+        return this;
+    }
+
+    @NotNull
+    @Override
     @SuppressWarnings("unchecked")
     public E[] toArray() {
         return (E[])super.toArray();
@@ -246,7 +253,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     }
 
     @NotNull
-    public static <E> EnhancedList<E> merge(@NotNull Collection<E> c1, @NotNull Collection<E> c2) {
+    public static <E> EnhancedList<E> merge(@NotNull Collection<? extends E> c1, @NotNull Collection<? extends E> c2) {
         return new GList<>(Stream.concat(c1.stream(), c2.stream()));
     }
 
