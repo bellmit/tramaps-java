@@ -4,13 +4,14 @@
 
 package ch.geomo.tramaps.map.displacement.scale;
 
-import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geom.Axis;
-import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
+import ch.geomo.util.collection.list.EnhancedList;
+import ch.geomo.util.geom.GeomUtil;
+import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
  */
 public class ScaleHandler implements LineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 25;
+    private static final int MAX_ITERATIONS = 100;
 
     private final MetroMap map;
 
@@ -70,28 +71,45 @@ public class ScaleHandler implements LineSpaceHandler {
 
     }
 
-    private void makeSpace(int count) {
+    private void makeSpace(int lastIteration) {
 
-        count++;
+        int currentIteration = lastIteration + 1;
 
-        System.out.println("makeSpaceByScaling");
+        EnhancedList<Conflict> conflicts = map.evaluateConflicts(false);
 
-        List<Conflict> conflicts = map.evaluateConflicts(false);
+        Loggers.separator(this);
+        Loggers.info(this, "Iteration: " + currentIteration);
 
         if (!conflicts.isEmpty()) {
+
+            Loggers.warning(this, "Conflicts found: " + conflicts.size());
+
             Stream<Geometry> buffers = conflicts.stream()
                     .flatMap(conflict -> Stream.of(conflict.getBufferA(), conflict.getBufferB()))
                     .map(ElementBuffer::getBuffer);
             GeometryCollection coll = GeomUtil.createCollection(buffers);
             Envelope bbox = coll.getEnvelopeInternal();
             double scaleFactor = evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
-            System.out.println("scale factor: " + scaleFactor);
+            Loggers.info(this, "Use scale factor: " + scaleFactor);
             scale(map, scaleFactor);
-        }
 
-        // repeat if space issue is not yet solved
-        if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && count < MAX_ITERATIONS) {
-            makeSpace(count);
+            // repeat if space issue is not yet solved
+            if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && currentIteration < MAX_ITERATIONS) {
+                makeSpace(currentIteration);
+            }
+            else {
+                Loggers.separator(this);
+                Envelope mapBoundingBox = map.getBoundingBox();
+                Loggers.info(this, "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight()));
+                Loggers.warning(this, "Max number set iteration reached. Stop algorithm.");
+                Loggers.separator(this);
+            }
+
+        }
+        else {
+            Envelope mapBoundingBox = map.getBoundingBox();
+            Loggers.info(this, "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight()));
+            Loggers.info(this, "No (more) conflicts found.");
         }
 
     }

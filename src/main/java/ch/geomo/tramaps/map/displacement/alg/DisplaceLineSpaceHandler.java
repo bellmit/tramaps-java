@@ -20,6 +20,7 @@ import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvalu
 import ch.geomo.util.Contracts;
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -257,14 +258,17 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
                 makeSpace(currentIteration, conflict);
             }
             else {
-                // correctNonOctilinearEdges(displaceResult);
                 Loggers.separator(this);
+                Envelope mapBoundingBox = map.getBoundingBox();
+                Loggers.info(this, "Size: " + (int)Math.ceil(mapBoundingBox.getWidth()) + "x" + (int)Math.ceil(mapBoundingBox.getHeight()));
                 Loggers.warning(this, "Max number set iteration reached. Stop algorithm.");
                 Loggers.separator(this);
             }
 
         }
         else {
+            Envelope mapBoundingBox = map.getBoundingBox();
+            Loggers.info(this, "Size: " + (int)Math.ceil(mapBoundingBox.getWidth()) + "x" + (int)Math.ceil(mapBoundingBox.getHeight()));
             Loggers.info(this, "No (more) conflicts found.");
         }
 

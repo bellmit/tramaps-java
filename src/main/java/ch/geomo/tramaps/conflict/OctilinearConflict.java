@@ -9,7 +9,6 @@ import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.pair.Pair;
 import com.vividsolutions.jts.math.Vector2D;
 
@@ -39,6 +38,7 @@ public class OctilinearConflict extends AbstractConflict {
         double dx = Math.abs(nodeA.getX() - nodeB.getX());
         double dy = Math.abs(nodeA.getY() - nodeB.getY());
         double diff = Math.abs(dx - dy);
+        // double diff = Math.abs(dx - dy) / 2;
 
         if (dx > dy) {
             bestDisplaceAxis = Axis.Y;
