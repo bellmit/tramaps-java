@@ -36,19 +36,18 @@ public class ScaleHandler implements LineSpaceHandler {
         this.map = map;
     }
 
-    private double evaluateScaleFactor(@NotNull List<Conflict> conflicts, double mapWidth, double mapHeight) {
+    private double evaluateScaleFactor(@NotNull EnhancedList<Conflict> conflicts, double mapWidth, double mapHeight) {
 
         double maxMoveX = 0d;
         double maxMoveY = 0d;
 
         for (Conflict conflict : conflicts) {
             Axis axis = conflict.getBestDisplaceAxis();
-            Vector2D v = conflict.getBestDisplaceVector();
             if (axis == Axis.X) {
-                maxMoveX = Math.max(maxMoveX, v.length());
+                maxMoveX = Math.max(maxMoveX, conflict.getDisplaceDistanceAlongX());
             }
             else {
-                maxMoveY = Math.max(maxMoveY, v.length());
+                maxMoveY = Math.max(maxMoveY, conflict.getDisplaceDistanceAlongY());
             }
         }
 

@@ -79,7 +79,7 @@ public class BufferConflict extends AbstractConflict {
         if (geometry instanceof Polygon) {
             return (Polygon) geometry;
         }
-        Loggers.info(this, "Cannot create conflict polygon. Result was: " + geometry);
+        // Loggers.info(this, "Cannot create conflict polygon. Result was: " + geometry);
         return GeomUtil.createEmptyPolygon();
     }
 
@@ -257,6 +257,10 @@ public class BufferConflict extends AbstractConflict {
         }
         bestDisplaceStartPoint = GeomUtil.createLineString(node1, node2).getCentroid().getCoordinate();
 
+    }
+
+    public Polygon getConflictPolygon() {
+        return conflictPolygon;
     }
 
     protected boolean hasElementNeighborhood(Collection<Edge> edges) {

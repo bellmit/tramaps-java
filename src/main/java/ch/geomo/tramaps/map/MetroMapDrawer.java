@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.map;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import com.vividsolutions.jts.geom.Envelope;
@@ -69,10 +70,11 @@ public class MetroMapDrawer {
 
         context.translate(5, 5);
         map.evaluateConflicts(true)
+                .filter(conflict -> conflict instanceof BufferConflict)
                 .forEach(conflict -> {
-//                    context.setFill(Color.rgb(240, 88, 88, 0.4));
-//                    Envelope bbox2 = conflict.getConflictPolygon().getEnvelopeInternal();
-//                    context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
+                    context.setFill(Color.rgb(240, 88, 88, 0.4));
+                    Envelope bbox2 = ((BufferConflict)conflict).getConflictPolygon().getEnvelopeInternal();
+                    context.fillRect(bbox2.getMinX(), bbox2.getMinY(), bbox2.getWidth(), bbox2.getHeight());
 
 //                    context.setFill(Color.rgb(20, 172, 0, 0.4));
 //                    Envelope bbox3 = conflict.getBufferA().getBuffer().getEnvelopeInternal();
