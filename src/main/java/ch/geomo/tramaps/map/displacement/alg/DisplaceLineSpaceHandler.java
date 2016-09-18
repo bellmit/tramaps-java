@@ -106,7 +106,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
         correctNonOctilinearEdges();
-        //postOctilinearConflictSolver();
+        postOctilinearConflictSolver();
 
         Loggers.separator(this);
         Loggers.info(this, getBoundingBoxString());

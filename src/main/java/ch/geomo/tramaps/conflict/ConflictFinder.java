@@ -137,7 +137,7 @@ public class ConflictFinder {
     @NotNull
     public EnhancedList<Conflict> getConflicts() {
         return getBufferConflicts()
-                .union(getOctilinearConflicts(0.1, true))
+                .union(getOctilinearConflicts(0.25, true))
                 .sortElements(CONFLICT_COMPARATOR);
     }
 
