@@ -18,17 +18,17 @@ public class MetroMapZuerich extends MetroMap {
 
         super(routeMargin, edgeMargin);
 
-        Route s2 = new Route(20, Color.BLACK, "S2");
-        Route s4 = new Route(20, Color.BLACK, "S4");
-        Route s5 = new Route(20, Color.BLACK, "S5");
-        Route s6 = new Route(20, Color.BLACK, "S6");
-        Route s7 = new Route(20, Color.BLACK, "S7");
-        Route s8 = new Route(20, Color.BLACK, "S8");
-        Route s9 = new Route(20, Color.BLACK, "S9");
-        Route s10 = new Route(20, Color.BLACK, "S10");
-        Route s12 = new Route(20, Color.BLACK, "S12");
-        Route s14 = new Route(20, Color.BLACK, "S14");
-        Route s24 = new Route(20, Color.BLACK, "S24");
+        Route s2 = new Route("S2", 20, Color.BLACK);
+        Route s4 = new Route("S4", 20, Color.BLACK);
+        Route s5 = new Route("S5", 20, Color.BLACK);
+        Route s6 = new Route("S6", 20, Color.BLACK);
+        Route s7 = new Route("S7", 20, Color.BLACK);
+        Route s8 = new Route("S8", 20, Color.BLACK);
+        Route s9 = new Route("S9", 20, Color.BLACK);
+        Route s10 = new Route("S10", 20, Color.BLACK);
+        Route s12 = new Route("S12", 20, Color.BLACK);
+        Route s14 = new Route("S14", 20, Color.BLACK);
+        Route s24 = new Route("S24", 20, Color.BLACK);
 
         Node hb = createNode(120, 105, "Zürich HB");
 
@@ -170,7 +170,7 @@ public class MetroMapZuerich extends MetroMap {
                 .routes(s7)
                 .station(stadelhofen)
                 .junction(stadelhofenToTiefenbrunnenStettbach)
-                //.station(tiefenbrunnen)
+                .station(tiefenbrunnen)
                 .create();
 
         Node oerlikonToWallisellen = createJunctionNode(105,150); // J8

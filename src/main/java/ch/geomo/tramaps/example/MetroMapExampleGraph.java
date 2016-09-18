@@ -42,13 +42,13 @@ public class MetroMapExampleGraph extends MetroMap {
         Node r = createNode(100, 350, "R", signatureFunction);
         Node s = createNode(150, 50, "S", signatureFunction);
 
-        Route line1 = new Route(20, Color.BLUE);
-        Route line2 = new Route(20, Color.RED);
-        Route line3 = new Route(20, Color.GREEN);
-        Route line4 = new Route(20, Color.YELLOW);
-        Route line5 = new Route(20, Color.ORANGE);
-        Route line6 = new Route(20, Color.MAGENTA);
-        Route line7 = new Route(20, Color.BLACK);
+        Route line1 = new Route("U1", 20, Color.BLUE);
+        Route line2 = new Route("U2", 20, Color.RED);
+        Route line3 = new Route("U3", 20, Color.GREEN);
+        Route line4 = new Route("U4", 20, Color.YELLOW);
+        Route line5 = new Route("U5", 20, Color.ORANGE);
+        Route line6 = new Route("U6", 20, Color.MAGENTA);
+        Route line7 = new Route("U7", 20, Color.BLACK);
 
         createEdge(a, b, line1, line2, line3, line4, line5);
         createEdge(c, b, line1, line2, line4, line5);

@@ -58,19 +58,19 @@ public class MetroMap extends Graph {
     }
 
     public Node createCrossingNode(double x, double y) {
-        Node node = new Node(x, -y, "C" + (++crossingCount), BendNodeSignature::new);
+        Node node = new Node("C" + (++crossingCount), x, -y, BendNodeSignature::new);
         addNodes(node);
         return node;
     }
 
     public Node createJunctionNode(double x, double y) {
-        Node node = new Node(x, -y, "J" + (++junctionCount), BendNodeSignature::new);
+        Node node = new Node("J" + (++junctionCount), x, -y, BendNodeSignature::new);
         addNodes(node);
         return node;
     }
 
     public Node createBendNode(double x, double y) {
-        Node node = new Node(x, -y, "B" + (++bendCount), BendNodeSignature::new);
+        Node node = new Node("B" + (++bendCount), x, -y, BendNodeSignature::new);
         addNodes(node);
         return node;
     }

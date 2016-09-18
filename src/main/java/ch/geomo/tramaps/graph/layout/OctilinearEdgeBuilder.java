@@ -48,11 +48,11 @@ public class OctilinearEdgeBuilder {
     }
 
     private void createNodeC(double x, double y) {
-        vertices.set(0, new Node(x, y, BendNodeSignature::new));
+        vertices.set(0, new Node("", x, y, BendNodeSignature::new));
     }
 
     private void createNodeD(double x, double y) {
-        vertices.set(1, new Node(x, y, BendNodeSignature::new));
+        vertices.set(1, new Node("", x, y, BendNodeSignature::new));
     }
 
     private boolean isReversedOrder() {

@@ -4,13 +4,11 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.MoveVector;
-import ch.geomo.util.geom.GeomUtil;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
-import ch.geomo.tramaps.map.signature.EmptyNodeSignature;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
+import ch.geomo.util.doc.HelperMethod;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -19,15 +17,17 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
- * Represents a node within a {@link Graph}. Each node has a name, a position and
- * a {@link NodeSignature}. When comparing two nodes, the position won't be
- * considered.
+ * Represents a node within a {@link Graph}. Each node has a name, a position and a {@link NodeSignature}.
+ * <p>
+ * Note: When comparing two nodes, the position won't be considered.
  */
 public class Node extends Observable implements GraphElement, NodePoint {
 
@@ -38,52 +38,17 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private Point point;
     private NodeSignature signature;
 
-    private boolean deleted = false;
+    private boolean destroyed = false;
 
-    /**
-     * Creates a new instance set {@link Node} using a {@link EmptyNodeSignature}
-     * instance.
-     *
-     * @see Node#Node(Point, Function)
-     */
-    public Node(@NotNull Point point) {
-        this(point, EmptyNodeSignature::new);
+    public Node(@NotNull String name, double x, double y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
+        this(name, GeomUtil.createPoint(x, y), nodeSignatureFactory);
     }
 
-    /**
-     * @see #Node(Point)
-     */
-    public Node(double x, double y) {
-        this(GeomUtil.createPoint(x, y), EmptyNodeSignature::new);
-    }
-
-    /**
-     * @see #Node(Point, Function)
-     */
-    public Node(double x, double y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
-    }
-
-    /**
-     * @see #Node(Point, Function)
-     */
-    public Node(double x, double y, @Nullable String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(GeomUtil.createPoint(x, y), nodeSignatureFactory);
+    public Node(@NotNull String name, @NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         this.name = name;
-    }
-
-    /**
-     * Creates a new instance set {@link Node} using a custom {@link NodeSignature}
-     * instance.
-     */
-    public Node(@NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         this.point = point;
         adjacentEdges = GSet.createSet();
         signature = nodeSignatureFactory.apply(this);
-    }
-
-    public Node(@NotNull Coordinate coordinate, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(GeomUtil.createPoint(coordinate), nodeSignatureFactory);
     }
 
     @NotNull
@@ -91,15 +56,15 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NotNull String name) {
         this.name = name;
     }
 
     /**
-     * Creates a new adjacent edge between this and the given node. Subscribes immediately
-     * the new edge as an {@link java.util.Observer}.
+     * Creates a new adjacent edge between this and the given node. Subscribes immediately the new edge
+     * as an {@link java.util.Observer}.
      *
-     * @return the newly connected node (allows to chain this method)
+     * @return the newly connected node (allowing to chain this method)
      */
     public Node createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes) {
         Edge edge = new Edge(this, node);
@@ -112,11 +77,10 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Adds a new adjacent edge but ignores given edge if neither node A nor
-     * node B is equals to this instance. Subscribes the given edge as an
-     * {@link Observer} but does not notify the other observers!
+     * Adds a new adjacent edge but ignores given edge if neither node A nor node B is equals to this instance.
+     * Subscribes the given edge as an {@link Observer} but does not notify the other observers!
      */
-    void addAdjacentEdge(@NotNull Edge edge) { // package-private
+    /* package-private */ void addAdjacentEdge(@NotNull Edge edge) {
         if (!equals(edge.getNodeA()) && !equals(edge.getNodeB())) {
             return;
         }
@@ -125,8 +89,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Removes an adjacent edge. Nodes will be untouched. Unsubscribe the edge
-     * as an {@link Observer}.
+     * Removes an adjacent edge. Nodes will be untouched. Unsubscribe the edge as an {@link Observer}.
      */
     public void removeAdjacentEdge(@NotNull Edge edge) {
         if (!isAdjacent(edge)) {
@@ -139,37 +102,47 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return an {@link Set} set all adjacent edges
+     * @return an {@link EnhancedSet} of all adjacent edges
      */
     @NotNull
     public EnhancedSet<Edge> getAdjacentEdges() {
         return adjacentEdges;
     }
 
+    /**
+     * @return the adjacent edge shared with this node and the given node or null if they are not adjacent
+     */
     @Nullable
+    @HelperMethod
     public Edge getAdjacentEdgeWith(@NotNull Node otherNode) {
         return adjacentEdges.filter(edge -> edge.isAdjacent(this) && edge.isAdjacent(otherNode)).first().orElse(null);
     }
 
+    /**
+     * @return an {@link EnhancedSet} of all adjacent edges <b>without the given edge</b>
+     */
     @NotNull
+    @HelperMethod
     public EnhancedSet<Edge> getAdjacentEdges(@NotNull Edge without) {
         return adjacentEdges.without(without::equals);
     }
 
+    /**
+     * @return an {@link EnhancedSet} of all adjacent edges <b>matching given {@link Predicate}</b>
+     */
     @NotNull
+    @HelperMethod
     public EnhancedSet<Edge> getAdjacentEdges(@NotNull Predicate<Edge> predicate) {
         return adjacentEdges.filter(predicate);
     }
 
+    /**
+     * @return if given edge is an adjacent edge of this node
+     */
+    @HelperMethod
+    @SuppressWarnings("unused")
     public boolean hasAdjacentEdge(@NotNull Edge edge) {
         return adjacentEdges.anyMatch(edge::equals);
-    }
-
-    @NotNull
-    @Deprecated
-    public Stream<Edge> getAdjacentEdgeStream(@Nullable Edge without) {
-        return adjacentEdges.stream()
-                .filter(edge -> !edge.equals(without));
     }
 
     /**
@@ -184,18 +157,12 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return getPoint();
     }
 
-    /**
-     * @return true if given edge is adjacent to this point
-     */
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Edge edge) {
         return edge != null && getAdjacentEdges().contains(edge);
     }
 
-    /**
-     * @return true if given node is adjacent to this point
-     */
     @Override
     @Contract("null->false")
     public boolean isAdjacent(@Nullable Node node) {
@@ -203,7 +170,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the {@link NodeSignature} set this instance
+     * @return the {@link NodeSignature} of this instance
      */
     @NotNull
     public NodeSignature getNodeSignature() {
@@ -211,7 +178,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the x-value set this node's position/coordinate
+     * @return the x-value of this node's position/coordinate
      */
     @Override
     public double getX() {
@@ -219,7 +186,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the y-value set this node's position/coordinate
+     * @return the y-value of this node's position/coordinate
      */
     @Override
     public double getY() {
@@ -227,100 +194,40 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Updates the node's position/coordinate and notifies Observers.
+     * Updates the node's position/coordinate and notifies the {@link Observer}s.
      */
-    public void updatePosition(@NotNull Point point) {
-        this.point = point;
+    public void updatePosition(double x, double y) {
+        point = GeomUtil.createPoint(x, y);
         setChanged();
         notifyObservers();
     }
 
     /**
-     * Updates the node's position/coordinate and notifies Observers.
+     * @see #updatePosition(double, double)
      */
+    @HelperMethod
     public void updatePosition(@NotNull Coordinate coordinate) {
-        updatePosition(GeomUtil.createPoint(coordinate));
+        updatePosition(coordinate.x, coordinate.y);
     }
 
     /**
-     * Updates the node's position/coordinate and notifies Observers.
-     */
-    public void updatePosition(double x, double y) {
-        updatePosition(GeomUtil.createPoint(x, y));
-    }
-
-    /**
-     * Updates the x-value set the node's position/coordinate and notifies Observers.
+     * Updates the x-value of the node's position/coordinate and notifies the {@link Observer}s.
+     *
+     * @see #updatePosition(double, double)
      */
     public void updateX(double x) {
         updatePosition(x, getY());
     }
 
     /**
-     * Updates the y-value set the node's position/coordinate and notifies Observers.
+     * Updates the y-value of the node's position/coordinate and notifies the {@link Observer}s.
+     *
+     * @see #updatePosition(double, double)
      */
     public void updateY(double y) {
         updatePosition(getX(), y);
     }
 
-    @NotNull
-    public Point createMovePoint(@NotNull MoveVector moveVector) {
-        return GeomUtil.createPoint(getX() + moveVector.getX(), getY() + moveVector.getY());
-    }
-
-    /**
-     * Creates a {@link Point} which is located along given direction and distance away from the position set this
-     * node. Does <b>not</b> move this node.
-     *
-     * @return a {@link Point} located along given direction and distance
-     */
-    @NotNull
-    public Point createMovePoint(@NotNull OctilinearDirection direction, double moveDistance) {
-
-        double x = getX();
-        double y = getY();
-
-        switch (direction) {
-            case NORTH:
-            case NORTH_EAST:
-            case NORTH_WEST:
-                y = y + moveDistance;
-                break;
-            case SOUTH:
-            case SOUTH_EAST:
-            case SOUTH_WEST:
-                y = y - moveDistance;
-        }
-
-        switch (direction) {
-            case EAST:
-            case NORTH_EAST:
-            case SOUTH_EAST:
-                x = x + moveDistance;
-                break;
-            case WEST:
-            case NORTH_WEST:
-            case SOUTH_WEST:
-                x = x - moveDistance;
-                break;
-        }
-
-        return GeomUtil.createPoint(x, y);
-
-    }
-
-    /**
-     * @return false since this implementation set {@link GraphElement} is a point ;-)
-     */
-    @Override
-    @Contract("->false")
-    public boolean isEdge() {
-        return false;
-    }
-
-    /**
-     * @return true since this implementation set {@link GraphElement} is a point ;-)
-     */
     @Override
     @Contract("->true")
     public boolean isNode() {
@@ -328,10 +235,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Returns a <b>new</b> instance set the encapsulated {@link Point} representation
-     * set this node. (Implemented to satisfy {@link NodePoint} interface.)
-     *
-     * @return a <b>new</b> instance set {@link Point}
+     * @return a <b>new</b> instance of the encapsulated {@link Point} representation of this node
      */
     @NotNull
     @Override
@@ -340,34 +244,30 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * Returns the <b>same</b> instance set the encapsulated {@link Point} representation
-     * set this node.
-     *
-     * @return the nodes point (<b>same</b> instance)
+     * @return the <b>same</b> instance of the encapsulated {@link Point} representation of this node
      * @see #toPoint() if you need a new instance
      */
     @NotNull
+    @HelperMethod
     public Point getPoint() {
         return point;
     }
 
     /**
-     * Returns a <b>new</b> instance set the encapsulated {@link Point#getCoordinate()}
-     * representation set this node. Implemented to satisfy {@link NodePoint} interface.
-     *
-     * @return a <b>new</b> instance set {@link Coordinate}
+     * @return a <b>new</b> instance of the encapsulated {@link Point#getCoordinate()} representation of this node
      */
     @NotNull
     @Override
     public Coordinate toCoordinate() {
-        return new Coordinate(point.getCoordinate());
+        Coordinate coordinate = GeomUtil.createCoordinate(point.getCoordinate());
+        if (coordinate != null) {
+            return coordinate;
+        }
+        throw new IllegalStateException("Should never reach this point. A node always has a point geometry.");
     }
 
     /**
-     * Returns a <b>same</b> instance set the encapsulated {@link Point#getCoordinate()}
-     * representation set this node.
-     *
-     * @return the nodes coordinate (<b>same</b> instance)
+     * @return the <b>same</b> instance of the encapsulated {@link Point#getCoordinate()} representation of this node
      * @see #toCoordinate() if you need a new instance
      */
     @NotNull
@@ -376,18 +276,15 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     @Override
-    public boolean isDeleted() {
-        return deleted;
+    public boolean destroyed() {
+        return destroyed;
     }
 
-    /**
-     * Deletes this instance. Removes all edges and unsubscribes observers.
-     */
     @Override
-    public void delete() {
+    public void destroy() {
         // remove adjacent nodes
-        getAdjacentEdges().forEach(Edge::delete);
-        deleted = true;
+        getAdjacentEdges().forEach(Edge::destroy);
+        destroyed = true;
         // notify observers a last time
         setChanged();
         notifyObservers();
@@ -396,62 +293,57 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return the degree set this node
+     * @return the degree of this node
      */
     public int getNodeDegree() {
         return adjacentEdges.size();
     }
 
-    public boolean isNorthEastOf(Coordinate coordinate) {
-        return isNorthOf(coordinate) && isEastOf(coordinate);
-    }
-
-    public boolean isNorthWestOf(Coordinate coordinate) {
-        return isNorthOf(coordinate) && isWestOf(coordinate);
-    }
-
-    public boolean isSouthWestOf(Coordinate coordinate) {
-        return isSouthOf(coordinate) && isWestOf(coordinate);
-    }
-
-    public boolean isSouthEastOf(Coordinate coordinate) {
-        return isSouthOf(coordinate) && isEastOf(coordinate);
-    }
-
+    @HelperMethod
     public boolean isSouthOf(Coordinate coordinate) {
         return getY() < coordinate.y;
     }
 
+    @HelperMethod
     public boolean isSouthOf(Node node) {
-        return getY() < node.getY();
+        return isSouthOf(node.getCoordinate());
     }
 
+    @HelperMethod
     public boolean isNorthOf(Coordinate coordinate) {
         return getY() > coordinate.y;
     }
 
+    @HelperMethod
     public boolean isNorthOf(Node node) {
-        return getY() > node.getY();
+        return isNorthOf(node.getCoordinate());
     }
 
+    @HelperMethod
     public boolean isEastOf(Coordinate coordinate) {
         return getX() > coordinate.x;
     }
 
+    @HelperMethod
     public boolean isEastOf(Node node) {
-        return getX() > node.getX();
+        return isEastOf(node.getCoordinate());
     }
 
+    @HelperMethod
     public boolean isWestOf(Coordinate coordinate) {
         return getX() < coordinate.x;
     }
 
+    @HelperMethod
+    @SuppressWarnings("unused")
     public boolean isWestOf(Node node) {
-        return getX() < node.getX();
+        return isWestOf(node.getCoordinate());
     }
 
-    public boolean isNotEquals(Node node) {
-        return !equals(node);
+    @HelperMethod
+    @Contract("null -> true")
+    public boolean isNotEquals(@Nullable Node node) {
+        return node == null || !equals(node);
     }
 
     @Override
@@ -460,19 +352,19 @@ public class Node extends Observable implements GraphElement, NodePoint {
         // is not used to check equality
         return obj instanceof Node
                 && Objects.equals(name, ((Node) obj).name)
-                && deleted == ((Node) obj).deleted;
+                && destroyed == ((Node) obj).destroyed;
     }
 
     @Override
     public int hashCode() {
         // hashCode and equals must be matching: a.equals(b) == (a.hashCode() == b.hashCode())
-        // therefore position set this node is transient and not used to calculate hash code
-        return Objects.hash(name, deleted);
+        // therefore position of this node is transient and not used to calculate hash code
+        return Objects.hash(name, destroyed);
     }
 
     @Override
     public String toString() {
-        return name + "(" + getX() + "/" + getY() + ")";
+        return "Node[" + name + "(" + getX() + "/" + getY() + ")]";
     }
 
 }

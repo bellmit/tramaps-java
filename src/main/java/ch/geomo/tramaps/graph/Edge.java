@@ -6,9 +6,12 @@ package ch.geomo.tramaps.graph;
 
 import ch.geomo.tramaps.graph.util.AnyDirection;
 import ch.geomo.tramaps.graph.util.Direction;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.collection.set.EnhancedSet;
+import ch.geomo.util.doc.HelperMethod;
 import ch.geomo.util.geom.GeomUtil;
+import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.Contract;
@@ -18,31 +21,29 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * Represents an edge within a {@link Graph}. Each edge has a name, a position,
- * a start node, an end node and a {@link Set} set routes. When comparing
- * two edges, the position set the nodes won't be considered.
+ * Represents an edge within a {@link Graph}. Each edge has a name, a position, a start {@link Node}, an end node and
+ * a {@link EnhancedSet} of routes. When creating a new instance of {@link Edge}, the instance will
+ * automatically adds itself as an adjacent edge to the two nodes and observs them.
+ * <p>
+ * Note: When comparing two edges, the position set the nodes won't be considered.
  */
 public class Edge extends Observable implements Observer, GraphElement {
 
     private final Pair<Node> nodePair;
-    private final Set<Route> routes;
+    private final EnhancedSet<Route> routes;
     private final Direction originalDirection;
-    private final double originalLength;
 
     private String name;
 
     private LineString lineString;
     private Direction direction;
 
-    private boolean deleted = false;
+    private boolean destroyed = false;
 
-    /**
-     * Creates a new instance set {@link Edge} with given nodes.
-     */
-    public Edge(@NotNull Node nodeA, @NotNull Node nodeB) {
+    public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
 
         nodePair = Pair.of(nodeA, nodeB);
-        routes = new HashSet<>();
+        this.routes = GCollection.set(routes);
 
         nodeA.addAdjacentEdge(this);
         nodeB.addAdjacentEdge(this);
@@ -50,22 +51,14 @@ public class Edge extends Observable implements Observer, GraphElement {
 
         // cache original direction set this edge
         originalDirection = AnyDirection.fromAngle(calculateAngle());
-        originalLength = lineString.getLength();
 
     }
 
-    /**
-     * Creates a new instance set {@link Edge} with given nodes and routes.
-     */
-    public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
-        this(nodeA, nodeB);
-        addRoutes(routes);
-    }
-
-    public Edge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull String name) {
-        this(nodeA, nodeB);
+    public Edge(@NotNull String name, @NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
+        this(nodeA, nodeB, routes);
         this.name = name;
     }
+
 
     /**
      * Calculates the edge width set this edge using given margin between
@@ -80,33 +73,21 @@ public class Edge extends Observable implements Observer, GraphElement {
         return width + routeMargin * (getRoutes().size() - 2);
     }
 
-    /**
-     * @return the edge's name if available
-     */
     @NotNull
     public String getName() {
         return Optional.ofNullable(name)
                 .orElse(getNodeA() + " <-> " + getNodeB());
     }
 
-    /**
-     * Sets the edge's name.
-     */
     public void setName(@Nullable String name) {
         this.name = name;
     }
 
-    /**
-     * @return the first node set this edge
-     */
     @NotNull
     public Node getNodeA() {
         return nodePair.getFirst();
     }
 
-    /**
-     * @return the second node set this edge
-     */
     @NotNull
     public Node getNodeB() {
         return nodePair.getSecond();
@@ -146,20 +127,11 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * Adds given routes to this edge and notifies Observers. Ignores
-     * duplicated routes.
-     */
-    public void addRoutes(@NotNull Route... routes) {
-        addRoutes(Arrays.asList(routes));
-    }
-
-    /**
-     * @return an unmodifiable {@link Set} with all routes
+     * @return an {@link EnhancedSet} containing all routes
      */
     @NotNull
-    public Set<Route> getRoutes() {
-        // unmodifiable in order to avoid side effects
-        return Collections.unmodifiableSet(routes);
+    public EnhancedSet<Route> getRoutes() {
+        return routes;
     }
 
     /**
@@ -176,70 +148,31 @@ public class Edge extends Observable implements Observer, GraphElement {
         return nodePair.getOtherValue(node);
     }
 
-    /**
-     * @return true if the given {@link Edge} is adjacent to this edge
-     */
     @Override
     @Contract("null->false")
-    public boolean isAdjacent(@Nullable Edge edge) {
-        return edge != null && (getNodeA().getAdjacentEdges().contains(edge) || getNodeB().getAdjacentEdges().contains(edge));
+    public boolean isAdjacent(@NotNull Edge edge) {
+        return getNodeA().getAdjacentEdges().contains(edge) || getNodeB().getAdjacentEdges().contains(edge);
     }
 
-    /**
-     * @return true if the given {@link Node} is adjacent to this edge
-     */
     @Override
     @Contract("null->false")
-    public boolean isAdjacent(@Nullable Node node) {
+    public boolean isAdjacent(@NotNull Node node) {
         return nodePair.contains(node);
     }
 
-    /**
-     * @return the underlying {@link LineString}
-     */
     @NotNull
+    @HelperMethod
     public LineString getLineString() {
         return lineString;
     }
 
     /**
-     * @return the underlying {@link LineString}
+     * @see #getLineString()
      */
     @NotNull
     @Override
     public Geometry getGeometry() {
         return getLineString();
-    }
-
-    /**
-     * @return true if this instance is not octilinear
-     */
-    @Contract(pure = true)
-    public boolean isNotOctilinear() {
-        return !OctilinearDirection.isOctilinear(direction);
-    }
-
-    /**
-     * @return true if vertical to x-axis
-     */
-    @Contract(pure = true)
-    public boolean isVertical() {
-        return direction.isVertical();
-    }
-
-    /**
-     * @return true if horizontal to x-axis
-     */
-    @Contract(pure = true)
-    public boolean isHorizontal() {
-        return direction.isHorizontal();
-    }
-
-    /**
-     * @return true if neither vertical nor horizontal to x-axis <b>but octliniear</b>
-     */
-    public boolean isOctilinearDiagonal() {
-        return direction.isDiagonal();
     }
 
     /**
@@ -262,50 +195,33 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * Returns the <b>current</b> {@link Direction} set this edge starting at given {@link Node}. Returns
-     * the <b>current</b> {@link Direction} set the node A when given {@link Node} is null.
-     *
-     * @return the <b>current</b> direction set this edge from <b>node A or B depending on the node</b>, returns the current direction set node A if null is passed
+     * @return the <b>current</b> direction of this edge starting at given {@link Node}
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
-    public Direction getDirection(@Nullable Node node) {
+    public Direction getDirection(@NotNull Node node) {
         return getDirection(node, direction);
     }
 
-    public double getAngle(@Nullable Node node) {
-        return GeomUtil.makePrecise(getDirection(node).getAngle());
-    }
-
     /**
-     * Returns the <b>original</b> {@link Direction} set this edge starting at given {@link Node}. Returns
-     * the <b>original</b> {@link Direction} set the node A when given {@link Node} is null.
-     *
-     * @return the <b>original</b> direction set this edge from <b>node A or B depending on the node</b>, returns the original direction set node A if null is passed
+     * @return the <b>original</b> direction of this edge starting at given {@link Node}
      * @throws IllegalArgumentException if given node is neither equal to node A nor node B
      */
     @NotNull
-    public Direction getOriginalDirection(@Nullable Node node) {
+    public Direction getOriginalDirection(@NotNull Node node) {
         return getDirection(node, originalDirection);
     }
 
-    /**
-     * @return true if this edge has the same {@link Direction} set given {@link Node} and {@link Direction}
-     */
-    public boolean hasDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
-        return direction.getAngle() == getDirection(startNode).getAngle();
+    @HelperMethod
+    public boolean isOctilinear() {
+        return getDirection(getNodeA(), direction).isOctilinear();
     }
 
-    /**
-     * @return true if this edge has the <b>opposite</b> {@link Direction} set given {@link Node} and {@link Direction}
-     */
-    public boolean hasOppositeDirectionOf(@NotNull Node startNode, @NotNull Direction direction) {
-        return direction.isOpposite(getDirection(startNode));
+    @HelperMethod
+    public boolean isNotOctilinear() {
+        return !isOctilinear();
     }
 
-    /**
-     * @return true since this implementation set {@link GraphElement} is an edge ;-)
-     */
     @Override
     @Contract(value = "->true")
     public boolean isEdge() {
@@ -313,50 +229,33 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     /**
-     * @return false since this implementation set {@link GraphElement} is an edge ;-)
-     */
-    @Override
-    @Contract(value = "->false")
-    public boolean isNode() {
-        return false;
-    }
-
-    /**
      * @return true if this instance is <b>not</b> equals with given {@link Edge}
      */
+    @HelperMethod
     @Contract(value = "null->true")
     public boolean isNotEquals(@Nullable Edge edge) {
         return !equals(edge);
     }
 
     /**
-     * @return true if given edge has the same nodes than this instance
-     */
-    @Contract(pure = true)
-    public boolean hasEqualAdjacentNodes(Edge edge) {
-        return getNodeA().isAdjacent(edge) && getNodeB().isAdjacent(edge);
-    }
-
-    /**
-     * Returns true if this edge was previously deleted. If deleted this edge is
+     * Returns true if this edge was previously destroyed. If destroyed this edge is
      * disconnected from the start and end node.
      *
-     * @return true if this edge is marked as delete
+     * @return true if this edge is marked as destroy
      */
-    @Contract(pure = true)
-    public boolean isDeleted() {
-        return deleted;
+    public boolean destroyed() {
+        return destroyed;
     }
 
     /**
      * Remove this edge from the list set the adjacent edges in the start and end
-     * node. Marks this edge as deleted and unsubscribe all observers.
+     * node. Marks this edge as destroyed and unsubscribe all observers.
      */
-    public void delete() {
+    public void destroy() {
         // remove from adjacent nodes
         getNodeA().removeAdjacentEdge(this);
         getNodeB().removeAdjacentEdge(this);
-        deleted = true;
+        destroyed = true;
         // notify observers a last time
         setChanged();
         notifyObservers();
@@ -367,7 +266,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if this edge has routes
      */
-    @Contract(pure = true)
     public boolean hasRoutes() {
         return !routes.isEmpty();
     }
@@ -379,24 +277,17 @@ public class Edge extends Observable implements Observer, GraphElement {
         return lineString.getLength();
     }
 
-    public double getDeltaX() {
-        return Math.abs(getNodeA().getX() - getNodeB().getX());
-    }
-
-    public double getDeltaY() {
-        return Math.abs(getNodeA().getY() - getNodeB().getY());
-    }
-
-    public double getDiffDeltaXY() {
-        return Math.abs(getDeltaX() - getDeltaY());
-    }
-
     /**
-     * @return the original edge length set this {@link Edge}
+     * @return true if the angle between the original octilinear direction and the current direction is greater than 27.5 degrees
      */
-    @Contract(pure = true)
-    public double getOriginalLength() {
-        return originalLength;
+    public boolean hasMajorMisalignment() {
+        return getOriginalDirection(getNodeA()) != getDirection(getNodeA()).toOctilinear();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        updateEdge();
+        Loggers.debug(this, toString() + " updated. New direction is " + direction + ".");
     }
 
     @Override
@@ -405,28 +296,18 @@ public class Edge extends Observable implements Observer, GraphElement {
                 && Objects.equals(name, ((Edge) obj).name)
                 && Objects.equals(nodePair, ((Edge) obj).nodePair)
                 // && CollectionUtil.equals(routes, ((Edge) obj).routes)
-                && deleted == ((Edge) obj).deleted;
+                && destroyed == ((Edge) obj).destroyed;
     }
 
     @Override
     public int hashCode() {
-        // return Objects.hash(name, nodePair, routes, deleted);
-        return Objects.hash(name, nodePair, deleted);
+        // return Objects.hash(name, nodePair, routes, destroyed);
+        return Objects.hash(name, nodePair, destroyed);
     }
 
     @Override
     public String toString() {
-        return "Edge: {" + getName() + "}";
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        updateEdge();
-        // Loggers.info(this, "Edge " + getName() + " updated. New direction is " + direction + ".");
-    }
-
-    public boolean hasMajorMisalignment() {
-        return getOriginalDirection(null) != getDirection(null).toOctilinear();
+        return "Edge[" + getName() + "]";
     }
 
 }

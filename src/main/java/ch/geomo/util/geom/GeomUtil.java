@@ -4,6 +4,7 @@
 
 package ch.geomo.util.geom;
 
+import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.util.geom.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
@@ -102,6 +103,14 @@ public enum GeomUtil {
     @NotNull
     public static Polygon createEmptyPolygon() {
         return geometryFactory.createPolygon((Coordinate[]) null);
+    }
+
+    /**
+     * @return a new Point at the position of the given {@link Point} moved with given vector
+     */
+    @NotNull
+    public static Point createMovePoint(@NotNull Point point, @NotNull MoveVector moveVector) {
+        return GeomUtil.createPoint(point.getX() + moveVector.getX(), point.getY() + moveVector.getY());
     }
 
     /**

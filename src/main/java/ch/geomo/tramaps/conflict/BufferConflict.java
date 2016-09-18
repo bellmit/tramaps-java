@@ -8,12 +8,10 @@ import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.PolygonUtil;
-import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
@@ -51,8 +49,7 @@ public class BufferConflict extends AbstractConflict {
         if (buffers.isNodePair() && buffers.hasAdjacentElements()) {
             if (((Node) buffers.first().getElement()).getAdjacentEdges().stream()
                     .filter(edge -> buffers.second().getElement().equals(edge.getOtherNode((Node) buffers.first().getElement())))
-                    .map(edge -> edge.getOriginalDirection(null))
-                    .noneMatch(Direction::isDiagonal)) {
+                    .noneMatch(edge -> edge.getOriginalDirection(edge.getNodeA()).isDiagonal())) {
                 conflictType = ConflictType.ADJACENT_NODE_NODE;
             }
             else {

@@ -10,23 +10,18 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentCostCalculator;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
-import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
-import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
 
 /**
  * Adjusts edges.
@@ -114,7 +109,7 @@ public class EdgeAdjuster {
             Loggers.info(this, "Octilinear edge created: " + edge);
 
             // remove old edge
-            edge.delete();
+            edge.destroy();
 
             // numbers set nodes has changed, edge cache must be flagged for rebuild
             graph.updateGraph();
@@ -164,7 +159,7 @@ public class EdgeAdjuster {
             Loggers.info(this, "Vector's length is 0. Do not move node.");
         }
 
-        Point movePoint = moveableNode.createMovePoint(moveVector);
+        Point movePoint = GeomUtil.createMovePoint(moveableNode.getPoint(), moveVector);
 
         // test if new position would intersect with any other edge when moving -> if so, we do not move
         boolean overlapsOtherEdges = moveableNode.getAdjacentEdges().stream()
@@ -198,7 +193,7 @@ public class EdgeAdjuster {
 
         if (!overlapsAdjacentNode && !overlapsOtherNodes && !overlapsOtherEdges && notEqualPosition) {
             Loggers.flag(this, "Move node " + moveableNode.getName() + " using vector " + moveVector + ".");
-            moveableNode.updatePosition(movePoint);
+            moveableNode.updatePosition(movePoint.getCoordinate());
             Loggers.info(this, "New position for Node " + moveableNode.getName() + ".");
         }
         else {

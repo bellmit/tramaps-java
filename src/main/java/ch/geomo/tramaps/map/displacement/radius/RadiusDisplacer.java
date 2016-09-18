@@ -98,7 +98,7 @@ public class RadiusDisplacer {
             }
 
 //            // Point point = conflict.getBufferA().getElement().getCentroid();
-//            Point point = GeomUtil.createPoint(getDisplacePoint());
+//            Point point = GeomUtil.createMovePoint(getDisplacePoint());
 //            if (node.getPoint().equals(point)) {
 //                return;
 //            }

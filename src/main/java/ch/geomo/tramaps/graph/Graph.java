@@ -4,14 +4,14 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
+import ch.geomo.util.doc.HelperMethod;
+import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
@@ -41,21 +41,9 @@ public class Graph {
     }
 
     @NotNull
-    private EnhancedSet<Geometry> getEdgeGeometries() {
-        return GSet.createSet(getEdgeCache().map(Edge::getLineString));
-    }
-
-    @NotNull
     private EnhancedSet<Edge> getEdgeCache() {
         buildCache();
         return edgeCache;
-    }
-
-    @NotNull
-    private EnhancedSet<Geometry> getNodeSignatureGeometries() {
-        return GSet.createSet(nodes.stream()
-                .map(Node::getNodeSignature)
-                .map(NodeSignature::getGeometry));
     }
 
     @NotNull
@@ -83,18 +71,26 @@ public class Graph {
     }
 
     @NotNull
-    @Override
-    public String toString() {
-        return "Graph: [ Edges: " + getEdges() + "\n         " + "Nodes: " + getNodes() + " ]";
+    @HelperMethod
+    private EnhancedSet<Geometry> getEdgeGeometries() {
+        return GSet.createSet(getEdgeCache().map(Edge::getLineString));
+    }
+
+    @NotNull
+    @HelperMethod
+    private EnhancedSet<Geometry> getNodeSignatureGeometries() {
+        return GSet.createSet(nodes.stream()
+                .map(Node::getNodeSignature)
+                .map(NodeSignature::getGeometry));
     }
 
     /**
-     * Reset and flags edge cache for a rebuild. Removes deleted nodes returning true
-     * when invoking {@link Node#isDeleted()}.
+     * Reset and flags edge cache for a rebuild. Removes deleted nodes returning true when
+     * invoking {@link Node#destroyed()}.
      */
     public void updateGraph() {
         // remove deleted nodes
-        nodes.removeIf(Node::isDeleted);
+        nodes.removeIf(Node::destroyed);
         // reset edge cache -> will be created again when accessing next time
         clearCache();
     }
@@ -104,8 +100,9 @@ public class Graph {
      *
      * @return the created node
      */
-    public Node createNode(double x, double y, @Nullable String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        Node node = new Node(x, -y, name, nodeSignatureFactory);
+    @HelperMethod
+    public Node createNode(double x, double y, @NotNull String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
+        Node node = new Node(name, x, -y, nodeSignatureFactory);
         addNodes(node);
         return node;
     }
@@ -115,10 +112,17 @@ public class Graph {
      *
      * @return the created edge
      */
+    @HelperMethod
     public Edge createEdge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
         Edge edge = new Edge(nodeA, nodeB, routes);
         clearCache();
         return edge;
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Graph[Edges[" + getEdges() + "],Nodes[" + getNodes() + " ]]";
     }
 
 }

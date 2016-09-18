@@ -28,7 +28,8 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.info(this, "Non-Octilinear edges: " + map.countNonOctilinearEdges());
         map.getEdges().stream()
                 .filter(Edge::isNotOctilinear)
-                .forEach(edge -> new EdgeAdjuster(map, edge, displaceResult).correctEdge());
+                .map(edge -> new EdgeAdjuster(map, edge, displaceResult))
+                .forEach(EdgeAdjuster::correctEdge);
     }
 
     private void makeSpace(int lastIteration, @Nullable Conflict lastConflict) {
@@ -63,7 +64,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             correctNonOctilinearEdges(displaceResult);
 
             Loggers.warning(this, "Uncorrected non-octilinear edges found: " + map.getEdges().stream()
-                    .filter(edge -> !edge.getDirection(null).isOctilinear())
+                    .filter(Edge::isNotOctilinear)
                     .count());
 
             // repeat as long as max iteration is not reached
