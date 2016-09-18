@@ -39,45 +39,34 @@ public class AdjustmentDirectionEvaluator {
     @NotNull
     public MoveVector evaluateSingleNodeDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
 
-//        Node otherNode = connectionEdge.getOtherNode(moveableNode);
-//
-//        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
-//        MoveVector originalConnectionEdgeVector = originalDirection.getVector();
-//
-//        double dx = GraphUtil.getAbsDeltaX(connectionEdge);
-//        double dy = GraphUtil.getAbsDeltaY(connectionEdge);
-//
-//        MoveVector connectionEdgeVector = new MoveVector(dx, dy);
-//        Vector2D correctedEdgeVector = originalConnectionEdgeVector.multiply(connectionEdgeVector.length());
-//
-//        return MoveVector.getProjection(correctedEdgeVector, connectionEdgeVector).getSecond();
+        Node otherNode = connectionEdge.getOtherNode(moveableNode);
 
         double diff = GraphUtil.getAbsDiffDeltaXY(connectionEdge);
 
-        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
-        double angle = originalDirection.getAngleTo(connectionEdge.getDirection(moveableNode));
+        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
+        double angle = originalDirection.getAngleTo(connectionEdge.getDirection(otherNode));
 
-        switch (originalDirection) {
+        switch (originalDirection.opposite()) {
             case NORTH_EAST: {
-                if (angle > 0) {
+                if (angle < 90) {
                     return new MoveVector(0, -diff);
                 }
                 return new MoveVector(-diff, 0);
             }
             case SOUTH_EAST: {
-                if (angle > 0) {
+                if (angle < 90) {
                     return new MoveVector(-diff, 0);
                 }
                 return new MoveVector(0, diff);
             }
             case SOUTH_WEST: {
-                if (angle > 0) {
+                if (angle < 90) {
                     return new MoveVector(0, diff);
                 }
                 return new MoveVector(diff, 0);
             }
             case NORTH_WEST: {
-                if (angle > 0) {
+                if (angle < 90) {
                     return new MoveVector(diff, 0);
                 }
                 return new MoveVector(0, -diff);

@@ -6,7 +6,6 @@ package ch.geomo.tramaps.graph.util;
 
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.point.NodePoint;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public interface Direction {
@@ -76,7 +75,7 @@ public interface Direction {
      * @return the angle between given direction and this instance (clockwise)
      */
     default double getAngleTo(Direction direction) {
-        return direction.getAngle() - getAngle();
+        return Math.abs((direction.getAngle() - getAngle() + 360) % 360);
     }
 
     static double calculateAngle(NodePoint nodeA, NodePoint nodeB) {
