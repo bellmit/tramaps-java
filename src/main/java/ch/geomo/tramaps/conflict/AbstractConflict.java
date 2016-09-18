@@ -99,9 +99,8 @@ public abstract class AbstractConflict implements Conflict {
      * @see #getBestDisplaceDirection()
      */
     @Override
-    public int getBestDisplaceDistance() {
-        // we do work with int values only
-        return (int) Math.ceil(Math.abs(bestDisplaceVector.length()));
+    public double getBestDisplaceDistance() {
+        return Math.ceil(Math.abs(bestDisplaceVector.length()));
     }
 
     @Override

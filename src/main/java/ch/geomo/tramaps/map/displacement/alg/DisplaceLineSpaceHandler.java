@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 100;
+    private static final int MAX_ITERATIONS = 150;
 
     private final MetroMap map;
 
@@ -105,7 +105,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
-        //postOctilinearConflictSolver();
+        postOctilinearConflictSolver();
 
         Loggers.separator(this);
         Loggers.info(this, getBoundingBoxString());

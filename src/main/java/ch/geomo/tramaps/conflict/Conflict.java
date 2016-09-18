@@ -34,7 +34,7 @@ public interface Conflict extends Comparable<Conflict> {
     @NotNull
     OctilinearDirection getBestDisplaceDirection();
 
-    int getBestDisplaceDistance();
+    double getBestDisplaceDistance();
 
     @NotNull
     Coordinate getDisplaceOriginPoint();

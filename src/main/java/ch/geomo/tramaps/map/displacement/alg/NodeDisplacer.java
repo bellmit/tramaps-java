@@ -6,7 +6,6 @@ package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
-import ch.geomo.tramaps.geom.Axis;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
@@ -133,6 +132,15 @@ public class NodeDisplacer {
 
         return new NodeDisplaceResult(displaceDirection, displacedNodes, conflict, otherConflicts);
 
+    }
+
+    @SuppressWarnings("unused")
+    private boolean isOnDisplaceSide(@NotNull Node node) {
+        Coordinate displaceOriginPoint = conflict.getDisplaceOriginPoint();
+        if (displaceDirection == NORTH) {
+            return node.isNorthOf(displaceOriginPoint);
+        }
+        return node.isEastOf(displaceOriginPoint);
     }
 
     /**

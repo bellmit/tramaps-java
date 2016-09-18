@@ -281,7 +281,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return true if the angle between the original octilinear direction and the current direction is greater than 27.5 degrees
      */
     public boolean hasMajorMisalignment() {
-        return getOriginalDirection(getNodeA()) != getDirection(getNodeA()).toOctilinear();
+        return getOriginalDirection(getNodeA()).toOctilinear() != getDirection(getNodeA()).toOctilinear();
     }
 
     @Override

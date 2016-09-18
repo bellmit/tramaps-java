@@ -22,14 +22,15 @@ public class MetroMap extends Graph {
 
     private double routeMargin;
     private double edgeMargin;
+    private double nodeMargin;
 
     private ConflictFinder conflictFinder;
 
-    public MetroMap(double routeMargin, double edgeMargin) {
+    public MetroMap(double routeMargin, double edgeMargin, double nodeMargin) {
         super();
         this.routeMargin = routeMargin;
         this.edgeMargin = edgeMargin;
-        conflictFinder = new ConflictFinder(this, routeMargin, edgeMargin);
+        conflictFinder = new ConflictFinder(this, routeMargin, edgeMargin, nodeMargin);
     }
 
     public double getRouteMargin() {
@@ -39,6 +40,11 @@ public class MetroMap extends Graph {
     @SuppressWarnings("unused")
     public double getEdgeMargin() {
         return edgeMargin;
+    }
+
+    @SuppressWarnings("unused")
+    public double getNodeMargin() {
+        return nodeMargin;
     }
 
     /**

@@ -4,9 +4,9 @@
 
 package ch.geomo.tramaps.conflict.buffer;
 
-import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +28,8 @@ public class NodeBuffer implements ElementBuffer {
 
     @Override
     public void updateBuffer() {
-        buffer = GeomUtil.createBuffer(node.getNodeSignature().getGeometry(), 25, true);
+        Polygon geometry = node.getNodeSignature().getGeometry();
+        buffer = GeomUtil.createBuffer(geometry, margin, true);
     }
 
     @NotNull

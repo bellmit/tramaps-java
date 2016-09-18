@@ -10,8 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class BendNodeSignature extends AbstractNodeSignature {
 
-    private static final double ROUTE_MARGIN = 5d;
-
     public BendNodeSignature(@NotNull Node node) {
         super(node);
     }
@@ -23,10 +21,16 @@ public class BendNodeSignature extends AbstractNodeSignature {
     @Override
     public void updateSignature() {
         double width = node.getAdjacentEdges().stream()
-                .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
+                .filter(edge -> !edge.getOriginalDirection(edge.getNodeA()).isHorizontal())
+                .map(edge -> edge.calculateEdgeWidth(0))
                 .max(Double::compare)
-                .orElse(ROUTE_MARGIN);
-        signature = GeomUtil.createBuffer(node.getPoint(), width / 2, false);
+                .orElse(0d);
+        double height = node.getAdjacentEdges().stream()
+                .filter(edge -> !edge.getOriginalDirection(edge.getNodeA()).isVertical())
+                .map(edge -> edge.calculateEdgeWidth(0))
+                .max(Double::compare)
+                .orElse(0d);
+        signature = GeomUtil.createPolygon(node.getPoint(), Math.max(width, 20), Math.max(height, 20));
         setChanged();
         notifyObservers();
     }

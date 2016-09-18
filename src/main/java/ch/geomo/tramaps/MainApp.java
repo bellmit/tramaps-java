@@ -4,14 +4,11 @@
 
 package ch.geomo.tramaps;
 
-import ch.geomo.tramaps.example.MetroMapExampleGraph;
 import ch.geomo.tramaps.example.MetroMapZuerich;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
-import ch.geomo.tramaps.map.SimpleGraphDrawer;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.DisplaceLineSpaceHandler;
-import ch.geomo.tramaps.map.displacement.radius.DisplaceRadiusLineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.scale.ScaleHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
@@ -28,7 +25,7 @@ import java.util.function.Supplier;
 
 public class MainApp extends Application {
 
-    private static final double MAX_HEIGHT = 750;
+    private static final double MAX_HEIGHT = 650;
     private static final double MAX_WIDTH = 1200;
 
     private MetroMap map;
@@ -48,8 +45,8 @@ public class MainApp extends Application {
         //map = new MetroMapExampleGraph(5, 25);
         map = new MetroMapZuerich();
 
-        //makeSpace(() -> new ScaleHandler(map));
-        makeSpace(() -> new DisplaceLineSpaceHandler(map));
+        makeSpace(() -> new ScaleHandler(map));
+        //makeSpace(() -> new DisplaceLineSpaceHandler(map));
         //makeSpace(() -> new DisplaceRadiusLineSpaceHandler(map));
 
         drawMetroMap();
@@ -60,24 +57,26 @@ public class MainApp extends Application {
 
         Envelope bbox = map.getBoundingBox();
 
-        double margin = 150;
+        double margin = 100;
 
-        double width = bbox.getWidth() + margin * 2;
-        double height = bbox.getHeight() + margin * 2;
+        double scaleFactor = MAX_HEIGHT / bbox.getHeight();
 
-        Canvas canvas = new Canvas(width, height);
+        double scaledHeight = bbox.getHeight() * scaleFactor + margin * 2;
+        double scaledWidth = bbox.getWidth() * scaleFactor + margin * 2;
+
+        Canvas canvas = new Canvas(scaledWidth, scaledHeight);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        double factor = MAX_HEIGHT / height;
-
-        MetroMapDrawer drawer = new MetroMapDrawer(map, margin);
+        MetroMapDrawer drawer = new MetroMapDrawer(map, margin, scaleFactor);
         //SimpleGraphDrawer drawer = new SimpleGraphDrawer(map, margin, factor);
         drawer.draw(context, bbox);
 
-        canvas.setScaleX(factor);
-        canvas.setScaleY(factor);
+        // workaround: scaling is done when drawing otherwise an exception like:
+        // -> Requested texture dimension exceeds maximum texture size
+        // canvas.setScaleX(scaleFactor);
+        // canvas.setScaleY(scaleFactor);
 
-        showMetroMap(canvas, MAX_HEIGHT, MAX_HEIGHT / height * width);
+        showMetroMap(canvas, scaledHeight, scaledWidth);
 
     }
 

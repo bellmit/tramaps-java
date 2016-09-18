@@ -48,7 +48,7 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
 
     @Override
     public boolean hasMoreThanOneElement() {
-        return size() > 0;
+        return size() > 1;
     }
 
     @NotNull

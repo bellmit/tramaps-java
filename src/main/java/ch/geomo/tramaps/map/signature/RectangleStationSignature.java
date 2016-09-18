@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class RectangleStationSignature extends AbstractNodeSignature {
 
     private static final double MIN_SIDE_LENGTH = 20d;
-    private static final double ROUTE_MARGIN = 5d;
+    private static final double STATION_MARGIN = 5d;
 
     public RectangleStationSignature(@NotNull Node node) {
         super(node);
@@ -29,14 +29,14 @@ public class RectangleStationSignature extends AbstractNodeSignature {
     public void updateSignature() {
         double width = node.getAdjacentEdges().stream()
                 .filter(edge -> !edge.getOriginalDirection(edge.getNodeA()).isHorizontal())
-                .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
+                .map(edge -> edge.calculateEdgeWidth(STATION_MARGIN))
                 .max(Double::compare)
-                .orElse(ROUTE_MARGIN);
+                .orElse(STATION_MARGIN);
         double height = node.getAdjacentEdges().stream()
                 .filter(edge -> !edge.getOriginalDirection(edge.getNodeA()).isVertical())
-                .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
+                .map(edge -> edge.calculateEdgeWidth(STATION_MARGIN))
                 .max(Double::compare)
-                .orElse(ROUTE_MARGIN);
+                .orElse(STATION_MARGIN);
         signature = GeomUtil.createPolygon(node.getPoint(), Math.max(width, MIN_SIDE_LENGTH), Math.max(height, MIN_SIDE_LENGTH));
         setChanged();
         notifyObservers();

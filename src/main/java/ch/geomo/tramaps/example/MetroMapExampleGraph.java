@@ -19,7 +19,7 @@ public class MetroMapExampleGraph extends MetroMap {
 
     public MetroMapExampleGraph(double routeMargin, double edgeMargin) {
 
-        super(routeMargin, edgeMargin);
+        super(routeMargin, edgeMargin, edgeMargin);
 
         Function<Node, NodeSignature> signatureFunction = RectangleStationSignature::new;
 

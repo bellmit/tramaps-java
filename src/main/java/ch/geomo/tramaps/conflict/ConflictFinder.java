@@ -16,6 +16,7 @@ import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
+import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
@@ -46,11 +47,13 @@ public class ConflictFinder {
     private final Graph graph;
     private final double routeMargin;
     private final double edgeMargin;
+    private final double nodeMargin;
 
-    public ConflictFinder(@NotNull Graph graph, double routeMargin, double edgeMargin) {
+    public ConflictFinder(@NotNull Graph graph, double routeMargin, double edgeMargin, double nodeMargin) {
         this.graph = graph;
         this.routeMargin = routeMargin;
         this.edgeMargin = edgeMargin;
+        this.nodeMargin = nodeMargin;
     }
 
     private Stream<ElementBuffer> createEdgeBuffers() {
@@ -60,14 +63,33 @@ public class ConflictFinder {
 
     private Stream<ElementBuffer> createNodeBuffers() {
         return graph.getNodes().stream()
-                .map(node -> new NodeBuffer(node, edgeMargin));
+                .map(node -> new NodeBuffer(node, nodeMargin));
+    }
+
+    private boolean intersects(@NotNull Pair<ElementBuffer> bufferPair) {
+
+        ElementBuffer a = bufferPair.getFirst();
+        ElementBuffer b = bufferPair.getSecond();
+
+        Polygon pa = a.getBuffer();
+        Polygon pb = b.getBuffer();
+
+//        if (bufferPair.stream().allMatch(buffer -> buffer instanceof NodeBuffer)) {
+//            if (a.getElement().isAdjacent(b.getElement())) {
+//                pa = (Polygon)pa.buffer(50);
+//                pb = (Polygon)pb.buffer(50);
+//            }
+//        }
+
+        return pa.relate(pb, "T********");
+
     }
 
     @NotNull
-    private EnhancedList<Conflict> getBufferConflicts(@NotNull EnhancedSet<Pair<ElementBuffer>> bufferPairs) {
-        return bufferPairs.stream()
+    private EnhancedList<Conflict> getBufferConflicts() {
+        return getConflictElements().stream()
                 // check interior intersection
-                .filter(bufferPair -> bufferPair.getFirst().getBuffer().relate(bufferPair.getSecond().getBuffer(), "T********"))
+                .filter(this::intersects)
                 // create conflict
                 .map(BufferConflict::new)
                 // filter conflicts which do not cross with other (not-conflict related) edges
@@ -80,23 +102,8 @@ public class ConflictFinder {
     }
 
     @NotNull
-    private EnhancedList<Conflict> getOctilinearConflicts(@NotNull EnhancedSet<Pair<ElementBuffer>> bufferPairs) {
-        // fix/improvement: buffers are not required, should be rewritten without using set of buffers
-        return bufferPairs.stream()
-                // check conflict
-                .filter(bufferPair -> hasOctilinearConflict(bufferPair, true))
-                // create conflict
-                .map(OctilinearConflict::new)
-                // remove duplicates
-                .distinct()
-                // sort conflicts (smallest conflict first)
-                .sorted()
-                .collect(GCollectors.toList());
-    }
-
-    @NotNull
     public EnhancedList<Conflict> getOctilinearConflicts(double correctionFactor, boolean majorMisalignmentOnly) {
-        // fix/improvement: buffers are not required, should be rewritten without using set of buffers
+        // fix/improvement required: buffers are not required, should be rewritten without using set of buffers
         return getConflictElements().stream()
                 // check conflict
                 .filter(bufferPair -> hasOctilinearConflict(bufferPair, majorMisalignmentOnly))
@@ -129,9 +136,8 @@ public class ConflictFinder {
 
     @NotNull
     public EnhancedList<Conflict> getConflicts() {
-        EnhancedSet<Pair<ElementBuffer>> bufferPairs = getConflictElements();
-        return getBufferConflicts(bufferPairs)
-                .union(getOctilinearConflicts(bufferPairs))
+        return getBufferConflicts()
+                .union(getOctilinearConflicts(0.1, true))
                 .sortElements(CONFLICT_COMPARATOR);
     }
 

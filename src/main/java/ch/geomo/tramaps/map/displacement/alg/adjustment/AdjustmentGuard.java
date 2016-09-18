@@ -113,7 +113,7 @@ public class AdjustmentGuard {
     /**
      * @return the best displace length based on the {@link BufferConflict}
      */
-    public int getMoveDistance() {
+    public double getMoveDistance() {
         return conflict.getBestDisplaceDistance();
     }
 

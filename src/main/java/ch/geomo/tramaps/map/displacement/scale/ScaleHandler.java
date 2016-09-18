@@ -52,7 +52,7 @@ public class ScaleHandler implements LineSpaceHandler {
         double scaleFactorAlongX = (mapWidth + maxMoveX) / mapWidth;
         double scaleFactorAlongY = (mapHeight + maxMoveY) / mapHeight;
 
-        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY) * 1000) / 1000;
+        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY) * 100000) / 100000;
 
     }
 

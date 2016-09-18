@@ -42,7 +42,7 @@ public class OctilinearConflict extends AbstractConflict {
     }
 
     private void evaluateConflictType() {
-        conflictType = ConflictType.ADJACENT_NODE_NODE_DIAGONAL;
+        conflictType = ConflictType.OCTILINEAR;
     }
 
     private void initConflict() {
