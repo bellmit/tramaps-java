@@ -74,21 +74,21 @@ public class MetroMap extends Graph {
 
     @NotNull
     public Node createCrossingNode(double x, double y) {
-        Node node = new Node("C" + (++crossingCount), x, -y, BendNodeSignature::new);
+        Node node = new Node("C" + (++crossingCount), x, y, BendNodeSignature::new);
         addNodes(node);
         return node;
     }
 
     @NotNull
     public Node createJunctionNode(double x, double y) {
-        Node node = new Node("J" + (++junctionCount), x, -y, BendNodeSignature::new);
+        Node node = new Node("J" + (++junctionCount), x, y, BendNodeSignature::new);
         addNodes(node);
         return node;
     }
 
     @NotNull
     public Node createBendNode(double x, double y) {
-        Node node = new Node("B" + (++bendCount), x, -y, BendNodeSignature::new);
+        Node node = new Node("B" + (++bendCount), x, y, BendNodeSignature::new);
         addNodes(node);
         return node;
     }

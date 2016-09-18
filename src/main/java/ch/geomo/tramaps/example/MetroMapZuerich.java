@@ -10,6 +10,7 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapEdgeBuilder;
 import ch.geomo.tramaps.map.signature.RectangleStationSignature;
 import javafx.scene.paint.Color;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MetroMapZuerich extends MetroMap {
@@ -235,7 +236,7 @@ public class MetroMapZuerich extends MetroMap {
 
     }
 
-    public Node createNode(double x, double y, @Nullable String name) {
+    public Node createNode(double x, double y, @NotNull String name) {
         return createNode(x, y, name, RectangleStationSignature::new);
     }
 

@@ -59,7 +59,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
             Loggers.info(this, "Handle conflict: " + conflict);
             NodeDisplacer displacer = new NodeDisplacer(map, conflict, conflicts);
-            NodeDisplaceResult displaceResult = displacer.displace();
+            displacer.displace();
 
             // correctNonOctilinearEdges();
 

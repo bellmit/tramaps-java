@@ -14,6 +14,7 @@ import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
+import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +38,19 @@ public class AdjustmentDirectionEvaluator {
 
     @NotNull
     public MoveVector evaluateSingleNodeDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
+
+//        Node otherNode = connectionEdge.getOtherNode(moveableNode);
+//
+//        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
+//        MoveVector originalConnectionEdgeVector = originalDirection.getVector();
+//
+//        double dx = GraphUtil.getAbsDeltaX(connectionEdge);
+//        double dy = GraphUtil.getAbsDeltaY(connectionEdge);
+//
+//        MoveVector connectionEdgeVector = new MoveVector(dx, dy);
+//        Vector2D correctedEdgeVector = originalConnectionEdgeVector.multiply(connectionEdgeVector.length());
+//
+//        return MoveVector.getProjection(correctedEdgeVector, connectionEdgeVector).getSecond();
 
         double diff = GraphUtil.getAbsDiffDeltaXY(connectionEdge);
 
@@ -92,7 +106,7 @@ public class AdjustmentDirectionEvaluator {
         double dx = GraphUtil.getAbsDeltaX(connectionEdge);
         double dy = GraphUtil.getAbsDeltaY(connectionEdge);
 
-        double moveDistance = GraphUtil.getAbsDiffDeltaXY(connectionEdge)/4;
+        double moveDistance = GraphUtil.getAbsDiffDeltaXY(connectionEdge);
 
         EnhancedList<OctilinearDirection> directions = getAdjacentEdgeDirections(moveableNode, connectionEdge);
 

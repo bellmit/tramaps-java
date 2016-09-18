@@ -41,8 +41,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private boolean destroyed = false;
 
     public Node(@NotNull String name, double x, double y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        // fix required: remove ugly hack, replace with a real solution
-        this(name, GeomUtil.createPoint(x+100000, y+100000), nodeSignatureFactory);
+        this(name, GeomUtil.createPoint(x, y), nodeSignatureFactory);
     }
 
     private Node(@NotNull String name, @NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {

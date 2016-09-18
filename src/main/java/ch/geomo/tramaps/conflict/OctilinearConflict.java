@@ -30,6 +30,10 @@ public class OctilinearConflict extends AbstractConflict {
 
     private final double correctionFactor;
 
+    public OctilinearConflict(@NotNull Pair<ElementBuffer> bufferPair) {
+        this(bufferPair, 0.1);
+    }
+
     public OctilinearConflict(@NotNull Pair<ElementBuffer> bufferPair, double correctionFactor) {
         super(bufferPair);
         this.correctionFactor = correctionFactor;

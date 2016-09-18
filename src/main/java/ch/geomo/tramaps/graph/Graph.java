@@ -102,7 +102,7 @@ public class Graph {
      */
     @HelperMethod
     public Node createNode(double x, double y, @NotNull String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        Node node = new Node(name, x, -y, nodeSignatureFactory);
+        Node node = new Node(name, x, y, nodeSignatureFactory);
         addNodes(node);
         return node;
     }
