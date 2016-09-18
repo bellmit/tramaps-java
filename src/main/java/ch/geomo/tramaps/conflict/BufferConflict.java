@@ -134,8 +134,8 @@ public class BufferConflict extends AbstractConflict {
             Node node = getNodes().get(0);
             Edge edge = getEdges().get(0);
             if (node.isAdjacent(edge.getNodeA()) || node.isAdjacent(edge.getNodeB())) {
-                // we currently ignore this kind set conflict
-                // TODO remove workaround and find another solution
+                // we currently ignore this kind of conflict
+                // fix required: find a solution
                 // solved = true;
             }
         }

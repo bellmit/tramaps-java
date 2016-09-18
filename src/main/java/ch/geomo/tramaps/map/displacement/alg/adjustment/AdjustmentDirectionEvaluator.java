@@ -6,20 +6,18 @@ package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
+import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.tramaps.graph.util.GraphUtil;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
-import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.EAST;
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
+import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
 
 public class AdjustmentDirectionEvaluator {
 
@@ -44,45 +42,43 @@ public class AdjustmentDirectionEvaluator {
             return new MoveVector(0, 0);
         }
 
-        return new MoveVector(0, 0);
+        Node otherNode = connectionEdge.getOtherNode(moveableNode);
 
-//        Node otherNode = connectionEdge.getOtherNode(moveableNode);
-//
-//        double diff = connectionEdge.getDiffDeltaXY();
-//
-//        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
-//        double angle = originalDirection.getAngleTo(connectionEdge.getDirection(otherNode));
-//
-//        switch (originalDirection) {
-//            case NORTH_EAST: {
-//                if (angle > 0) {
-//                    return new MoveVector(0, -diff);
-//                }
-//                return new MoveVector(diff, 0);
-//            }
-//            case SOUTH_EAST: {
-//                if (angle > 0) {
-//                    return new MoveVector(diff, 0);
-//                }
-//                return new MoveVector(0, -diff);
-//            }
-//            case SOUTH_WEST: {
-//                if (angle > 0) {
-//                    return new MoveVector(0, -diff);
-//                }
-//                return new MoveVector(-diff, 0);
-//            }
-//            case NORTH_WEST: {
-//                if (angle > 0) {
-//                    return new MoveVector(-diff, 0);
-//                }
-//                return new MoveVector(0, diff);
-//            }
-//            default: {
-//                Contracts.fail("Should not reach this point.");
-//                return new MoveVector(0, 0);
-//            }
-//        }
+        double diff = GraphUtil.getAbsDiffDeltaXY(connectionEdge);
+
+        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
+        double angle = originalDirection.getAngleTo(connectionEdge.getDirection(otherNode));
+
+        switch (originalDirection) {
+            case NORTH_EAST: {
+                if (angle > 0) {
+                    return new MoveVector(0, -diff);
+                }
+                return new MoveVector(diff, 0);
+            }
+            case SOUTH_EAST: {
+                if (angle > 0) {
+                    return new MoveVector(diff, 0);
+                }
+                return new MoveVector(0, -diff);
+            }
+            case SOUTH_WEST: {
+                if (angle > 0) {
+                    return new MoveVector(0, -diff);
+                }
+                return new MoveVector(-diff, 0);
+            }
+            case NORTH_WEST: {
+                if (angle > 0) {
+                    return new MoveVector(-diff, 0);
+                }
+                return new MoveVector(0, diff);
+            }
+            default: {
+                Contracts.fail("Should not reach this point.");
+                return new MoveVector(0, 0);
+            }
+        }
 
     }
 
@@ -103,57 +99,28 @@ public class AdjustmentDirectionEvaluator {
 
         Node otherNode = connectionEdge.getOtherNode(moveableNode);
 
-//        double dx = connectionEdge.getDeltaX();
-//        double dy = connectionEdge.getDeltaY();
-//        double diff = connectionEdge.getDiffDeltaXY();
+        double dx = GraphUtil.getAbsDeltaX(connectionEdge);
+        double dy = GraphUtil.getAbsDeltaY(connectionEdge);
 
-        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
-        double angle = originalDirection.getAngleTo(connectionEdge.getDirection(otherNode));
+        double moveDistance = GraphUtil.getAbsDiffDeltaXY(connectionEdge)/4;
 
         EnhancedList<OctilinearDirection> directions = getAdjacentEdgeDirections(moveableNode, connectionEdge);
+
         if (directions.allMatch(Direction::isVertical)) {
-//            switch (originalDirection) {
-//                case NORTH_EAST:
-//                case SOUTH_EAST: {
-//                    if (angle > 0) {
-//                        return new MoveVector(0, diff);
-//                    }
-//                    return new MoveVector(0, -diff);
-//                }
-//                case SOUTH_WEST:
-//                case NORTH_WEST: {
-//                    if (angle > 0) {
-//                        return new MoveVector(0, -diff);
-//                    }
-//                    return new MoveVector(0, diff);
-//                }
-//                default: {
-//                    Contracts.fail("Should not reach this point.");
-//                    return new MoveVector(0, 0);
-//                }
-//            }
+            if (dy > dx) {
+                if (otherNode.isNorthOf(moveableNode)) {
+                    return new MoveVector(0, moveDistance);
+                }
+                return new MoveVector(0, -moveDistance);
+            }
         }
         else if (directions.allMatch(Direction::isHorizontal)) {
-//            switch (originalDirection) {
-//                case NORTH_EAST:
-//                case NORTH_WEST: {
-//                    if (angle > 0) {
-//                        return new MoveVector(0, diff);
-//                    }
-//                    return new MoveVector(0, -diff);
-//                }
-//                case SOUTH_WEST:
-//                case SOUTH_EAST: {
-//                    if (angle > 0) {
-//                        return new MoveVector(0, -diff);
-//                    }
-//                    return new MoveVector(0, diff);
-//                }
-//                default: {
-//                    Contracts.fail("Should not reach this point.");
-//                    return new MoveVector(0, 0);
-//                }
-//            }
+            if (dx > dy) {
+                if (otherNode.isEastOf(moveableNode)) {
+                    return new MoveVector(moveDistance, 0);
+                }
+                return new MoveVector(-moveDistance, 0);
+            }
         }
         else if (directions.size() == 2) {
 

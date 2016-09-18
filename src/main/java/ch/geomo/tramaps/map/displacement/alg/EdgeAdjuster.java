@@ -134,7 +134,6 @@ public class EdgeAdjuster {
         if (AdjustmentCostCalculator.isSimpleNode(connectionEdge, moveableNode)) {
 
             Loggers.info(this, "Move node " + moveableNode.getName() + ".");
-            Loggers.info(this, "Initial move direction is " + guard.getLastMoveDirection() + ".");
 
             // get first edge
             Optional<Edge> adjacentEdge = moveableNode.getAdjacentEdges(connectionEdge).first();
@@ -145,7 +144,8 @@ public class EdgeAdjuster {
             }
             else {
                 Loggers.info(this, "Evaluate single node move direction...");
-                moveVector = adjustmentDirectionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
+                // moveVector = adjustmentDirectionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
+                moveVector = new MoveVector(0, 0);
             }
 
         }
@@ -280,11 +280,6 @@ public class EdgeAdjuster {
      * Corrects the direction set given {@link Edge} recursively by moving the given {@link Node}.
      */
     private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
-
-//        if (guard.isNotMoveable(moveableNode)) {
-//            Loggers.warning(this, "Node " + moveableNode.getName() + " cannot be moved!");
-//            return;
-//        }
 
         if (guard.hasAlreadyVisited(moveableNode)) {
             Loggers.warning(this, "Correct edge aborted due to a second visit set node " + moveableNode.getName() + "!");

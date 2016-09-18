@@ -10,7 +10,7 @@ import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
 import org.jetbrains.annotations.NotNull;
 
-public enum Graphs {
+public enum GraphUtil {
 
     /* util class */;
 

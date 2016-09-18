@@ -4,6 +4,7 @@
 
 package ch.geomo.util.logging;
 
+import ch.geomo.tramaps.map.displacement.alg.EdgeAdjuster;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -51,6 +52,9 @@ public enum Loggers {
     }
 
     public static void info(@NotNull Object obj, @NotNull String message, char markCharacter) {
+        if (obj instanceof EdgeAdjuster) {
+            return;
+        }
         get(obj).info(" " + markCharacter + "  " + message);
     }
 
