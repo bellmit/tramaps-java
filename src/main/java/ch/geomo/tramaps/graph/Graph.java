@@ -105,7 +105,7 @@ public class Graph {
      * @return the created node
      */
     public Node createNode(double x, double y, @Nullable String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        Node node = new Node(x, y, name, nodeSignatureFactory);
+        Node node = new Node(x, -y, name, nodeSignatureFactory);
         addNodes(node);
         return node;
     }

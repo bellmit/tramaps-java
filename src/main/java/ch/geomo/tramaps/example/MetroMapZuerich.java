@@ -27,6 +27,7 @@ public class MetroMapZuerich extends MetroMap {
         Route s9 = new Route(20, Color.BLACK, "S9");
         Route s10 = new Route(20, Color.BLACK, "S10");
         Route s12 = new Route(20, Color.BLACK, "S12");
+        Route s14 = new Route(20, Color.BLACK, "S14");
         Route s24 = new Route(20, Color.BLACK, "S24");
 
         Node hb = createNode(120, 105, "Zürich HB");
@@ -169,10 +170,58 @@ public class MetroMapZuerich extends MetroMap {
                 .routes(s7)
                 .station(stadelhofen)
                 .junction(stadelhofenToTiefenbrunnenStettbach)
-                .station(tiefenbrunnen)
+                //.station(tiefenbrunnen)
                 .create();
 
-//        getNodes().forEach(node -> node.updatePosition(node.getX() * 10, node.getY() * 10));
+        Node oerlikonToWallisellen = createJunctionNode(105,150); // J8
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s2, s8, s7, s9, s14)
+                .station(oerlikon)
+                .junction(oerlikonToWallisellen)
+                .create();
+
+        Node wallisellen = createNode(140, 165, "Wallisellen");
+        Node crossJunction = createJunctionNode(160,165); // J9
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s8, s14)
+                .junction(oerlikonToWallisellen)
+                .bend(110, 155) // B10
+                .bend(130, 155) // B11
+                .station(wallisellen)
+                .junction(crossJunction)
+                .create();
+
+        Node stettbach = createNode(160, 150, "Stettbach");
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s12)
+                .junction(crossJunction)
+                .station(stettbach)
+                .bend(160, 115) // B12
+                .junction(stadelhofenToTiefenbrunnenStettbach)
+                .create();
+
+        Node dietlikon = createNode(170, 190, "Dietlikon");
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s8, s12)
+                .junction(crossJunction)
+                .bend(160, 180) // B13
+                .station(dietlikon)
+                .create();
+
+        Node duebendorf = createNode(205, 160, "Dübendorf");
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s14)
+                .junction(crossJunction)
+                .bend(200, 165) // B14
+                .station(duebendorf)
+                .create();
+
+//        getNodes().forEach(node -> node.updateY(node.getY() * -1));
 
     }
 
