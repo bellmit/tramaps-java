@@ -41,10 +41,11 @@ public class Node extends Observable implements GraphElement, NodePoint {
     private boolean destroyed = false;
 
     public Node(@NotNull String name, double x, double y, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
-        this(name, GeomUtil.createPoint(x, y), nodeSignatureFactory);
+        // fix required: remove ugly hack, replace with a real solution
+        this(name, GeomUtil.createPoint(x+100000, y+100000), nodeSignatureFactory);
     }
 
-    public Node(@NotNull String name, @NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
+    private Node(@NotNull String name, @NotNull Point point, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         this.name = name;
         this.point = point;
         adjacentEdges = GSet.createSet();

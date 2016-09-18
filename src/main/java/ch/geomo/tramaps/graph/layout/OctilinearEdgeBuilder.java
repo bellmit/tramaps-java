@@ -68,7 +68,6 @@ public class OctilinearEdgeBuilder {
 
         vertices.clear();
 
-
         Node a = isReversedOrder() ? getNodeB() : getNodeA();
         Node b = isReversedOrder() ? getNodeA() : getNodeB();
 

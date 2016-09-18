@@ -61,7 +61,6 @@ public interface Direction {
     /**
      * @return true if given angle is octilinear
      */
-    @Contract(pure = true)
     static boolean isOctilinear(double angle) {
         return angle % 45 == 0;
     }
@@ -81,9 +80,10 @@ public interface Direction {
     }
 
     static double calculateAngle(NodePoint nodeA, NodePoint nodeB) {
-        double angle = GeomUtil.getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX(), nodeA.getY() + 5d), nodeB);
+        double angle;
+        angle = GeomUtil.getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX(), nodeA.getY() - 5d), nodeB);
         if (angle < 0) {
-            angle = (angle + 360) % 360;
+            angle = (angle - 360) % 360;
         }
         return Math.abs(angle);
     }

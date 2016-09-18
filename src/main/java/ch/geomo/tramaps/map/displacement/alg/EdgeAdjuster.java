@@ -10,6 +10,7 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
+import ch.geomo.tramaps.graph.util.GraphUtil;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentCostCalculator;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
@@ -32,12 +33,10 @@ public class EdgeAdjuster {
 
     private final Graph graph;
     private final Edge edge;
-    private final NodeDisplaceResult displaceResult;
 
-    public EdgeAdjuster(@NotNull Graph graph, @NotNull Edge edge, @NotNull NodeDisplaceResult displaceResult) {
+    public EdgeAdjuster(@NotNull Graph graph, @NotNull Edge edge) {
         this.graph = graph;
         this.edge = edge;
-        this.displaceResult = displaceResult;
     }
 
     private Node getNodeA() {
@@ -48,26 +47,26 @@ public class EdgeAdjuster {
         return edge.getNodeB();
     }
 
-    private AdjustmentGuard createGuard(@NotNull Node startNode) {
-        return new AdjustmentGuard(graph, displaceResult, startNode);
+    private AdjustmentGuard createGuard() {
+        return new AdjustmentGuard(graph);
     }
 
     public void correctEdge() {
 
         Loggers.info(this, "Correct edge " + edge.getName() + "...");
 
-        double scoreA = AdjustmentCostCalculator.calculate(edge, getNodeA(), createGuard(getNodeA()));
-        double scoreB = AdjustmentCostCalculator.calculate(edge, getNodeB(), createGuard(getNodeB()));
+        double scoreA = AdjustmentCostCalculator.calculate(edge, getNodeA(), createGuard());
+        double scoreB = AdjustmentCostCalculator.calculate(edge, getNodeB(), createGuard());
         Loggers.info(this, "Adjustment Costs for nodes: [" + scoreA + "/" + scoreB + "]");
 
         if (scoreA > MAX_ADJUSTMENT_COSTS && scoreB > MAX_ADJUSTMENT_COSTS) {
             correctEdgeByIntroducingBendNodes();
         }
         else if (scoreA < scoreB) {
-            correctEdgeByMovingNode(edge, getNodeA(), createGuard(getNodeA()));
+            correctEdgeByMovingNode(edge, getNodeA(), createGuard());
         }
         else {
-            correctEdgeByMovingNode(edge, getNodeB(), createGuard(getNodeB()));
+            correctEdgeByMovingNode(edge, getNodeB(), createGuard());
         }
 
         Loggers.info(this, "Correction done.");
@@ -144,8 +143,7 @@ public class EdgeAdjuster {
             }
             else {
                 Loggers.info(this, "Evaluate single node move direction...");
-                // moveVector = adjustmentDirectionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
-                moveVector = new MoveVector(0, 0);
+                moveVector = adjustmentDirectionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
             }
 
         }

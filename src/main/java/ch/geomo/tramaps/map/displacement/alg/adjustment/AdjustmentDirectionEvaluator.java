@@ -38,41 +38,35 @@ public class AdjustmentDirectionEvaluator {
     @NotNull
     public MoveVector evaluateSingleNodeDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
 
-        if (guard.getConflict().isConflictRelated(moveableNode)) {
-            return new MoveVector(0, 0);
-        }
-
-        Node otherNode = connectionEdge.getOtherNode(moveableNode);
-
         double diff = GraphUtil.getAbsDiffDeltaXY(connectionEdge);
 
-        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
-        double angle = originalDirection.getAngleTo(connectionEdge.getDirection(otherNode));
+        OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
+        double angle = originalDirection.getAngleTo(connectionEdge.getDirection(moveableNode));
 
         switch (originalDirection) {
             case NORTH_EAST: {
                 if (angle > 0) {
                     return new MoveVector(0, -diff);
                 }
-                return new MoveVector(diff, 0);
-            }
-            case SOUTH_EAST: {
-                if (angle > 0) {
-                    return new MoveVector(diff, 0);
-                }
-                return new MoveVector(0, -diff);
-            }
-            case SOUTH_WEST: {
-                if (angle > 0) {
-                    return new MoveVector(0, -diff);
-                }
                 return new MoveVector(-diff, 0);
             }
-            case NORTH_WEST: {
+            case SOUTH_EAST: {
                 if (angle > 0) {
                     return new MoveVector(-diff, 0);
                 }
                 return new MoveVector(0, diff);
+            }
+            case SOUTH_WEST: {
+                if (angle > 0) {
+                    return new MoveVector(0, diff);
+                }
+                return new MoveVector(diff, 0);
+            }
+            case NORTH_WEST: {
+                if (angle > 0) {
+                    return new MoveVector(diff, 0);
+                }
+                return new MoveVector(0, -diff);
             }
             default: {
                 Contracts.fail("Should not reach this point.");
@@ -92,10 +86,6 @@ public class AdjustmentDirectionEvaluator {
 
     @NotNull
     public MoveVector evaluateDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge, @Nullable Edge firstAdjacentEdge) {
-
-        if (guard.getConflict().isConflictRelated(moveableNode)) {
-            return new MoveVector(0, 0);
-        }
 
         Node otherNode = connectionEdge.getOtherNode(moveableNode);
 

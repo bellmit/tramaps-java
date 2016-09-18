@@ -52,9 +52,6 @@ public enum Loggers {
     }
 
     public static void info(@NotNull Object obj, @NotNull String message, char markCharacter) {
-        if (obj instanceof EdgeAdjuster) {
-            return;
-        }
         get(obj).info(" " + markCharacter + "  " + message);
     }
 

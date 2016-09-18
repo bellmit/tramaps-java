@@ -24,11 +24,11 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         this.map = map;
     }
 
-    private void correctNonOctilinearEdges(@NotNull NodeDisplaceResult displaceResult) {
+    private void correctNonOctilinearEdges() {
         Loggers.info(this, "Non-Octilinear edges: " + map.countNonOctilinearEdges());
         map.getEdges().stream()
                 .filter(Edge::isNotOctilinear)
-                .map(edge -> new EdgeAdjuster(map, edge, displaceResult))
+                .map(edge -> new EdgeAdjuster(map, edge))
                 .forEach(EdgeAdjuster::correctEdge);
     }
 
@@ -61,7 +61,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             NodeDisplacer displacer = new NodeDisplacer(map, conflict, conflicts);
             NodeDisplaceResult displaceResult = displacer.displace();
 
-            correctNonOctilinearEdges(displaceResult);
+            // correctNonOctilinearEdges();
 
             Loggers.warning(this, "Uncorrected non-octilinear edges found: " + map.getEdges().stream()
                     .filter(Edge::isNotOctilinear)
@@ -105,7 +105,8 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
-        postOctilinearConflictSolver();
+        correctNonOctilinearEdges();
+        //postOctilinearConflictSolver();
 
         Loggers.separator(this);
         Loggers.info(this, getBoundingBoxString());
