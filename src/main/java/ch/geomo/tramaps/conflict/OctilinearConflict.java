@@ -14,8 +14,8 @@ import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * {@link Conflict} between two adjacent nodes with a diagonal edge. This kind of conflict is given when the difference
- * between the angle of the original octilinear diagonal and the current angle is greater than 27.5 degree.
+ * Conflict between two adjacent nodes with a diagonal edge. This kind of conflict is given when the difference between
+ * the angle of the original octilinear diagonal and the current angle is greater than 27.5 degree.
  * <p>
  * Using this conflict avoids prevents a diagonal edge from changing to another quadrant of the cartesian coordinate
  * system.
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
  * value 1 (one) should restore the octilinearity may leads to a very stretched layout when correcting these kinds
  * of {@link Conflict} iteratively.
  *
- * @see ConflictFinder#hasOctilinearConflict(Pair)
+ * @see ConflictFinder#hasOctilinearConflict(Pair, boolean)
  */
 public class OctilinearConflict extends AbstractConflict {
 

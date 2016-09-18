@@ -74,32 +74,45 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             else {
                 Loggers.separator(this);
                 Loggers.warning(this, "Max number set iteration reached. Stop algorithm.");
-                Loggers.info(this, getBoundingBoxString());
-                Loggers.separator(this);
             }
 
         }
         else {
             Loggers.separator(this);
             Loggers.info(this, "No (more) conflicts found.");
-            Loggers.info(this, getBoundingBoxString());
-            Loggers.separator(this);
         }
 
     }
 
+    @NotNull
     private String getBoundingBoxString() {
         Envelope mapBoundingBox = map.getBoundingBox();
         return "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight());
     }
 
+    private void postOctilinearConflictSolver() {
+        EnhancedList<Conflict> octilinearConflicts = map.evaluateOctilinearConflicts(1, false);
+        if (!octilinearConflicts.isEmpty()) {
+            Loggers.info(this, "Solve octilinear conflict: " + octilinearConflicts.get(0));
+            new NodeDisplacer(map, octilinearConflicts.get(0), octilinearConflicts).displace();
+            postOctilinearConflictSolver();
+        }
+    }
+
     @Override
     public void makeSpace() {
+
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
         makeSpace(0, null);
+        //postOctilinearConflictSolver();
+
+        Loggers.separator(this);
+        Loggers.info(this, getBoundingBoxString());
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
+        Loggers.separator(this);
+
     }
 
 }

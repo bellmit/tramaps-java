@@ -11,21 +11,15 @@ import ch.geomo.tramaps.conflict.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
-import ch.geomo.util.collection.set.EnhancedSet;
-import ch.geomo.util.collection.list.GList;
-import ch.geomo.util.collection.set.GSet;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.collection.set.EnhancedSet;
+import ch.geomo.util.collection.set.GSet;
 import org.jetbrains.annotations.NotNull;
-import sun.misc.GC;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ConflictFinder {
@@ -33,7 +27,7 @@ public class ConflictFinder {
     public final static Comparator<Conflict> CONFLICT_COMPARATOR = new ConflictComparator();
 
     /**
-     * Returns true if both elements are not equal and not adjacent or at least one element is a node.
+     * {@link Predicate} returns true if both elements are not equal and not adjacent or at least one element is a node.
      */
     private final static Predicate<Pair<ElementBuffer>> CONFLICT_PAIR_PREDICATE = (Pair<ElementBuffer> pair) -> {
 
@@ -70,12 +64,8 @@ public class ConflictFinder {
     }
 
     @NotNull
-    public EnhancedList<Conflict> getConflicts() {
-
-        EnhancedSet<ElementBuffer> buffers = GSet.createSet(createEdgeBuffers(), createNodeBuffers());
-        EnhancedSet<Pair<ElementBuffer>> bufferPairs = buffers.toPairSet(ConflictFinder.CONFLICT_PAIR_PREDICATE);
-
-        EnhancedList<Conflict> bufferConflicts = bufferPairs.stream()
+    private EnhancedList<Conflict> getBufferConflicts(@NotNull EnhancedSet<Pair<ElementBuffer>> bufferPairs) {
+        return bufferPairs.stream()
                 // check interior intersection
                 .filter(bufferPair -> bufferPair.getFirst().getBuffer().relate(bufferPair.getSecond().getBuffer(), "T********"))
                 // create conflict
@@ -87,10 +77,14 @@ public class ConflictFinder {
                 // remove duplicates
                 .distinct()
                 .collect(GCollectors.toList());
+    }
 
-        EnhancedList<Conflict> octilinearConflicts = bufferPairs.stream()
+    @NotNull
+    private EnhancedList<Conflict> getOctilinearConflicts(@NotNull EnhancedSet<Pair<ElementBuffer>> bufferPairs) {
+        // fix/improvement: buffers are not required, should be rewritten without using set of buffers
+        return bufferPairs.stream()
                 // check conflict
-                .filter(this::hasOctilinearConflict)
+                .filter(bufferPair -> hasOctilinearConflict(bufferPair, true))
                 // create conflict
                 .map(OctilinearConflict::new)
                 // remove duplicates
@@ -98,23 +92,47 @@ public class ConflictFinder {
                 // sort conflicts (smallest conflict first)
                 .sorted()
                 .collect(GCollectors.toList());
-
-        return bufferConflicts
-                .union(octilinearConflicts)
-                .sortElements(CONFLICT_COMPARATOR);
-
     }
 
-    private boolean hasOctilinearConflict(Pair<ElementBuffer> bufferPair) {
+    @NotNull
+    public EnhancedList<Conflict> getOctilinearConflicts(double correctionFactor, boolean majorMisalignmentOnly) {
+        // fix/improvement: buffers are not required, should be rewritten without using set of buffers
+        return getConflictElements().stream()
+                // check conflict
+                .filter(bufferPair -> hasOctilinearConflict(bufferPair, majorMisalignmentOnly))
+                // create conflict
+                .map(bufferPair -> new OctilinearConflict(bufferPair, correctionFactor))
+                // remove duplicates
+                .distinct()
+                // sort conflicts (smallest conflict first)
+                .sorted()
+                .collect(GCollectors.toList());
+    }
+
+    private boolean hasOctilinearConflict(@NotNull Pair<ElementBuffer> bufferPair, boolean majorMisalignmentOnly) {
         if (bufferPair.stream().allMatch(buffer -> buffer instanceof NodeBuffer)) {
-            Node a = (Node)bufferPair.getFirst().getElement();
-            Node b = (Node)bufferPair.getSecond().getElement();
+            Node a = (Node) bufferPair.getFirst().getElement();
+            Node b = (Node) bufferPair.getSecond().getElement();
             Edge adjacentEdge = a.getAdjacentEdgeWith(b);
             if (adjacentEdge != null && adjacentEdge.isNotOctilinear()) {
-                return adjacentEdge.hasMajorMisalignment();
+                return !majorMisalignmentOnly || adjacentEdge.hasMajorMisalignment();
             }
         }
         return false;
+    }
+
+    @NotNull
+    private EnhancedSet<Pair<ElementBuffer>> getConflictElements() {
+        EnhancedSet<ElementBuffer> buffers = GSet.createSet(createEdgeBuffers(), createNodeBuffers());
+        return buffers.toPairSet(ConflictFinder.CONFLICT_PAIR_PREDICATE);
+    }
+
+    @NotNull
+    public EnhancedList<Conflict> getConflicts() {
+        EnhancedSet<Pair<ElementBuffer>> bufferPairs = getConflictElements();
+        return getBufferConflicts(bufferPairs)
+                .union(getOctilinearConflicts(bufferPairs))
+                .sortElements(CONFLICT_COMPARATOR);
     }
 
 }
