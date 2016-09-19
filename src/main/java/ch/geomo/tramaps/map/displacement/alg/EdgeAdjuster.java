@@ -80,8 +80,7 @@ public class EdgeAdjuster {
     }
 
     /**
-     * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance
-     * will be destroyed.
+     * Introduces a bend node for given {@link Edge}. The given {@link Edge} instance will be destroyed.
      */
     private void correctEdgeByIntroducingBendNodes() {
 

@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -71,6 +72,9 @@ public interface EnhancedList<E> extends List<E> {
 
     @NotNull
     EnhancedList<E> filter(@NotNull Predicate<E> predicate);
+
+    @NotNull
+    EnhancedList<E> doIfNotEmpty(@NotNull Consumer<EnhancedList<E>> consumer);
 
     @NotNull <T> EnhancedList<T> map(@NotNull Function<E, T> function);
 

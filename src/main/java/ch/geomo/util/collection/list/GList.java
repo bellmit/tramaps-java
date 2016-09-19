@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -86,6 +87,14 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     public EnhancedList<E> filter(@NotNull Predicate<E> predicate) {
         return createList(stream()
                 .filter(predicate));
+    }
+
+    @NotNull
+    public EnhancedList<E> doIfNotEmpty(@NotNull Consumer<EnhancedList<E>> consumer) {
+        if (!isEmpty()) {
+            consumer.accept(this);
+        }
+        return this;
     }
 
     @NotNull

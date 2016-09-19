@@ -4,7 +4,6 @@
 
 package ch.geomo.tramaps.map.displacement.alg;
 
-import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;

@@ -5,10 +5,12 @@
 package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.conflict.OctilinearConflict;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.util.collection.list.EnhancedList;
+import ch.geomo.util.doc.HelperMethod;
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Envelope;
 import org.jetbrains.annotations.NotNull;
@@ -39,11 +41,11 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         EnhancedList<Conflict> conflicts = map.evaluateConflicts(true);
 
         Loggers.separator(this);
-        Loggers.info(this, "Iteration: " + currentIteration);
+        Loggers.info(this, "Start iteration: {0}", currentIteration);
 
         if (!conflicts.isEmpty()) {
 
-            Loggers.warning(this, "Conflicts found: " + conflicts.size());
+            Loggers.warning(this, "Conflicts found: {0}", conflicts.size());
 
             Conflict conflict = conflicts.get(0);
             if (lastConflict != null
@@ -57,15 +59,10 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
             }
 
-            Loggers.info(this, "Handle conflict: " + conflict);
-            NodeDisplacer displacer = new NodeDisplacer(map, conflict, conflicts);
-            displacer.displace();
+            Loggers.info(this, "Handle conflict: {0}", conflict);
+            NodeDisplacer.displace(map, conflict);
 
-            // correctNonOctilinearEdges();
-
-            Loggers.warning(this, "Uncorrected non-octilinear edges found: " + map.getEdges().stream()
-                    .filter(Edge::isNotOctilinear)
-                    .count());
+            Loggers.warning(this, "Uncorrected non-octilinear edges found: {0}", map.countNonOctilinearEdges());
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {
@@ -85,33 +82,44 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     }
 
     @NotNull
+    @HelperMethod
     private String getBoundingBoxString() {
         Envelope mapBoundingBox = map.getBoundingBox();
         return "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight());
     }
 
+    /**
+     * Solves non-octilinear edges by solving {@link OctilinearConflict}.
+     */
     private void postOctilinearConflictSolver() {
         EnhancedList<Conflict> octilinearConflicts = map.evaluateOctilinearConflicts(1, false);
         if (!octilinearConflicts.isEmpty()) {
             Loggers.info(this, "Solve octilinear conflict: " + octilinearConflicts.get(0));
-            new NodeDisplacer(map, octilinearConflicts.get(0), octilinearConflicts).displace();
+            NodeDisplacer.displace(map, octilinearConflicts.get(0));
             postOctilinearConflictSolver();
         }
     }
 
+    /**
+     * Makes space between edge and nodes if necessary.
+     */
     @Override
     public void makeSpace() {
 
         Loggers.separator(this);
-        Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
+        Loggers.info(this, "Start TRAMAPS algorithm");
+
         makeSpace(0, null);
+
+        Loggers.info(this, "Restore octilinearity...");
         correctNonOctilinearEdges();
         postOctilinearConflictSolver();
 
         Loggers.separator(this);
         Loggers.info(this, getBoundingBoxString());
         map.evaluateConflicts(true)
-                .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
+                .doIfNotEmpty(list -> Loggers.warning(this, "Remaining conflicts found!"))
+                .forEach(conflict -> Loggers.warning(this, "- {0}", conflict));
         Loggers.separator(this);
 
     }
