@@ -42,8 +42,8 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Tramaps GUI");
 
-        map = new MetroMapExampleGraph();
-        //map = new MetroMapZuerich();
+        //map = new MetroMapExampleGraph();
+        map = new MetroMapZuerich();
 
         //makeSpace(() -> new ScaleHandler(map));
         makeSpace(() -> new DisplaceLineSpaceHandler(map));
@@ -66,7 +66,7 @@ public class MainApp extends Application {
         Canvas canvas = new Canvas(scaledWidth, scaledHeight);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        MetroMapDrawer drawer = new MetroMapDrawer(map, margin, scaleFactor);
+        MetroMapDrawer drawer = new MetroMapDrawer(map, margin, scaleFactor, false);
         drawer.draw(context, bbox);
 
         // workaround: scaling is done when drawing otherwise an exception like:

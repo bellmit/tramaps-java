@@ -232,6 +232,29 @@ public class MetroMapZuerich extends MetroMap {
                 .station(duebendorf)
                 .create();
 
+//        Node schlieren = createNode(40, 105, "Schlieren");
+//        Node urdorf = createNode(40, 75, "Urdorf");
+//
+//        Node altstettenToSchlierenUrdorf = createJunctionNode(70, 105);
+
+//        new MetroMapEdgeBuilder(this)
+//                .routes(s3, s42, s12, sbb, s19, s5, s14)
+//                .station(altstetten)
+//                .junction(altstettenToSchlierenUrdorf)
+//                .create();
+//
+//        new MetroMapEdgeBuilder(this)
+//                .routes(s5, s14)
+//                .junction(altstettenToSchlierenUrdorf)
+//                .station(urdorf)
+//                .create();
+//
+//        new MetroMapEdgeBuilder(this)
+//                .routes(s3, s42, s12, sbb, s19)
+//                .junction(altstettenToSchlierenUrdorf)
+//                .station(schlieren)
+//                .create();
+
 //        getNodes().forEach(node -> node.updateY(node.getY() * -1));
 
     }

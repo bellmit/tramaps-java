@@ -13,7 +13,6 @@ import java.util.LinkedList;
 
 public class MetroMapEdgeBuilder {
 
-    private String name;
     private MetroMap map;
     private Route[] routes = new Route[1];
 

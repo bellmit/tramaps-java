@@ -101,7 +101,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     public void makeSpace() {
 
         Loggers.separator(this);
-        Loggers.info(this, "Start TRAMAPS AXIS algorithm");
+        Loggers.info(this, "Start TRAMAPS algorithm");
 
         Loggers.separator(this);
         Loggers.info(this, "Make space for edge and node signatures...");
