@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps.graph;
 
+import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
@@ -200,6 +201,12 @@ public class Node extends Observable implements GraphElement, NodePoint {
         point = GeomUtil.createPoint(x, y);
         setChanged();
         notifyObservers();
+    }
+
+    @HelperMethod
+    @SuppressWarnings("unused")
+    public void updatePosition(@NotNull MoveVector moveVector) {
+        updatePosition(GeomUtil.createMovePoint(toPoint(), moveVector).getCoordinate());
     }
 
     /**

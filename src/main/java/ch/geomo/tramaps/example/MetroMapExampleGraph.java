@@ -17,9 +17,9 @@ import java.util.function.Function;
 
 public class MetroMapExampleGraph extends MetroMap {
 
-    public MetroMapExampleGraph(double routeMargin, double edgeMargin) {
+    public MetroMapExampleGraph() {
 
-        super(routeMargin, edgeMargin, edgeMargin);
+        super(2, 25, 25);
 
         Function<Node, NodeSignature> signatureFunction = RectangleStationSignature::new;
 

@@ -16,20 +16,21 @@ import org.jetbrains.annotations.NotNull;
 
 public class MetroMap extends Graph {
 
+    private final ConflictFinder conflictFinder;
+
+    private final double routeMargin;
+    private final double edgeMargin;
+    private final double nodeMargin;
+
     private int bendCount = 0;
     private int crossingCount = 0;
     private int junctionCount = 0;
-
-    private double routeMargin;
-    private double edgeMargin;
-    private double nodeMargin;
-
-    private ConflictFinder conflictFinder;
 
     public MetroMap(double routeMargin, double edgeMargin, double nodeMargin) {
         super();
         this.routeMargin = routeMargin;
         this.edgeMargin = edgeMargin;
+        this.nodeMargin = nodeMargin;
         conflictFinder = new ConflictFinder(this, routeMargin, edgeMargin, nodeMargin);
     }
 

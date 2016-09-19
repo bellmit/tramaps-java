@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
-    private static final int MAX_ITERATIONS = 150;
+    private static final int MAX_ITERATIONS = 200;
 
     private final MetroMap map;
 
@@ -101,7 +101,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     public void makeSpace() {
 
         Loggers.separator(this);
-        Loggers.info(this, "Start TRAMAPS algorithm");
+        Loggers.info(this, "Start TRAMAPS AXIS algorithm");
 
         Loggers.separator(this);
         Loggers.info(this, "Make space for edge and node signatures...");

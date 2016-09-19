@@ -4,13 +4,12 @@
 
 package ch.geomo.tramaps;
 
+import ch.geomo.tramaps.example.MetroMapExampleGraph;
 import ch.geomo.tramaps.example.MetroMapZuerich;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.DisplaceLineSpaceHandler;
-import ch.geomo.tramaps.map.displacement.radius.DisplaceRadiusLineSpaceHandler;
-import ch.geomo.tramaps.map.displacement.scale.ScaleHandler;
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -26,7 +25,7 @@ import java.util.function.Supplier;
 
 public class MainApp extends Application {
 
-    private static final double MAX_HEIGHT = 650;
+    private static final double MAX_HEIGHT = 600;
     private static final double MAX_WIDTH = 1200;
 
     private MetroMap map;
@@ -43,12 +42,11 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Tramaps GUI");
 
-        //map = new MetroMapExampleGraph(5, 25);
-        map = new MetroMapZuerich();
+        map = new MetroMapExampleGraph();
+        //map = new MetroMapZuerich();
 
         //makeSpace(() -> new ScaleHandler(map));
         makeSpace(() -> new DisplaceLineSpaceHandler(map));
-        //makeSpace(() -> new DisplaceRadiusLineSpaceHandler(map));
 
         drawMetroMap();
 
@@ -69,7 +67,6 @@ public class MainApp extends Application {
         GraphicsContext context = canvas.getGraphicsContext2D();
 
         MetroMapDrawer drawer = new MetroMapDrawer(map, margin, scaleFactor);
-        //SimpleGraphDrawer drawer = new SimpleGraphDrawer(map, margin, factor);
         drawer.draw(context, bbox);
 
         // workaround: scaling is done when drawing otherwise an exception like:
@@ -87,12 +84,12 @@ public class MainApp extends Application {
         group.getChildren().add(canvas);
 
         ScrollPane scrollPane = new ScrollPane(group);
-        scrollPane.setPrefSize(300, 300);
+
+        Scene scene = new Scene(scrollPane, width + 5, height + 5);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setStyle("-fx-focus-color: transparent;");
 
-        Scene scene = new Scene(scrollPane, width + 5, height + 5);
         stage.setScene(scene);
         stage.setWidth(Math.min(MAX_WIDTH, width) + 5);
         stage.setResizable(false);
