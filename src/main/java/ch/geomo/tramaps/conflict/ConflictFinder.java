@@ -137,9 +137,9 @@ public class ConflictFinder {
     }
 
     @NotNull
-    public EnhancedList<Conflict> getConflicts() {
+    public EnhancedList<Conflict> getConflicts(double correctionFactor, boolean majorMisalignmentOnly) {
         return getBufferConflicts()
-                .union(getOctilinearConflicts(0.25, true))
+                .union(getOctilinearConflicts(correctionFactor, majorMisalignmentOnly))
                 .sortElements(CONFLICT_COMPARATOR);
     }
 

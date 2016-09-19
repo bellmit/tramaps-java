@@ -53,12 +53,30 @@ public class EdgeAdjuster {
         return edge.getNodeB();
     }
 
+    @HelperMethod
+    private double getAdjacentEdgeLength(@NotNull Node node) {
+        return node.getAdjacentEdges(edge)
+                .map(Edge::getLength)
+                .first()
+                .orElseThrow(IllegalStateException::new);
+    }
+
     public void correctEdge() {
 
         Loggers.info(this, "Correct edge {0}...", edge.getName());
 
         double scoreA = CostCalculator.calculate(edge, getNodeA(), new TraversedNodes());
         double scoreB = CostCalculator.calculate(edge, getNodeB(), new TraversedNodes());
+
+        if (scoreA == scoreB) {
+            // use node with a bigger length of his adjacent edge (more space for movements)
+            if (getAdjacentEdgeLength(getNodeA()) > getAdjacentEdgeLength(getNodeB())) {
+                scoreA++;
+            }
+            else {
+                scoreB++;
+            }
+        }
 
         Loggers.info(this, "Adjustment costs for adjacent nodes: {0}/{1}", scoreA, scoreB);
 

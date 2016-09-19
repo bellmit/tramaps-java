@@ -96,6 +96,10 @@ public class DirectionEvaluator {
                 }
                 return new MoveVector(0, -moveDistance);
             }
+            if (otherNode.isNorthOf(moveableNode)) {
+                return new MoveVector(0, -moveDistance);
+            }
+            return new MoveVector(0, moveDistance);
         }
         else if (directions.allMatch(Direction::isHorizontal)) {
             if (dx > dy) {
@@ -104,6 +108,10 @@ public class DirectionEvaluator {
                 }
                 return new MoveVector(-moveDistance, 0);
             }
+            if (otherNode.isEastOf(moveableNode)) {
+                return new MoveVector(-moveDistance, 0);
+            }
+            return new MoveVector(moveDistance, 0);
         }
         else if (directions.hasOneElement()) {
 

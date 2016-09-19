@@ -43,10 +43,6 @@ public enum Loggers {
         info(obj, MessageFormat.format(message, (Object[]) params), '*');
     }
 
-    public static void flag(@NotNull Object obj, @NotNull Object messageObj) {
-        info(obj, "Obj: " + messageObj.toString(), ' ');
-    }
-
     public static void separator(@NotNull Object obj) {
         info(obj, "==================================================================================================");
     }

@@ -23,7 +23,7 @@ public class DisplaceRadiusLineSpaceHandler implements LineSpaceHandler {
         this.map = map;
     }
 
-    private void makeSpace(int lastIteration, @Nullable Conflict lastConflict) {
+    private void makeSpace(int lastIteration) {
 
         int currentIteration = lastIteration + 1;
 
@@ -43,7 +43,7 @@ public class DisplaceRadiusLineSpaceHandler implements LineSpaceHandler {
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {
-                makeSpace(currentIteration, conflict);
+                makeSpace(currentIteration);
             }
 
         }
@@ -57,7 +57,7 @@ public class DisplaceRadiusLineSpaceHandler implements LineSpaceHandler {
     public void makeSpace() {
         Loggers.separator(this);
         Loggers.info(this, "Start DisplaceLineSpaceHandler algorithm");
-        makeSpace(0, null);
+        makeSpace(0);
         map.evaluateConflicts(true)
                 .forEach(conflict -> Loggers.warning(this, "Conflict " + conflict + " not solved!"));
     }

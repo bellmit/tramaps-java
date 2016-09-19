@@ -37,11 +37,11 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
                 .forEach(edge -> EdgeAdjuster.correctEdge(map, edge));
     }
 
-    private void makeSpace(int lastIteration, @Nullable Conflict lastConflict) {
+    private void makeSpace(int lastIteration, @Nullable Conflict lastConflict, double correctionFactor, boolean majorMisalignmentOnly) {
 
         int currentIteration = lastIteration + 1;
 
-        EnhancedList<Conflict> conflicts = map.evaluateConflicts(true);
+        EnhancedList<Conflict> conflicts = map.evaluateConflicts(true, correctionFactor, majorMisalignmentOnly);
 
         Loggers.separator(this);
         Loggers.info(this, "Start iteration: {0}", currentIteration);
@@ -65,11 +65,14 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             Loggers.info(this, "Handle conflict: {0}", conflict);
             NodeDisplacer.displace(map, conflict);
 
+            // try to move nodes to correct non-octilinear edges
+            correctNonOctilinearEdges();
+
             Loggers.warning(this, "Uncorrected non-octilinear edges found: {0}", map.countNonOctilinearEdges());
 
             // repeat as long as max iteration is not reached
             if (currentIteration < MAX_ITERATIONS) {
-                makeSpace(currentIteration, conflict);
+                makeSpace(currentIteration, conflict, correctionFactor, majorMisalignmentOnly);
             }
             else {
                 Loggers.separator(this);
@@ -92,21 +95,6 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     }
 
     /**
-     * Solves non-octilinear edges.
-     */
-    private void postOctilinearConflictSolver() {
-        // try to move nodes to correct non-octilinear edges
-        correctNonOctilinearEdges();
-        // displace nodes depending on remaining OctilinearConflict (smallest conflict)
-        EnhancedList<Conflict> octilinearConflicts = map.evaluateOctilinearConflicts(1, false);
-        if (!octilinearConflicts.isEmpty()) {
-            Loggers.info(this, "Solve octilinear conflict: {0}", octilinearConflicts.get(0));
-            NodeDisplacer.displace(map, octilinearConflicts.get(0));
-            postOctilinearConflictSolver();
-        }
-    }
-
-    /**
      * Makes space between edge and nodes if necessary.
      */
     @Override
@@ -115,11 +103,13 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.separator(this);
         Loggers.info(this, "Start TRAMAPS algorithm");
 
-        makeSpace(0, null);
+        Loggers.separator(this);
+        Loggers.info(this, "Make space for edge and node signatures...");
+        makeSpace(0, null, 0.25, true);
 
+        Loggers.separator(this);
         Loggers.info(this, "Restore octilinearity...");
-
-        postOctilinearConflictSolver();
+        makeSpace(0, null, 1, false);
 
         Loggers.separator(this);
         Loggers.info(this, getBoundingBoxString());

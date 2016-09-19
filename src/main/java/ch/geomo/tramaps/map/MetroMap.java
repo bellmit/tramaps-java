@@ -52,7 +52,16 @@ public class MetroMap extends Graph {
      */
     @NotNull
     public EnhancedList<Conflict> evaluateConflicts(boolean biggestConflictFirst) {
-        return conflictFinder.getConflicts()
+        return conflictFinder.getConflicts(0.25, true)
+                .reverseIf(() -> biggestConflictFirst);
+    }
+
+    /**
+     * @return a sorted {@link EnhancedList} of conflicts
+     */
+    @NotNull
+    public EnhancedList<Conflict> evaluateConflicts(boolean biggestConflictFirst, double correctionFactor, boolean majorMisalignmentOnly) {
+        return conflictFinder.getConflicts(correctionFactor, majorMisalignmentOnly)
                 .reverseIf(() -> biggestConflictFirst);
     }
 
