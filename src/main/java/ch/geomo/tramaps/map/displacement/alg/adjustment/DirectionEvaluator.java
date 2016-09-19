@@ -13,7 +13,10 @@ import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.doc.HelperMethod;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 
 public class DirectionEvaluator {
@@ -104,19 +107,24 @@ public class DirectionEvaluator {
         }
         else if (directions.hasOneElement()) {
 
-//            Direction adjacentEdgeDirection = moveableNode.getAdjacentEdges(connectionEdge)
-//                    .first()
-//                    .map(edge -> edge.getDirection(moveableNode))
-//                    .orElseThrow(IllegalStateException::new);
-//
-//            // only one edge can be corrected... if adjacent edge is already octilinear, no correction possible
-//            if (!adjacentEdgeDirection.isOctilinear()) {
-//                OctilinearDirection originalConnectionEdgeDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
-//                if (originalConnectionEdgeDirection.getAngle() == directions.get(0).opposite().getAngle()) {
-//                    // treat like a single node
-//                    return evaluateSingleNodeDirection(moveableNode, connectionEdge);
-//                }
-//            }
+            Edge adjacentEdge = moveableNode.getAdjacentEdges(connectionEdge)
+                    .first()
+                    .orElseThrow(IllegalStateException::new);
+            Direction adjacentEdgeDirection = adjacentEdge.getDirection(moveableNode);
+
+            // future improvement: analyse if we could either ease the layout to improve quality or if we
+            // could correct that node but which may not help since always one edge will remain
+            // non-octilinear. furthermore it may decrease the quality depending on the new angle of the edge
+            if (!adjacentEdgeDirection.isOctilinear()) {
+                OctilinearDirection originalConnectionEdgeDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
+                if (originalConnectionEdgeDirection.getAngle() == directions.get(0).opposite().getAngle()) {
+                    // ease layout (no full correction)
+                    // LineString line = GeomUtil.createLineString(connectionEdge.getOtherNode(moveableNode), adjacentEdge.getOtherNode(moveableNode));
+                    // Point centroid = line.getCentroid();
+                    // return new MoveVector(moveableNode.getPoint(), centroid);
+                    return new MoveVector(0, 0);
+                }
+            }
 
         }
 

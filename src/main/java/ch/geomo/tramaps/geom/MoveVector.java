@@ -6,7 +6,10 @@ package ch.geomo.tramaps.geom;
 
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
+import ch.geomo.util.geom.point.NodePoint;
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +30,14 @@ public class MoveVector extends Vector2D {
 
     public MoveVector(double x, double y) {
         super(x, y);
+    }
+
+    public MoveVector(@NotNull Point from, @NotNull Point to) {
+        this(from.getCoordinate(), to.getCoordinate());
+    }
+
+    public MoveVector(@NotNull Coordinate from, @NotNull Coordinate to) {
+        super(from, to);
     }
 
     public MoveVector(@NotNull Vector2D vector) {
