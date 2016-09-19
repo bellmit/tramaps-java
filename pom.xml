@@ -25,7 +25,7 @@
     <supercsv-version>2.4.0</supercsv-version>
     <apache-math.version>3.6.1</apache-math.version>
     <!-- update to 1.14 as soon as maven repo available -->
-    <jts-version>1.13</jts-version>
+    <!-- <jts-version>1.13</jts-version> -->
 
   </properties>
 

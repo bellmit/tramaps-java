@@ -8,18 +8,17 @@ import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
-import ch.geomo.util.doc.HelperMethod;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.EAST;
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
+import static ch.geomo.tramaps.graph.direction.OctilinearDirection.EAST;
+import static ch.geomo.tramaps.graph.direction.OctilinearDirection.NORTH;
 
 /**
  * Displace nodes based on the given {@link BufferConflict}.
@@ -40,7 +39,7 @@ public class NodeDisplacer {
     /**
      * @return true if given direction is equals to the displace direction
      */
-    @HelperMethod
+
     private boolean isDisplaceDirection(@NotNull OctilinearDirection direction) {
         return displaceDirection == direction;
     }
@@ -61,7 +60,7 @@ public class NodeDisplacer {
             }
             Edge connectionEdge = connectionEdges.first().orElse(null);
             if (connectionEdge == null) {
-                Contracts.fail("Should never happen since this node has a connection edge!");
+                throw new IllegalStateException("Should never happen since this node has a connection edge!");
             }
             Node otherNode = connectionEdge.getOtherNode(node);
             if (isSimpleConnectionEdgeNode(node, connectionEdge)) {
@@ -78,7 +77,7 @@ public class NodeDisplacer {
     /**
      * @return true if given node is simple to move
      */
-    @HelperMethod
+
     private boolean isSimpleConnectionEdgeNode(@NotNull Node node, @NotNull Edge connectionEdge) {
         return node.getAdjacentEdges().stream()
                 .filter(connectionEdge::isNotEquals)
@@ -94,7 +93,7 @@ public class NodeDisplacer {
     /**
      * @return if node is displaceable considering displace direction
      */
-    @HelperMethod
+
     @SuppressWarnings("unused")
     private boolean isDisplaceable(@NotNull Node node) {
         if (isDisplaceDirection(NORTH)) {
@@ -155,7 +154,7 @@ public class NodeDisplacer {
      *
      * @see NodeDisplacer#displace()
      */
-    @HelperMethod
+
     public static void displace(@NotNull MetroMap map, @NotNull Conflict conflict) {
         new NodeDisplacer(map, conflict).displace();
     }
@@ -163,7 +162,7 @@ public class NodeDisplacer {
     /**
      * @return if node is north or east of {@link Conflict#getDisplaceOriginPoint()} depending on displace direction
      */
-    @HelperMethod
+
     @SuppressWarnings("unused")
     private boolean isOnDisplaceSide(@NotNull Node node) {
         Coordinate displaceOriginPoint = conflict.getDisplaceOriginPoint();
@@ -176,7 +175,7 @@ public class NodeDisplacer {
     /**
      * @return true if given edge is a connection edge
      */
-    @HelperMethod
+
     private boolean isConnectionEdge(@NotNull Edge edge) {
         Coordinate displaceOriginPoint = conflict.getDisplaceOriginPoint();
         if (isDisplaceDirection(NORTH)) {
@@ -190,7 +189,7 @@ public class NodeDisplacer {
     /**
      * @return true if given node has at least one adjacent connection edge
      */
-    @HelperMethod
+
     private boolean hasConnectionEdge(@NotNull Node node) {
         return node.getAdjacentEdges().anyMatch(this::isConnectionEdge);
     }
@@ -199,7 +198,7 @@ public class NodeDisplacer {
      * @return a set of connection edges
      */
     @NotNull
-    @HelperMethod
+
     private EnhancedSet<Edge> getConnectionEdges(@NotNull Node node) {
         return node.getAdjacentEdges(this::isConnectionEdge);
     }

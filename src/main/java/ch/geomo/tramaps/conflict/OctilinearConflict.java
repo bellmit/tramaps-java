@@ -5,8 +5,8 @@
 package ch.geomo.tramaps.conflict;
 
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.tramaps.geom.Axis;
-import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.util.geom.Axis;
+import ch.geomo.util.math.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.util.collection.pair.Pair;

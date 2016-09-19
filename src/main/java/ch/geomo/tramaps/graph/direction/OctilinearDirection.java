@@ -2,9 +2,9 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.graph.util;
+package ch.geomo.tramaps.graph.direction;
 
-import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.util.math.MoveVector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,25 +35,8 @@ public enum OctilinearDirection implements Direction {
     }
 
     @NotNull
-    @SuppressWarnings("unused")
     public MoveVector getVector() {
         return vector;
-    }
-
-    public boolean isEastwards() {
-        return vector.getX() == 1;
-    }
-
-    public boolean isNorthwards() {
-        return vector.getY() == 1;
-    }
-
-    public boolean isSouthwards() {
-        return vector.getY() == -1;
-    }
-
-    public boolean isWestwards() {
-        return vector.getX() == -1;
     }
 
     @Override
@@ -66,16 +49,6 @@ public enum OctilinearDirection implements Direction {
         return this == NORTH || this == SOUTH;
     }
 
-    @SuppressWarnings("unused")
-    public boolean isDiagonal45() {
-        return (isNorthwards() && isEastwards()) || (isSouthwards() && isWestwards());
-    }
-
-    @SuppressWarnings("unused")
-    public boolean isDiagonal135() {
-        return (isNorthwards() && isWestwards()) || (isSouthwards() && isEastwards());
-    }
-
     /**
      * Returns the closest octilinear direction for this direction. Since
      * this implementation set {@link Direction} is always octilinear, the
@@ -85,9 +58,8 @@ public enum OctilinearDirection implements Direction {
      */
     @NotNull
     @Override
-    @Contract(value = "->!null")
     public OctilinearDirection toOctilinear() {
-        return this; // just satisfying interface :-)
+        return this;
     }
 
     @NotNull
@@ -142,9 +114,10 @@ public enum OctilinearDirection implements Direction {
                 return EAST;
             case NORTH_WEST:
                 return SOUTH_EAST;
-            default:
+            case NORTH:
                 return SOUTH;
         }
+        throw new IllegalStateException("Should never reach this point.");
     }
 
 }

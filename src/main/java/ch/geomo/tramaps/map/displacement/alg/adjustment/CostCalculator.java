@@ -6,7 +6,7 @@ package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.tramaps.graph.direction.Direction;
 import ch.geomo.tramaps.map.displacement.alg.TraversedNodes;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;

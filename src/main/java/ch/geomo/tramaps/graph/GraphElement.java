@@ -4,12 +4,9 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.util.doc.HelperMethod;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents a {@link Node} or an {@link Edge} set a {@link Graph}.
@@ -19,7 +16,6 @@ public interface GraphElement {
     /**
      * @return true if given {@link GraphElement} is adjacent to this {@link GraphElement}
      */
-    @HelperMethod
     default boolean isAdjacent(@NotNull GraphElement element) {
         if (element instanceof Edge) {
             return isAdjacent((Edge) element);
@@ -30,7 +26,6 @@ public interface GraphElement {
         return false;
     }
 
-    @HelperMethod
     default boolean isNotAdjacent(@NotNull GraphElement edge) {
         return !isAdjacent(edge);
     }

@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.geom;
+package ch.geomo.util.geom;
 
 /**
  * Represents an axis in a 2D cartesian coordinate system.

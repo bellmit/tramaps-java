@@ -4,6 +4,7 @@
 
 package ch.geomo.util.geom.point;
 
+import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.Contract;
@@ -73,6 +74,14 @@ public interface NodePoint {
             return null;
         }
         return NodePoint.of(point.getX(), point.getY());
+    }
+
+    static double calculateAngle(NodePoint nodeA, NodePoint nodeB) {
+        double angle = GeomUtil.getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX(), nodeA.getY() + 5d), nodeB);
+        if (angle < 0) {
+            angle = (angle + 360) % 360;
+        }
+        return Math.abs(angle);
     }
 
 }

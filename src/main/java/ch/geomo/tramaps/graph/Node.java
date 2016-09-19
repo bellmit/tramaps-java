@@ -4,13 +4,12 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
-import ch.geomo.util.doc.HelperMethod;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.point.NodePoint;
+import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
@@ -114,7 +113,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * @return the adjacent edge shared with this node and the given node or null if they are not adjacent
      */
     @Nullable
-    @HelperMethod
     public Edge getAdjacentEdgeWith(@NotNull Node otherNode) {
         return adjacentEdges.filter(edge -> edge.isAdjacent(this) && edge.isAdjacent(otherNode)).first().orElse(null);
     }
@@ -123,7 +121,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * @return an {@link EnhancedSet} of all adjacent edges <b>without the given edge</b>
      */
     @NotNull
-    @HelperMethod
     public EnhancedSet<Edge> getAdjacentEdges(@NotNull Edge without) {
         return adjacentEdges.without(without::equals);
     }
@@ -132,7 +129,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * @return an {@link EnhancedSet} of all adjacent edges <b>matching given {@link Predicate}</b>
      */
     @NotNull
-    @HelperMethod
     public EnhancedSet<Edge> getAdjacentEdges(@NotNull Predicate<Edge> predicate) {
         return adjacentEdges.filter(predicate);
     }
@@ -140,7 +136,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     /**
      * @return if given edge is an adjacent edge of this node
      */
-    @HelperMethod
+
     @SuppressWarnings("unused")
     public boolean hasAdjacentEdge(@NotNull Edge edge) {
         return adjacentEdges.anyMatch(edge::equals);
@@ -203,7 +199,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
         notifyObservers();
     }
 
-    @HelperMethod
     @SuppressWarnings("unused")
     public void updatePosition(@NotNull MoveVector moveVector) {
         updatePosition(GeomUtil.createMovePoint(toPoint(), moveVector).getCoordinate());
@@ -212,7 +207,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     /**
      * @see #updatePosition(double, double)
      */
-    @HelperMethod
+
     public void updatePosition(@NotNull Coordinate coordinate) {
         updatePosition(coordinate.x, coordinate.y);
     }
@@ -255,7 +250,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
      * @see #toPoint() if you need a new instance
      */
     @NotNull
-    @HelperMethod
     public Point getPoint() {
         return point;
     }
@@ -306,48 +300,39 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return adjacentEdges.size();
     }
 
-    @HelperMethod
-    public boolean isSouthOf(Coordinate coordinate) {
+    public boolean isSouthOf(@NotNull Coordinate coordinate) {
         return getY() < coordinate.y;
     }
 
-    @HelperMethod
-    public boolean isSouthOf(Node node) {
+    public boolean isSouthOf(@NotNull Node node) {
         return isSouthOf(node.getCoordinate());
     }
 
-    @HelperMethod
-    public boolean isNorthOf(Coordinate coordinate) {
+    public boolean isNorthOf(@NotNull Coordinate coordinate) {
         return getY() > coordinate.y;
     }
 
-    @HelperMethod
-    public boolean isNorthOf(Node node) {
+    public boolean isNorthOf(@NotNull Node node) {
         return isNorthOf(node.getCoordinate());
     }
 
-    @HelperMethod
-    public boolean isEastOf(Coordinate coordinate) {
+    public boolean isEastOf(@NotNull Coordinate coordinate) {
         return getX() > coordinate.x;
     }
 
-    @HelperMethod
-    public boolean isEastOf(Node node) {
+    public boolean isEastOf(@NotNull Node node) {
         return isEastOf(node.getCoordinate());
     }
 
-    @HelperMethod
-    public boolean isWestOf(Coordinate coordinate) {
+    public boolean isWestOf(@NotNull Coordinate coordinate) {
         return getX() < coordinate.x;
     }
 
-    @HelperMethod
     @SuppressWarnings("unused")
-    public boolean isWestOf(Node node) {
+    public boolean isWestOf(@NotNull Node node) {
         return isWestOf(node.getCoordinate());
     }
 
-    @HelperMethod
     @Contract("null -> true")
     public boolean isNotEquals(@Nullable Node node) {
         return node == null || !equals(node);
@@ -371,7 +356,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     @Override
     public String toString() {
-        return "Node[" + name + "(" + getX() + "/" + getY() + ")]";
+        return "Node: {" + name + "(" + getX() + "/" + getY() + ")}";
     }
 
 }

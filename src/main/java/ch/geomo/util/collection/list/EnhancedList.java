@@ -4,8 +4,8 @@
 
 package ch.geomo.util.collection.list;
 
-import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.collection.set.EnhancedSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -30,7 +30,9 @@ public interface EnhancedList<E> extends List<E> {
     Pair<EnhancedList<E>> diff(@NotNull Collection<E> list);
 
     boolean anyMatch(@NotNull Predicate<E> predicate);
+
     boolean allMatch(@NotNull Predicate<E> predicate);
+
     boolean noneMatch(@NotNull Predicate<E> predicate);
 
     boolean contains(@NotNull Collection<E> list);
@@ -41,6 +43,7 @@ public interface EnhancedList<E> extends List<E> {
     Optional<E> first();
 
     boolean hasOneElement();
+
     boolean hasMoreThanOneElement();
 
     @NotNull

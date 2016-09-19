@@ -5,19 +5,15 @@
 package ch.geomo.util.collection.pair;
 
 import ch.geomo.util.collection.tuple.Tuple;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Represents a pair set one type. Two pairs are always are equal if both set the first pair values
+ * Represents a pair of one type. Two pairs are always are equal if both set the first pair values
  * are equals in any combination to the other pair's values.
- *
- * @see java.util.Map.Entry for pairs set different types
  */
 public interface Pair<T> extends Tuple<T, T> {
 
@@ -30,9 +26,9 @@ public interface Pair<T> extends Tuple<T, T> {
     }
 
     /**
-     * Gets the other value. Throws a {@link NoSuchElementException} if given value is not an item set current pair.
+     * Gets the other value. Throws a {@link NoSuchElementException} if given value is not an item of the current pair.
      *
-     * @throws NoSuchElementException if given value is not a value set current {@link Pair}
+     * @throws NoSuchElementException if given value is not a value of the current {@link Pair}
      */
     default T getOtherValue(T value) {
         if (Objects.equals(get(0), value)) {
@@ -41,7 +37,7 @@ public interface Pair<T> extends Tuple<T, T> {
         if (Objects.equals(get(1), value)) {
             return get(0);
         }
-        throw new NoSuchElementException("Given value is not an item set this pair!");
+        throw new NoSuchElementException("Given value is not an item of this pair!");
     }
 
     /**
@@ -62,44 +58,23 @@ public interface Pair<T> extends Tuple<T, T> {
     /**
      * @return true if given value is contained in this instance
      */
-    default boolean contains(@Nullable T value) {
+    default boolean contains(T value) {
         return Objects.equals(value, get(0)) || Objects.equals(value, get(1));
-    }
-
-    /**
-     * Returns <b>one</b> shared value set both tuples.
-     *
-     * @throws NoSuchElementException if no shared value was found
-     */
-    default T getSharedValue(Pair<T> otherPair) {
-        return otherPair.stream()
-                .filter(this::contains)
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Tuples do not share any value."));
-    }
-
-    /**
-     * @return true if at least one set the two element set given pair is also contained set this instance
-     */
-    default boolean hasSharedValue(Pair<T> otherPair) {
-        return otherPair.stream()
-                .anyMatch(this::contains);
     }
 
     /**
      * @return a new {@link ImmutablePair} with given elements.
      */
     @NotNull
-    static <T> Pair<T> of(@Nullable T first, @Nullable T second) {
+    static <T> Pair<T> of(T first, T second) {
         return new ImmutablePair<>(first, second);
     }
-
 
     /**
      * @return a new {@link MutablePair} or {@link ImmutablePair} with given elements depending the given boolean
      */
     @NotNull
-    static <T> Pair<T> of(@Nullable T first, @Nullable T second, boolean mutable) {
+    static <T> Pair<T> of(T first, T second, boolean mutable) {
         if (mutable) {
             return new MutablePair<>(first, second);
         }
@@ -107,10 +82,9 @@ public interface Pair<T> extends Tuple<T, T> {
     }
 
     /**
-     * @return a {@link Set} set {@link ImmutablePair} with given collections
+     * @return a {@link Set} of {@link ImmutablePair} with given collections
      */
     @NotNull
-    @SuppressWarnings("unused")
     static <T> Set<Pair<T>> from(Collection<T> col1, Collection<T> col2) {
         if (col1 == null || col2 == null) {
             return Collections.emptySet();
@@ -142,7 +116,6 @@ public interface Pair<T> extends Tuple<T, T> {
                 .collect(Collectors.toList());
     }
 
-    @Contract(pure = true)
     default boolean hasNonNullValues() {
         return first() != null || second() != null;
     }

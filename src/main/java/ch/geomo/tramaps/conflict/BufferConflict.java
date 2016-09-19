@@ -5,13 +5,12 @@
 package ch.geomo.tramaps.conflict;
 
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.PolygonUtil;
+import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
@@ -22,8 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-import static ch.geomo.tramaps.geom.Axis.X;
-import static ch.geomo.tramaps.geom.Axis.Y;
+import static ch.geomo.util.geom.Axis.X;
+import static ch.geomo.util.geom.Axis.Y;
 
 public class BufferConflict extends AbstractConflict {
 
@@ -120,9 +119,6 @@ public class BufferConflict extends AbstractConflict {
                 initEdgeEdgeConflict();
                 break;
             }
-            default: {
-                Contracts.fail();
-            }
         }
 
         if (conflictPolygon.isEmpty()) {
@@ -162,9 +158,6 @@ public class BufferConflict extends AbstractConflict {
 
                 break;
 
-            }
-            default: {
-                Contracts.fail();
             }
         }
 
@@ -227,7 +220,7 @@ public class BufferConflict extends AbstractConflict {
     private void initNodeNodeConflict(@NotNull Node node1, @NotNull Node node2) {
 
         if (node1.getX() == node2.getX() && node1.getY() == node2.getY()) {
-            Contracts.fail("Both conflict nodes has equal position. Please check input data!");
+            throw new IllegalStateException("Both conflict nodes has equal position. Please check input data!");
         }
 
         double dx = Math.abs(node1.getX() - node2.getX());

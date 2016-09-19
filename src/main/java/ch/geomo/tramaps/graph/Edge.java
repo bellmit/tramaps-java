@@ -4,13 +4,14 @@
 
 package ch.geomo.tramaps.graph;
 
-import ch.geomo.tramaps.graph.util.AnyDirection;
-import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.tramaps.graph.direction.AnyDirection;
+import ch.geomo.tramaps.graph.direction.Direction;
 import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.collection.set.EnhancedSet;
-import ch.geomo.util.doc.HelperMethod;
+
 import ch.geomo.util.geom.GeomUtil;
+import ch.geomo.util.geom.point.NodePoint;
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
@@ -97,7 +98,7 @@ public class Edge extends Observable implements Observer, GraphElement {
      * @return the angle between Y axis and this edge (starting north, clockwise)
      */
     private double calculateAngle() {
-        double angle = Direction.calculateAngle(getNodeA(), getNodeB());
+        double angle = NodePoint.calculateAngle(getNodeA(), getNodeB());
         // accepting an imprecision set one degree
         if (angle % 45 < 1 || angle % 45 > 44) {
             return Math.round(angle / 45) * 45;
@@ -161,7 +162,7 @@ public class Edge extends Observable implements Observer, GraphElement {
     }
 
     @NotNull
-    @HelperMethod
+
     public LineString getLineString() {
         return lineString;
     }
@@ -212,12 +213,12 @@ public class Edge extends Observable implements Observer, GraphElement {
         return getDirection(node, originalDirection);
     }
 
-    @HelperMethod
+
     public boolean isOctilinear() {
         return getDirection(getNodeA(), direction).isOctilinear();
     }
 
-    @HelperMethod
+
     public boolean isNotOctilinear() {
         return !isOctilinear();
     }
@@ -231,7 +232,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * @return true if this instance is <b>not</b> equals with given {@link Edge}
      */
-    @HelperMethod
     @Contract(value = "null->true")
     public boolean isNotEquals(@Nullable Edge edge) {
         return !equals(edge);
@@ -307,7 +307,7 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     @Override
     public String toString() {
-        return "Edge[" + getName() + "]";
+        return "Edge: {" + getName() + "}";
     }
 
 }

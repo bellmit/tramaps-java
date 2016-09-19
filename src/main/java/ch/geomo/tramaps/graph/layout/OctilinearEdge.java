@@ -4,11 +4,11 @@
 
 package ch.geomo.tramaps.graph.layout;
 
-import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.util.collection.pair.MutablePair;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import org.jetbrains.annotations.NotNull;

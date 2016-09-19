@@ -5,7 +5,7 @@
 package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.conflict.ConflictFinder;
-import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.util.math.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
@@ -14,7 +14,7 @@ import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.alg.TraversedNodes;
 import ch.geomo.util.collection.pair.Pair;
-import ch.geomo.util.doc.HelperMethod;
+
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Point;
@@ -42,18 +42,18 @@ public class EdgeAdjuster {
     }
 
     @NotNull
-    @HelperMethod
+
     private Node getNodeA() {
         return edge.getNodeA();
     }
 
     @NotNull
-    @HelperMethod
+
     private Node getNodeB() {
         return edge.getNodeB();
     }
 
-    @HelperMethod
+
     private double getAdjacentEdgeLength(@NotNull Node node) {
         return node.getAdjacentEdges(edge)
                 .map(Edge::getLength)

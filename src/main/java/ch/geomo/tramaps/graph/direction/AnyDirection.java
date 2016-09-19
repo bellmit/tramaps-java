@@ -2,9 +2,8 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.graph.util;
+package ch.geomo.tramaps.graph.direction;
 
-import ch.geomo.util.Contracts;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -49,7 +48,6 @@ public class AnyDirection implements Direction {
         else {
             direction = fromAngle(angle + (45 - diff));
         }
-        Contracts.test(direction, OctilinearDirection::isOctilinear, () -> "Direction " + direction + " is not octilinear!");
         return direction.toOctilinear();
     }
 
@@ -64,7 +62,6 @@ public class AnyDirection implements Direction {
         else {
             direction = fromAngle(angle + (90 - diff));
         }
-        Contracts.test(direction, OctilinearDirection::isOctilinear, () -> "Direction " + direction + " is not octilinear!");
         return direction.toOctilinear();
     }
 
@@ -96,7 +93,8 @@ public class AnyDirection implements Direction {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof AnyDirection && angle == ((AnyDirection) obj).getAngle();
+        return obj instanceof AnyDirection
+                && angle == ((AnyDirection) obj).getAngle();
     }
 
     @Override
@@ -106,7 +104,7 @@ public class AnyDirection implements Direction {
 
     @Override
     public String toString() {
-        return angle + " degree";
+        return "AnyDirection: {" + angle + " degree}";
     }
 
 }

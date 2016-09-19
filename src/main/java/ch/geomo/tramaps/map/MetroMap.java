@@ -11,7 +11,7 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.collection.list.EnhancedList;
-import ch.geomo.util.doc.HelperMethod;
+
 import org.jetbrains.annotations.NotNull;
 
 public class MetroMap extends Graph {
@@ -75,7 +75,7 @@ public class MetroMap extends Graph {
                 .reverseIf(() -> biggestConflictFirst);
     }
 
-    @HelperMethod
+
     public long countNonOctilinearEdges() {
         return getEdges().stream()
                 .filter(Edge::isNotOctilinear)

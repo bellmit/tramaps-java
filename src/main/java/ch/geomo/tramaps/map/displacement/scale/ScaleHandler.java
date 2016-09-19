@@ -6,7 +6,7 @@ package ch.geomo.tramaps.map.displacement.scale;
 
 import ch.geomo.tramaps.conflict.Conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.tramaps.geom.Axis;
+import ch.geomo.util.geom.Axis;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.util.collection.list.EnhancedList;

@@ -4,19 +4,16 @@
 
 package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
-import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.util.math.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.tramaps.graph.direction.Direction;
 import ch.geomo.tramaps.graph.util.GraphUtil;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
-import ch.geomo.util.doc.HelperMethod;
-import ch.geomo.util.geom.GeomUtil;
+
 import ch.geomo.util.logging.Loggers;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 
 public class DirectionEvaluator {
@@ -69,7 +66,7 @@ public class DirectionEvaluator {
     }
 
     @NotNull
-    @HelperMethod
+
     private EnhancedList<OctilinearDirection> getAdjacentEdgeDirections(@NotNull Node node, @NotNull Edge connectionEdge) {
         return node.getAdjacentEdges().stream()
                 .filter(connectionEdge::isNotEquals)

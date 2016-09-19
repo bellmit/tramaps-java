@@ -7,7 +7,7 @@ package ch.geomo.tramaps.graph;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
-import ch.geomo.util.doc.HelperMethod;
+
 import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -71,13 +71,11 @@ public class Graph {
     }
 
     @NotNull
-    @HelperMethod
     private EnhancedSet<Geometry> getEdgeGeometries() {
         return GSet.createSet(getEdgeCache().map(Edge::getLineString));
     }
 
     @NotNull
-    @HelperMethod
     private EnhancedSet<Geometry> getNodeSignatureGeometries() {
         return GSet.createSet(nodes.stream()
                 .map(Node::getNodeSignature)
@@ -100,7 +98,6 @@ public class Graph {
      *
      * @return the created node
      */
-    @HelperMethod
     public Node createNode(double x, double y, @NotNull String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         Node node = new Node(name, x, y, nodeSignatureFactory);
         addNodes(node);
@@ -112,7 +109,6 @@ public class Graph {
      *
      * @return the created edge
      */
-    @HelperMethod
     public Edge createEdge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
         Edge edge = new Edge(nodeA, nodeB, routes);
         clearCache();

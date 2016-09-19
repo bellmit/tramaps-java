@@ -6,7 +6,7 @@ package ch.geomo.tramaps.graph.layout;
 
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
@@ -14,7 +14,7 @@ import ch.geomo.util.collection.pair.MutablePair;
 import ch.geomo.util.logging.Loggers;
 import org.jetbrains.annotations.NotNull;
 
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
+import static ch.geomo.tramaps.graph.direction.OctilinearDirection.*;
 
 public class OctilinearEdgeBuilder {
 

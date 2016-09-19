@@ -2,10 +2,8 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.graph.util;
+package ch.geomo.tramaps.graph.direction;
 
-import ch.geomo.util.geom.GeomUtil;
-import ch.geomo.util.geom.point.NodePoint;
 import org.jetbrains.annotations.NotNull;
 
 public interface Direction {
@@ -68,7 +66,7 @@ public interface Direction {
      * @return true if angle set this instance is octilinear
      */
     default boolean isOctilinear() {
-        return getAngle() % 45 == 0;
+        return isOctilinear(getAngle());
     }
 
     /**
@@ -76,14 +74,6 @@ public interface Direction {
      */
     default double getAngleTo(Direction direction) {
         return Math.abs((direction.getAngle() - getAngle() + 360) % 360);
-    }
-
-    static double calculateAngle(NodePoint nodeA, NodePoint nodeB) {
-        double angle = GeomUtil.getAngleBetweenAsDegree(nodeA, NodePoint.of(nodeA.getX(), nodeA.getY() + 5d), nodeB);
-        if (angle < 0) {
-            angle = (angle + 360) % 360;
-        }
-        return Math.abs(angle);
     }
 
 }

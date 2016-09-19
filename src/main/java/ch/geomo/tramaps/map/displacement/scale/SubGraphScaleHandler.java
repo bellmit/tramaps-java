@@ -15,7 +15,7 @@ public class SubGraphScaleHandler implements LineSpaceHandler {
     private ScaleHandler scaleHandler;
 
     public SubGraphScaleHandler() {
-        this.scaleHandler = new ScaleHandler(null);
+        scaleHandler = new ScaleHandler(null);
     }
 
     @Override

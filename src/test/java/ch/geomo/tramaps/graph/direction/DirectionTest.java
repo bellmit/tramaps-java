@@ -2,12 +2,12 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.graph.util;
+package ch.geomo.tramaps.graph.direction;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
+import static ch.geomo.tramaps.graph.direction.OctilinearDirection.*;
 
 public class DirectionTest {
 

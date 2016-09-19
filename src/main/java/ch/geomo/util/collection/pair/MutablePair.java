@@ -4,6 +4,7 @@
 
 package ch.geomo.util.collection.pair;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -57,7 +58,10 @@ public class MutablePair<T> extends AbstractPair<T> {
 
     }
 
-    public void replaceValues(Pair<T> pair) {
+    /**
+     * Replaces values with values of the given pair.
+     */
+    public void replaceValues(@NotNull Pair<T> pair) {
         first = pair.first();
         second = pair.second();
     }
@@ -77,11 +81,6 @@ public class MutablePair<T> extends AbstractPair<T> {
     public void clear() {
         first = null;
         second = null;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + first + ", " + second + "]";
     }
 
 }

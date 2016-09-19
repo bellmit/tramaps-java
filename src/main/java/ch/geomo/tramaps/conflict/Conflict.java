@@ -5,11 +5,11 @@
 package ch.geomo.tramaps.conflict;
 
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.tramaps.geom.Axis;
-import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.util.geom.Axis;
+import ch.geomo.util.math.MoveVector;
 import ch.geomo.tramaps.graph.GraphElement;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
-import ch.geomo.util.doc.HelperMethod;
+import ch.geomo.tramaps.graph.direction.OctilinearDirection;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,13 +69,13 @@ public interface Conflict extends Comparable<Conflict> {
     /**
      * @return true if this {@link Conflict} has <b>not</b> been solved meanwhile
      */
-    @HelperMethod
+
     boolean isNotSolved();
 
     /**
      * @return true if this {@link Conflict} has been solved meanwhile
      */
-    @HelperMethod
+
     boolean isSolved();
 
     /**

@@ -6,14 +6,13 @@ package ch.geomo.tramaps.conflict;
 
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.conflict.buffer.ElementBufferPair;
-import ch.geomo.tramaps.geom.Axis;
-import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.graph.util.OctilinearDirection;
+import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.util.collection.pair.Pair;
-import ch.geomo.util.doc.HelperMethod;
+import ch.geomo.util.geom.Axis;
+import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.conflict.ConflictFinder.CONFLICT_COMPARATOR;
-import static ch.geomo.tramaps.geom.Axis.X;
+import static ch.geomo.util.geom.Axis.X;
 
 public abstract class AbstractConflict implements Conflict {
 
@@ -157,13 +156,11 @@ public abstract class AbstractConflict implements Conflict {
         return Math.ceil(Math.abs(projection.getSecond().length()));
     }
 
-    @HelperMethod
     private boolean isConflictElement(@NotNull GraphElement graphElement) {
         return graphElement.equals(getBufferA().getElement())
                 || graphElement.equals(getBufferB().getElement());
     }
 
-    @HelperMethod
     private boolean isAdjacentToConflictElement(@NotNull GraphElement graphElement) {
         return graphElement.isAdjacent(getBufferA().getElement())
                 || graphElement.isAdjacent(getBufferB().getElement());

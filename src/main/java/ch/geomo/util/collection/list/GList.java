@@ -4,9 +4,9 @@
 
 package ch.geomo.util.collection.list;
 
+import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
-import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -234,7 +234,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     @Override
     @SuppressWarnings("unchecked")
     public E[] toArray() {
-        return (E[])super.toArray();
+        return (E[]) super.toArray();
     }
 
     @NotNull

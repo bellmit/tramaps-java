@@ -4,8 +4,6 @@
 
 package ch.geomo.util.collection.pair;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
 
 public abstract class AbstractPair<T> implements Pair<T> {
@@ -16,25 +14,23 @@ public abstract class AbstractPair<T> implements Pair<T> {
     public AbstractPair() {
     }
 
-    public AbstractPair(@Nullable Pair<T> pair) {
+    public AbstractPair(Pair<T> pair) {
         if (pair != null) {
             first = pair.getFirst();
             second = pair.getSecond();
         }
     }
 
-    public AbstractPair(@Nullable T first, @Nullable T second) {
+    public AbstractPair(T first, T second) {
         this.first = first;
         this.second = second;
     }
 
-    @Nullable
     @Override
     public T getFirst() {
         return first;
     }
 
-    @Nullable
     @Override
     public T getSecond() {
         return second;
@@ -50,6 +46,11 @@ public abstract class AbstractPair<T> implements Pair<T> {
     @Override
     public int hashCode() {
         return Objects.hash(first, second);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ": {" + first + ", " + second + "}";
     }
 
 }

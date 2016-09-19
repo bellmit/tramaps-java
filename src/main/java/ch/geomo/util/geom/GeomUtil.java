@@ -4,7 +4,7 @@
 
 package ch.geomo.util.geom;
 
-import ch.geomo.tramaps.geom.MoveVector;
+import ch.geomo.util.math.MoveVector;
 import ch.geomo.util.geom.point.NodePoint;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;

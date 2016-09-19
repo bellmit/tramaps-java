@@ -11,7 +11,7 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.EdgeAdjuster;
 import ch.geomo.util.collection.list.EnhancedList;
-import ch.geomo.util.doc.HelperMethod;
+
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Envelope;
 import org.jetbrains.annotations.NotNull;
@@ -88,7 +88,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     }
 
     @NotNull
-    @HelperMethod
+
     private String getBoundingBoxString() {
         Envelope mapBoundingBox = map.getBoundingBox();
         return "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight());

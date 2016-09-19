@@ -200,7 +200,7 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
     @Override
     @SuppressWarnings("unchecked")
     public E[] toArray() {
-        return (E[])super.toArray();
+        return (E[]) super.toArray();
     }
 
     @NotNull

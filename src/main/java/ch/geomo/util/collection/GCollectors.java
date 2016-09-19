@@ -18,6 +18,7 @@ import java.util.stream.Collector;
  * Provides {@link Collector} implementations for {@link EnhancedList} and {@link EnhancedSet}.
  */
 public enum GCollectors {
+
     ;
 
     @NotNull
