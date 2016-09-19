@@ -78,11 +78,13 @@ public class OctilinearConflict extends AbstractConflict {
 
     @Override
     public double getDisplaceDistanceAlongX() {
+        // in order to solve conflict when using correctionFactor=1, distance should not be rounded
         return Math.abs(projection.getFirst().length());
     }
 
     @Override
     public double getDisplaceDistanceAlongY() {
+        // in order to solve conflict when using correctionFactor=1, distance should not be rounded
         return Math.abs(projection.getSecond().length());
     }
 

@@ -6,7 +6,6 @@ package ch.geomo.tramaps.geom;
 
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
-import ch.geomo.util.geom.point.NodePoint;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
@@ -32,6 +31,7 @@ public class MoveVector extends Vector2D {
         super(x, y);
     }
 
+    @SuppressWarnings("unused")
     public MoveVector(@NotNull Point from, @NotNull Point to) {
         this(from.getCoordinate(), to.getCoordinate());
     }
@@ -80,17 +80,6 @@ public class MoveVector extends Vector2D {
         MoveVector projection = new MoveVector(alongVector.multiply(vector.dot(alongVector) / alongVector.dot(alongVector)));
         MoveVector rejection = new MoveVector(vector.subtract(projection));
         return Pair.of(projection, rejection);
-    }
-
-    /**
-     * @return the projection set this vector along x or y-axis depending on the given boolean
-     */
-    @NotNull
-    public static Pair<MoveVector> getProjection(@NotNull Vector2D vector, boolean alongAxisX) {
-        if (alongAxisX) {
-            return getProjection(vector, VECTOR_ALONG_X_AXIS);
-        }
-        return getProjection(vector, VECTOR_ALONG_Y_AXIS);
     }
 
     @Override

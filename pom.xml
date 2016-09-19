@@ -24,7 +24,7 @@
     <junit-version>4.12</junit-version>
     <supercsv-version>2.4.0</supercsv-version>
     <apache-math.version>3.6.1</apache-math.version>
-    <!-- update to 1.14 as soon as maven repo available-->
+    <!-- update to 1.14 as soon as maven repo available -->
     <jts-version>1.13</jts-version>
 
   </properties>
@@ -58,9 +58,28 @@
       <version>${geotools.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.vividsolutions</groupId>
+      <artifactId>jts</artifactId>
+      <version>1.14</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/libs/jts-1.14.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>RELEASE</version>
+    </dependency>
+
+    <!--
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-math3</artifactId>
+      <version>${apache-math.version}</version>
     </dependency>
     <dependency>
       <groupId>net.sf.supercsv</groupId>
@@ -72,18 +91,8 @@
       <artifactId>jts</artifactId>
       <version>${jts-version}</version>
     </dependency>
-    <!--
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-math3</artifactId>
-      <version>${apache-math.version}</version>
-    </dependency>
     -->
-    <dependency>
-      <groupId>org.jetbrains</groupId>
-      <artifactId>annotations</artifactId>
-      <version>RELEASE</version>
-    </dependency>
+
   </dependencies>
 
   <repositories>

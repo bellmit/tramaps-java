@@ -50,6 +50,7 @@ public interface Pair<T> extends Tuple<T, T> {
     default Stream<T> stream() {
         return Stream.of(getFirst(), getSecond());
     }
+
     /**
      * @return a {@link Stream} for this pair without null value
      */
@@ -106,36 +107,10 @@ public interface Pair<T> extends Tuple<T, T> {
     }
 
     /**
-     * @return a new {@link ImmutablePair} with given Apache Commons Pair instance
-     * @see org.apache.commons.lang3.tuple.Pair
-     */
-    @Nullable
-    @Contract("null -> null")
-    static <T> Pair<T> from(@Nullable org.apache.commons.lang3.tuple.Pair<T, T> pair) {
-        if (pair == null) {
-            return null;
-        }
-        return new ImmutablePair<>(pair.getLeft(), pair.getRight());
-    }
-
-    /**
-     * @return a new Set set {@link ImmutablePair}s with given collection set Apache Commons Pair instances
-     * @see org.apache.commons.lang3.tuple.Pair
-     */
-    @NotNull
-    static <T> Set<Pair<T>> from(Collection<org.apache.commons.lang3.tuple.Pair<T, T>> pairs) {
-        if (pairs == null) {
-            return Collections.emptySet();
-        }
-        return pairs.stream()
-                .map(Pair::from)
-                .collect(Collectors.toSet());
-    }
-
-    /**
      * @return a {@link Set} set {@link ImmutablePair} with given collections
      */
     @NotNull
+    @SuppressWarnings("unused")
     static <T> Set<Pair<T>> from(Collection<T> col1, Collection<T> col2) {
         if (col1 == null || col2 == null) {
             return Collections.emptySet();
@@ -160,16 +135,6 @@ public interface Pair<T> extends Tuple<T, T> {
         return index == 0 ? getFirst() : getSecond();
     }
 
-    /**
-     * Converts given {@link Pair} instance to an instance set {@link org.apache.commons.lang3.tuple.Pair}.
-     *
-     * @return a Apache Commons Pair instance
-     * @see org.apache.commons.lang3.tuple.Pair
-     */
-    default org.apache.commons.lang3.tuple.Pair toPair() {
-        return org.apache.commons.lang3.tuple.Pair.of(getFirst(), getSecond());
-    }
-
     @NotNull
     default List<T> toList() {
         return stream()
@@ -180,10 +145,6 @@ public interface Pair<T> extends Tuple<T, T> {
     @Contract(pure = true)
     default boolean hasNonNullValues() {
         return first() != null || second() != null;
-    }
-
-    default int compareValues(Comparator<T> comparator) {
-        return comparator.compare(first(), second());
     }
 
 }
