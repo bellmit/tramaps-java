@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Provides functionality to adjust a non-octilinear edge.
  */
-public final class EdgeAdjuster {
+public class EdgeAdjuster {
 
     private static final double MAX_ADJUSTMENT_COSTS = 100;
 
@@ -34,8 +34,8 @@ public final class EdgeAdjuster {
     private final Edge edge;
     private final double maxAdjustmentCosts;
 
-    // future idea: introduce factory class in order to reuse instances
-    private EdgeAdjuster(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
+    // future improvement: introduce factory class in order to reuse instances
+    public EdgeAdjuster(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
         this.map = map;
         this.edge = edge;
         this.maxAdjustmentCosts = maxAdjustmentCosts;

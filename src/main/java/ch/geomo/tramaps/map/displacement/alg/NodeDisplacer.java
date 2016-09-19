@@ -24,14 +24,14 @@ import static ch.geomo.tramaps.graph.util.OctilinearDirection.NORTH;
 /**
  * Displace nodes based on the given {@link BufferConflict}.
  */
-public final class NodeDisplacer {
+public class NodeDisplacer {
 
     private final MetroMap map;
     private final Conflict conflict;
     private final OctilinearDirection displaceDirection;
 
-    // future idea: introduce factory class in order to reuse instances
-    private NodeDisplacer(@NotNull MetroMap map, @NotNull Conflict conflict) {
+    // future improvement: introduce factory class in order to reuse instances
+    public NodeDisplacer(@NotNull MetroMap map, @NotNull Conflict conflict) {
         this.map = map;
         this.conflict = conflict;
         displaceDirection = conflict.getBestDisplaceDirection();

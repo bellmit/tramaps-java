@@ -102,11 +102,22 @@ public class DirectionEvaluator {
                 return new MoveVector(-moveDistance, 0);
             }
         }
-        else if (directions.size() == 2) {
+        else if (directions.hasOneElement()) {
 
-        }
-        else {
-            // return evaluateSingleNodeDirection(moveableNode, connectionEdge);
+//            Direction adjacentEdgeDirection = moveableNode.getAdjacentEdges(connectionEdge)
+//                    .first()
+//                    .map(edge -> edge.getDirection(moveableNode))
+//                    .orElseThrow(IllegalStateException::new);
+//
+//            // only one edge can be corrected... if adjacent edge is already octilinear, no correction possible
+//            if (!adjacentEdgeDirection.isOctilinear()) {
+//                OctilinearDirection originalConnectionEdgeDirection = connectionEdge.getOriginalDirection(moveableNode).toOctilinear();
+//                if (originalConnectionEdgeDirection.getAngle() == directions.get(0).opposite().getAngle()) {
+//                    // treat like a single node
+//                    return evaluateSingleNodeDirection(moveableNode, connectionEdge);
+//                }
+//            }
+
         }
 
         return new MoveVector(0, 0);

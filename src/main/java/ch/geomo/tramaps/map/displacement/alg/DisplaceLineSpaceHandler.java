@@ -92,12 +92,15 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
     }
 
     /**
-     * Solves non-octilinear edges by solving {@link OctilinearConflict}.
+     * Solves non-octilinear edges.
      */
     private void postOctilinearConflictSolver() {
+        // try to move nodes to correct non-octilinear edges
+        correctNonOctilinearEdges();
+        // displace nodes depending on remaining OctilinearConflict (smallest conflict)
         EnhancedList<Conflict> octilinearConflicts = map.evaluateOctilinearConflicts(1, false);
         if (!octilinearConflicts.isEmpty()) {
-            Loggers.info(this, "Solve octilinear conflict: " + octilinearConflicts.get(0));
+            Loggers.info(this, "Solve octilinear conflict: {0}", octilinearConflicts.get(0));
             NodeDisplacer.displace(map, octilinearConflicts.get(0));
             postOctilinearConflictSolver();
         }
@@ -115,14 +118,14 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         makeSpace(0, null);
 
         Loggers.info(this, "Restore octilinearity...");
-        correctNonOctilinearEdges();
+
         postOctilinearConflictSolver();
 
         Loggers.separator(this);
         Loggers.info(this, getBoundingBoxString());
         map.evaluateConflicts(true)
-                .doIfNotEmpty(list -> Loggers.warning(this, "Remaining conflicts found!"))
-                .forEach(conflict -> Loggers.warning(this, "- {0}", conflict));
+                .doIfNotEmpty(list -> Loggers.warning(this, "Remaining conflicts found! :-("))
+                .forEach(conflict -> Loggers.warning(this, "-> {0}", conflict));
         Loggers.separator(this);
 
     }

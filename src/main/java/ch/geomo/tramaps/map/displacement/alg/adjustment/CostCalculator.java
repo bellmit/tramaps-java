@@ -55,7 +55,10 @@ public enum CostCalculator {
         }
 
         if (isSimpleNode(connectionEdge, node)) {
-            return 1;
+            if (node.getNodeDegree() == 2) {
+                return 1;
+            }
+            return 2;
         }
 
         EnhancedSet<Edge> adjacentEdges = node.getAdjacentEdges(connectionEdge);
