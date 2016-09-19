@@ -18,7 +18,8 @@ import static ch.geomo.tramaps.graph.direction.OctilinearDirection.*;
 
 public class OctilinearEdgeBuilder {
 
-    private MutablePair<Node> vertices;
+    private final MutablePair<Node> vertices;
+
     private Edge originalEdge;
 
     public OctilinearEdgeBuilder() {

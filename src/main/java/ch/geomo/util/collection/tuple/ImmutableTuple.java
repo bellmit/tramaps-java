@@ -6,8 +6,8 @@ package ch.geomo.util.collection.tuple;
 
 public class ImmutableTuple<T, S> implements Tuple<T, S> {
 
-    private T firstValue;
-    private S secondValue;
+    private final T firstValue;
+    private final S secondValue;
 
     public ImmutableTuple(T firstValue, S secondValue) {
         this.firstValue = firstValue;

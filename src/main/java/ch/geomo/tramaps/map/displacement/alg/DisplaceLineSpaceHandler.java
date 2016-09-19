@@ -5,7 +5,6 @@
 package ch.geomo.tramaps.map.displacement.alg;
 
 import ch.geomo.tramaps.conflict.Conflict;
-import ch.geomo.tramaps.conflict.OctilinearConflict;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;

@@ -12,7 +12,7 @@ import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
  */
 public class SubGraphScaleHandler implements LineSpaceHandler {
 
-    private ScaleHandler scaleHandler;
+    private final ScaleHandler scaleHandler;
 
     public SubGraphScaleHandler() {
         scaleHandler = new ScaleHandler(null);

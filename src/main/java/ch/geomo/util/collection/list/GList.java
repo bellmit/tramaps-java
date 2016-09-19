@@ -262,7 +262,7 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
 
     @NotNull
     public static <E> EnhancedList<E> createList(@NotNull Stream<E> stream1, @NotNull Stream<E> stream2) {
-        return new GList<E>(Stream.concat(stream1, stream2));
+        return new GList<>(Stream.concat(stream1, stream2));
     }
 
     @NotNull

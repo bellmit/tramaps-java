@@ -32,11 +32,11 @@ import java.util.function.Predicate;
 public class Node extends Observable implements GraphElement, NodePoint {
 
     private final EnhancedSet<Edge> adjacentEdges;
+    private final NodeSignature signature;
 
     private String name;
 
     private Point point;
-    private NodeSignature signature;
 
     private boolean destroyed = false;
 

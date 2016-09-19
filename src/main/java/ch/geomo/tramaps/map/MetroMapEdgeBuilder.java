@@ -13,10 +13,10 @@ import java.util.LinkedList;
 
 public class MetroMapEdgeBuilder {
 
-    private MetroMap map;
-    private Route[] routes = new Route[1];
+    private final MetroMap map;
+    private final LinkedList<Node> nodes;
 
-    private LinkedList<Node> nodes;
+    private Route[] routes = new Route[1];
 
     private boolean built = false;
 

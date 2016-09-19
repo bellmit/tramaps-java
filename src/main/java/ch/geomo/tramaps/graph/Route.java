@@ -11,9 +11,9 @@ import java.util.Objects;
 
 public class Route {
 
-    private double lineWidth;
-    private Color lineColor;
-    private String name;
+    private final double lineWidth;
+    private final Color lineColor;
+    private final String name;
 
     public Route(@NotNull String name, double lineWidth, @NotNull Color lineColor) {
         this.name = name;

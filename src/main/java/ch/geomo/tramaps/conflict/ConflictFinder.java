@@ -17,7 +17,6 @@ import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
