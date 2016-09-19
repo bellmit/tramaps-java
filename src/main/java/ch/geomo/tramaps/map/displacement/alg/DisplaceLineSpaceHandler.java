@@ -9,6 +9,7 @@ import ch.geomo.tramaps.conflict.OctilinearConflict;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
+import ch.geomo.tramaps.map.displacement.alg.adjustment.EdgeAdjuster;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.doc.HelperMethod;
 import ch.geomo.util.logging.Loggers;
@@ -26,12 +27,14 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         this.map = map;
     }
 
+    /**
+     * Iterates over all non-octilinear edges and corrects them.
+     */
     private void correctNonOctilinearEdges() {
         Loggers.info(this, "Non-Octilinear edges: " + map.countNonOctilinearEdges());
         map.getEdges().stream()
                 .filter(Edge::isNotOctilinear)
-                .map(edge -> new EdgeAdjuster(map, edge))
-                .forEach(EdgeAdjuster::correctEdge);
+                .forEach(edge -> EdgeAdjuster.correctEdge(map, edge));
     }
 
     private void makeSpace(int lastIteration, @Nullable Conflict lastConflict) {

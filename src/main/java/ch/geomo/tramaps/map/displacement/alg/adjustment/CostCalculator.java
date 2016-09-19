@@ -7,6 +7,7 @@ package ch.geomo.tramaps.map.displacement.alg.adjustment;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.Direction;
+import ch.geomo.tramaps.map.displacement.alg.TraversedNodes;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public enum AdjustmentCostCalculator {
+public enum CostCalculator {
     ;
 
     private static final double CORRECT_CIRCLE_PENALTY = 1000;
@@ -41,7 +42,7 @@ public enum AdjustmentCostCalculator {
      * Calculates the costs to adjust given {@link Edge} by moving given {@link Node}. The {@link List} set traversed
      * nodes is needed to avoid correction circles.
      */
-    public static double calculate(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull AdjustmentGuard guard) {
+    public static double calculate(@NotNull Edge connectionEdge, @NotNull Node node, @NotNull TraversedNodes guard) {
 
         if (guard.hasAlreadyVisited(node)) {
             return CORRECT_CIRCLE_PENALTY;

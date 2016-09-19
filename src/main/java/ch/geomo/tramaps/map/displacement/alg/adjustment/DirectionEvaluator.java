@@ -6,35 +6,19 @@ package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.geom.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
-import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.Direction;
 import ch.geomo.tramaps.graph.util.GraphUtil;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
-import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
+import ch.geomo.util.doc.HelperMethod;
 import ch.geomo.util.logging.Loggers;
-import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import static ch.geomo.tramaps.graph.util.OctilinearDirection.*;
+public class DirectionEvaluator {
 
-public class AdjustmentDirectionEvaluator {
-
-    private final AdjustmentGuard guard;
-
-    AdjustmentDirectionEvaluator(@NotNull AdjustmentGuard guard) {
-        this.guard = guard;
-    }
-
-    private double getSmallerAngle(double angle) {
-        double result = Math.abs(angle % 180);
-        if (result > 45) {
-            return Math.abs(result - 180);
-        }
-        return result;
+    public DirectionEvaluator() {
     }
 
     @NotNull
@@ -73,8 +57,8 @@ public class AdjustmentDirectionEvaluator {
                 return new MoveVector(0, -diff);
             }
             default: {
-                // Contracts.fail("Should not reach this point.");
-                Loggers.error(this, "Should not reach this point.");
+                // analysis required: do we reach this point? when yes, how can this case be solved?
+                Loggers.info(this, "Single node {0} has a non-diagonal connection edge. -> Not (yet) treated/implemented.");
                 return new MoveVector(0, 0);
             }
         }
@@ -82,7 +66,8 @@ public class AdjustmentDirectionEvaluator {
     }
 
     @NotNull
-    public EnhancedList<OctilinearDirection> getAdjacentEdgeDirections(@NotNull Node node, @NotNull Edge connectionEdge) {
+    @HelperMethod
+    private EnhancedList<OctilinearDirection> getAdjacentEdgeDirections(@NotNull Node node, @NotNull Edge connectionEdge) {
         return node.getAdjacentEdges().stream()
                 .filter(connectionEdge::isNotEquals)
                 .map(edge -> edge.getOriginalDirection(node).toOctilinear())
@@ -108,10 +93,6 @@ public class AdjustmentDirectionEvaluator {
                 }
                 return new MoveVector(0, -moveDistance);
             }
-//            if (otherNode.isNorthOf(moveableNode)) {
-//                return new MoveVector(moveDistance, 0);
-//            }
-//            return new MoveVector(-moveDistance, 0);
         }
         else if (directions.allMatch(Direction::isHorizontal)) {
             if (dx > dy) {
@@ -120,10 +101,6 @@ public class AdjustmentDirectionEvaluator {
                 }
                 return new MoveVector(-moveDistance, 0);
             }
-//            if (otherNode.isNorthOf(moveableNode)) {
-//                return new MoveVector(0, moveDistance);
-//            }
-//            return new MoveVector(0, -moveDistance);
         }
         else if (directions.size() == 2) {
 

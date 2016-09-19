@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
  */
 
-package ch.geomo.tramaps.map.displacement.alg;
+package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.conflict.ConflictFinder;
 import ch.geomo.tramaps.geom.MoveVector;
@@ -12,10 +12,9 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.layout.OctilinearEdge;
 import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.map.MetroMap;
-import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentCostCalculator;
-import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentDirectionEvaluator;
-import ch.geomo.tramaps.map.displacement.alg.adjustment.AdjustmentGuard;
+import ch.geomo.tramaps.map.displacement.alg.TraversedNodes;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.doc.HelperMethod;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Point;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Provides functionality to adjust a non-octilinear edge.
  */
-public class EdgeAdjuster {
+public final class EdgeAdjuster {
 
     private static final double MAX_ADJUSTMENT_COSTS = 100;
 
@@ -35,48 +34,54 @@ public class EdgeAdjuster {
     private final Edge edge;
     private final double maxAdjustmentCosts;
 
-    public EdgeAdjuster(@NotNull MetroMap map, @NotNull Edge edge) {
-        this(map, edge, MAX_ADJUSTMENT_COSTS);
-    }
-
-    public EdgeAdjuster(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
+    // future idea: introduce factory class in order to reuse instances
+    private EdgeAdjuster(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
         this.map = map;
         this.edge = edge;
         this.maxAdjustmentCosts = maxAdjustmentCosts;
     }
 
+    @NotNull
+    @HelperMethod
     private Node getNodeA() {
         return edge.getNodeA();
     }
 
+    @NotNull
+    @HelperMethod
     private Node getNodeB() {
         return edge.getNodeB();
-    }
-
-    private AdjustmentGuard createGuard() {
-        return new AdjustmentGuard(map);
     }
 
     public void correctEdge() {
 
         Loggers.info(this, "Correct edge {0}...", edge.getName());
 
-        double scoreA = AdjustmentCostCalculator.calculate(edge, getNodeA(), createGuard());
-        double scoreB = AdjustmentCostCalculator.calculate(edge, getNodeB(), createGuard());
+        double scoreA = CostCalculator.calculate(edge, getNodeA(), new TraversedNodes());
+        double scoreB = CostCalculator.calculate(edge, getNodeB(), new TraversedNodes());
+
         Loggers.info(this, "Adjustment costs for adjacent nodes: {0}/{1}", scoreA, scoreB);
 
         if (scoreA > maxAdjustmentCosts && scoreB > maxAdjustmentCosts) {
             correctEdgeByIntroducingBendNodes();
         }
         else if (scoreA < scoreB) {
-            correctEdgeByMovingNode(edge, getNodeA(), createGuard());
+            correctEdgeByMovingNode(edge, getNodeA(), new TraversedNodes());
         }
         else {
-            correctEdgeByMovingNode(edge, getNodeB(), createGuard());
+            correctEdgeByMovingNode(edge, getNodeB(), new TraversedNodes());
         }
 
         Loggers.info(this, "Correction is done.");
 
+    }
+
+    public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
+        new EdgeAdjuster(map, edge, maxAdjustmentCosts).correctEdge();
+    }
+
+    public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge) {
+        correctEdge(map, edge, MAX_ADJUSTMENT_COSTS);
     }
 
     /**
@@ -129,22 +134,22 @@ public class EdgeAdjuster {
      * Moves given {@link Node} in a certain direction to correct the given {@link Edge}'s octilinearity. Prefers to
      * move in the given (last) move direction if two choices are equal weighted.
      */
-    private void moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
+    private void moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode) {
 
-        AdjustmentDirectionEvaluator adjustmentDirectionEvaluator = guard.getNodeAdjustmentDirectionEvaluator();
+        DirectionEvaluator directionEvaluator = new DirectionEvaluator();
 
         MoveVector moveVector;
 
-        if (AdjustmentCostCalculator.isSimpleNode(connectionEdge, moveableNode)) {
+        if (CostCalculator.isSimpleNode(connectionEdge, moveableNode)) {
 
             // evaluate direction
             if (!moveableNode.getAdjacentEdges(connectionEdge).isEmpty()) {
                 Loggers.info(this, "Evaluate move direction of simple node {0}...", moveableNode.getName());
-                moveVector = adjustmentDirectionEvaluator.evaluateDirection(moveableNode, connectionEdge);
+                moveVector = directionEvaluator.evaluateDirection(moveableNode, connectionEdge);
             }
             else {
                 Loggers.info(this, "Evaluate move direction of single node {0}...", moveableNode.getName());
-                moveVector = adjustmentDirectionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
+                moveVector = directionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
             }
 
         }
@@ -230,7 +235,7 @@ public class EdgeAdjuster {
     /**
      * Corrects the direction set given {@link Edge} recursively by moving the given {@link Node}.
      */
-    private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull AdjustmentGuard guard) {
+    private void correctEdgeByMovingNode(@NotNull Edge edge, @NotNull Node moveableNode, @NotNull TraversedNodes guard) {
 
         if (guard.hasAlreadyVisited(moveableNode)) {
             Loggers.warning(this, "Node {0} was already visited. Abort edge correction!", moveableNode.getName());
@@ -239,7 +244,7 @@ public class EdgeAdjuster {
 
         guard.visited(moveableNode);
 
-        moveNode(edge, moveableNode, guard);
+        moveNode(edge, moveableNode);
 
         List<Edge> nonOctilinearEdges = moveableNode.getAdjacentEdges().stream()
                 .filter(Edge::isNotOctilinear)

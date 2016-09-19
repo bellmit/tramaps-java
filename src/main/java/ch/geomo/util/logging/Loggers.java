@@ -59,8 +59,8 @@ public enum Loggers {
         get(obj).info(" " + markCharacter + "  " + message);
     }
 
-    public static void info(@NotNull Object obj, @NotNull Object messageObj) {
-        info(obj, "Obj: " + messageObj.toString(), 'i');
+    public static void info(@NotNull Object obj, @NotNull String message) {
+        info(obj, message, 'i');
     }
 
     public static void info(@NotNull Object obj, @NotNull String message, @NotNull Object... params) {
