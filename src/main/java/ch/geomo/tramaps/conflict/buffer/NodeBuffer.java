@@ -26,8 +26,7 @@ public class NodeBuffer implements ElementBuffer {
         updateBuffer();
     }
 
-    @Override
-    public void updateBuffer() {
+    private void updateBuffer() {
         Polygon geometry = node.getNodeSignature().getGeometry();
         buffer = GeomUtil.createBuffer(geometry, margin, true);
     }

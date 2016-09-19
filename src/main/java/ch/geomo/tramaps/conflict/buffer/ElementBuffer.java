@@ -15,8 +15,6 @@ public interface ElementBuffer extends Observer {
     @NotNull
     Polygon getBuffer();
 
-    void updateBuffer();
-
     @NotNull
     GraphElement getElement();
 

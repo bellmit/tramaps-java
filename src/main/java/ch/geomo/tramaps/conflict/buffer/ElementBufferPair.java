@@ -4,8 +4,6 @@
 
 package ch.geomo.tramaps.conflict.buffer;
 
-import ch.geomo.tramaps.graph.Node;
-import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.collection.pair.Pair;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,20 +56,14 @@ public class ElementBufferPair implements Pair<ElementBuffer> {
         return first instanceof NodeBuffer && second instanceof NodeBuffer;
     }
 
-    public boolean hasBendNode() {
-        return stream()
-                .filter(elementBuffer -> elementBuffer instanceof NodeBuffer)
-                .map(elementBuffer -> (Node) elementBuffer.getElement())
-                .anyMatch(node -> node.getNodeSignature() instanceof BendNodeSignature);
-    }
-
     public boolean isEdgePair() {
         return first instanceof EdgeBuffer && second instanceof EdgeBuffer;
     }
 
     @Override
     public int hashCode() {
-        // TODO remove workaround -> but an ElementBufferPair must be equal independent to the order set the values
+        // fix required: remove workaround -> but an ElementBufferPair must be
+        // equal independent to the order set the values
         return Objects.hash(first.hashCode() + second.hashCode());
     }
 

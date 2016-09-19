@@ -13,8 +13,8 @@ import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.collection.pair.Pair;
+import ch.geomo.util.doc.HelperMethod;
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -46,11 +46,17 @@ public abstract class AbstractConflict implements Conflict {
         buffers = new ElementBufferPair(bufferA, bufferB);
     }
 
+    /**
+     * @return the {@link MoveVector} along x-axis
+     */
     @NotNull
     protected MoveVector getProjection() {
         return projection.getFirst();
     }
 
+    /**
+     * @return the {@link MoveVector} along y-axis
+     */
     @NotNull
     protected MoveVector getRejection() {
         return projection.getSecond();
@@ -62,20 +68,14 @@ public abstract class AbstractConflict implements Conflict {
         return conflictType;
     }
 
-    @Override
     @NotNull
+    @Override
     public MoveVector getDisplaceVector() {
         return displaceVector;
     }
 
-    @Override
     @NotNull
-    public Vector2D getBestDisplaceVector() {
-        return bestDisplaceVector;
-    }
-
     @Override
-    @NotNull
     public Axis getBestDisplaceAxis() {
         return bestDisplaceAxis;
     }
@@ -85,8 +85,8 @@ public abstract class AbstractConflict implements Conflict {
      * @see OctilinearDirection#NORTH
      * @see OctilinearDirection#EAST
      */
-    @Override
     @NotNull
+    @Override
     public OctilinearDirection getBestDisplaceDirection() {
         if (bestDisplaceAxis == X) {
             return OctilinearDirection.EAST;
@@ -103,14 +103,14 @@ public abstract class AbstractConflict implements Conflict {
         return Math.ceil(Math.abs(bestDisplaceVector.length()));
     }
 
-    @Override
     @NotNull
+    @Override
     public ElementBuffer getBufferA() {
         return buffers.first();
     }
 
-    @Override
     @NotNull
+    @Override
     public ElementBuffer getBufferB() {
         return buffers.second();
     }
@@ -141,8 +141,8 @@ public abstract class AbstractConflict implements Conflict {
         return solved;
     }
 
-    @Override
     @NotNull
+    @Override
     public Coordinate getDisplaceOriginPoint() {
         return bestDisplaceStartPoint;
     }
@@ -157,11 +157,13 @@ public abstract class AbstractConflict implements Conflict {
         return Math.ceil(Math.abs(projection.getSecond().length()));
     }
 
+    @HelperMethod
     private boolean isConflictElement(@NotNull GraphElement graphElement) {
         return graphElement.equals(getBufferA().getElement())
                 || graphElement.equals(getBufferB().getElement());
     }
 
+    @HelperMethod
     private boolean isAdjacentToConflictElement(@NotNull GraphElement graphElement) {
         return graphElement.isAdjacent(getBufferA().getElement())
                 || graphElement.isAdjacent(getBufferB().getElement());
