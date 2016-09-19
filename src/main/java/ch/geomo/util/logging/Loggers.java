@@ -4,10 +4,10 @@
 
 package ch.geomo.util.logging;
 
-import ch.geomo.tramaps.map.displacement.alg.EdgeAdjuster;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.LogManager;
@@ -39,6 +39,10 @@ public enum Loggers {
         info(obj, message, '*');
     }
 
+    public static void flag(@NotNull Object obj, @NotNull String message, @NotNull Object... params) {
+        info(obj, MessageFormat.format(message, (Object[]) params), '*');
+    }
+
     public static void flag(@NotNull Object obj, @NotNull Object messageObj) {
         info(obj, "Obj: " + messageObj.toString(), ' ');
     }
@@ -59,16 +63,24 @@ public enum Loggers {
         info(obj, "Obj: " + messageObj.toString(), 'i');
     }
 
-    public static void info(@NotNull Object obj, @NotNull String message) {
-        info(obj, message, 'i');
+    public static void info(@NotNull Object obj, @NotNull String message, @NotNull Object... params) {
+        info(obj, MessageFormat.format(message, (Object[]) params), 'i');
     }
 
     public static void warning(@NotNull Object obj, @NotNull String message) {
         get(obj).warning(" !  " + message);
     }
 
+    public static void warning(@NotNull Object obj, @NotNull String message, @NotNull Object... params) {
+        get(obj).warning(" !  " + MessageFormat.format(message, (Object[]) params));
+    }
+
     public static void error(@NotNull Object obj, @NotNull String message) {
         get(obj).severe(" E  " + message);
+    }
+
+    public static void error(@NotNull Object obj, @NotNull String message, @NotNull Object... params) {
+        get(obj).severe(" E  " + MessageFormat.format(message, (Object[]) params));
     }
 
     @NotNull

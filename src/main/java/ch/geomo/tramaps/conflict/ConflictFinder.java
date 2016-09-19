@@ -11,11 +11,13 @@ import ch.geomo.tramaps.conflict.buffer.NodeBuffer;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
+import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,7 +68,7 @@ public class ConflictFinder {
                 .map(node -> new NodeBuffer(node, nodeMargin));
     }
 
-    private boolean intersects(@NotNull Pair<ElementBuffer> bufferPair) {
+    private static boolean intersects(@NotNull Pair<ElementBuffer> bufferPair) {
 
         ElementBuffer a = bufferPair.getFirst();
         ElementBuffer b = bufferPair.getSecond();
@@ -89,7 +91,7 @@ public class ConflictFinder {
     private EnhancedList<Conflict> getBufferConflicts() {
         return getConflictElements().stream()
                 // check interior intersection
-                .filter(this::intersects)
+                .filter(ConflictFinder::intersects)
                 // create conflict
                 .map(BufferConflict::new)
                 // filter conflicts which do not cross with other (not-conflict related) edges
@@ -139,6 +141,30 @@ public class ConflictFinder {
         return getBufferConflicts()
                 .union(getOctilinearConflicts(0.25, true))
                 .sortElements(CONFLICT_COMPARATOR);
+    }
+
+    public static boolean hasConflict(@NotNull Node node, @NotNull Edge edge, @NotNull MetroMap map) {
+        NodeBuffer nodeBuffer = new NodeBuffer(node, map.getNodeMargin());
+        EdgeBuffer edgeBuffer = new EdgeBuffer(edge, map.getRouteMargin(), map.getEdgeMargin());
+        Pair<ElementBuffer> bufferPair = Pair.of(nodeBuffer, edgeBuffer);
+        boolean intersects = intersects(bufferPair);
+        if (intersects) {
+            BufferConflict conflict = new BufferConflict(bufferPair);
+            return !conflict.isSolved();
+        }
+        return false;
+    }
+
+    public static boolean hasConflict(@NotNull Node node1, @NotNull Node node2, @NotNull MetroMap map) {
+        NodeBuffer nodeBuffer1 = new NodeBuffer(node1, map.getNodeMargin());
+        NodeBuffer nodeBuffer2 = new NodeBuffer(node2, map.getNodeMargin());
+        Pair<ElementBuffer> bufferPair = Pair.of(nodeBuffer1, nodeBuffer2);
+        boolean intersects = intersects(bufferPair);
+        if (intersects) {
+            BufferConflict conflict = new BufferConflict(bufferPair);
+            return !conflict.isSolved();
+        }
+        return false;
     }
 
 }

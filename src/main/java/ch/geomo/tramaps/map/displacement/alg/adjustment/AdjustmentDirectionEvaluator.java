@@ -14,6 +14,7 @@ import ch.geomo.tramaps.graph.util.OctilinearDirection;
 import ch.geomo.util.Contracts;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
+import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.math.Vector2D;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +73,8 @@ public class AdjustmentDirectionEvaluator {
                 return new MoveVector(0, -diff);
             }
             default: {
-                Contracts.fail("Should not reach this point.");
+                // Contracts.fail("Should not reach this point.");
+                Loggers.error(this, "Should not reach this point.");
                 return new MoveVector(0, 0);
             }
         }
@@ -88,7 +90,7 @@ public class AdjustmentDirectionEvaluator {
     }
 
     @NotNull
-    public MoveVector evaluateDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge, @Nullable Edge firstAdjacentEdge) {
+    public MoveVector evaluateDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
 
         Node otherNode = connectionEdge.getOtherNode(moveableNode);
 
@@ -106,6 +108,10 @@ public class AdjustmentDirectionEvaluator {
                 }
                 return new MoveVector(0, -moveDistance);
             }
+//            if (otherNode.isNorthOf(moveableNode)) {
+//                return new MoveVector(moveDistance, 0);
+//            }
+//            return new MoveVector(-moveDistance, 0);
         }
         else if (directions.allMatch(Direction::isHorizontal)) {
             if (dx > dy) {
@@ -114,6 +120,10 @@ public class AdjustmentDirectionEvaluator {
                 }
                 return new MoveVector(-moveDistance, 0);
             }
+//            if (otherNode.isNorthOf(moveableNode)) {
+//                return new MoveVector(0, moveDistance);
+//            }
+//            return new MoveVector(0, -moveDistance);
         }
         else if (directions.size() == 2) {
 
