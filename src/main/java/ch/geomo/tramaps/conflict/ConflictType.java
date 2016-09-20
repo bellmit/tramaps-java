@@ -15,25 +15,25 @@ public enum ConflictType {
      * Represents an {@link OctilinearConflict} which occurs if a diagonal edge
      * is not octilinear.
      */
-    OCTILINEAR(10),
+    OCTILINEAR(50),
     /**
      * Represents a {@link BufferConflict} with two adjacent nodes which shares
      * an identical edge.
      */
-    ADJACENT_NODE_NODE_DIAGONAL(5),
+    ADJACENT_NODE_NODE_DIAGONAL(50),
     /**
      * Represents a {@link BufferConflict} with two adjacent nodes which <b>do not</b>
      * share an identical edge.
      */
-    ADJACENT_NODE_NODE(5),
+    ADJACENT_NODE_NODE(25),
     /**
      * Represents a {@link BufferConflict} with two <b>non-adjacent</b> nodes.
      */
-    NODE_NODE(5),
+    NODE_NODE(20),
     /**
      * Represents a {@link BufferConflict} between a node and a non-adjacent edge.
      */
-    NODE_EDGE(5),
+    NODE_EDGE(10),
     /**
      * Represents a {@link BufferConflict} between two non-adjacent edges.
      */

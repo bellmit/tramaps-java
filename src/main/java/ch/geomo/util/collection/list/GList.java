@@ -198,7 +198,6 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     @Override
     public EnhancedList<Pair<E>> toPairList(@NotNull Predicate<Pair<E>> predicate) {
         return createList(toPairStream(predicate).collect(Collectors.toList()));
-
     }
 
     @NotNull

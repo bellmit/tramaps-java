@@ -69,7 +69,7 @@ public class MainApp extends Application {
         MetroMapDrawer drawer = new MetroMapDrawer(map, margin, scaleFactor, false);
         drawer.draw(context, bbox);
 
-        // workaround: scaling is done when drawing otherwise an exception like:
+        // workaround: scaling is done when drawing otherwise an exception may happen:
         // -> Requested texture dimension exceeds maximum texture size
         // canvas.setScaleX(scaleFactor);
         // canvas.setScaleY(scaleFactor);

@@ -14,7 +14,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a {@link Conflict} within the graph layout.
+ * Represents a {@link Conflict} within a graph layout.
  */
 public interface Conflict extends Comparable<Conflict> {
 
