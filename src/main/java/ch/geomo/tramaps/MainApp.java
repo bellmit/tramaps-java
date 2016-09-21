@@ -85,11 +85,7 @@ public class MainApp extends Application {
         group.getChildren().add(canvas);
 
         ScrollPane scrollPane = new ScrollPane(group);
-
         Scene scene = new Scene(scrollPane, width + 5, height + 5);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setStyle("-fx-focus-color: transparent;");
 
         stage.setScene(scene);
         stage.setWidth(Math.min(MAX_WIDTH, width) + 5);
