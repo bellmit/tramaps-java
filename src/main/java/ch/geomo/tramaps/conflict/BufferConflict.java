@@ -24,10 +24,14 @@ import java.util.stream.Stream;
 import static ch.geomo.util.geom.Axis.X;
 import static ch.geomo.util.geom.Axis.Y;
 
+/**
+ * Represents conflicts between overlapping elements/buffers, eg. node/edge, edge/edge or node/node.
+ *
+ * @see ConflictType
+ */
 public class BufferConflict extends AbstractConflict {
 
     private Polygon conflictPolygon;
-
     private Geometry conflictArea;
 
     public BufferConflict(Pair<ElementBuffer> bufferPair) {
@@ -45,6 +49,7 @@ public class BufferConflict extends AbstractConflict {
      */
     private void evaluateConflictType() {
         if (buffers.isNodePair() && buffers.hasAdjacentElements()) {
+//            if (getNodes().get(0).getAdjacentEdgeWith(getNodes().get(1)).getOriginalDirection(getNodes().get(0)).isDiagonal()) {
             if (((Node) buffers.first().getElement()).getAdjacentEdges().stream()
                     .filter(edge -> buffers.second().getElement().equals(edge.getOtherNode((Node) buffers.first().getElement())))
                     .noneMatch(edge -> edge.getOriginalDirection(edge.getNodeA()).isDiagonal())) {
@@ -127,6 +132,11 @@ public class BufferConflict extends AbstractConflict {
 
     }
 
+    /**
+     * Initializes and creates the conflict area. The conflict area is within or identical with the conflict polygon
+     * and allows to define the starting point for the displacement. The starting point must always within the
+     * conflict area, otherwise it would not be between both conflict elements and therefore never solve the conflict.
+     */
     private void initConflictArea() {
 
         switch (conflictType) {
@@ -181,6 +191,8 @@ public class BufferConflict extends AbstractConflict {
             solved = true;
         }
         else {
+            // only point within the conflict area can be handled since starting points outside of the conflict area
+            // may not be between both edges and would never solve the conflict
             bestDisplaceStartPoint = intersection.getCentroid().getCoordinate();
         }
 

@@ -12,6 +12,7 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.Axis;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
@@ -148,12 +149,12 @@ public abstract class AbstractConflict implements Conflict {
 
     @Override
     public double getDisplaceDistanceAlongX() {
-        return Math.ceil(Math.abs(projection.getFirst().length()));
+        return GeomUtil.makePrecise(Math.abs(projection.getFirst().length()));
     }
 
     @Override
     public double getDisplaceDistanceAlongY() {
-        return Math.ceil(Math.abs(projection.getSecond().length()));
+        return GeomUtil.makePrecise(Math.abs(projection.getSecond().length()));
     }
 
     private boolean isConflictElement(@NotNull GraphElement graphElement) {

@@ -33,12 +33,8 @@ public class OctilinearConflict extends AbstractConflict {
     public OctilinearConflict(@NotNull Pair<ElementBuffer> bufferPair, double correctionFactor) {
         super(bufferPair);
         this.correctionFactor = correctionFactor;
-        evaluateConflictType();
-        initConflict();
-    }
-
-    private void evaluateConflictType() {
         conflictType = ConflictType.OCTILINEAR;
+        initConflict();
     }
 
     private void initConflict() {
@@ -76,15 +72,27 @@ public class OctilinearConflict extends AbstractConflict {
 
     }
 
+    /**
+     * Returns the displace distance along the x-axis. In order to solve the conflict when
+     * using a correction factor of 1, this implementation does not return a rounded value
+     * like the default implementation does.
+     *
+     * @return AbstractConflict#getDisplaceDistanceAlongX
+     */
     @Override
     public double getDisplaceDistanceAlongX() {
-        // in order to solve conflict when using correctionFactor=1, distance should not be rounded
         return Math.abs(projection.getFirst().length());
     }
 
+    /**
+     * Returns the displace distance along the y-axis. In order to solve the conflict when
+     * using a correction factor of 1, this implementation does not return a rounded value
+     * like the default implementation does.
+     *
+     * @return AbstractConflict#getDisplaceDistanceAlongY
+     */
     @Override
     public double getDisplaceDistanceAlongY() {
-        // in order to solve conflict when using correctionFactor=1, distance should not be rounded
         return Math.abs(projection.getSecond().length());
     }
 

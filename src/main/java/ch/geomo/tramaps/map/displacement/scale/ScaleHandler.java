@@ -36,23 +36,20 @@ public class ScaleHandler implements LineSpaceHandler {
 
     private double evaluateScaleFactor(@NotNull EnhancedList<Conflict> conflicts, double mapWidth, double mapHeight) {
 
-        double maxMoveX = 0d;
-        double maxMoveY = 0d;
+        double maxMoveX = conflicts.stream()
+                .map(Conflict::getDisplaceDistanceAlongX)
+                // .map(d -> 1 + 1 / mapWidth * d)
+                .map(d -> (mapWidth + d) / mapWidth)
+                .max(Double::compare)
+                .orElse(1d);
+        double maxMoveY = conflicts.stream()
+                .map(Conflict::getDisplaceDistanceAlongY)
+                // .map(d -> 1 + 1 / mapHeight * d)
+                .map(d -> (mapHeight + d) / mapHeight)
+                .max(Double::compare)
+                .orElse(1d);
 
-        for (Conflict conflict : conflicts) {
-            Axis axis = conflict.getBestDisplaceAxis();
-            if (axis == Axis.X) {
-                maxMoveX = Math.max(maxMoveX, conflict.getDisplaceDistanceAlongX());
-            }
-            else {
-                maxMoveY = Math.max(maxMoveY, conflict.getDisplaceDistanceAlongY());
-            }
-        }
-
-        double scaleFactorAlongX = (mapWidth + maxMoveX) / mapWidth;
-        double scaleFactorAlongY = (mapHeight + maxMoveY) / mapHeight;
-
-        return Math.ceil(Math.max(scaleFactorAlongX, scaleFactorAlongY) * 100000) / 100000;
+        return Math.max(GeomUtil.makePrecise(Math.max(maxMoveX, maxMoveY)), 1.00001);
 
     }
 
@@ -90,8 +87,8 @@ public class ScaleHandler implements LineSpaceHandler {
             Loggers.info(this, "Use scale factor: " + scaleFactor);
             scale(map, scaleFactor);
 
-            // repeat if space issue is not yet solved
-            if (conflicts.stream().anyMatch(conflict -> !conflict.isSolved()) && currentIteration < MAX_ITERATIONS) {
+            if (currentIteration < MAX_ITERATIONS) {
+                // since conflicts between non-neighbours are
                 makeSpace(currentIteration);
             }
             else {
