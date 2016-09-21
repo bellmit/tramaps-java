@@ -5,10 +5,13 @@
 package ch.geomo.util;
 
 import ch.geomo.util.math.MathUtil;
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.util.Comparator;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MathUtilTest {
 
@@ -17,21 +20,21 @@ public class MathUtilTest {
     @Test
     public void testMin() {
         String min = MathUtil.min("abcd", "zyxw", comparator);
-        Assert.assertEquals("abcd", min);
+        assertEquals("abcd", min);
         min = MathUtil.min("zyxw", "abcd", comparator);
-        Assert.assertEquals("abcd", min);
+        assertEquals("abcd", min);
         min = MathUtil.min("abcd", "abcd", comparator);
-        Assert.assertEquals("abcd", min);
+        assertEquals("abcd", min);
     }
 
     @Test
     public void testMax() {
         String max = MathUtil.max("abcd", "zyxw", comparator);
-        Assert.assertEquals("zyxw", max);
+        assertEquals("zyxw", max);
         max = MathUtil.max("zyxw", "abcd", comparator);
-        Assert.assertEquals("zyxw", max);
+        assertEquals("zyxw", max);
         max = MathUtil.max("zyxw", "zyxw", comparator);
-        Assert.assertEquals("zyxw", max);
+        assertEquals("zyxw", max);
     }
 
 }

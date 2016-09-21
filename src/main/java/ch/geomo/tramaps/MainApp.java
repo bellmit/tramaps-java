@@ -4,12 +4,17 @@
 
 package ch.geomo.tramaps;
 
-import ch.geomo.tramaps.example.MetroMapExampleGraph;
 import ch.geomo.tramaps.example.MetroMapZuerich;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.DisplaceLineSpaceHandler;
+
+import java.io.IOException;
+import java.util.function.Supplier;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.vividsolutions.jts.geom.Envelope;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -18,10 +23,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
-import java.util.function.Supplier;
 
 public class MainApp extends Application {
 

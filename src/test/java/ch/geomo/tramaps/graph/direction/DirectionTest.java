@@ -4,35 +4,36 @@
 
 package ch.geomo.tramaps.graph.direction;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static ch.geomo.tramaps.graph.direction.OctilinearDirection.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DirectionTest {
 
     @Test
-    public void testGetAngleTo() {
+    void testGetAngleTo() {
 
         Direction direction = new AnyDirection(30);
-        Assert.assertEquals(direction.getAngleTo(EAST), 60, 0);
-        Assert.assertEquals(direction.getAngleTo(SOUTH_EAST), 105, 0);
-        Assert.assertEquals(direction.getAngleTo(SOUTH), 150, 0);
-        Assert.assertEquals(direction.getAngleTo(SOUTH_WEST), 195, 0);
-        Assert.assertEquals(direction.getAngleTo(WEST), 240, 0);
-        Assert.assertEquals(direction.getAngleTo(NORTH_WEST), 285, 0);
-        Assert.assertEquals(direction.getAngleTo(NORTH), 330, 0);
-        Assert.assertEquals(direction.getAngleTo(NORTH_EAST), 15, 0);
+        assertEquals(direction.getAngleTo(EAST), 60d);
+        assertEquals(direction.getAngleTo(SOUTH_EAST), 105d);
+        assertEquals(direction.getAngleTo(SOUTH), 150d);
+        assertEquals(direction.getAngleTo(SOUTH_WEST), 195d);
+        assertEquals(direction.getAngleTo(WEST), 240d);
+        assertEquals(direction.getAngleTo(NORTH_WEST), 285d);
+        assertEquals(direction.getAngleTo(NORTH), 330d);
+        assertEquals(direction.getAngleTo(NORTH_EAST), 15d);
 
         direction = new AnyDirection(175);
-        Assert.assertEquals(direction.getAngleTo(EAST), 275, 0);
-        Assert.assertEquals(direction.getAngleTo(SOUTH_EAST), 320, 0);
-        Assert.assertEquals(direction.getAngleTo(SOUTH), 5, 0);
-        Assert.assertEquals(direction.getAngleTo(SOUTH_WEST), 50, 0);
-        Assert.assertEquals(direction.getAngleTo(WEST), 95, 0);
-        Assert.assertEquals(direction.getAngleTo(NORTH_WEST), 140, 0);
-        Assert.assertEquals(direction.getAngleTo(NORTH), 185, 0);
-        Assert.assertEquals(direction.getAngleTo(NORTH_EAST), 230, 0);
+        assertEquals(direction.getAngleTo(EAST), 275d);
+        assertEquals(direction.getAngleTo(SOUTH_EAST), 320d);
+        assertEquals(direction.getAngleTo(SOUTH), 5d);
+        assertEquals(direction.getAngleTo(SOUTH_WEST), 50d);
+        assertEquals(direction.getAngleTo(WEST), 95d);
+        assertEquals(direction.getAngleTo(NORTH_WEST), 140d);
+        assertEquals(direction.getAngleTo(NORTH), 185d);
+        assertEquals(direction.getAngleTo(NORTH_EAST), 230d);
 
     }
 
