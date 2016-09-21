@@ -38,13 +38,11 @@ public class ScaleHandler implements LineSpaceHandler {
 
         double maxMoveX = conflicts.stream()
                 .map(Conflict::getDisplaceDistanceAlongX)
-                // .map(d -> 1 + 1 / mapWidth * d)
                 .map(d -> (mapWidth + d) / mapWidth)
                 .max(Double::compare)
                 .orElse(1d);
         double maxMoveY = conflicts.stream()
                 .map(Conflict::getDisplaceDistanceAlongY)
-                // .map(d -> 1 + 1 / mapHeight * d)
                 .map(d -> (mapHeight + d) / mapHeight)
                 .max(Double::compare)
                 .orElse(1d);
@@ -72,23 +70,18 @@ public class ScaleHandler implements LineSpaceHandler {
         EnhancedList<Conflict> conflicts = map.evaluateConflicts(false);
 
         Loggers.separator(this);
-        Loggers.info(this, "Iteration: " + currentIteration);
+        Loggers.info(this, "Iteration: {0}", currentIteration);
 
         if (!conflicts.isEmpty()) {
 
-            Loggers.warning(this, "Conflicts found: " + conflicts.size());
+            Loggers.warning(this, "Conflicts found: {0}", conflicts.size());
 
-            Stream<Geometry> buffers = conflicts.stream()
-                    .flatMap(conflict -> Stream.of(conflict.getBufferA(), conflict.getBufferB()))
-                    .map(ElementBuffer::getBuffer);
-            GeometryCollection coll = GeomUtil.createCollection(buffers);
-            Envelope bbox = coll.getEnvelopeInternal();
+            Envelope bbox = map.getBoundingBox();
             double scaleFactor = evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
-            Loggers.info(this, "Use scale factor: " + scaleFactor);
+            Loggers.info(this, "Use scale factor: {0}", scaleFactor);
             scale(map, scaleFactor);
 
             if (currentIteration < MAX_ITERATIONS) {
-                // since conflicts between non-neighbours are
                 makeSpace(currentIteration);
             }
             else {
