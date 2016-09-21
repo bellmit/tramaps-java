@@ -40,15 +40,15 @@ public class MetroMapZuerich extends MetroMap {
         Route s42 = new Route("S24", 5, Color.BLACK);
         Route sbb = new Route("SBB", 5, Color.BLACK);
 
-        Node hb = createNode("Zürich HB", 105, 120);
+        Node hb = createNode("Zürich HB", 120, 105);
 
         Node uetlibergTrainCrossing = createCrossingNode(115, 90); // C1
-        Node selnau = createNode("Selnau", 85, 110);
+        Node selnau = createNode("Selnau", 110, 85);
         Node selnauToBinzGiesshuebel = createJunctionNode(105, 80); // J1
-        Node binz = createNode("Binz", 80, 95);
-        Node friesenberg = createNode("Friesenberg", 80, 90);
-        Node giesshuebel = createNode("Giesshübel", 75, 110);
-        Node saalsporthalle = createNode("Saalsporthalle", 70, 110);
+        Node binz = createNode("Binz", 95, 80);
+        Node friesenberg = createNode("Friesenberg", 90, 80);
+        Node giesshuebel = createNode("Giesshübel", 110, 75);
+        Node saalsporthalle = createNode("Saalsporthalle", 110, 70);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s4, s10)
@@ -75,9 +75,9 @@ public class MetroMapZuerich extends MetroMap {
 
         Node hbToHardbrueckeWipkingenWiedikon = createJunctionNode(110, 105); // J2
 
-        Node wiedikon = createNode("Wiedikon", 95, 110);
-        Node enge = createNode("Enge", 85, 120);
-        Node wollishofen = createNode("Wollishofen", 60, 145);
+        Node wiedikon = createNode("Wiedikon", 110, 95);
+        Node enge = createNode("Enge", 120, 85);
+        Node wollishofen = createNode("Wollishofen", 145, 60);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s2, s3, s5, s6, s7, s8, s9, s11, s12, s15, s16, s21, s24, s42, sbb)
@@ -95,13 +95,13 @@ public class MetroMapZuerich extends MetroMap {
                 .station(wollishofen)
                 .create();
 
-        Node hardbruecke = createNode("Hardbrücke", 105, 100);
-        Node altstetten = createNode("Altstetten", 105, 75);
+        Node hardbruecke = createNode("Hardbrücke", 100, 105);
+        Node altstetten = createNode("Altstetten", 75, 105);
         Node hardbrueckeToOerlikonAltstetten = createJunctionNode(95, 105); // J3
         Node oerlikonToWipkingenHardbruecke = createJunctionNode(105, 135); // J4
         Node oerlikonToHbWipkingenHardbruecke = createJunctionNode(105, 140); // J5
-        Node oerlikon = createNode("Oerlikon", 145, 105);
-        Node wipkingen = createNode("Wipkingen", 110, 105);
+        Node oerlikon = createNode("Oerlikon", 105, 145);
+        Node wipkingen = createNode("Wipkingen", 105, 110);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s2, s3, s5, s6, s7, s8, s9, s11, s12, s15, s16, s21, s42, sbb)
@@ -148,9 +148,9 @@ public class MetroMapZuerich extends MetroMap {
                 .create();
 
         Node stadelhofenToHb = createJunctionNode(130, 105); // J6
-        Node stadelhofen = createNode("Stadelhofen", 100, 135);
+        Node stadelhofen = createNode("Stadelhofen", 135, 100);
         Node stadelhofenToTiefenbrunnenStettbach = createJunctionNode(140, 95); // J7
-        Node tiefenbrunnen = createNode("Tiefenbrunnen", 75, 160);
+        Node tiefenbrunnen = createNode("Tiefenbrunnen", 160, 75);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s2, s8, s14, s19, s9, s5, s15, s24, s11, s3, s7, s6, s16, s12)
@@ -191,7 +191,7 @@ public class MetroMapZuerich extends MetroMap {
                 .junction(oerlikonToWallisellen)
                 .create();
 
-        Node wallisellen = createNode("Wallisellen", 165, 140);
+        Node wallisellen = createNode("Wallisellen", 140, 165);
         Node crossJunction = createJunctionNode(160, 165); // J9
 
         new MetroMapEdgeBuilder(this)
@@ -203,7 +203,7 @@ public class MetroMapZuerich extends MetroMap {
                 .junction(crossJunction)
                 .create();
 
-        Node stettbach = createNode("Stettbach", 150, 160);
+        Node stettbach = createNode("Stettbach", 160, 150);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s11, s12, s3, s9, s15, s5)
@@ -213,7 +213,7 @@ public class MetroMapZuerich extends MetroMap {
                 .junction(stadelhofenToTiefenbrunnenStettbach)
                 .create();
 
-        Node dietlikon = createNode("Dietlikon", 190, 170);
+        Node dietlikon = createNode("Dietlikon", 170, 190);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s8, s19, s3, s11, s12)
@@ -222,7 +222,7 @@ public class MetroMapZuerich extends MetroMap {
                 .station(dietlikon)
                 .create();
 
-        Node duebendorf = createNode("Dübendorf", 160, 205);
+        Node duebendorf = createNode("Dübendorf", 205, 160);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s14, s9, s15, s5)
@@ -231,35 +231,35 @@ public class MetroMapZuerich extends MetroMap {
                 .station(duebendorf)
                 .create();
 
-//        Node schlieren = createNode(40, 105, "Schlieren");
-//        Node urdorf = createNode(40, 75, "Urdorf");
-//
-//        Node altstettenToSchlierenUrdorf = createJunctionNode(70, 105);
-//
-//        new MetroMapEdgeBuilder(this)
-//                .routes(s3, s42, s12, sbb, s19, s5, s14)
-//                .station(altstetten)
-//                .junction(altstettenToSchlierenUrdorf)
-//                .create();
-//
-//        new MetroMapEdgeBuilder(this)
-//                .routes(s5, s14)
-//                .junction(altstettenToSchlierenUrdorf)
-//                .station(urdorf)
-//                .create();
-//
-//        new MetroMapEdgeBuilder(this)
-//                .routes(s3, s42, s12, sbb, s19)
-//                .junction(altstettenToSchlierenUrdorf)
-//                .station(schlieren)
-//                .create();
+        Node schlieren = createNode("Schlieren", 40, 105);
+        Node urdorf = createNode("Urdorf", 40, 75);
+
+        Node altstettenToSchlierenUrdorf = createJunctionNode(70, 105);
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s3, s42, s12, sbb, s19, s5, s14)
+                .station(altstetten)
+                .junction(altstettenToSchlierenUrdorf)
+                .create();
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s5, s14)
+                .junction(altstettenToSchlierenUrdorf)
+                .station(urdorf)
+                .create();
+
+        new MetroMapEdgeBuilder(this)
+                .routes(s3, s42, s12, sbb, s19)
+                .junction(altstettenToSchlierenUrdorf)
+                .station(schlieren)
+                .create();
 
     }
 
     /**
      * @return a node for given position and name using a {@link RectangleStationSignature}
      */
-    private Node createNode(@NotNull String name, double y, double x) {
+    private Node createNode(@NotNull String name, double x, double y) {
         return createNode(x, y, name, RectangleStationSignature::new);
     }
 
