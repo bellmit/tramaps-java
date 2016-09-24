@@ -69,13 +69,13 @@ public interface Conflict extends Comparable<Conflict> {
     /**
      * @return true if this {@link Conflict} has <b>not</b> been solved meanwhile
      */
-
-    boolean isNotSolved();
+    default boolean isNotSolved() {
+        return !isSolved();
+    }
 
     /**
      * @return true if this {@link Conflict} has been solved meanwhile
      */
-
     boolean isSolved();
 
     /**

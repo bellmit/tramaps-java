@@ -46,12 +46,12 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Tramaps GUI");
 
-        map = new MetroMapChapterFive();
+        //map = new MetroMapChapterFive();
         //map = new MetroMapExampleGraph();
-        //map = new MetroMapZuerich();
+        map = new MetroMapZuerich();
 
-        makeSpace(() -> new ScaleHandler(map));
-        //makeSpace(() -> new DisplaceLineSpaceHandler(map));
+        //makeSpace(() -> new ScaleHandler(map));
+        makeSpace(() -> new DisplaceLineSpaceHandler(map));
 
         drawMetroMap();
 

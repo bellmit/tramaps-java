@@ -12,7 +12,6 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.Axis;
-import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
@@ -25,10 +24,17 @@ import java.util.stream.Stream;
 import static ch.geomo.tramaps.conflict.ConflictFinder.CONFLICT_COMPARATOR;
 import static ch.geomo.util.geom.Axis.X;
 
+/**
+ * Provides a common implementation of certain methods and properties of a {@link Conflict} to reduce redundancy and
+ * duplicated code.
+ */
 public abstract class AbstractConflict implements Conflict {
 
     protected final ElementBufferPair buffers;
 
+    /**
+     * Projection of the displace vector along the x-axis and its rejection.
+     */
     protected Pair<MoveVector> projection;
 
     protected ConflictType conflictType;
@@ -39,18 +45,14 @@ public abstract class AbstractConflict implements Conflict {
     protected boolean solved = false;
 
     public AbstractConflict(@NotNull Pair<ElementBuffer> bufferPair) {
-        this(bufferPair.getFirst(), bufferPair.getSecond());
-    }
-
-    public AbstractConflict(@NotNull ElementBuffer bufferA, @NotNull ElementBuffer bufferB) {
-        buffers = new ElementBufferPair(bufferA, bufferB);
+        buffers = new ElementBufferPair(bufferPair.getFirst(), bufferPair.getSecond());
     }
 
     /**
      * @return the {@link MoveVector} along x-axis
      */
     @NotNull
-    protected MoveVector getProjection() {
+    protected MoveVector getMoveVectorAlongX() {
         return projection.getFirst();
     }
 
@@ -58,22 +60,31 @@ public abstract class AbstractConflict implements Conflict {
      * @return the {@link MoveVector} along y-axis
      */
     @NotNull
-    protected MoveVector getRejection() {
+    protected MoveVector getMoveVectorAlongY() {
         return projection.getSecond();
     }
 
-    @Override
+    /**
+     * @see Conflict#getConflictType()
+     */
     @NotNull
+    @Override
     public ConflictType getConflictType() {
         return conflictType;
     }
 
+    /**
+     * @see Conflict#getDisplaceVector()
+     */
     @NotNull
     @Override
     public MoveVector getDisplaceVector() {
         return displaceVector;
     }
 
+    /**
+     * @see Conflict#getBestDisplaceAxis()
+     */
     @NotNull
     @Override
     public Axis getBestDisplaceAxis() {
@@ -103,18 +114,27 @@ public abstract class AbstractConflict implements Conflict {
         return Math.ceil(Math.abs(bestDisplaceVector.length()));
     }
 
+    /**
+     * @see Conflict#getBufferA()
+     */
     @NotNull
     @Override
     public ElementBuffer getBufferA() {
         return buffers.first();
     }
 
+    /**
+     * @see Conflict#getBufferB()
+     */
     @NotNull
     @Override
     public ElementBuffer getBufferB() {
         return buffers.second();
     }
 
+    /**
+     * @return all nodes as a list (list's size is 0, 1 or 2 nodes depending on the conflict type)
+     */
     @NotNull
     public List<Node> getNodes() {
         return Stream.of(getBufferA().getElement(), getBufferB().getElement())
@@ -123,6 +143,9 @@ public abstract class AbstractConflict implements Conflict {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @return all edges as a list (list's size is 0, 1 or 2 edges depending on the conflict type)
+     */
     @NotNull
     public List<Edge> getEdges() {
         return Stream.of(getBufferA().getElement(), getBufferB().getElement())
@@ -131,42 +154,61 @@ public abstract class AbstractConflict implements Conflict {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public boolean isNotSolved() {
-        return !solved;
-    }
-
+    /**
+     * @see Conflict#isSolved()
+     */
     @Override
     public boolean isSolved() {
         return solved;
     }
 
+    /**
+     * @see Conflict#getDisplaceOriginPoint()
+     */
     @NotNull
     @Override
     public Coordinate getDisplaceOriginPoint() {
         return bestDisplaceStartPoint;
     }
 
+    /**
+     * @return the <b>ceiled</b> displace distance along x-axis
+     * @see Conflict#getDisplaceDistanceAlongX()
+     */
     @Override
     public double getDisplaceDistanceAlongX() {
-        return GeomUtil.makePrecise(Math.abs(projection.getFirst().length()));
+        return Math.ceil(Math.abs(projection.getFirst().length()));
     }
 
+    /**
+     * @return the <b>ceiled</b> displace distance along y-axis
+     * @see Conflict#getDisplaceDistanceAlongY()
+     */
     @Override
     public double getDisplaceDistanceAlongY() {
-        return GeomUtil.makePrecise(Math.abs(projection.getSecond().length()));
+        return Math.ceil(Math.abs(projection.getSecond().length()));
     }
 
+    /**
+     * @return if given element is a conflict element
+     */
     private boolean isConflictElement(@NotNull GraphElement graphElement) {
         return graphElement.equals(getBufferA().getElement())
                 || graphElement.equals(getBufferB().getElement());
     }
 
+    /**
+     * @return if given element is adjacent to a conflict element
+     */
     private boolean isAdjacentToConflictElement(@NotNull GraphElement graphElement) {
         return graphElement.isAdjacent(getBufferA().getElement())
                 || graphElement.isAdjacent(getBufferB().getElement());
     }
 
+    /**
+     * @return if given element is a conflict element or adjacent to a conflict element
+     * @see Conflict#isConflictRelated(GraphElement)
+     */
     @Override
     public boolean isConflictRelated(@NotNull GraphElement graphElement) {
         return isConflictElement(graphElement) || isAdjacentToConflictElement(graphElement);
@@ -190,7 +232,11 @@ public abstract class AbstractConflict implements Conflict {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ": {" + getBufferA() + ", " + getBufferB() + ", distance=" + getBestDisplaceDistance() + ", point=" + bestDisplaceStartPoint + ", axis=" + bestDisplaceAxis + "}";
+        return getClass().getSimpleName() + ": {" +
+                "elements=[" + getBufferA() + ", " + getBufferB() + "], " +
+                "distance=" + getBestDisplaceDistance() + ", " +
+                "point=" + bestDisplaceStartPoint + ", " +
+                "axis=" + bestDisplaceAxis + "}";
     }
 
 }

@@ -17,10 +17,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -304,33 +301,52 @@ public class Node extends Observable implements GraphElement, NodePoint {
         return getY() < coordinate.y;
     }
 
-    public boolean isSouthOf(@NotNull Node node) {
-        return isSouthOf(node.getCoordinate());
+    public boolean isSouthOf(@NotNull Node... node) {
+        return Arrays.stream(node)
+                .allMatch(n -> isSouthOf(n.getCoordinate()));
+    }
+
+    public boolean isSouthOf(@NotNull Edge edge) {
+        return isSouthOf(edge.getNodeA(), edge.getNodeB());
     }
 
     public boolean isNorthOf(@NotNull Coordinate coordinate) {
         return getY() > coordinate.y;
     }
 
-    public boolean isNorthOf(@NotNull Node node) {
-        return isNorthOf(node.getCoordinate());
+    public boolean isNorthOf(@NotNull Node... node) {
+        return Arrays.stream(node)
+                .allMatch(n -> isNorthOf(n.getCoordinate()));
+    }
+
+    public boolean isNorthOf(@NotNull Edge edge) {
+        return isNorthOf(edge.getNodeA(), edge.getNodeB());
     }
 
     public boolean isEastOf(@NotNull Coordinate coordinate) {
         return getX() > coordinate.x;
     }
 
-    public boolean isEastOf(@NotNull Node node) {
-        return isEastOf(node.getCoordinate());
+    public boolean isEastOf(@NotNull Node... node) {
+        return Arrays.stream(node)
+                .allMatch(n -> isEastOf(n.getCoordinate()));
+    }
+
+    public boolean isEastOf(@NotNull Edge edge) {
+        return isEastOf(edge.getNodeA(), edge.getNodeB());
     }
 
     public boolean isWestOf(@NotNull Coordinate coordinate) {
         return getX() < coordinate.x;
     }
 
-    @SuppressWarnings("unused")
-    public boolean isWestOf(@NotNull Node node) {
-        return isWestOf(node.getCoordinate());
+    public boolean isWestOf(@NotNull Node... node) {
+        return Arrays.stream(node)
+                .allMatch(n -> isWestOf(n.getCoordinate()));
+    }
+
+    public boolean isWestOf(@NotNull Edge edge) {
+        return isWestOf(edge.getNodeA(), edge.getNodeB());
     }
 
     @Contract("null -> true")

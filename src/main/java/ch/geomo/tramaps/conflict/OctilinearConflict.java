@@ -37,6 +37,9 @@ public class OctilinearConflict extends AbstractConflict {
         initConflict();
     }
 
+    /**
+     * Initialize this conflict.
+     */
     private void initConflict() {
 
         Node nodeA = getNodes().get(0);

@@ -88,16 +88,16 @@ public class MetroMapDrawer {
 
         Font font = Font.font(7);
         map.getNodes().forEach(node -> {
-            Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
-            context.setStroke(Color.BLACK);
-            context.setFont(font);
-            context.setLineWidth(0.5);
-            if (showNodePosition) {
-                context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
-            }
-            else {
-                context.strokeText(node.getName(), station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
-            }
+//            Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
+//            context.setStroke(Color.BLACK);
+//            context.setFont(font);
+//            context.setLineWidth(0.5);
+//            if (showNodePosition) {
+//                context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
+//            }
+//            else {
+//                context.strokeText(node.getName(), station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
+//            }
         });
 
     }
