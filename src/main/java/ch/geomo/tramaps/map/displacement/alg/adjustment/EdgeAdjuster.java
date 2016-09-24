@@ -265,12 +265,8 @@ public class EdgeAdjuster {
 
     }
 
-    public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
-        new EdgeAdjuster(map, edge, maxAdjustmentCosts).correctEdge();
-    }
-
     public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge) {
-        correctEdge(map, edge, MAX_ADJUSTMENT_COSTS);
+        new EdgeAdjuster(map, edge, MAX_ADJUSTMENT_COSTS).correctEdge();
     }
 
 }

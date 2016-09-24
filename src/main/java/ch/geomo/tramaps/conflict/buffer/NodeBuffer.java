@@ -37,18 +37,12 @@ public class NodeBuffer implements ElementBuffer {
         buffer = GeomUtil.createBuffer(geometry, margin, true);
     }
 
-    /**
-     * @see ElementBuffer#getBuffer()
-     */
     @NotNull
     @Override
     public Polygon getBuffer() {
         return buffer;
     }
 
-    /**
-     * @see ElementBuffer#getElement()
-     */
     @NotNull
     @Override
     public GraphElement getElement() {

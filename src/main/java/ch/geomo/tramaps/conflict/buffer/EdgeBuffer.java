@@ -40,18 +40,12 @@ public class EdgeBuffer implements ElementBuffer {
         buffer = GeomUtil.createBuffer(edge.getLineString(), width / 2, true);
     }
 
-    /**
-     * @see ElementBuffer#getBuffer()
-     */
     @NotNull
     @Override
     public Polygon getBuffer() {
         return buffer;
     }
 
-    /**
-     * @see ElementBuffer#getElement()
-     */
     @NotNull
     @Override
     public GraphElement getElement() {

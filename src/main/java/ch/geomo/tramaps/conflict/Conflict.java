@@ -7,7 +7,6 @@ package ch.geomo.tramaps.conflict;
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
-import ch.geomo.util.geom.Axis;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +28,6 @@ public interface Conflict extends Comparable<Conflict> {
 
     /**
      * @return the type of this conflict
-     * @see ConflictType
      */
     @NotNull
     ConflictType getConflictType();
@@ -41,21 +39,13 @@ public interface Conflict extends Comparable<Conflict> {
     MoveVector getDisplaceVector();
 
     /**
-     * @return the best axis for the displacement line (g)
-     */
-    @NotNull
-    Axis getBestDisplaceAxis();
-
-    /**
      * @return the best displacement direction based on the best displacement axis
-     * @see #getBestDisplaceAxis()
      */
     @NotNull
     OctilinearDirection getBestDisplaceDirection();
 
     /**
      * @return the best displacement distance based on the best displacement axis
-     * @see #getBestDisplaceAxis()
      */
     double getBestDisplaceDistance();
 

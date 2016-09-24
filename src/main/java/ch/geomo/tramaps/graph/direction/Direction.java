@@ -30,9 +30,6 @@ public interface Direction {
         return !isHorizontal() && !isVertical();
     }
 
-    @NotNull
-    OctilinearDirection toOrthogonal();
-
     /**
      * Returns the closest octilinear direction for this direction. Depending on
      * the implementation the angle will be rounded up or down.

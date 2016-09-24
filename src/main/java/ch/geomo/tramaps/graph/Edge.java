@@ -54,11 +54,6 @@ public class Edge extends Observable implements Observer, GraphElement {
 
     }
 
-    public Edge(@NotNull String name, @NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
-        this(nodeA, nodeB, routes);
-        this.name = name;
-    }
-
     /**
      * Calculates the edge width set this edge using given margin between
      * the routes.
@@ -157,15 +152,14 @@ public class Edge extends Observable implements Observer, GraphElement {
         return nodePair.contains(node);
     }
 
+    /**
+     * @return the {@link LineString} representation of this edge
+     */
     @NotNull
-
     public LineString getLineString() {
         return lineString;
     }
 
-    /**
-     * @see #getLineString()
-     */
     @NotNull
     @Override
     public Geometry getGeometry() {
@@ -175,8 +169,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * Returns the {@link Direction} set this edge starting at given {@link Node}. Returns
      * the given {@link Direction} if given {@link Node} is null.
-     * @see #getDirection(Node)
-     * @see #getOriginalDirection(Node)
      */
     @NotNull
     private Direction getDirection(@Nullable Node node, @NotNull Direction direction) {
@@ -208,18 +200,18 @@ public class Edge extends Observable implements Observer, GraphElement {
         return getDirection(node, originalDirection);
     }
 
+    /**
+     * @return true if this edge has an octilinear angle
+     */
     public boolean isOctilinear() {
         return getDirection(getNodeA(), direction).isOctilinear();
     }
 
+    /**
+     * @return true if this edge has a <b>non-</b>octilinear angle
+     */
     public boolean isNotOctilinear() {
         return !isOctilinear();
-    }
-
-    @Override
-    @Contract(value = "->true")
-    public boolean isEdge() {
-        return true;
     }
 
     /**

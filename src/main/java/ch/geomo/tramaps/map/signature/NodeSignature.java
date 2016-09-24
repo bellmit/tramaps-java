@@ -29,12 +29,16 @@ public interface NodeSignature extends Observer {
     @NotNull
     Polygon getGeometry();
 
+    /**
+     * Updates the signature.
+     */
     void updateSignature();
 
     /**
      * Implementing class set {@link NodeSignature} must extend {@link Observable}. Doing so, this
      * method must not be overridden.
      */
+    @SuppressWarnings("unused")
     void addObserver(Observer o);
 
 }

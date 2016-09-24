@@ -95,6 +95,7 @@ public class Graph {
      * Creates a new {@link Node} and adds the node to this instance.
      * @return the created node
      */
+    @NotNull
     public Node createNode(double x, double y, @NotNull String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
         Node node = new Node(name, x, y, nodeSignatureFactory);
         addNodes(node);
@@ -105,6 +106,7 @@ public class Graph {
      * Creates a new {@link Edge}.
      * @return the created edge
      */
+    @NotNull
     public Edge createEdge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {
         Edge edge = new Edge(nodeA, nodeB, routes);
         clearCache();

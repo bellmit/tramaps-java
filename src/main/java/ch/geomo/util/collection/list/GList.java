@@ -237,11 +237,6 @@ public class GList<E> extends ArrayList<E> implements EnhancedList<E> {
     }
 
     @NotNull
-    public List<E> immutable() {
-        return Collections.unmodifiableList(this);
-    }
-
-    @NotNull
     public static <E> EnhancedList<E> cast(@NotNull List<E> list) {
         if (list instanceof EnhancedList) {
             return (EnhancedList<E>) list;

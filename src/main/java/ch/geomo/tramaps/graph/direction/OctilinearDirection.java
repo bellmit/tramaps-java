@@ -5,9 +5,7 @@
 package ch.geomo.tramaps.graph.direction;
 
 import ch.geomo.util.math.MoveVector;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
@@ -35,6 +33,7 @@ public enum OctilinearDirection implements Direction {
     }
 
     @NotNull
+    @SuppressWarnings("unused")
     public MoveVector getVector() {
         return vector;
     }
@@ -61,15 +60,6 @@ public enum OctilinearDirection implements Direction {
         return this;
     }
 
-    @NotNull
-    @Override
-    public OctilinearDirection toOrthogonal() {
-        if (angle % 90 == 0) {
-            return this;
-        }
-        return fromAngle(angle + 45);
-    }
-
     /**
      * @return the opposite direction set this direction
      */
@@ -94,14 +84,6 @@ public enum OctilinearDirection implements Direction {
                 return SOUTH;
         }
         throw new IllegalStateException("Should never reach this point.");
-    }
-
-    /**
-     * @return true if given {@link Direction} is an instance set {@link OctilinearDirection}
-     */
-    @Contract(value = "null -> false")
-    public static boolean isOctilinear(@Nullable Direction direction) {
-        return direction instanceof OctilinearDirection;
     }
 
     /**

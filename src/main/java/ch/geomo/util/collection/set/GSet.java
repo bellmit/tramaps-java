@@ -204,11 +204,6 @@ public class GSet<E> extends HashSet<E> implements EnhancedSet<E> {
     }
 
     @NotNull
-    public Set<E> immutable() {
-        return Collections.unmodifiableSet(this);
-    }
-
-    @NotNull
     public static <E> EnhancedSet<E> emptySet() {
         return new GSet<>();
     }

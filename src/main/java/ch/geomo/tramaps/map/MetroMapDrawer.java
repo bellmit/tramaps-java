@@ -19,6 +19,8 @@ public class MetroMapDrawer {
     private final MetroMap map;
     private final double margin;
     private final double scaleFactor;
+
+    private final boolean showNodeName = false;
     private final boolean showNodePosition;
 
     public MetroMapDrawer(@NotNull MetroMap map, double margin, double scaleFactor, boolean showNodePosition) {
@@ -86,19 +88,21 @@ public class MetroMapDrawer {
                     context.fillRect(bbox2.getMinX() * scaleFactor, -bbox2.getMinY() * scaleFactor, bbox2.getWidth() * scaleFactor, bbox2.getHeight() * scaleFactor);
                 });
 
-        Font font = Font.font(7);
-        map.getNodes().forEach(node -> {
-//            Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
-//            context.setStroke(Color.BLACK);
-//            context.setFont(font);
-//            context.setLineWidth(0.5);
-//            if (showNodePosition) {
-//                context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
-//            }
-//            else {
-//                context.strokeText(node.getName(), station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
-//            }
-        });
+        if (showNodeName) {
+            Font font = Font.font(7);
+            map.getNodes().forEach(node -> {
+                Envelope station = node.getNodeSignature().getGeometry().getEnvelopeInternal();
+                context.setStroke(Color.BLACK);
+                context.setFont(font);
+                context.setLineWidth(0.5);
+                if (showNodePosition) {
+                    context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
+                }
+                else {
+                    context.strokeText(node.getName(), station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
+                }
+            });
+        }
 
     }
 

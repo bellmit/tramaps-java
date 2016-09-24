@@ -37,12 +37,10 @@ public class MetroMap extends Graph {
         return routeMargin;
     }
 
-    @SuppressWarnings("unused")
     public double getEdgeMargin() {
         return edgeMargin;
     }
 
-    @SuppressWarnings("unused")
     public double getNodeMargin() {
         return nodeMargin;
     }

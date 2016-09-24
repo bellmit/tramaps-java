@@ -11,14 +11,6 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ImmutablePair<T> extends AbstractPair<T> {
 
-    public ImmutablePair() {
-        super();
-    }
-
-    public ImmutablePair(@Nullable Pair<T> pair) {
-        super(pair);
-    }
-
     public ImmutablePair(@Nullable T first, @Nullable T second) {
         super(first, second);
     }

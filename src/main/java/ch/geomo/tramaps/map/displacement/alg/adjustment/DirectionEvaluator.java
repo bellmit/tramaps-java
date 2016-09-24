@@ -8,7 +8,6 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.direction.Direction;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
-import ch.geomo.tramaps.graph.util.GraphUtil;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.logging.Loggers;
@@ -28,10 +27,11 @@ public enum DirectionEvaluator {
     @NotNull
     public static MoveVector evaluateSingleNodeDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
 
+        double dx = Math.abs(connectionEdge.getNodeA().getX() - connectionEdge.getNodeB().getX());
+        double dy = Math.abs(connectionEdge.getNodeA().getY() - connectionEdge.getNodeB().getY());
+        double diff = Math.abs(dx - dy);
+
         Node otherNode = connectionEdge.getOtherNode(moveableNode);
-
-        double diff = GraphUtil.getAbsDiffDeltaXY(connectionEdge);
-
         OctilinearDirection originalDirection = connectionEdge.getOriginalDirection(otherNode).toOctilinear();
         double angle = originalDirection.getAngleTo(connectionEdge.getDirection(otherNode));
 
@@ -80,38 +80,36 @@ public enum DirectionEvaluator {
     @NotNull
     public static MoveVector evaluateDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
 
+        double dx = Math.abs(connectionEdge.getNodeA().getX() - connectionEdge.getNodeB().getX());
+        double dy = Math.abs(connectionEdge.getNodeA().getY() - connectionEdge.getNodeB().getY());
+        double diff = Math.abs(dx - dy);
+
         Node otherNode = connectionEdge.getOtherNode(moveableNode);
-
-        double dx = GraphUtil.getAbsDeltaX(connectionEdge);
-        double dy = GraphUtil.getAbsDeltaY(connectionEdge);
-
-        double moveDistance = GraphUtil.getAbsDiffDeltaXY(connectionEdge);
-
         EnhancedList<OctilinearDirection> directions = getAdjacentEdgeDirections(moveableNode, connectionEdge);
 
         if (directions.allMatch(Direction::isVertical)) {
             if (dy > dx) {
                 if (otherNode.isNorthOf(moveableNode)) {
-                    return new MoveVector(0, moveDistance);
+                    return new MoveVector(0, diff);
                 }
-                return new MoveVector(0, -moveDistance);
+                return new MoveVector(0, -diff);
             }
             if (otherNode.isNorthOf(moveableNode)) {
-                return new MoveVector(0, -moveDistance);
+                return new MoveVector(0, -diff);
             }
-            return new MoveVector(0, moveDistance);
+            return new MoveVector(0, diff);
         }
         else if (directions.allMatch(Direction::isHorizontal)) {
             if (dx > dy) {
                 if (otherNode.isEastOf(moveableNode)) {
-                    return new MoveVector(moveDistance, 0);
+                    return new MoveVector(diff, 0);
                 }
-                return new MoveVector(-moveDistance, 0);
+                return new MoveVector(-diff, 0);
             }
             if (otherNode.isEastOf(moveableNode)) {
-                return new MoveVector(-moveDistance, 0);
+                return new MoveVector(-diff, 0);
             }
-            return new MoveVector(moveDistance, 0);
+            return new MoveVector(diff, 0);
         }
         else if (directions.hasOneElement()) {
 

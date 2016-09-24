@@ -6,7 +6,6 @@ package ch.geomo.tramaps.conflict;
 
 /**
  * Represents the type of a {@link Conflict}.
- * @see Conflict
  */
 public enum ConflictType {
 

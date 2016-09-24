@@ -9,7 +9,6 @@ import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.point.NodePoint;
-import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
@@ -130,18 +129,7 @@ public class Node extends Observable implements GraphElement, NodePoint {
     }
 
     /**
-     * @return if given edge is an adjacent edge of this node
-     */
-
-    @SuppressWarnings("unused")
-    public boolean hasAdjacentEdge(@NotNull Edge edge) {
-        return adjacentEdges.anyMatch(edge::equals);
-    }
-
-    /**
-     * Returns the node's geometry. Alias for {@link #getPoint()} in order to
-     * satisfy {@link GraphElement}.
-     * @see #getPoint()
+     * Returns the node's geometry. Alias for {@link #getPoint()} in order to satisfy {@link GraphElement}.
      */
     @NotNull
     @Override
@@ -194,15 +182,9 @@ public class Node extends Observable implements GraphElement, NodePoint {
         notifyObservers();
     }
 
-    @SuppressWarnings("unused")
-    public void updatePosition(@NotNull MoveVector moveVector) {
-        updatePosition(GeomUtil.createMovePoint(toPoint(), moveVector).getCoordinate());
-    }
-
     /**
      * @see #updatePosition(double, double)
      */
-
     public void updatePosition(@NotNull Coordinate coordinate) {
         updatePosition(coordinate.x, coordinate.y);
     }
@@ -221,12 +203,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
      */
     public void updateY(double y) {
         updatePosition(getX(), y);
-    }
-
-    @Override
-    @Contract("->true")
-    public boolean isNode() {
-        return true;
     }
 
     /**

@@ -64,18 +64,12 @@ public abstract class AbstractConflict implements Conflict {
         return projection.getSecond();
     }
 
-    /**
-     * @see Conflict#getConflictType()
-     */
     @NotNull
     @Override
     public ConflictType getConflictType() {
         return conflictType;
     }
 
-    /**
-     * @see Conflict#getDisplaceVector()
-     */
     @NotNull
     @Override
     public MoveVector getDisplaceVector() {
@@ -83,18 +77,7 @@ public abstract class AbstractConflict implements Conflict {
     }
 
     /**
-     * @see Conflict#getBestDisplaceAxis()
-     */
-    @NotNull
-    @Override
-    public Axis getBestDisplaceAxis() {
-        return bestDisplaceAxis;
-    }
-
-    /**
      * @return best move direction along an axis
-     * @see OctilinearDirection#NORTH
-     * @see OctilinearDirection#EAST
      */
     @NotNull
     @Override
@@ -107,25 +90,18 @@ public abstract class AbstractConflict implements Conflict {
 
     /**
      * @return best move distance along the best move direction
-     * @see #getBestDisplaceDirection()
      */
     @Override
     public double getBestDisplaceDistance() {
         return Math.ceil(Math.abs(bestDisplaceVector.length()));
     }
 
-    /**
-     * @see Conflict#getBufferA()
-     */
     @NotNull
     @Override
     public ElementBuffer getBufferA() {
         return buffers.first();
     }
 
-    /**
-     * @see Conflict#getBufferB()
-     */
     @NotNull
     @Override
     public ElementBuffer getBufferB() {
@@ -154,17 +130,11 @@ public abstract class AbstractConflict implements Conflict {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * @see Conflict#isSolved()
-     */
     @Override
     public boolean isSolved() {
         return solved;
     }
 
-    /**
-     * @see Conflict#getDisplaceOriginPoint()
-     */
     @NotNull
     @Override
     public Coordinate getDisplaceOriginPoint() {
@@ -173,7 +143,6 @@ public abstract class AbstractConflict implements Conflict {
 
     /**
      * @return the <b>ceiled</b> displace distance along x-axis
-     * @see Conflict#getDisplaceDistanceAlongX()
      */
     @Override
     public double getDisplaceDistanceAlongX() {
@@ -182,7 +151,6 @@ public abstract class AbstractConflict implements Conflict {
 
     /**
      * @return the <b>ceiled</b> displace distance along y-axis
-     * @see Conflict#getDisplaceDistanceAlongY()
      */
     @Override
     public double getDisplaceDistanceAlongY() {
@@ -207,7 +175,6 @@ public abstract class AbstractConflict implements Conflict {
 
     /**
      * @return if given element is a conflict element or adjacent to a conflict element
-     * @see Conflict#isConflictRelated(GraphElement)
      */
     @Override
     public boolean isConflictRelated(@NotNull GraphElement graphElement) {

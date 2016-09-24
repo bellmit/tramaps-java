@@ -26,10 +26,6 @@ public interface GraphElement {
         return false;
     }
 
-    default boolean isNotAdjacent(@NotNull GraphElement edge) {
-        return !isAdjacent(edge);
-    }
-
     /**
      * @return true if given {@link Edge} is adjacent to this {@link GraphElement}
      */
@@ -55,20 +51,6 @@ public interface GraphElement {
     @NotNull
     default Point getCentroid() {
         return getGeometry().getCentroid();
-    }
-
-    /**
-     * @return true if this {@link GraphElement} is an edge
-     */
-    default boolean isEdge() {
-        return false;
-    }
-
-    /**
-     * @return true if this {@link GraphElement} is an node
-     */
-    default boolean isNode() {
-        return false;
     }
 
     /**

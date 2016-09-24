@@ -4,12 +4,14 @@
 
 package ch.geomo.util.collection.tuple;
 
+import org.jetbrains.annotations.Nullable;
+
 public class ImmutableTuple<T, S> implements Tuple<T, S> {
 
     private final T firstValue;
     private final S secondValue;
 
-    public ImmutableTuple(T firstValue, S secondValue) {
+    public ImmutableTuple(@Nullable T firstValue, @Nullable S secondValue) {
         this.firstValue = firstValue;
         this.secondValue = secondValue;
     }

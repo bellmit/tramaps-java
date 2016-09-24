@@ -36,6 +36,7 @@ public interface EnhancedSet<E> extends Set<E> {
     @NotNull
     Optional<E> first();
 
+    @SuppressWarnings("unused")
     boolean hasOneElement();
 
     boolean hasMoreThanOneElement();
@@ -89,8 +90,5 @@ public interface EnhancedSet<E> extends Set<E> {
     @NotNull
     @Override
     E[] toArray();
-
-    @NotNull
-    Set<E> immutable();
 
 }

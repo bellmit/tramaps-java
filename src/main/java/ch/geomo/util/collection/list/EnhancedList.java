@@ -100,7 +100,4 @@ public interface EnhancedList<E> extends List<E> {
     @Override
     E[] toArray();
 
-    @NotNull
-    List<E> immutable();
-
 }

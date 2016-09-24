@@ -50,20 +50,6 @@ public class AnyDirection implements Direction {
         return direction.toOctilinear();
     }
 
-    @NotNull
-    @Override
-    public OctilinearDirection toOrthogonal() {
-        Direction direction;
-        double diff = angle % 45;
-        if (diff < 45) {
-            direction = fromAngle(angle - diff);
-        }
-        else {
-            direction = fromAngle(angle + (90 - diff));
-        }
-        return direction.toOctilinear();
-    }
-
     /**
      * @return the opposite direction
      */

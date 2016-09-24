@@ -38,7 +38,6 @@ public class NodeDisplacer {
     /**
      * @return true if given direction is equals to the displace direction
      */
-
     private boolean isDisplaceDirection(@NotNull OctilinearDirection direction) {
         return displaceDirection == direction;
     }
@@ -75,7 +74,6 @@ public class NodeDisplacer {
     /**
      * @return true if given node is simple to move
      */
-
     private boolean isSimpleConnectionEdgeNode(@NotNull Node node, @NotNull Edge connectionEdge) {
         return node.getAdjacentEdges().stream()
                 .filter(connectionEdge::isNotEquals)
@@ -86,18 +84,6 @@ public class NodeDisplacer {
                     }
                     return !direction.isHorizontal();
                 });
-    }
-
-    /**
-     * @return if node is displaceable considering displace direction
-     */
-
-    @SuppressWarnings("unused")
-    private boolean isDisplaceable(@NotNull Node node) {
-        if (isDisplaceDirection(NORTH)) {
-            return isDisplaceableToNorth(node);
-        }
-        return isDisplaceableToEast(node);
     }
 
     /**
@@ -144,22 +130,8 @@ public class NodeDisplacer {
     }
 
     /**
-     * @return if node is north or east of {@link Conflict#getDisplaceOriginPoint()} depending on displace direction
-     */
-
-    @SuppressWarnings("unused")
-    private boolean isOnDisplaceSide(@NotNull Node node) {
-        Coordinate displaceOriginPoint = conflict.getDisplaceOriginPoint();
-        if (isDisplaceDirection(NORTH)) {
-            return node.isNorthOf(displaceOriginPoint);
-        }
-        return node.isEastOf(displaceOriginPoint);
-    }
-
-    /**
      * @return true if given edge is a connection edge
      */
-
     private boolean isConnectionEdge(@NotNull Edge edge) {
         Coordinate displaceOriginPoint = conflict.getDisplaceOriginPoint();
         if (isDisplaceDirection(NORTH)) {
@@ -173,7 +145,6 @@ public class NodeDisplacer {
     /**
      * @return true if given node has at least one adjacent connection edge
      */
-
     private boolean hasConnectionEdge(@NotNull Node node) {
         return node.getAdjacentEdges().anyMatch(this::isConnectionEdge);
     }
@@ -182,7 +153,6 @@ public class NodeDisplacer {
      * @return a set of connection edges
      */
     @NotNull
-
     private EnhancedSet<Edge> getConnectionEdges(@NotNull Node node) {
         return node.getAdjacentEdges(this::isConnectionEdge);
     }
@@ -194,7 +164,6 @@ public class NodeDisplacer {
      * Creates internally a new instance of {@link NodeDisplacer} and invokes {@link NodeDisplacer#displace()}.
      * @see NodeDisplacer#displace()
      */
-
     public static void displace(@NotNull MetroMap map, @NotNull Conflict conflict) {
         new NodeDisplacer(map, conflict).displace();
     }

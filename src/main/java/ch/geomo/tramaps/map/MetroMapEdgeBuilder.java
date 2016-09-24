@@ -61,6 +61,7 @@ public class MetroMapEdgeBuilder {
         return this;
     }
 
+    @NotNull
     public LinkedList<Node> create() {
         return build();
     }
