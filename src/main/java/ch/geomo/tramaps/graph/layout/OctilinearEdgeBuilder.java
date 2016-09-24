@@ -91,7 +91,7 @@ public class OctilinearEdgeBuilder {
 
         if (originalEdgeDirection == OctilinearDirection.NORTH_EAST) {
             if (dx > dy) {
-                if (!adjacentEdgeDirectionsA.contains(EAST) && !adjacentEdgeDirectionsB.contains(WEST)) { // 3
+                if (!adjacentEdgeDirectionsA.contains(EAST) && !adjacentEdgeDirectionsB.contains(WEST)) { // 7a
                     double x1 = a.getX() + diff / 2;
                     double y1 = a.getY();
                     double x2 = b.getX() - diff / 2;
@@ -99,17 +99,17 @@ public class OctilinearEdgeBuilder {
                     createNodeC(x1, y1);
                     createNodeD(x2, y2);
                 }
-                else if (!adjacentEdgeDirectionsA.contains(EAST)) { // 1
+                else if (!adjacentEdgeDirectionsA.contains(EAST)) { // 6a
                     double x = a.getX() + diff;
                     double y = a.getY();
                     createNodeC(x, y);
                 }
-                else if (!adjacentEdgeDirectionsB.contains(WEST)) { // 2
+                else if (!adjacentEdgeDirectionsB.contains(WEST)) { // 5a
                     double x = b.getX() - diff;
                     double y = b.getY();
                     createNodeC(x, y);
                 }
-                else { // 4
+                else { // 8a
                     double x1 = a.getX() + dy / 2;
                     double y1 = a.getY() + dy / 2;
                     double x2 = b.getX() - dy / 2;
@@ -119,7 +119,7 @@ public class OctilinearEdgeBuilder {
                 }
             }
             else { // dy > dx
-                if (!adjacentEdgeDirectionsA.contains(NORTH) && !adjacentEdgeDirectionsB.contains(SOUTH)) { // 9
+                if (!adjacentEdgeDirectionsA.contains(NORTH) && !adjacentEdgeDirectionsB.contains(SOUTH)) { // 1a
                     double x1 = a.getX();
                     double y1 = a.getY() + diff / 2;
                     double x2 = b.getX();
@@ -127,17 +127,17 @@ public class OctilinearEdgeBuilder {
                     createNodeC(x1, y1);
                     createNodeD(x2, y2);
                 }
-                else if (!adjacentEdgeDirectionsA.contains(NORTH)) { // 7
+                else if (!adjacentEdgeDirectionsA.contains(NORTH)) { // 3a
                     double x = a.getX();
                     double y = a.getY() + diff;
                     createNodeC(x, y);
                 }
-                else if (!adjacentEdgeDirectionsB.contains(SOUTH)) { // 8
+                else if (!adjacentEdgeDirectionsB.contains(SOUTH)) { // 2a
                     double x = b.getX();
                     double y = b.getY() - diff;
                     createNodeC(x, y);
                 }
-                else { // 10
+                else { // 4a
                     double x1 = a.getX() + dx / 2;
                     double y1 = a.getY() + dx / 2;
                     double x2 = b.getX() - dx / 2;
