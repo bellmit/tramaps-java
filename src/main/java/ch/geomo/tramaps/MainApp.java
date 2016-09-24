@@ -24,6 +24,8 @@ import java.util.function.Supplier;
 
 public class MainApp extends Application {
 
+    private static final int DRAWING_MARGIN = 50;
+
     private static final double MAX_HEIGHT = 600;
     private static final double MAX_WIDTH = 1200;
 
@@ -56,17 +58,15 @@ public class MainApp extends Application {
 
         Envelope bbox = map.getBoundingBox();
 
-        double margin = 100;
-
         double scaleFactor = MAX_HEIGHT / bbox.getHeight();
 
-        double scaledHeight = bbox.getHeight() * scaleFactor + margin * 2;
-        double scaledWidth = bbox.getWidth() * scaleFactor + margin * 2;
+        double scaledHeight = bbox.getHeight() * scaleFactor + DRAWING_MARGIN * 2;
+        double scaledWidth = bbox.getWidth() * scaleFactor + DRAWING_MARGIN * 2;
 
         Canvas canvas = new Canvas(scaledWidth, scaledHeight);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        MetroMapDrawer drawer = new MetroMapDrawer(map, margin, scaleFactor, false);
+        MetroMapDrawer drawer = new MetroMapDrawer(map, DRAWING_MARGIN, scaleFactor, false, false);
         drawer.draw(context, bbox);
 
         // workaround: scaling is done when drawing otherwise an exception may happen:

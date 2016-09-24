@@ -20,13 +20,14 @@ public class MetroMapDrawer {
     private final double margin;
     private final double scaleFactor;
 
-    private final boolean showNodeName = false;
+    private final boolean showNodeName;
     private final boolean showNodePosition;
 
-    public MetroMapDrawer(@NotNull MetroMap map, double margin, double scaleFactor, boolean showNodePosition) {
+    public MetroMapDrawer(@NotNull MetroMap map, double margin, double scaleFactor, boolean showNodeName, boolean showNodePosition) {
         this.map = map;
         this.margin = margin;
         this.scaleFactor = scaleFactor;
+        this.showNodeName = showNodeName;
         this.showNodePosition = showNodePosition;
     }
 
