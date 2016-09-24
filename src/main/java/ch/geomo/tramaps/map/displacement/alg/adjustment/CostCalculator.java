@@ -8,7 +8,6 @@ import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.direction.Direction;
 import ch.geomo.tramaps.map.displacement.alg.TraversedNodes;
-import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
 import org.jetbrains.annotations.NotNull;
@@ -22,19 +21,19 @@ public enum CostCalculator {
 
     public static boolean isSimpleNode(@NotNull Edge connectionEdge, @NotNull Node node) {
 
-        EnhancedList<Direction> directions = node.getAdjacentEdges().stream()
-                .filter(connectionEdge::isNotEquals)
-                .map(edge -> edge.getOriginalDirection(node))
-                .collect(GCollectors.toList());
+        EnhancedSet<Edge> adjacentEdges = node.getAdjacentEdges(connectionEdge);
 
-        if (directions.size() == 0) {
+        if (adjacentEdges.size() == 0 || adjacentEdges.size() == 1) {
             return true;
         }
-        else if (directions.size() > 2) {
+        else if (adjacentEdges.size() > 2) {
             return false;
         }
 
-        return directions.size() == 1 || directions.get(0).isOpposite(directions.get(1));
+        EnhancedList<Direction> directions = adjacentEdges
+                .map(edge -> edge.getOriginalDirection(node))
+                .toList();
+        return directions.get(0).isOpposite(directions.get(1));
 
     }
 
@@ -73,6 +72,5 @@ public enum CostCalculator {
         return costs;
 
     }
-
 
 }

@@ -11,7 +11,6 @@ import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.signature.BendNodeSignature;
 import ch.geomo.util.collection.list.EnhancedList;
-
 import org.jetbrains.annotations.NotNull;
 
 public class MetroMap extends Graph {
@@ -65,16 +64,6 @@ public class MetroMap extends Graph {
         return conflictFinder.getConflicts(correctionFactor, majorMisalignmentOnly)
                 .reverseIf(() -> biggestConflictFirst);
     }
-
-    /**
-     * @return a sorted {@link EnhancedList} of octilinear conflicts
-     */
-    @NotNull
-    public EnhancedList<Conflict> evaluateOctilinearConflicts(double correctionFactor, boolean biggestConflictFirst) {
-        return conflictFinder.getOctilinearConflicts(correctionFactor, false)
-                .reverseIf(() -> biggestConflictFirst);
-    }
-
 
     public long countNonOctilinearEdges() {
         return getEdges().stream()

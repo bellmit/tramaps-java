@@ -10,14 +10,19 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.EdgeAdjuster;
 import ch.geomo.util.collection.list.EnhancedList;
-
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Envelope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * This {@link LineSpaceHandler} implementation makes space by displacing and moving nodes of the underlying graph.
+ */
 public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
+    /**
+     * Max iteration until algorithm will be terminated when not found a non-conflict solution.
+     */
     private static final int MAX_ITERATIONS = 200;
 
     private final MetroMap map;
@@ -36,6 +41,9 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
                 .forEach(edge -> EdgeAdjuster.correctEdge(map, edge));
     }
 
+    /**
+     * Makes space for line and station signatures by displacing and moving nodes recursively.
+     */
     private void makeSpace(int lastIteration, @Nullable Conflict lastConflict, double correctionFactor, boolean majorMisalignmentOnly) {
 
         int currentIteration = lastIteration + 1;
@@ -86,15 +94,17 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
     }
 
+    /**
+     * @return the bounding box size as a {@link String}
+     */
     @NotNull
-
     private String getBoundingBoxString() {
         Envelope mapBoundingBox = map.getBoundingBox();
         return "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight());
     }
 
     /**
-     * Makes space between edge and nodes if necessary.
+     * Starts algorithm and makes space for line and station signatures by displacing and moving nodes.
      */
     @Override
     public void makeSpace() {

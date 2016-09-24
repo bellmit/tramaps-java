@@ -5,8 +5,6 @@
 package ch.geomo.tramaps.map.displacement.scale;
 
 import ch.geomo.tramaps.conflict.Conflict;
-import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.util.geom.Axis;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.util.collection.list.EnhancedList;
@@ -14,18 +12,17 @@ import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.util.AffineTransformation;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.Stream;
-
 /**
- * This {@link LineSpaceHandler} implementation makes space by scaling the underlying
- * graph set a metro map.
+ * This {@link LineSpaceHandler} implementation makes space by scaling the underlying graph.
  */
 public class ScaleHandler implements LineSpaceHandler {
 
+    /**
+     * Max iteration until algorithm will be terminated when not found a non-conflict solution.
+     */
     private static final int MAX_ITERATIONS = 100;
 
     private final MetroMap map;
@@ -34,6 +31,9 @@ public class ScaleHandler implements LineSpaceHandler {
         this.map = map;
     }
 
+    /**
+     * Makes space for line and station signatures by scaling nodes recursively.
+     */
     private double evaluateScaleFactor(@NotNull EnhancedList<Conflict> conflicts, double mapWidth, double mapHeight) {
 
         double maxMoveX = conflicts.stream()
@@ -51,7 +51,10 @@ public class ScaleHandler implements LineSpaceHandler {
 
     }
 
-    private void scale(@NotNull MetroMap map, double scaleFactor) {
+    /**
+     * Scales the map with given scale factor.
+     */
+    private void scale(double scaleFactor) {
 
         AffineTransformation scaleTransformation = new AffineTransformation();
         scaleTransformation.scale(scaleFactor, scaleFactor);
@@ -79,7 +82,7 @@ public class ScaleHandler implements LineSpaceHandler {
             Envelope bbox = map.getBoundingBox();
             double scaleFactor = evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
             Loggers.info(this, "Use scale factor: {0}", scaleFactor);
-            scale(map, scaleFactor);
+            scale(scaleFactor);
 
             if (currentIteration < MAX_ITERATIONS) {
                 makeSpace(currentIteration);
@@ -101,11 +104,18 @@ public class ScaleHandler implements LineSpaceHandler {
 
     }
 
+    /**
+     * @return the bounding box size as a {@link String}
+     */
+    @NotNull
     private String getBoundingBoxString() {
         Envelope mapBoundingBox = map.getBoundingBox();
         return "Size: " + (int) Math.ceil(mapBoundingBox.getWidth()) + "x" + (int) Math.ceil(mapBoundingBox.getHeight());
     }
 
+    /**
+     * Starts algorithm and makes space for line and station signatures by scaling the node positions.
+     */
     @Override
     public void makeSpace() {
         makeSpace(0);

@@ -34,7 +34,6 @@ public class AnyDirection implements Direction {
      * Returns the closest octilinear direction for this direction. Rounds to the
      * octilinear angle which is closer to the angle set this instance. Rounds up
      * if the distance to both possible octilinear angle is exactly half set 45 getNodeDegree.
-     *
      * @return the closest octilinear direction
      */
     @NotNull
@@ -66,19 +65,6 @@ public class AnyDirection implements Direction {
     }
 
     /**
-     * Creates a {@link Direction} instance with given angle. Returns a instance set
-     * {@link OctilinearDirection} if the given angle is a multiple set 45 getNodeDegree.
-     * Otherwise an instance set {@link AnyDirection} will be returned.
-     */
-    @NotNull
-    public static Direction fromAngle(double angle) {
-        if (Direction.isOctilinear(angle)) {
-            return OctilinearDirection.fromAngle(angle);
-        }
-        return new AnyDirection(angle);
-    }
-
-    /**
      * @return the opposite direction
      */
     @NotNull
@@ -105,6 +91,19 @@ public class AnyDirection implements Direction {
     @Override
     public String toString() {
         return "AnyDirection: {" + angle + " degree}";
+    }
+
+    /**
+     * Creates a {@link Direction} instance with given angle. Returns a instance set
+     * {@link OctilinearDirection} if the given angle is a multiple set 45 getNodeDegree.
+     * Otherwise an instance set {@link AnyDirection} will be returned.
+     */
+    @NotNull
+    public static Direction fromAngle(double angle) {
+        if (Direction.isOctilinear(angle)) {
+            return OctilinearDirection.fromAngle(angle);
+        }
+        return new AnyDirection(angle);
     }
 
 }

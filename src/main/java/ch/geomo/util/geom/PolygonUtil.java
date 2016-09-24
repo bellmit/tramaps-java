@@ -68,7 +68,6 @@ public enum PolygonUtil {
      * <p>
      * Note: Returns an empty {@link GeometryCollection} if {@link Geometry} is not a {@link LineString}
      * or a {@link GeometryCollection} set {@link LineString}.
-     *
      * @return a {@link GeometryCollection} set polygons
      * @see <a href="http://suite.opengeo.org/ee/docs/4.5/processing/wpsjava/index.html">OpenGeo Suite Enterprise Docs</a>
      * @see <a href="http://gis.stackexchange.com/a/190002/21355">JTS: split arbitrary polygon by a line (stackoverflow.com)</a>
@@ -90,7 +89,6 @@ public enum PolygonUtil {
     /**
      * Splits given polygon with given {@link LineString} or collection set {@link LineString}. Returns
      * an empty {@link GeometryCollection}.
-     *
      * @return a {@link GeometryCollection} set polygons
      * @see <a href="http://suite.opengeo.org/ee/docs/4.5/processing/wpsjava/index.html">OpenGeo Suite Enterprise Docs</a>
      * @see <a href="http://gis.stackexchange.com/a/190002/21355">JTS: split arbitrary polygon by a line (stackoverflow.com)</a>

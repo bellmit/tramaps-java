@@ -22,8 +22,14 @@ import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+/**
+ * Provides methods to find conflicts.
+ */
 public class ConflictFinder {
 
+    /**
+     * Comparator to compare {@link Conflict} instances.
+     */
     public final static Comparator<Conflict> CONFLICT_COMPARATOR = new ConflictComparator();
 
     /**
@@ -56,22 +62,27 @@ public class ConflictFinder {
         this.nodeMargin = nodeMargin;
     }
 
+    /**
+     * @return all edge buffers as a {@link Stream}
+     */
     @NotNull
     private Stream<ElementBuffer> createEdgeBuffers() {
         return map.getEdges().stream()
                 .map(edge -> new EdgeBuffer(edge, routeMargin, edgeMargin));
     }
 
+    /**
+     * @return all node buffers as a {@link Stream}
+     */
     @NotNull
     private Stream<ElementBuffer> createNodeBuffers() {
         return map.getNodes().stream()
                 .map(node -> new NodeBuffer(node, nodeMargin));
     }
 
-    private static boolean intersects(@NotNull Pair<ElementBuffer> bufferPair) {
-        return bufferPair.getFirst().getBuffer().relate(bufferPair.getSecond().getBuffer(), "T********");
-    }
-
+    /**
+     * @return all current {@link BufferConflict}s
+     */
     @NotNull
     private EnhancedList<Conflict> getBufferConflicts() {
         return getConflictElements().stream()
@@ -88,8 +99,11 @@ public class ConflictFinder {
                 .collect(GCollectors.toList());
     }
 
+    /**
+     * @return all current {@link OctilinearConflict}s
+     */
     @NotNull
-    public EnhancedList<Conflict> getOctilinearConflicts(double correctionFactor, boolean majorMisalignmentOnly) {
+    private EnhancedList<Conflict> getOctilinearConflicts(double correctionFactor, boolean majorMisalignmentOnly) {
         // fix/improvement required: buffers are not required, should be rewritten without using set of buffers
         return getConflictElements().stream()
                 // check conflict
@@ -103,6 +117,11 @@ public class ConflictFinder {
                 .collect(GCollectors.toList());
     }
 
+    /**
+     * Evaluates if given buffer pair does have a misalignment respectively a non-octilinear edge. If the second
+     * parameters is true, then only misalignment with a wrong angle greater than 27.5 degree will be considered.
+     * @return if the given buffer pair does have a misalignment
+     */
     private boolean hasOctilinearConflict(@NotNull Pair<ElementBuffer> bufferPair, boolean majorMisalignmentOnly) {
         if (bufferPair.stream().allMatch(buffer -> buffer instanceof NodeBuffer)) {
             Node a = (Node) bufferPair.getFirst().getElement();
@@ -115,12 +134,21 @@ public class ConflictFinder {
         return false;
     }
 
+    /**
+     * @return all pairs of conflict elements
+     */
     @NotNull
     private EnhancedSet<Pair<ElementBuffer>> getConflictElements() {
         EnhancedSet<ElementBuffer> buffers = GSet.createSet(createEdgeBuffers(), createNodeBuffers());
         return buffers.toPairSet(ConflictFinder.CONFLICT_PAIR_PREDICATE);
     }
 
+    /**
+     * Returns all {@link BufferConflict}s and {@link OctilinearConflict}s. The first parameter configures an instance
+     * of {@link OctilinearConflict} in order to initialize its move vector. If the second parameter is true, only
+     * only misalignment with a wrong angle greater than 27.5 degree will be considered.
+     * @return all {@link BufferConflict}s and {@link OctilinearConflict}s
+     */
     @NotNull
     public EnhancedList<Conflict> getConflicts(double correctionFactor, boolean majorMisalignmentOnly) {
         return getBufferConflicts()
@@ -128,6 +156,16 @@ public class ConflictFinder {
                 .sortElements(CONFLICT_COMPARATOR);
     }
 
+    /**
+     * @return true if the interior of the element buffers intersects
+     */
+    private static boolean intersects(@NotNull Pair<ElementBuffer> bufferPair) {
+        return bufferPair.getFirst().getBuffer().relate(bufferPair.getSecond().getBuffer(), "T********");
+    }
+
+    /**
+     * @return true if the given {@link Node} and the given {@link Edge} has a conflict
+     */
     public static boolean hasConflict(@NotNull Node node, @NotNull Edge edge, @NotNull MetroMap map) {
         NodeBuffer nodeBuffer = new NodeBuffer(node, map.getNodeMargin());
         EdgeBuffer edgeBuffer = new EdgeBuffer(edge, map.getRouteMargin(), map.getEdgeMargin());
@@ -140,6 +178,9 @@ public class ConflictFinder {
         return false;
     }
 
+    /**
+     * @return true if the given {@link Node}s has a conflict
+     */
     public static boolean hasConflict(@NotNull Node node1, @NotNull Node node2, @NotNull MetroMap map) {
         NodeBuffer nodeBuffer1 = new NodeBuffer(node1, map.getNodeMargin());
         NodeBuffer nodeBuffer2 = new NodeBuffer(node2, map.getNodeMargin());

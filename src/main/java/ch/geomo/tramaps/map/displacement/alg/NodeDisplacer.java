@@ -13,7 +13,6 @@ import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.list.EnhancedList;
 import ch.geomo.util.collection.set.EnhancedSet;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +45,6 @@ public class NodeDisplacer {
 
     /**
      * Checks if given node is adjacent to a connection edge and (re-)evaluates if given node is displaceable.
-     *
      * @return true if displaceable
      */
     private boolean checkConnectionEdge(@NotNull Node node, boolean displaceable) {
@@ -145,20 +143,6 @@ public class NodeDisplacer {
 
     }
 
-
-    /**
-     * Starts the displacement process and displace nodes according to {@link #isDisplaceableToNorth(Node)}
-     * respectively {@link #isDisplaceableToEast(Node)}.
-     * <p>
-     * Creates internally a new instance of {@link NodeDisplacer} and invokes {@link NodeDisplacer#displace()}.
-     *
-     * @see NodeDisplacer#displace()
-     */
-
-    public static void displace(@NotNull MetroMap map, @NotNull Conflict conflict) {
-        new NodeDisplacer(map, conflict).displace();
-    }
-
     /**
      * @return if node is north or east of {@link Conflict#getDisplaceOriginPoint()} depending on displace direction
      */
@@ -201,6 +185,18 @@ public class NodeDisplacer {
 
     private EnhancedSet<Edge> getConnectionEdges(@NotNull Node node) {
         return node.getAdjacentEdges(this::isConnectionEdge);
+    }
+
+    /**
+     * Starts the displacement process and displace nodes according to {@link #isDisplaceableToNorth(Node)}
+     * respectively {@link #isDisplaceableToEast(Node)}.
+     * <p>
+     * Creates internally a new instance of {@link NodeDisplacer} and invokes {@link NodeDisplacer#displace()}.
+     * @see NodeDisplacer#displace()
+     */
+
+    public static void displace(@NotNull MetroMap map, @NotNull Conflict conflict) {
+        new NodeDisplacer(map, conflict).displace();
     }
 
 }

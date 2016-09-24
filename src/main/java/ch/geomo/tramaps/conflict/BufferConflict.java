@@ -26,7 +26,6 @@ import static ch.geomo.util.geom.Axis.Y;
 
 /**
  * Represents conflicts between overlapping elements/buffers, eg. node/edge, edge/edge or node/node.
- *
  * @see ConflictType
  */
 public class BufferConflict extends AbstractConflict {
@@ -269,7 +268,6 @@ public class BufferConflict extends AbstractConflict {
     /**
      * Evaluates if both conflict elements are neighbors. This is given when the conflict area is not crossed
      * by another edge.
-     *
      * @return true if the given edges <b>do not</b> cross with the conflict area
      */
     protected boolean hasElementNeighborhood(@NotNull Collection<Edge> edges) {

@@ -30,7 +30,6 @@ public interface EnhancedSet<E> extends Set<E> {
      * Convenience method. Gets the first element of this {@link Set}. The element
      * is probably different to the last method call. Do only use this
      * method if you are sure that only one element is available.
-     *
      * @return the first element of this {@link Set}
      * @see #hasOneElement()
      */

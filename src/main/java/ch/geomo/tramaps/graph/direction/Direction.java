@@ -36,7 +36,6 @@ public interface Direction {
     /**
      * Returns the closest octilinear direction for this direction. Depending on
      * the implementation the angle will be rounded up or down.
-     *
      * @return the closest octilinear direction
      */
     @NotNull
@@ -56,13 +55,6 @@ public interface Direction {
     }
 
     /**
-     * @return true if given angle is octilinear
-     */
-    static boolean isOctilinear(double angle) {
-        return angle % 45 == 0;
-    }
-
-    /**
      * @return true if angle set this instance is octilinear
      */
     default boolean isOctilinear() {
@@ -74,6 +66,13 @@ public interface Direction {
      */
     default double getAngleTo(Direction direction) {
         return Math.abs((direction.getAngle() - getAngle() + 360) % 360);
+    }
+
+    /**
+     * @return true if given angle is octilinear
+     */
+    static boolean isOctilinear(double angle) {
+        return angle % 45 == 0;
     }
 
 }

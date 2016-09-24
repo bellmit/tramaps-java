@@ -4,8 +4,8 @@
 
 package ch.geomo.util.geom;
 
-import ch.geomo.util.math.MoveVector;
 import ch.geomo.util.geom.point.NodePoint;
+import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.buffer.BufferParameters;
 import org.jetbrains.annotations.Contract;
@@ -73,7 +73,6 @@ public enum GeomUtil {
 
     /**
      * Creates a {@link Coordinate}  and makes the {@link Coordinate} precise using {@link #getPrecisionModel()}.
-     *
      * @return a {@link Coordinate} set given x/y value pair
      */
     @NotNull
@@ -84,7 +83,6 @@ public enum GeomUtil {
     /**
      * Creates a new {@link Coordinate} with the copy constructor ({@link Coordinate#Coordinate(Coordinate)}) and
      * makes the {@link Coordinate} precise using {@link #getPrecisionModel()}.
-     *
      * @return a new instance set {@link Coordinate}
      */
     @Nullable

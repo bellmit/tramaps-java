@@ -34,14 +34,4 @@ public class TraversedNodes {
         traversedNodes.add(node);
     }
 
-    /**
-     * Resets/reuses this transfer object.
-     *
-     * @return this instance
-     */
-    public TraversedNodes reuse() {
-        traversedNodes.clear();
-        return this;
-    }
-
 }

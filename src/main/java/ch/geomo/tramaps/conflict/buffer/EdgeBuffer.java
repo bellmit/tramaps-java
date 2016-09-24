@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Observable;
 
+/**
+ * Represents the buffer of a {@link Edge}.
+ */
 public class EdgeBuffer implements ElementBuffer {
 
     private final Edge edge;
@@ -29,23 +32,35 @@ public class EdgeBuffer implements ElementBuffer {
         updateBuffer();
     }
 
+    /**
+     * Initialize or updates this buffer representation.
+     */
     private void updateBuffer() {
         double width = edge.calculateEdgeWidth(routeMargin) + edgeMargin * 2;
         buffer = GeomUtil.createBuffer(edge.getLineString(), width / 2, true);
     }
 
+    /**
+     * @see ElementBuffer#getBuffer()
+     */
     @NotNull
     @Override
     public Polygon getBuffer() {
         return buffer;
     }
 
+    /**
+     * @see ElementBuffer#getElement()
+     */
     @NotNull
     @Override
     public GraphElement getElement() {
         return edge;
     }
 
+    /**
+     * Notifies the observers.
+     */
     @Override
     public void update(Observable o, Object arg) {
         updateBuffer();

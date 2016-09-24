@@ -40,7 +40,6 @@ public class MutablePair<T> extends AbstractPair<T> {
 
     /**
      * Sets/updates the value at given index.
-     *
      * @throws IndexOutOfBoundsException if index is neither 1 or 0
      */
     public void set(int index, @Nullable T value) {

@@ -13,6 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.Observable;
 
+/**
+ * Represents the buffer of a {@link Node}.
+ */
 public class NodeBuffer implements ElementBuffer {
 
     protected final Node node;
@@ -26,23 +29,35 @@ public class NodeBuffer implements ElementBuffer {
         updateBuffer();
     }
 
+    /**
+     * Initialize or updates this buffer representation.
+     */
     private void updateBuffer() {
         Polygon geometry = node.getNodeSignature().getGeometry();
         buffer = GeomUtil.createBuffer(geometry, margin, true);
     }
 
+    /**
+     * @see ElementBuffer#getBuffer()
+     */
     @NotNull
     @Override
     public Polygon getBuffer() {
         return buffer;
     }
 
+    /**
+     * @see ElementBuffer#getElement()
+     */
     @NotNull
     @Override
     public GraphElement getElement() {
         return node;
     }
 
+    /**
+     * Notifies the observers.
+     */
     @Override
     public void update(Observable o, Object arg) {
         updateBuffer();

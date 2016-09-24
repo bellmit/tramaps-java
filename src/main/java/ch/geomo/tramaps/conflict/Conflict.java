@@ -5,11 +5,10 @@
 package ch.geomo.tramaps.conflict;
 
 import ch.geomo.tramaps.conflict.buffer.ElementBuffer;
-import ch.geomo.util.geom.Axis;
-import ch.geomo.util.math.MoveVector;
 import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
-
+import ch.geomo.util.geom.Axis;
+import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import org.jetbrains.annotations.NotNull;
 

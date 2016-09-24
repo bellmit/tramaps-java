@@ -4,25 +4,29 @@
 
 package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
-import ch.geomo.util.math.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.direction.Direction;
-import ch.geomo.tramaps.graph.util.GraphUtil;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
+import ch.geomo.tramaps.graph.util.GraphUtil;
 import ch.geomo.util.collection.GCollectors;
 import ch.geomo.util.collection.list.EnhancedList;
-
 import ch.geomo.util.logging.Loggers;
+import ch.geomo.util.math.MoveVector;
 import org.jetbrains.annotations.NotNull;
 
-public class DirectionEvaluator {
+/**
+ * Provides methods to evaluate the best move vector in order to correct a non-octilinear edge.
+ */
+public enum DirectionEvaluator {
+    ;
 
-    public DirectionEvaluator() {
-    }
-
+    /**
+     * Evaluates the best move vector for a node with a degree of 1 and given connection edge.
+     * @return the best move vector to correct given connection edge
+     */
     @NotNull
-    public MoveVector evaluateSingleNodeDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
+    public static MoveVector evaluateSingleNodeDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
 
         Node otherNode = connectionEdge.getOtherNode(moveableNode);
 
@@ -58,7 +62,7 @@ public class DirectionEvaluator {
             }
             default: {
                 // analysis required: do we reach this point? when yes, how can this case be solved?
-                Loggers.info(this, "Single node {0} has a non-diagonal connection edge. -> Not (yet) treated/implemented.");
+                Loggers.info(DirectionEvaluator.class, "Single node {0} has a non-diagonal connection edge. -> Not (yet) treated/implemented.");
                 return new MoveVector(0, 0);
             }
         }
@@ -66,8 +70,7 @@ public class DirectionEvaluator {
     }
 
     @NotNull
-
-    private EnhancedList<OctilinearDirection> getAdjacentEdgeDirections(@NotNull Node node, @NotNull Edge connectionEdge) {
+    private static EnhancedList<OctilinearDirection> getAdjacentEdgeDirections(@NotNull Node node, @NotNull Edge connectionEdge) {
         return node.getAdjacentEdges().stream()
                 .filter(connectionEdge::isNotEquals)
                 .map(edge -> edge.getOriginalDirection(node).toOctilinear())
@@ -75,7 +78,7 @@ public class DirectionEvaluator {
     }
 
     @NotNull
-    public MoveVector evaluateDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
+    public static MoveVector evaluateDirection(@NotNull Node moveableNode, @NotNull Edge connectionEdge) {
 
         Node otherNode = connectionEdge.getOtherNode(moveableNode);
 

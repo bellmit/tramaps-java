@@ -5,7 +5,6 @@
 package ch.geomo.tramaps.map.displacement.alg.adjustment;
 
 import ch.geomo.tramaps.conflict.ConflictFinder;
-import ch.geomo.util.math.MoveVector;
 import ch.geomo.tramaps.graph.Edge;
 import ch.geomo.tramaps.graph.Graph;
 import ch.geomo.tramaps.graph.Node;
@@ -14,9 +13,9 @@ import ch.geomo.tramaps.graph.layout.OctilinearEdgeBuilder;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.alg.TraversedNodes;
 import ch.geomo.util.collection.pair.Pair;
-
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.logging.Loggers;
+import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Point;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,7 +51,6 @@ public class EdgeAdjuster {
     private Node getNodeB() {
         return edge.getNodeB();
     }
-
 
     private double getAdjacentEdgeLength(@NotNull Node node) {
         return node.getAdjacentEdges(edge)
@@ -92,14 +90,6 @@ public class EdgeAdjuster {
 
         Loggers.info(this, "Correction is done.");
 
-    }
-
-    public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
-        new EdgeAdjuster(map, edge, maxAdjustmentCosts).correctEdge();
-    }
-
-    public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge) {
-        correctEdge(map, edge, MAX_ADJUSTMENT_COSTS);
     }
 
     /**
@@ -154,8 +144,6 @@ public class EdgeAdjuster {
      */
     private void moveNode(@NotNull Edge connectionEdge, @NotNull Node moveableNode) {
 
-        DirectionEvaluator directionEvaluator = new DirectionEvaluator();
-
         MoveVector moveVector;
 
         if (CostCalculator.isSimpleNode(connectionEdge, moveableNode)) {
@@ -163,11 +151,11 @@ public class EdgeAdjuster {
             // evaluate direction
             if (!moveableNode.getAdjacentEdges(connectionEdge).isEmpty()) {
                 Loggers.info(this, "Evaluate move direction of simple node {0}...", moveableNode.getName());
-                moveVector = directionEvaluator.evaluateDirection(moveableNode, connectionEdge);
+                moveVector = DirectionEvaluator.evaluateDirection(moveableNode, connectionEdge);
             }
             else {
                 Loggers.info(this, "Evaluate move direction of single node {0}...", moveableNode.getName());
-                moveVector = directionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
+                moveVector = DirectionEvaluator.evaluateSingleNodeDirection(moveableNode, connectionEdge);
             }
 
         }
@@ -275,6 +263,14 @@ public class EdgeAdjuster {
             correctEdgeByMovingNode(nonOctilinearEdge, otherNode, guard);
         }
 
+    }
+
+    public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge, double maxAdjustmentCosts) {
+        new EdgeAdjuster(map, edge, maxAdjustmentCosts).correctEdge();
+    }
+
+    public static void correctEdge(@NotNull MetroMap map, @NotNull Edge edge) {
+        correctEdge(map, edge, MAX_ADJUSTMENT_COSTS);
     }
 
 }

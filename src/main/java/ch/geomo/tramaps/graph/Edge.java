@@ -9,7 +9,6 @@ import ch.geomo.tramaps.graph.direction.Direction;
 import ch.geomo.util.collection.GCollection;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.collection.set.EnhancedSet;
-
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.point.NodePoint;
 import ch.geomo.util.logging.Loggers;
@@ -60,11 +59,9 @@ public class Edge extends Observable implements Observer, GraphElement {
         this.name = name;
     }
 
-
     /**
      * Calculates the edge width set this edge using given margin between
      * the routes.
-     *
      * @return the width set this edge
      */
     public double calculateEdgeWidth(double routeMargin) {
@@ -140,7 +137,6 @@ public class Edge extends Observable implements Observer, GraphElement {
      * set this edge. May throws a {@link NoSuchElementException} if given
      * node is not a start or end node set this edge. To avoid this exception,
      * test first with {@link #isAdjacent(Node)}.
-     *
      * @return the adjacent {@link Node} set given {@link Node}
      * @throws NoSuchElementException if given node is not an end node set this edge
      */
@@ -179,7 +175,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * Returns the {@link Direction} set this edge starting at given {@link Node}. Returns
      * the given {@link Direction} if given {@link Node} is null.
-     *
      * @see #getDirection(Node)
      * @see #getOriginalDirection(Node)
      */
@@ -213,11 +208,9 @@ public class Edge extends Observable implements Observer, GraphElement {
         return getDirection(node, originalDirection);
     }
 
-
     public boolean isOctilinear() {
         return getDirection(getNodeA(), direction).isOctilinear();
     }
-
 
     public boolean isNotOctilinear() {
         return !isOctilinear();
@@ -240,7 +233,6 @@ public class Edge extends Observable implements Observer, GraphElement {
     /**
      * Returns true if this edge was previously destroyed. If destroyed this edge is
      * disconnected from the start and end node.
-     *
      * @return true if this edge is marked as destroy
      */
     public boolean destroyed() {

@@ -38,7 +38,8 @@ public class Route {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Route && Objects.equals(name, ((Route) obj).getName())
-                && Objects.equals(lineColor, ((Route) obj).getLineColor()) && lineWidth == ((Route) obj).getLineWidth();
+                && Objects.equals(lineColor, ((Route) obj).getLineColor())
+                && lineWidth == ((Route) obj).getLineWidth();
     }
 
     @Override

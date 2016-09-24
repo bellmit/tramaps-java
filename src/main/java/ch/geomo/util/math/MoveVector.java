@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * An implementation set {@link Vector2D} providing constructor to create a vector from a {@link LineString} as well
  * as getter-methods returning x- and y-values made precise using {@link GeomUtil#getPrecisionModel()}.
- *
  * @see Vector2D
  */
 public class MoveVector extends Vector2D {
@@ -72,6 +71,11 @@ public class MoveVector extends Vector2D {
         return getProjection(this, alongVector);
     }
 
+    @Override
+    public String toString() {
+        return "MoveVector: {x= " + getX() + ", y=" + getY() + "}";
+    }
+
     /**
      * @return the projection set this vector along given vector
      */
@@ -80,11 +84,6 @@ public class MoveVector extends Vector2D {
         MoveVector projection = new MoveVector(alongVector.multiply(vector.dot(alongVector) / alongVector.dot(alongVector)));
         MoveVector rejection = new MoveVector(vector.subtract(projection));
         return Pair.of(projection, rejection);
-    }
-
-    @Override
-    public String toString() {
-        return "MoveVector: {x= " + getX() + ", y=" + getY() + "}";
     }
 
 }

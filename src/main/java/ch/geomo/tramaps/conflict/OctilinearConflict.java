@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
  * The property {@link OctilinearConflict#correctionFactor} regulates how much the angle should be corrected. The
  * value 1 (one) should restore the octilinearity may leads to a very stretched layout when correcting these kinds
  * of {@link Conflict} iteratively.
- *
  * @see ConflictFinder#hasOctilinearConflict(Pair, boolean)
  */
 public class OctilinearConflict extends AbstractConflict {
@@ -79,7 +78,6 @@ public class OctilinearConflict extends AbstractConflict {
      * Returns the displace distance along the x-axis. In order to solve the conflict when
      * using a correction factor of 1, this implementation does not return a rounded value
      * like the default implementation does.
-     *
      * @return AbstractConflict#getDisplaceDistanceAlongX
      */
     @Override
@@ -91,7 +89,6 @@ public class OctilinearConflict extends AbstractConflict {
      * Returns the displace distance along the y-axis. In order to solve the conflict when
      * using a correction factor of 1, this implementation does not return a rounded value
      * like the default implementation does.
-     *
      * @return AbstractConflict#getDisplaceDistanceAlongY
      */
     @Override

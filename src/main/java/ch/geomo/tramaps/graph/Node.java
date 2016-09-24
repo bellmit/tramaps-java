@@ -60,7 +60,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
     /**
      * Creates a new adjacent edge between this and the given node. Subscribes immediately the new edge
      * as an {@link java.util.Observer}.
-     *
      * @return the newly connected node (allowing to chain this method)
      */
     public Node createAdjacentEdgeTo(@NotNull Node node, @NotNull Set<Route> routes) {
@@ -142,7 +141,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
     /**
      * Returns the node's geometry. Alias for {@link #getPoint()} in order to
      * satisfy {@link GraphElement}.
-     *
      * @see #getPoint()
      */
     @NotNull
@@ -211,7 +209,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     /**
      * Updates the x-value of the node's position/coordinate and notifies the {@link Observer}s.
-     *
      * @see #updatePosition(double, double)
      */
     public void updateX(double x) {
@@ -220,7 +217,6 @@ public class Node extends Observable implements GraphElement, NodePoint {
 
     /**
      * Updates the y-value of the node's position/coordinate and notifies the {@link Observer}s.
-     *
      * @see #updatePosition(double, double)
      */
     public void updateY(double y) {

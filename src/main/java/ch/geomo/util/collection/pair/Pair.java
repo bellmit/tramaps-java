@@ -27,7 +27,6 @@ public interface Pair<T> extends Tuple<T, T> {
 
     /**
      * Gets the other value. Throws a {@link NoSuchElementException} if given value is not an item of the current pair.
-     *
      * @throws NoSuchElementException if given value is not a value of the current {@link Pair}
      */
     default T getOtherValue(T value) {
@@ -63,6 +62,30 @@ public interface Pair<T> extends Tuple<T, T> {
     }
 
     /**
+     * Gets the first or second value by index. Index start with 0 in order to be consistent with other APIs. Only
+     * 0 and 1 are allowed since only two items are hold by a pair.
+     * @return the element at the given index
+     * @throws IndexOutOfBoundsException if index is neither 1 or 0
+     */
+    default T get(int index) {
+        if (index > 1 && index < 0) {
+            throw new IndexOutOfBoundsException("An index > 1 or < 0 is not allowed.");
+        }
+        return index == 0 ? getFirst() : getSecond();
+    }
+
+    @NotNull
+    default List<T> toList() {
+        return stream()
+                .filter(value -> value != null)
+                .collect(Collectors.toList());
+    }
+
+    default boolean hasNonNullValues() {
+        return first() != null || second() != null;
+    }
+
+    /**
      * @return a new {@link ImmutablePair} with given elements.
      */
     @NotNull
@@ -93,31 +116,6 @@ public interface Pair<T> extends Tuple<T, T> {
                 .flatMap(v1 -> col2.stream()
                         .map(v2 -> Pair.of(v1, v2)))
                 .collect(Collectors.toSet());
-    }
-
-    /**
-     * Gets the first or second value by index. Index start with 0 in order to be consistent with other APIs. Only
-     * 0 and 1 are allowed since only two items are hold by a pair.
-     *
-     * @return the element at the given index
-     * @throws IndexOutOfBoundsException if index is neither 1 or 0
-     */
-    default T get(int index) {
-        if (index > 1 && index < 0) {
-            throw new IndexOutOfBoundsException("An index > 1 or < 0 is not allowed.");
-        }
-        return index == 0 ? getFirst() : getSecond();
-    }
-
-    @NotNull
-    default List<T> toList() {
-        return stream()
-                .filter(value -> value != null)
-                .collect(Collectors.toList());
-    }
-
-    default boolean hasNonNullValues() {
-        return first() != null || second() != null;
     }
 
 }

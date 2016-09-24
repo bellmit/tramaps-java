@@ -19,13 +19,13 @@ public class MutableTuple<T, S> implements Tuple<T, S> {
         return firstValue;
     }
 
+    public void setFirst(T firstValue) {
+        this.firstValue = firstValue;
+    }
+
     @Override
     public S getSecond() {
         return secondValue;
-    }
-
-    public void setFirst(T firstValue) {
-        this.firstValue = firstValue;
     }
 
     public void setSecond(S secondValue) {

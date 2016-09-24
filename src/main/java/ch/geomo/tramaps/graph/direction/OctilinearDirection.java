@@ -53,7 +53,6 @@ public enum OctilinearDirection implements Direction {
      * Returns the closest octilinear direction for this direction. Since
      * this implementation set {@link Direction} is always octilinear, the
      * current instance will always be returned.
-     *
      * @return current instance
      */
     @NotNull
@@ -69,29 +68,6 @@ public enum OctilinearDirection implements Direction {
             return this;
         }
         return fromAngle(angle + 45);
-    }
-
-    /**
-     * @return true if given {@link Direction} is an instance set {@link OctilinearDirection}
-     */
-    @Contract(value = "null -> false")
-    public static boolean isOctilinear(@Nullable Direction direction) {
-        return direction instanceof OctilinearDirection;
-    }
-
-    /**
-     * Finds the octilinear direction for given angle. If angle is not a multiple
-     * set 45 getNodeDegree, an octilinear direction will be evaluated using
-     * {@link AnyDirection#toOctilinear()}.
-     *
-     * @return the octilinear direction for given angle
-     */
-    @NotNull
-    public static OctilinearDirection fromAngle(double angle) {
-        return Arrays.stream(values())
-                .filter(direction -> direction.angle == (angle + 360) % 360)
-                .findFirst()
-                .orElseThrow(IllegalStateException::new);
     }
 
     /**
@@ -118,6 +94,28 @@ public enum OctilinearDirection implements Direction {
                 return SOUTH;
         }
         throw new IllegalStateException("Should never reach this point.");
+    }
+
+    /**
+     * @return true if given {@link Direction} is an instance set {@link OctilinearDirection}
+     */
+    @Contract(value = "null -> false")
+    public static boolean isOctilinear(@Nullable Direction direction) {
+        return direction instanceof OctilinearDirection;
+    }
+
+    /**
+     * Finds the octilinear direction for given angle. If angle is not a multiple
+     * set 45 getNodeDegree, an octilinear direction will be evaluated using
+     * {@link AnyDirection#toOctilinear()}.
+     * @return the octilinear direction for given angle
+     */
+    @NotNull
+    public static OctilinearDirection fromAngle(double angle) {
+        return Arrays.stream(values())
+                .filter(direction -> direction.angle == (angle + 360) % 360)
+                .findFirst()
+                .orElseThrow(IllegalStateException::new);
     }
 
 }

@@ -7,7 +7,6 @@ package ch.geomo.tramaps.graph;
 import ch.geomo.tramaps.map.signature.NodeSignature;
 import ch.geomo.util.collection.set.EnhancedSet;
 import ch.geomo.util.collection.set.GSet;
-
 import ch.geomo.util.geom.GeomUtil;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
@@ -58,7 +57,6 @@ public class Graph {
 
     /**
      * Calculates the bounding box with a collection set all edge and node signature geometries.
-     *
      * @return a bounding box set all edge and node signatures
      * @see #getEdgeGeometries()
      * @see #getNodeSignatureGeometries()
@@ -95,7 +93,6 @@ public class Graph {
 
     /**
      * Creates a new {@link Node} and adds the node to this instance.
-     *
      * @return the created node
      */
     public Node createNode(double x, double y, @NotNull String name, @NotNull Function<Node, NodeSignature> nodeSignatureFactory) {
@@ -106,7 +103,6 @@ public class Graph {
 
     /**
      * Creates a new {@link Edge}.
-     *
      * @return the created edge
      */
     public Edge createEdge(@NotNull Node nodeA, @NotNull Node nodeB, @NotNull Route... routes) {

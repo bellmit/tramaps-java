@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 /**
- * A specialized {@link Pair} implementation set {@link ElementBuffer}s.
+ * A specialized {@link Pair} implementation of {@link ElementBuffer}s.
  */
 public class ElementBufferPair implements Pair<ElementBuffer> {
 
@@ -23,9 +23,8 @@ public class ElementBufferPair implements Pair<ElementBuffer> {
     }
 
     /**
-     * Creates a new instance set {@link ElementBufferPair}. Both values set given
+     * Creates a new instance of {@link ElementBufferPair}. Both values of given
      * {@link Pair} instance must not be null!
-     *
      * @throws NullPointerException if one value set the {@link Pair} is null
      */
     public ElementBufferPair(@NotNull Pair<ElementBuffer> pair) {
@@ -34,28 +33,46 @@ public class ElementBufferPair implements Pair<ElementBuffer> {
         Objects.requireNonNull(second);
     }
 
+    /**
+     * @see Pair#getFirst()
+     */
     @Override
     public ElementBuffer getFirst() {
         return first;
     }
 
+    /**
+     * @see Pair#getFirst()
+     */
     @Override
     public ElementBuffer getSecond() {
         return second;
     }
 
+    /**
+     * @return true if both elements are equals
+     */
     public boolean hasEqualElements() {
         return first.equals(second);
     }
 
+    /**
+     * @return true if the elements are adjacent to each other
+     */
     public boolean hasAdjacentElements() {
         return first.getElement().isAdjacent(second.getElement());
     }
 
+    /**
+     * @return true if both elements are nodes
+     */
     public boolean isNodePair() {
         return first instanceof NodeBuffer && second instanceof NodeBuffer;
     }
 
+    /**
+     * @return true if both elements are edges
+     */
     public boolean isEdgePair() {
         return first instanceof EdgeBuffer && second instanceof EdgeBuffer;
     }

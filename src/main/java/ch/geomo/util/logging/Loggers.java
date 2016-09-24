@@ -86,6 +86,9 @@ public enum Loggers {
 
     @NotNull
     public static Logger getLogger(@NotNull Object obj) {
+        if (obj instanceof Class) {
+            return get(obj);
+        }
         return get(obj.getClass());
     }
 
