@@ -25,6 +25,7 @@ public class NodeBuffer implements ElementBuffer {
 
     public NodeBuffer(@NotNull Node node, double margin) {
         this.node = node;
+        node.addObserver(this);
         this.margin = margin;
         updateBuffer();
     }
