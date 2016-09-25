@@ -70,7 +70,7 @@ public class RectangleStationSignature extends AbstractNodeSignature {
 
     }
 
-    private double getSize(Predicate<Edge> predicate) {
+    private double getSize(@NotNull Predicate<Edge> predicate) {
         return node.getAdjacentEdges().stream()
                 .filter(predicate)
                 .map(edge -> edge.calculateEdgeWidth(STATION_MARGIN))

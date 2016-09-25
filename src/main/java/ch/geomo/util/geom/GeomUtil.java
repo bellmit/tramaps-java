@@ -25,15 +25,15 @@ public enum GeomUtil {
 
     /* util class */;
 
-    private static final PrecisionModel precisionModel = new PrecisionModel(10000);
-    private static final GeometryFactory geometryFactory = new GeometryFactory(precisionModel);
+    private static final PrecisionModel PRECISION_MODEL = new PrecisionModel(10000);
+    private static final GeometryFactory GEOMETRY_FACTORY = new GeometryFactory(PRECISION_MODEL);
 
     /**
      * @return the {@link GeometryFactory} used by {@link GeomUtil}
      */
     @NotNull
     public static GeometryFactory getGeometryFactory() {
-        return geometryFactory;
+        return GEOMETRY_FACTORY;
     }
 
     /**
@@ -41,7 +41,7 @@ public enum GeomUtil {
      */
     @NotNull
     public static PrecisionModel getPrecisionModel() {
-        return precisionModel;
+        return PRECISION_MODEL;
     }
 
     /**
@@ -100,7 +100,7 @@ public enum GeomUtil {
      */
     @NotNull
     public static Polygon createEmptyPolygon() {
-        return geometryFactory.createPolygon((Coordinate[]) null);
+        return GEOMETRY_FACTORY.createPolygon((Coordinate[]) null);
     }
 
     /**
@@ -120,21 +120,21 @@ public enum GeomUtil {
         Coordinate b = createCoordinate(centroid.getX() - width / 2, centroid.getY() + height / 2);
         Coordinate c = createCoordinate(centroid.getX() + width / 2, centroid.getY() + height / 2);
         Coordinate d = createCoordinate(centroid.getX() + width / 2, centroid.getY() - height / 2);
-        return geometryFactory.createPolygon(new Coordinate[]{a, b, c, d, a});
+        return GEOMETRY_FACTORY.createPolygon(new Coordinate[]{a, b, c, d, a});
     }
 
     public static Polygon createPolygon(@NotNull NodePoint... points) {
         Coordinate[] coordinates = Stream.of(points)
                 .map(NodePoint::toCoordinate)
                 .toArray(Coordinate[]::new);
-        return geometryFactory.createPolygon(coordinates);
+        return GEOMETRY_FACTORY.createPolygon(coordinates);
     }
 
     public static Polygon createPolygon(@NotNull Point... points) {
         Coordinate[] coordinates = Stream.of(points)
                 .map(Point::getCoordinate)
                 .toArray(Coordinate[]::new);
-        return geometryFactory.createPolygon(coordinates);
+        return GEOMETRY_FACTORY.createPolygon(coordinates);
     }
 
     /**
@@ -142,7 +142,7 @@ public enum GeomUtil {
      */
     @NotNull
     public static Point createPoint(double x, double y) {
-        return geometryFactory.createPoint(createCoordinate(x, y));
+        return GEOMETRY_FACTORY.createPoint(createCoordinate(x, y));
     }
 
     /**
@@ -150,7 +150,7 @@ public enum GeomUtil {
      */
     @NotNull
     public static Point createPoint(@NotNull Coordinate coordinate) {
-        return geometryFactory.createPoint(createCoordinate(coordinate));
+        return GEOMETRY_FACTORY.createPoint(createCoordinate(coordinate));
     }
 
     /**
@@ -158,7 +158,7 @@ public enum GeomUtil {
      */
     @NotNull
     public static Point createPoint(@NotNull Geometry geometry) {
-        return geometryFactory.createPoint(makePrecise(geometry.getCoordinate()));
+        return GEOMETRY_FACTORY.createPoint(makePrecise(geometry.getCoordinate()));
     }
 
     /**
@@ -174,7 +174,7 @@ public enum GeomUtil {
      */
     @NotNull
     public static GeometryCollection createCollection(@NotNull Stream<? extends Geometry> stream) {
-        return geometryFactory.createGeometryCollection(stream.toArray(Geometry[]::new));
+        return GEOMETRY_FACTORY.createGeometryCollection(stream.toArray(Geometry[]::new));
     }
 
     /**
@@ -186,7 +186,7 @@ public enum GeomUtil {
         Collection<Geometry> merged = Stream.of(collections)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
-        return geometryFactory.createGeometryCollection(merged.toArray(new Geometry[]{}));
+        return GEOMETRY_FACTORY.createGeometryCollection(merged.toArray(new Geometry[]{}));
     }
 
     /**
@@ -206,15 +206,15 @@ public enum GeomUtil {
      */
     @NotNull
     public static LineString createLineString(double x1, double y1, double x2, double y2) {
-        return geometryFactory.createLineString(new Coordinate[]{createCoordinate(x1, y1), createCoordinate(x2, y2)});
+        return GEOMETRY_FACTORY.createLineString(new Coordinate[]{createCoordinate(x1, y1), createCoordinate(x2, y2)});
     }
 
     @NotNull
     public static LineString createLineString(@Nullable Coordinate... points) {
         if (points == null) {
-            return geometryFactory.createLineString((Coordinate[]) null);
+            return GEOMETRY_FACTORY.createLineString((Coordinate[]) null);
         }
-        return geometryFactory.createLineString(Stream.of(points)
+        return GEOMETRY_FACTORY.createLineString(Stream.of(points)
                 .map(GeomUtil::createCoordinate)
                 .toArray(Coordinate[]::new));
     }
