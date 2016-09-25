@@ -50,8 +50,8 @@ public class MainApp extends Application {
         //map = new MetroMapExampleGraph();
         map = new MetroMapZuerich();
 
-        makeSpace(() -> new ScaleHandler(map));
-        //makeSpace(() -> new DisplaceLineSpaceHandler(map));
+        //makeSpace(() -> new ScaleHandler(map));
+        makeSpace(() -> new DisplaceLineSpaceHandler(map));
 
         drawMetroMap();
 

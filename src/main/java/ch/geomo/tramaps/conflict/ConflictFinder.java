@@ -91,7 +91,7 @@ public class ConflictFinder {
                 // create conflict
                 .map(BufferConflict::new)
                 // filter conflicts which do not cross with other (not-conflict related) edges
-                .filter(conflict -> conflict.hasElementNeighborhood(map.getEdges()))
+                // .filter(conflict -> conflict.hasElementNeighborhood(map.getEdges()))
                 // filter unsolved conflicts
                 .filter(BufferConflict::isNotSolved)
                 // remove duplicates

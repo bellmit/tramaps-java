@@ -283,6 +283,7 @@ public class BufferConflict extends AbstractConflict {
      * by another edge.
      * @return true if the given edges <b>do not</b> cross with the conflict area
      */
+    @SuppressWarnings("unused")
     protected boolean hasElementNeighborhood(@NotNull Collection<Edge> edges) {
         return edges.stream()
                 .noneMatch(edge -> conflictArea.crosses(edge.getLineString()));

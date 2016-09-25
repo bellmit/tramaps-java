@@ -30,7 +30,7 @@ public class SquareStationSignature extends AbstractNodeSignature {
                 .map(edge -> edge.calculateEdgeWidth(ROUTE_MARGIN))
                 .max(Double::compare)
                 .orElse(ROUTE_MARGIN);
-        signature = GeomUtil.createBuffer(node.getPoint(), width / 2, false);
+        signature = GeomUtil.createPolygon(node.getPoint(), width, width);
         setChanged();
         notifyObservers();
     }
