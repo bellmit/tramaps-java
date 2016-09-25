@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+import static ch.geomo.tramaps.conflict.ConflictType.NODE_EDGE;
 import static ch.geomo.util.geom.Axis.X;
 import static ch.geomo.util.geom.Axis.Y;
 
@@ -59,7 +60,7 @@ public class BufferConflict extends AbstractConflict {
             conflictType = ConflictType.EDGE_EDGE;
         }
         else {
-            conflictType = ConflictType.NODE_EDGE;
+            conflictType = NODE_EDGE;
         }
     }
 
@@ -109,6 +110,16 @@ public class BufferConflict extends AbstractConflict {
                 break;
             }
         }
+
+//        if (conflictType == NODE_EDGE) {
+//            Node node = getNodes().get(0);
+//            Edge edge = getEdges().get(0);
+//            if (node.isAdjacent(edge.getNodeA()) || node.isAdjacent(edge.getNodeB())) {
+//                // we currently ignore this kind set conflict
+//                // fix required: remove workaround and find another solution
+//                solved = true;
+//            }
+//        }
 
         if (conflictPolygon.isEmpty()) {
             solved = true;

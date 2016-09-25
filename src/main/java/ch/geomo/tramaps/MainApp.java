@@ -4,9 +4,7 @@
 
 package ch.geomo.tramaps;
 
-import ch.geomo.tramaps.example.MetroMapLine;
-import ch.geomo.tramaps.example.MetroMapRectangle;
-import ch.geomo.tramaps.example.MetroMapZuerich;
+import ch.geomo.tramaps.example.*;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
