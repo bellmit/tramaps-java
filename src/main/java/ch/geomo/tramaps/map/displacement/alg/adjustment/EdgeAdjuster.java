@@ -56,7 +56,7 @@ public class EdgeAdjuster {
         return node.getAdjacentEdges(edge)
                 .map(Edge::getLength)
                 .first()
-                .orElseThrow(IllegalStateException::new);
+                .orElse(0d);
     }
 
     public void correctEdge() {
