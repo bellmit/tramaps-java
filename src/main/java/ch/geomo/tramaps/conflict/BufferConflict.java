@@ -10,6 +10,7 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.PolygonUtil;
+import ch.geomo.util.logging.Loggers;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -126,6 +127,7 @@ public class BufferConflict extends AbstractConflict {
         }
         // result of intersection is not a polygon, it's a geometry with a dimension of 1 or less, so we do not
         // care about this conflict at the moment since it's a very small one
+        // Loggers.info(this, "Cannot create conflict polygon. Result was: " + geometry);
         return GeomUtil.createEmptyPolygon();
     }
 

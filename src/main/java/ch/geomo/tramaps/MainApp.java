@@ -4,6 +4,7 @@
 
 package ch.geomo.tramaps;
 
+import ch.geomo.tramaps.example.MetroMapLine;
 import ch.geomo.tramaps.example.MetroMapRectangle;
 import ch.geomo.tramaps.example.MetroMapZuerich;
 import ch.geomo.tramaps.map.MetroMap;
@@ -45,10 +46,11 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Tramaps GUI");
 
+        map = new MetroMapLine();
         //map = new MetroMapRectangle();
         //map = new MetroMapChapterFive();
         //map = new MetroMapExampleGraph();
-        map = new MetroMapZuerich();
+        //map = new MetroMapZuerich();
 
         makeSpace(() -> new ScaleHandler(map));
         //makeSpace(() -> new DisplaceLineSpaceHandler(map));

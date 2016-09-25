@@ -13,9 +13,9 @@ import javafx.scene.paint.Color;
 
 import java.util.function.Function;
 
-public class MetroMapRectangle extends MetroMap {
+public class MetroMapLine extends MetroMap {
 
-    public MetroMapRectangle() {
+    public MetroMapLine() {
 
         super(1, 25, 25);
 
@@ -26,16 +26,12 @@ public class MetroMapRectangle extends MetroMap {
 
         Function<Node, NodeSignature> signatureFunction = SquareStationSignature::new;
 
-        Node a = createNode(100, 100, "A", signatureFunction);
-        Node b = createNode(300, 100, "B", signatureFunction);
-        Node c = createNode(300, 200, "C", signatureFunction);
-        Node d = createNode(100, 200, "D", signatureFunction);
+        Node a = createNode(10, 10, "A", signatureFunction);
+        Node b = createNode(30, 30, "B", signatureFunction);
+        //Node c = createNode(10, 60, "C", signatureFunction);
 
         createEdge(a, b, line1, line2, line3, line4);
-        createEdge(b, c, line1, line2);
-        createEdge(c, d, line1, line2);
-        createEdge(d, a, line1, line2);
+        //createEdge(a, c, line1, line2);
 
     }
-
 }

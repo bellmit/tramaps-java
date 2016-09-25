@@ -5,6 +5,7 @@
 package ch.geomo.tramaps.map.displacement.scale;
 
 import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.util.collection.list.EnhancedList;
@@ -23,7 +24,7 @@ public class ScaleHandler implements LineSpaceHandler {
     /**
      * Max iteration until algorithm will be terminated when not found a non-conflict solution.
      */
-    private static final int MAX_ITERATIONS = 100;
+    private static final int MAX_ITERATIONS = 250;
 
     private final MetroMap map;
 
@@ -55,22 +56,16 @@ public class ScaleHandler implements LineSpaceHandler {
      * Scales the map with given scale factor.
      */
     private void scale(double scaleFactor) {
-
-        AffineTransformation scaleTransformation = new AffineTransformation();
-        scaleTransformation.scale(scaleFactor, scaleFactor);
-
         map.getNodes().forEach(node -> {
-            Geometry geom = scaleTransformation.transform(node.getGeometry());
-            node.updatePosition(geom.getCoordinate());
+            node.updatePosition(node.getX()*scaleFactor, node.getY()*scaleFactor);
         });
-
     }
 
     private void makeSpace(int lastIteration) {
 
         int currentIteration = lastIteration + 1;
 
-        EnhancedList<Conflict> conflicts = map.evaluateConflicts(false);
+        EnhancedList<Conflict> conflicts = map.evaluateConflicts(true);
 
         Loggers.separator(this);
         Loggers.info(this, "Iteration: {0}", currentIteration);
@@ -81,7 +76,7 @@ public class ScaleHandler implements LineSpaceHandler {
 
             Envelope bbox = map.getBoundingBox();
             double scaleFactor = evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
-            Loggers.info(this, "Use scale factor: {0}", scaleFactor);
+            Loggers.info(this, "Use scale factor: " + scaleFactor);
             scale(scaleFactor);
 
             if (currentIteration < MAX_ITERATIONS) {
