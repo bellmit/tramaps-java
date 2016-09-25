@@ -20,7 +20,6 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <geotools.version>16-SNAPSHOT</geotools.version>
         <junit-version>5.0.0-M2</junit-version>
 
     </properties>
@@ -57,19 +56,5 @@
         </dependency>
 
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>osgeo</id>
-            <url>http://download.osgeo.org/webdav/geotools/</url>
-        </repository>
-        <repository>
-            <id>boundless</id>
-            <url>http://repo.boundlessgeo.com/main</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
 </project>
