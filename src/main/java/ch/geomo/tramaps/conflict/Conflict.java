@@ -9,6 +9,7 @@ import ch.geomo.tramaps.graph.GraphElement;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Envelope;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -83,5 +84,8 @@ public interface Conflict extends Comparable<Conflict> {
      * @return true if the given {@link GraphElement} is related to this conflict
      */
     boolean isConflictRelated(@NotNull GraphElement graphElement);
+
+    @NotNull
+    Envelope getElementBoundingBox();
 
 }

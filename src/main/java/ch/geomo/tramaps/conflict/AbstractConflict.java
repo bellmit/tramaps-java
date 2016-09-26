@@ -12,10 +12,15 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.graph.direction.OctilinearDirection;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.Axis;
+import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryCollection;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -179,6 +184,15 @@ public abstract class AbstractConflict implements Conflict {
     @Override
     public boolean isConflictRelated(@NotNull GraphElement graphElement) {
         return isConflictElement(graphElement) || isAdjacentToConflictElement(graphElement);
+    }
+
+    @NotNull
+    @Override
+    public Envelope getElementBoundingBox() {
+        Geometry geomA = getBufferA().getElement().getGeometry();
+        Geometry geomB = getBufferB().getElement().getGeometry();
+        GeometryCollection col = GeomUtil.createCollection(Arrays.asList(geomA, geomB));
+        return col.getEnvelopeInternal();
     }
 
     @Override

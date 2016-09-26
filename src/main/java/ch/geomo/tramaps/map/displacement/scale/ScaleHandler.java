@@ -39,12 +39,11 @@ public class ScaleHandler implements LineSpaceHandler {
     /**
      * Makes space for line and station signatures by scaling nodes recursively.
      */
-    private double evaluateScaleFactor(@NotNull EnhancedList<Conflict> conflicts, double mapWidth, double mapHeight) {
+    private double evaluateScaleFactor(@NotNull EnhancedList<Conflict> conflicts) {
 
         double maxMoveX = conflicts.stream()
                 .map(conflict -> {
-                    GeometryCollection col = GeomUtil.createCollection(Arrays.asList(conflict.getBufferA().getElement().getGeometry(), conflict.getBufferB().getElement().getGeometry()));
-                    Envelope bbox = col.getEnvelopeInternal();
+                    Envelope bbox = conflict.getElementBoundingBox();
                     double alongX = conflict.getDisplaceDistanceAlongX();
                     if (bbox.getWidth() != 0) {
                         return (bbox.getWidth() + alongX) / bbox.getWidth();
@@ -55,8 +54,7 @@ public class ScaleHandler implements LineSpaceHandler {
                 .orElse(1d);
         double maxMoveY = conflicts.stream()
                 .map(conflict -> {
-                    GeometryCollection col = GeomUtil.createCollection(Arrays.asList(conflict.getBufferA().getElement().getGeometry(), conflict.getBufferB().getElement().getGeometry()));
-                    Envelope bbox = col.getEnvelopeInternal();
+                    Envelope bbox = conflict.getElementBoundingBox();
                     double alongY = conflict.getDisplaceDistanceAlongY();
                     if (bbox.getHeight() != 0) {
                         return (bbox.getHeight() + alongY) / bbox.getHeight();
@@ -90,9 +88,7 @@ public class ScaleHandler implements LineSpaceHandler {
 
             Loggers.warning(this, "Conflicts found: {0}", conflicts.size());
 
-            Envelope bbox = map.getBoundingBox();
-            // Loggers.info(this, "Bounding Box Size: " + bbox.getWidth() + "x" + bbox.getHeight());
-            double scaleFactor = evaluateScaleFactor(conflicts, bbox.getWidth(), bbox.getHeight());
+            double scaleFactor = evaluateScaleFactor(conflicts);
             Loggers.info(this, "Use scale factor: " + scaleFactor);
             scale(scaleFactor);
 
