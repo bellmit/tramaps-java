@@ -81,6 +81,8 @@ public class Node extends Observable implements GraphElement, NodePoint {
         }
         adjacentEdges.add(edge);
         addObserver(edge);
+        setChanged();
+        notifyObservers();
     }
 
     /**

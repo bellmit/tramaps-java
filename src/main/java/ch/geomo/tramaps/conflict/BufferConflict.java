@@ -12,10 +12,7 @@ import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.PolygonUtil;
 import ch.geomo.util.logging.Loggers;
 import ch.geomo.util.math.MoveVector;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
 import org.jetbrains.annotations.NotNull;
 
@@ -82,11 +79,13 @@ public class BufferConflict extends AbstractConflict {
 
         // create conflict polygon
         conflictPolygon = createConflictPolygon();
+        //Loggers.info(this, "Conflict Polygon: " + conflictPolygon);
 
         // create exact move vector
         displaceVector = PolygonUtil.findLongestParallelLineString(conflictPolygon, createQ())
                 .map(MoveVector::new)
                 .orElse(new MoveVector());
+        //Loggers.info(this, "Displace Vector:" + displaceVector);
 
         projection = displaceVector.getProjection(MoveVector.VECTOR_ALONG_X_AXIS);
 
@@ -214,14 +213,20 @@ public class BufferConflict extends AbstractConflict {
      */
     private void initEdgeEdgeConflict() {
         initBestDisplaceVector();
-        Geometry intersection = conflictPolygon.intersection(conflictArea);
-        if (intersection.isEmpty()) {
-            solved = true;
+        try {
+            Geometry intersection = conflictPolygon.intersection(conflictArea);
+            if (intersection.isEmpty()) {
+                solved = true;
+            }
+            else {
+                // only point within the conflict area can be handled since starting points outside of the conflict area
+                // may not be between both edges and would never solve the conflict
+                bestDisplaceStartPoint = intersection.getCentroid().getCoordinate();
+            }
         }
-        else {
-            // only point within the conflict area can be handled since starting points outside of the conflict area
-            // may not be between both edges and would never solve the conflict
-            bestDisplaceStartPoint = intersection.getCentroid().getCoordinate();
+        catch (TopologyException e) {
+            // fix required: remove workaround for TopologyException
+            bestDisplaceStartPoint = conflictArea.getCentroid().getCoordinate();
         }
     }
 

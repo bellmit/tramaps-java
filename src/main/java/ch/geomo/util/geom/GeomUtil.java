@@ -25,7 +25,7 @@ public enum GeomUtil {
 
     /* util class */;
 
-    private static final PrecisionModel PRECISION_MODEL = new PrecisionModel(10000);
+    private static final PrecisionModel PRECISION_MODEL = new PrecisionModel(100000);
     private static final GeometryFactory GEOMETRY_FACTORY = new GeometryFactory(PRECISION_MODEL);
 
     /**

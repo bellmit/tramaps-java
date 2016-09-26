@@ -45,12 +45,13 @@ public class Edge extends Observable implements Observer, GraphElement {
         nodePair = Pair.of(nodeA, nodeB);
         this.routes = GCollection.set(routes);
 
-        nodeA.addAdjacentEdge(this);
-        nodeB.addAdjacentEdge(this);
         updateEdge();
 
         // cache original direction set this edge
         originalDirection = AnyDirection.fromAngle(calculateAngle());
+
+        nodeA.addAdjacentEdge(this);
+        nodeB.addAdjacentEdge(this);
 
     }
 

@@ -13,9 +13,9 @@ import javafx.scene.paint.Color;
 
 import java.util.function.Function;
 
-public class MetroMapLine extends MetroMap {
+public class MetroMapLineNullPoint extends MetroMap {
 
-    public MetroMapLine() {
+    public MetroMapLineNullPoint() {
 
         super(1, 15, 25);
 
@@ -26,8 +26,8 @@ public class MetroMapLine extends MetroMap {
 
         Function<Node, NodeSignature> signatureFunction = SquareStationSignature::new;
 
-        Node a = createNode(10, 10, "A", signatureFunction);
-        Node b = createNode(30, 30, "B", signatureFunction);
+        Node a = createNode(-10, -10, "A", signatureFunction);
+        Node b = createNode(10, 10, "B", signatureFunction);
         //Node c = createNode(10, 60, "C", signatureFunction);
 
         createEdge(a, b, line1, line2, line3, line4);
