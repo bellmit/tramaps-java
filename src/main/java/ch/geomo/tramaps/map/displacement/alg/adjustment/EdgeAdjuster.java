@@ -52,11 +52,10 @@ public class EdgeAdjuster {
         return edge.getNodeB();
     }
 
-    private double getAdjacentEdgeLength(@NotNull Node node) {
-        return node.getAdjacentEdges(edge)
-                .map(Edge::getLength)
-                .first()
-                .orElse(0d);
+    private double getAdjacentEdgeLengthSum(@NotNull Node node) {
+        return node.getAdjacentEdges(edge).stream()
+                .mapToDouble(Edge::getLength)
+                .sum();
     }
 
     public void correctEdge() {
@@ -68,7 +67,7 @@ public class EdgeAdjuster {
 
         if (scoreA == scoreB) {
             // use node with a bigger length of his adjacent edge (more space for movements)
-            if (getAdjacentEdgeLength(getNodeA()) > getAdjacentEdgeLength(getNodeB())) {
+            if (getAdjacentEdgeLengthSum(getNodeA()) > getAdjacentEdgeLengthSum(getNodeB())) {
                 scoreA++;
             }
             else {

@@ -38,6 +38,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
         Loggers.info(this, "Non-Octilinear edges: " + map.countNonOctilinearEdges());
         map.getEdges().stream()
                 .filter(Edge::isNotOctilinear)
+                .sorted(new NonOctilinearEdgeComparator())
                 .forEach(edge -> EdgeAdjuster.correctEdge(map, edge));
     }
 
