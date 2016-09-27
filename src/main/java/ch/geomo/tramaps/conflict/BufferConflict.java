@@ -10,13 +10,13 @@ import ch.geomo.tramaps.graph.Node;
 import ch.geomo.util.collection.pair.Pair;
 import ch.geomo.util.geom.GeomUtil;
 import ch.geomo.util.geom.PolygonUtil;
-import ch.geomo.util.logging.Loggers;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static ch.geomo.tramaps.conflict.ConflictType.NODE_EDGE;
@@ -234,23 +234,10 @@ public class BufferConflict extends AbstractConflict {
      * Initialize an node/edge conflict.
      */
     private void initNodeEdgeConflict(@NotNull Node node, @NotNull Edge edge) {
-        if (node.isWestOf(edge) || node.isEastOf(edge)) {
-            bestDisplaceVector = getMoveVectorAlongX();
-            bestDisplaceAxis = X;
-        }
-        else if (node.isSouthOf(edge) || node.isNorthOf(edge)) {
-            bestDisplaceVector = getMoveVectorAlongY();
-            bestDisplaceAxis = Y;
-        }
-        else {
-            // find the best move direction done by calculating the deltas between the node
-            // and both end nodes of the edge, move along the other axis than the axis with
-            // the bigger delta
-            double dxa = Math.abs(node.getX() - edge.getNodeA().getX());
-            double dya = Math.abs(node.getY() - edge.getNodeA().getY());
-            double dxb = Math.abs(node.getX() - edge.getNodeB().getX());
-            double dyb = Math.abs(node.getY() - edge.getNodeB().getY());
-            if (Math.max(dxa, dxb) < Math.max(dya, dyb)) {
+
+        if (isEdgeAdjacentNodeConflict(node, edge)) {
+
+            if (edge.getOriginalDirection(edge.getNodeA()).isHorizontal()) {
                 bestDisplaceVector = getMoveVectorAlongX();
                 bestDisplaceAxis = X;
             }
@@ -258,11 +245,60 @@ public class BufferConflict extends AbstractConflict {
                 bestDisplaceVector = getMoveVectorAlongY();
                 bestDisplaceAxis = Y;
             }
+
+            Edge adjacentEdge = node.getAdjacentEdges().stream()
+                    .filter(e -> e.getOtherNode(node).equals(edge.getNodeA()) || e.getOtherNode(node).equals(edge.getNodeB()))
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new);
+            bestDisplaceStartPoint = adjacentEdge.getLineString().getCentroid().getCoordinate();
+
         }
-        // set the best displace start point half way on the line between the nearest points of the edge and the node
-        Coordinate nearestPoint = DistanceOp.nearestPoints(edge.getGeometry(), node.getGeometry())[0];
-        LineString line = GeomUtil.createLineString(node.getCoordinate(), nearestPoint);
-        bestDisplaceStartPoint = line.getCentroid().getCoordinate();
+        else {
+
+            if (node.isWestOf(edge) || node.isEastOf(edge)) {
+                bestDisplaceVector = getMoveVectorAlongX();
+                bestDisplaceAxis = X;
+            }
+            else if (node.isSouthOf(edge) || node.isNorthOf(edge)) {
+                bestDisplaceVector = getMoveVectorAlongY();
+                bestDisplaceAxis = Y;
+            }
+            else {
+                // find the best move direction done by calculating the deltas between the node
+                // and both end nodes of the edge, move along the other axis than the axis with
+                // the bigger delta
+                double dxa = Math.abs(node.getX() - edge.getNodeA().getX());
+                double dya = Math.abs(node.getY() - edge.getNodeA().getY());
+                double dxb = Math.abs(node.getX() - edge.getNodeB().getX());
+                double dyb = Math.abs(node.getY() - edge.getNodeB().getY());
+                if (Math.max(dxa, dxb) < Math.max(dya, dyb)) {
+                    bestDisplaceVector = getMoveVectorAlongX();
+                    bestDisplaceAxis = X;
+                }
+                else {
+                    bestDisplaceVector = getMoveVectorAlongY();
+                    bestDisplaceAxis = Y;
+                }
+            }
+            // set the best displace start point half way on the line between the nearest points of the edge and the node
+            Coordinate nearestPoint = DistanceOp.nearestPoints(edge.getGeometry(), node.getGeometry())[0];
+            LineString line = GeomUtil.createLineString(node.getCoordinate(), nearestPoint);
+            bestDisplaceStartPoint = line.getCentroid().getCoordinate();
+
+        }
+
+    }
+
+    /**
+     * @return true if this conflict is a node/edge conflict and does have an adjacent node with one end node of the edge
+     */
+    private boolean isEdgeAdjacentNodeConflict(@NotNull Node node, @NotNull Edge edge) {
+        if (edge.getOriginalDirection(edge.getNodeA()).isDiagonal()) {
+            return node.getAdjacentEdges().stream()
+                    .map(e -> e.getOtherNode(node))
+                    .anyMatch(n -> n.equals(edge.getNodeA()) || n.equals(edge.getNodeB()));
+        }
+        return false;
     }
 
     /**

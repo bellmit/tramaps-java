@@ -48,7 +48,6 @@ public class ConflictComparator implements Comparator<Conflict> {
         // may occur and must be solved. however, these conflict has an equal distance
         // and displace vector to be solved. therefore they have currently a randomised
         // sorting among themselves
-        // --> ergo: under some circumstances, the layout might be not reproduceable
         return 0;
 
     }

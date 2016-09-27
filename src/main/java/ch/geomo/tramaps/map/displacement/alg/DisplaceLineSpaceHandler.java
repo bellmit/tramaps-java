@@ -4,8 +4,11 @@
 
 package ch.geomo.tramaps.map.displacement.alg;
 
+import ch.geomo.tramaps.conflict.BufferConflict;
 import ch.geomo.tramaps.conflict.Conflict;
+import ch.geomo.tramaps.conflict.ConflictType;
 import ch.geomo.tramaps.graph.Edge;
+import ch.geomo.tramaps.graph.Node;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.adjustment.EdgeAdjuster;
@@ -41,6 +44,19 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
                 .sorted(new NonOctilinearEdgeComparator())
                 .forEach(edge -> EdgeAdjuster.correctEdge(map, edge));
     }
+
+//    private boolean hasOnlyEdgeAdjacentNodeConflicts(@NotNull EnhancedList<Conflict> conflicts) {
+//        return conflicts.allMatch(conflict -> {
+//            if (conflict.getConflictType() == ConflictType.NODE_EDGE) {
+//                Node node = ((BufferConflict) conflict).getNodes().get(0);
+//                Edge edge = ((BufferConflict) conflict).getEdges().get(0);
+//                return node.getAdjacentEdges().stream()
+//                        .map(e -> e.getOtherNode(node))
+//                        .anyMatch(n -> n.equals(edge.getNodeA()) || n.equals(edge.getNodeB()));
+//            }
+//            return false;
+//        });
+//    }
 
     /**
      * Makes space for line and station signatures by displacing and moving nodes recursively.
