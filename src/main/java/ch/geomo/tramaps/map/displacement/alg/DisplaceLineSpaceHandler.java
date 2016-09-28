@@ -86,7 +86,7 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
 
             }
 
-            Loggers.info(this, "Handle conflict: {0}", conflict);
+            Loggers.flag(this, "Handle conflict: {0}", conflict);
             NodeDisplacer.displace(map, conflict);
 
             // try to move nodes to correct non-octilinear edges

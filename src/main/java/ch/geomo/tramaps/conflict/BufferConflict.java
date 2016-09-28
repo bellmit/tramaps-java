@@ -194,7 +194,7 @@ public class BufferConflict extends AbstractConflict {
      * Evaluates and initialize the best displace vector as well as the best displace axis.
      */
     private void initBestDisplaceVector() {
-        // choosing the projection with the smallest angle to the x-axis
+        // choosing the projection with the smallest angle to an axis
         double dx = Math.abs(getBufferA().getElement().getCentroid().getX() - getBufferB().getElement().getCentroid().getX());
         double dy = Math.abs(getBufferA().getElement().getCentroid().getY() - getBufferB().getElement().getCentroid().getY());
         if (dy < dx) {
@@ -264,18 +264,6 @@ public class BufferConflict extends AbstractConflict {
         LineString line = GeomUtil.createLineString(node.getCoordinate(), nearestPoint);
         bestDisplaceStartPoint = line.getCentroid().getCoordinate();
 
-    }
-
-    /**
-     * @return true if this conflict is a node/edge conflict and does have an adjacent node with one end node of the edge
-     */
-    private boolean isEdgeAdjacentNodeConflict(@NotNull Node node, @NotNull Edge edge) {
-        if (edge.getOriginalDirection(edge.getNodeA()).isDiagonal()) {
-            return node.getAdjacentEdges().stream()
-                    .map(e -> e.getOtherNode(node))
-                    .anyMatch(n -> n.equals(edge.getNodeA()) || n.equals(edge.getNodeB()));
-        }
-        return false;
     }
 
     /**

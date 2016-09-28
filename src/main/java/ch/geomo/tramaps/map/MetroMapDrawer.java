@@ -100,7 +100,12 @@ public class MetroMapDrawer {
                     context.strokeText(node.getName() + "(" + Math.round(node.getX()) + "/" + Math.round(node.getY()) + ")", station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
                 }
                 else {
-                    context.strokeText(node.getName(), station.getMinX() * scaleFactor - 50 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
+                    if (node.getNodeSignature() instanceof BendNodeSignature) {
+                        // context.strokeText(node.getName(), node.getPoint().getX() * scaleFactor - 50 * scaleFactor, -node.getPoint().getY() * scaleFactor - 20 * scaleFactor);
+                    }
+                    else {
+                        context.strokeText(node.getName(), station.getMinX() * scaleFactor - 20 * scaleFactor, -station.getMaxY() * scaleFactor - 20 * scaleFactor);
+                    }
                 }
             });
         }

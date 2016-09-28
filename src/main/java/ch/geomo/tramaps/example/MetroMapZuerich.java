@@ -40,14 +40,16 @@ public class MetroMapZuerich extends MetroMap {
         Route s42 = new Route("S24", 5, Color.BLACK);
         Route sbb = new Route("SBB", 5, Color.BLACK);
 
-        Node hb = createNode("Zürich HB", 120, 105);
+        // not using umlauts in order to not have trouble with latex ;-)
+        // when including this class
+        Node hb = createNode("Zuerich HB", 120, 105);
 
         Node uetlibergTrainCrossing = createCrossingNode(115, 90); // C1
         Node selnau = createNode("Selnau", 110, 85);
         Node selnauToBinzGiesshuebel = createJunctionNode(105, 80); // J1
         Node binz = createNode("Binz", 95, 80);
         Node friesenberg = createNode("Friesenberg", 90, 80);
-        Node giesshuebel = createNode("Giesshübel", 110, 75);
+        Node giesshuebel = createNode("Giesshuebel", 110, 75);
         Node saalsporthalle = createNode("Saalsporthalle", 110, 70);
 
         new MetroMapEdgeBuilder(this)
@@ -95,7 +97,7 @@ public class MetroMapZuerich extends MetroMap {
                 .station(wollishofen)
                 .create();
 
-        Node hardbruecke = createNode("Hardbrücke", 100, 105);
+        Node hardbruecke = createNode("Hardbruecke", 100, 105);
         Node altstetten = createNode("Altstetten", 75, 105);
         Node hardbrueckeToOerlikonAltstetten = createJunctionNode(95, 105); // J3
         Node oerlikonToWipkingenHardbruecke = createJunctionNode(105, 135); // J4
@@ -222,7 +224,7 @@ public class MetroMapZuerich extends MetroMap {
                 .station(dietlikon)
                 .create();
 
-        Node duebendorf = createNode("Dübendorf", 205, 160);
+        Node duebendorf = createNode("Duebendorf", 205, 160);
 
         new MetroMapEdgeBuilder(this)
                 .routes(s14, s9, s15, s5)

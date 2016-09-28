@@ -189,10 +189,40 @@ public abstract class AbstractConflict implements Conflict {
     @NotNull
     @Override
     public Envelope getElementBoundingBox() {
+
         Geometry geomA = getBufferA().getElement().getGeometry();
         Geometry geomB = getBufferB().getElement().getGeometry();
+
+//        if (getConflictType() == ConflictType.NODE_EDGE) {
+//            Node node = getNodes().get(0);
+//            Edge edge = getEdges().get(0);
+//            if (isEdgeAdjacentNodeConflict(node, edge)) {
+//                // refactoring required: extract to an util method since function is already used twice
+//                Node adjacentNode = node.getAdjacentEdges().stream()
+//                        .map(e -> e.getOtherNode(node))
+//                        .filter(n -> n.equals(edge.getNodeA()) || n.equals(edge.getNodeB()))
+//                        .findFirst()
+//                        .orElseThrow(IllegalArgumentException::new);
+//                geomA = node.getGeometry();
+//                geomB = edge.getOtherNode(adjacentNode).getGeometry();
+//            }
+//        }
+
         GeometryCollection col = GeomUtil.createCollection(Arrays.asList(geomA, geomB));
         return col.getEnvelopeInternal();
+
+    }
+
+    /**
+     * @return true if this conflict is a node/edge conflict and does have an adjacent node with one end node of the edge
+     */
+    protected boolean isEdgeAdjacentNodeConflict(@NotNull Node node, @NotNull Edge edge) {
+        if (edge.getOriginalDirection(edge.getNodeA()).isDiagonal()) {
+            return node.getAdjacentEdges().stream()
+                    .map(e -> e.getOtherNode(node))
+                    .anyMatch(n -> n.equals(edge.getNodeA()) || n.equals(edge.getNodeB()));
+        }
+        return false;
     }
 
     @Override

@@ -36,11 +36,11 @@ public enum Loggers {
     }
 
     public static void flag(@NotNull Object obj, @NotNull String message) {
-        info(obj, message, '*');
+        get(obj).info(" *  " + message);
     }
 
     public static void flag(@NotNull Object obj, @NotNull String message, @NotNull Object... params) {
-        info(obj, MessageFormat.format(message, (Object[]) params), '*');
+        flag(obj, MessageFormat.format(message, (Object[]) params));
     }
 
     public static void separator(@NotNull Object obj) {
@@ -64,7 +64,7 @@ public enum Loggers {
     }
 
     public static void warning(@NotNull Object obj, @NotNull String message) {
-        get(obj).warning(" !  " + message);
+//        get(obj).warning(" !  " + message);
     }
 
     public static void warning(@NotNull Object obj, @NotNull String message, @NotNull Object... params) {

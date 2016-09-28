@@ -28,7 +28,7 @@ public class MainApp extends Application {
     private static final int DRAWING_MARGIN = 50;
 
     private static final double MAX_HEIGHT = 600;
-    private static final double MAX_WIDTH = 1200;
+    private static final double MAX_WIDTH = 1400;
 
     private MetroMap map;
     private Stage stage;
@@ -47,9 +47,9 @@ public class MainApp extends Application {
         //map = new MetroMapLine();
         //map = new MetroMapLineNullPoint();
         //map = new MetroMapRectangle();
-        //map = new MetroMapChapterFive();
+        map = new MetroMapChapterFive();
         //map = new MetroMapExampleGraph();
-        map = new MetroMapZuerich();
+        //map = new MetroMapZuerich();
 
         //makeSpace(() -> new ScaleHandler(map));
         makeSpace(() -> new DisplaceLineSpaceHandler(map));
@@ -70,7 +70,7 @@ public class MainApp extends Application {
         Canvas canvas = new Canvas(scaledWidth, scaledHeight);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        MetroMapDrawer drawer = new MetroMapDrawer(map, DRAWING_MARGIN, scaleFactor, true, false);
+        MetroMapDrawer drawer = new MetroMapDrawer(map, DRAWING_MARGIN, scaleFactor, false, false);
         drawer.draw(context, bbox);
 
         // workaround: scaling is done when drawing otherwise an exception may happen:
@@ -88,6 +88,7 @@ public class MainApp extends Application {
         group.getChildren().add(canvas);
 
         ScrollPane scrollPane = new ScrollPane(group);
+        scrollPane.setStyle("-fx-focus-color: transparent;");
         Scene scene = new Scene(scrollPane, width + 5, height + 5);
 
         stage.setScene(scene);
