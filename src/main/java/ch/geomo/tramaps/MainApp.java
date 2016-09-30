@@ -7,6 +7,7 @@ package ch.geomo.tramaps;
 import ch.geomo.tramaps.example.*;
 import ch.geomo.tramaps.map.MetroMap;
 import ch.geomo.tramaps.map.MetroMapDrawer;
+import ch.geomo.tramaps.map.SimpleGraphDrawer;
 import ch.geomo.tramaps.map.displacement.LineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.alg.DisplaceLineSpaceHandler;
 import ch.geomo.tramaps.map.displacement.scale.ScaleHandler;
@@ -44,15 +45,16 @@ public class MainApp extends Application {
         stage = primaryStage;
         stage.setTitle("Tramaps GUI");
 
+        //map = new MetroMapEdgeAdjNode();
         //map = new MetroMapLine();
         //map = new MetroMapLineNullPoint();
         //map = new MetroMapRectangle();
-        map = new MetroMapChapterFive();
+        //map = new MetroMapChapterFive();
         //map = new MetroMapExampleGraph();
-        //map = new MetroMapZuerich();
+        map = new MetroMapZuerich();
 
         //makeSpace(() -> new ScaleHandler(map));
-        makeSpace(() -> new DisplaceLineSpaceHandler(map));
+        //makeSpace(() -> new DisplaceLineSpaceHandler(map));
 
         drawMetroMap();
 
@@ -70,6 +72,7 @@ public class MainApp extends Application {
         Canvas canvas = new Canvas(scaledWidth, scaledHeight);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
+        //SimpleGraphDrawer drawer = new SimpleGraphDrawer(map, DRAWING_MARGIN, scaleFactor, false, false);
         MetroMapDrawer drawer = new MetroMapDrawer(map, DRAWING_MARGIN, scaleFactor, false, false);
         drawer.draw(context, bbox);
 

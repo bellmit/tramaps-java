@@ -13,6 +13,7 @@ import ch.geomo.util.geom.PolygonUtil;
 import ch.geomo.util.math.MoveVector;
 import com.vividsolutions.jts.geom.*;
 import com.vividsolutions.jts.operation.distance.DistanceOp;
+import org.geotools.geometry.jts.JTS;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -130,7 +131,16 @@ public class BufferConflict extends AbstractConflict {
      */
     @NotNull
     private Polygon createConflictPolygon() {
+
         Geometry geometry = getBufferA().getBuffer().intersection(getBufferB().getBuffer());
+//        if (getConflictType() == NODE_EDGE) {
+//            Node node = getNodes().get(0);
+//            Edge edge = getEdges().get(0);
+//            if (isEdgeAdjacentNodeConflict(node, edge)) {
+//                return JTS.toGeometry(geometry.getEnvelopeInternal());
+//            }
+//        }
+
         if (geometry instanceof Polygon) {
             return (Polygon) geometry;
         }
@@ -259,6 +269,19 @@ public class BufferConflict extends AbstractConflict {
                 bestDisplaceAxis = Y;
             }
         }
+
+//        if (isEdgeAdjacentNodeConflict(node, edge)) {
+//            Envelope bbox = conflictPolygon.getEnvelopeInternal();
+//            if (bbox.getWidth() > bbox.getHeight()) {
+//                bestDisplaceAxis = X;
+//                bestDisplaceVector = new MoveVector(bbox.getWidth(), 0);
+//            }
+//            else {
+//                bestDisplaceAxis = Y;
+//                bestDisplaceVector = new MoveVector(0, bbox.getHeight());
+//            }
+//        }
+
         // set the best displace start point half way on the line between the nearest points of the edge and the node
         Coordinate nearestPoint = DistanceOp.nearestPoints(edge.getGeometry(), node.getGeometry())[0];
         LineString line = GeomUtil.createLineString(node.getCoordinate(), nearestPoint);

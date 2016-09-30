@@ -81,13 +81,13 @@ public class MetroMapDrawer {
         });
 
         context.translate(5 * scaleFactor, 5 * scaleFactor);
-        map.evaluateConflicts(true)
-                .filter(conflict -> conflict instanceof BufferConflict)
-                .forEach(conflict -> {
-                    context.setFill(Color.rgb(240, 88, 88, 0.4));
-                    Envelope bbox2 = ((BufferConflict) conflict).getConflictPolygon().getEnvelopeInternal();
-                    context.fillRect(bbox2.getMinX() * scaleFactor, -bbox2.getMaxY() * scaleFactor, bbox2.getWidth() * scaleFactor, bbox2.getHeight() * scaleFactor);
-                });
+//        map.evaluateConflicts(true)
+//                .filter(conflict -> conflict instanceof BufferConflict)
+//                .forEach(conflict -> {
+//                    context.setFill(Color.rgb(240, 88, 88, 0.4));
+//                    Envelope bbox2 = ((BufferConflict) conflict).getConflictPolygon().getEnvelopeInternal();
+//                    context.fillRect(bbox2.getMinX() * scaleFactor, -bbox2.getMaxY() * scaleFactor, bbox2.getWidth() * scaleFactor, bbox2.getHeight() * scaleFactor);
+//                });
 
         if (showNodeName) {
             Font font = Font.font(7);

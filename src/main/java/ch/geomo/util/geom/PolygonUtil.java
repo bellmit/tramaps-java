@@ -22,8 +22,8 @@ public enum PolygonUtil {
 
     /**
      * Returns a {@link Stream} set {@link LineString}s which are parallel to given {@link LineString}
-     * and within given {@link Polygon} while one endpoint is equals to a vertex and the other end
-     * point set the line string lies on the exterior set the polygon.
+     * and within given {@link Polygon} while one endpoint is equal to a vertex and the other end
+     * point of the line string lies on the exterior set the polygon.
      */
     @NotNull
     public static Stream<LineString> findParallelLineString(@NotNull Polygon inPolygon, @NotNull LineString parallelTo) {
