@@ -82,7 +82,7 @@ public class MetroMapZuerich extends MetroMap {
         Node wollishofen = createNode("Wollishofen", 145, 60);
 
         new MetroMapEdgeBuilder(this)
-                .routes(s2, s3, s5, s6, s7, s8, s9, s11, s12, s15, s16, s21, s24, s42, sbb)
+                .routes(s2, s3, s5, s6, s7, s8, s9, s11, s12, s15, s16, s21, s24, s25, s42, sbb)
                 .station(hb)
                 .junction(hbToHardbrueckeWipkingenWiedikon)
                 .create();
@@ -106,13 +106,13 @@ public class MetroMapZuerich extends MetroMap {
         Node wipkingen = createNode("Wipkingen", 105, 110);
 
         new MetroMapEdgeBuilder(this)
-                .routes(s2, s3, s5, s6, s7, s8, s9, s11, s12, s15, s16, s21, s42, sbb)
+                .routes(s3, s5, s6, s7, s9, s11, s12, s15, s16, s21, s42, sbb)
                 .junction(hbToHardbrueckeWipkingenWiedikon)
                 .station(hardbruecke)
                 .create();
 
         new MetroMapEdgeBuilder(this)
-                .routes(s2, s3, s5, s6, s7, s8, s9, s11, s12, s15, s16, s21, s42, sbb)
+                .routes(s3, s5, s6, s7, s9, s11, s12, s15, s16, s21, s42, sbb)
                 .station(hardbruecke)
                 .junction(hardbrueckeToOerlikonAltstetten)
                 .create();

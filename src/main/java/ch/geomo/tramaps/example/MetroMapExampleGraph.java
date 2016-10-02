@@ -32,12 +32,8 @@ public class MetroMapExampleGraph extends MetroMap {
         Node i = createNode(100, 150, "I", signatureFunction);
         Node j = createNode(150, 250, "J", signatureFunction);
         Node k = createNode(170, 250, "K", signatureFunction);
-        //Node l = createNode(300, 200, "L", signatureFunction);
         Node n = createNode(100, 250, "N", signatureFunction);
         Node o = createNode(170, 150, "O", signatureFunction);
-        //Node p = createNode(300, 250, "P", signatureFunction);
-        //Node q = createNode(400, 100, "Q", signatureFunction);
-        //Node r = createNode(100, 350, "R", signatureFunction);
         Node s = createNode(150, 50, "S", signatureFunction);
 
         Route line1 = new Route("U1", 20, Color.BLUE);
@@ -62,19 +58,11 @@ public class MetroMapExampleGraph extends MetroMap {
         createEdge(i, a, line1, line4, line5);
         createEdge(a, j, line5);
         createEdge(j, k, line5, line2);
-        //createEdge(l, c, line1, line3);
         createEdge(e, k, line2);
         createEdge(o, k, line2, line5, line4);
         createEdge(o, d, line1, line2, line4, line5, line6);
-        //createEdge(p, e, line1, line2, line4, line5);
-        //createEdge(p, d, line1);
-        //createEdge(g, r, line1);
-        //createEdge(f, r, line1);
         createEdge(b, s, line1);
         createEdge(c, s, line1);
-        //createEdge(o, b, line1);
-        //createEdge(p, q, line1);
-        //createEdge(l, p, line1);
 
     }
 
