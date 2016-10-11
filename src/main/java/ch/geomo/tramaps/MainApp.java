@@ -68,7 +68,6 @@ public class MainApp extends Application {
         Canvas canvas = new Canvas(scaledWidth, scaledHeight);
         GraphicsContext context = canvas.getGraphicsContext2D();
 
-        //SimpleGraphDrawer drawer = new SimpleGraphDrawer(map, DRAWING_MARGIN, scaleFactor, false, false);
         MetroMapDrawer drawer = new MetroMapDrawer(map, DRAWING_MARGIN, scaleFactor, false, false);
         drawer.draw(context, bbox);
 

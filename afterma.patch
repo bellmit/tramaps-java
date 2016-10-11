@@ -1,0 +1,79 @@
+Index: src/main/java/ch/geomo/tramaps/map/displacement/alg/adjustment/CostCalculator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/ch/geomo/tramaps/map/displacement/alg/adjustment/CostCalculator.java	(revision ab2c113928f8414ba5cf464dcad9168fc11bc3cc)
++++ src/main/java/ch/geomo/tramaps/map/displacement/alg/adjustment/CostCalculator.java	(revision )
+@@ -10,8 +10,10 @@
+ import ch.geomo.tramaps.map.displacement.alg.TraversedNodes;
+ import ch.geomo.util.collection.list.EnhancedList;
+ import ch.geomo.util.collection.set.EnhancedSet;
++import ch.geomo.util.logging.Loggers;
+ import org.jetbrains.annotations.NotNull;
+ 
++import java.util.Arrays;
+ import java.util.List;
+ 
+ public enum CostCalculator {
+Index: src/main/java/ch/geomo/tramaps/MainApp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/ch/geomo/tramaps/MainApp.java	(revision ab2c113928f8414ba5cf464dcad9168fc11bc3cc)
++++ src/main/java/ch/geomo/tramaps/MainApp.java	(revision )
+@@ -46,8 +46,8 @@
+         stage.setTitle("Tramaps GUI");
+ 
+         //map = new MetroMapChapterFive();
+-        map = new MetroMapExampleGraph();
+-        //map = new MetroMapZuerich();
++        //map = new MetroMapExampleGraph();
++        map = new MetroMapZuerich();
+ 
+         //makeSpace(() -> new ScaleHandler(map));
+         makeSpace(() -> new DisplaceLineSpaceHandler(map));
+Index: src/main/java/ch/geomo/tramaps/example/MetroMapZuerich.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/ch/geomo/tramaps/example/MetroMapZuerich.java	(revision ab2c113928f8414ba5cf464dcad9168fc11bc3cc)
++++ src/main/java/ch/geomo/tramaps/example/MetroMapZuerich.java	(revision )
+@@ -256,6 +256,19 @@
+                 .station(schlieren)
+                 .create();
+ 
++        Node schweighof = createNode("Schweighof", 85, 80);
++        Node triemli = createNode("Triemli", 80, 80);
++        Node urdorfWeihermatt = createNode("Urdorf Weihermatt", 30, 65);
++        Node bendUrdorfBirmensdorf = createBendNode(25, 60);
++        Node birmensdorf = createNode("Birmensdorf", 45, 35);
++
++        createEdge(friesenberg, schweighof, s10);
++        createEdge(triemli, schweighof, s10);
++
++        createEdge(urdorf, urdorfWeihermatt, s5, s14);
++        createEdge(bendUrdorfBirmensdorf, urdorfWeihermatt, s5, s14);
++        createEdge(bendUrdorfBirmensdorf, birmensdorf, s5, s14);
++
+     }
+ 
+     /**
+Index: src/main/java/ch/geomo/tramaps/map/displacement/scale/ScaleHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/ch/geomo/tramaps/map/displacement/scale/ScaleHandler.java	(revision ab2c113928f8414ba5cf464dcad9168fc11bc3cc)
++++ src/main/java/ch/geomo/tramaps/map/displacement/scale/ScaleHandler.java	(revision )
+@@ -28,7 +28,7 @@
+     /**
+      * Max iteration until algorithm will be terminated when not found a non-conflict solution.
+      */
+-    private static final int MAX_ITERATIONS = 100;
++    private static final int MAX_ITERATIONS = 3;
+ 
+     private final MetroMap map;
+ 
