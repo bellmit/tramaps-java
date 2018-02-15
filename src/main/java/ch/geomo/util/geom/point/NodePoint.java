@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
+ * Copyright (c) 2016-2018 Thomas Zuberbuehler. All rights reserved.
  */
 
 package ch.geomo.util.geom.point;

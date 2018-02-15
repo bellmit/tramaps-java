@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Thomas Zuberbuehler. All rights reserved.
+ * Copyright (c) 2016-2018 Thomas Zuberbuehler. All rights reserved.
  */
 
 package ch.geomo.tramaps;
@@ -46,8 +46,8 @@ public class MainApp extends Application {
         stage.setTitle("Tramaps GUI");
 
         //map = new MetroMapChapterFive();
-        map = new MetroMapExampleGraph();
-        //map = new MetroMapZuerich();
+        //map = new MetroMapExampleGraph();
+        map = new MetroMapZuerich();
 
         //makeSpace(() -> new ScaleHandler(map));
         makeSpace(() -> new DisplaceLineSpaceHandler(map));
