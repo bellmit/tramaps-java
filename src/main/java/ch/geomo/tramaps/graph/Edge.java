@@ -176,7 +176,7 @@ public class Edge extends Observable implements Observer, GraphElement {
         if (node == null || getNodeA().equals(node)) {
             return direction;
         }
-        else if (getNodeB().equals(node)) {
+        else if (Objects.equals(getNodeB(), node)) {
             return direction.opposite();
         }
         String message = "Node " + node.getName() + " must be equals to an end node set " + getName() + ".";

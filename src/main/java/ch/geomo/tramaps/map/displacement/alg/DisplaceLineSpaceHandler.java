@@ -18,6 +18,8 @@ import com.vividsolutions.jts.geom.Envelope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 /**
  * This {@link LineSpaceHandler} implementation makes space by displacing and moving nodes of the underlying graph.
  */
@@ -77,8 +79,8 @@ public class DisplaceLineSpaceHandler implements LineSpaceHandler {
             Conflict conflict = conflicts.get(0);
             if (lastConflict != null
                     && conflicts.size() > 1
-                    && conflict.getBufferA().getElement().equals(lastConflict.getBufferA().getElement())
-                    && conflict.getBufferB().getElement().equals(lastConflict.getBufferB().getElement())) {
+                    && Objects.equals(conflict.getBufferA().getElement(), lastConflict.getBufferA().getElement())
+                    && Objects.equals(conflict.getBufferB().getElement(), lastConflict.getBufferB().getElement())) {
 
                 // skip conflict to give another conflict a chance to be solved
                 Loggers.warning(this, "Skip conflict for one iteration... Take next one.");

@@ -73,6 +73,13 @@ public class MetroMapZuerich extends MetroMap {
                 .junction(selnauToBinzGiesshuebel)
                 .station(binz)
                 .station(friesenberg)
+//                .station(createNode("Schweighofstrasse", 85, 80))
+//                .station(createNode("Triemli", 80, 80))
+//                .bend(70, 80)
+//                .station(createNode("Uetikon-Waldegg", 70, 70))
+//                .bend(70, 55)
+//                .station(createNode("Ringlikon", 75, 50))
+//                .station(createNode("Uetliberg", 85, 40))
                 .create();
 
         Node hbToHardbrueckeWipkingenWiedikon = createJunctionNode(110, 105); // J2
@@ -164,6 +171,7 @@ public class MetroMapZuerich extends MetroMap {
                 .routes(s2, s8, s14, s19)
                 .junction(stadelhofenToHb)
                 .bend(130, 115)
+                .bend(120, 125)
                 .junction(oerlikonToHbWipkingenHardbruecke)
                 .create();
 
@@ -248,6 +256,9 @@ public class MetroMapZuerich extends MetroMap {
                 .routes(s5, s14)
                 .junction(altstettenToSchlierenUrdorf)
                 .station(urdorf)
+//                .station(createNode("Urdorf-Weihermatt", 30, 65))
+//                .bend(25, 60)
+//                .station(createNode("Birmensdorf", 50, 35))
                 .create();
 
         new MetroMapEdgeBuilder(this)
